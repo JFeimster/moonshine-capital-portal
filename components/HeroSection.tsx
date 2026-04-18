@@ -4,7 +4,7 @@ export function HeroSection() {
   return (
     <section className="bg-neo-black text-neo-white border-b-4 border-neo-blue pt-24 pb-32 px-6 md:px-12 relative overflow-hidden">
       {/* Decorative accent */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-neo-pink rounded-full blur-[120px] opacity-20 -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute top-0 right-0 w-64 h-64 bg-neo-pink -translate-y-1/2 translate-x-1/2 border-4 border-neo-white shadow-brutal pointer-events-none" />
 
       <div className="max-w-5xl mx-auto relative z-10">
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.9] mb-8">
