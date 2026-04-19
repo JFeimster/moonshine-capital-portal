@@ -1,9 +1,27 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-neo-black text-neo-white font-sans antialiased;
+  }
 }
 
-* {
-  box-sizing: border-box;
+@layer components {
+  .btn-brutal {
+    @apply inline-flex items-center justify-center font-bold uppercase tracking-wider px-6 py-3 border-2 border-neo-black bg-neo-white text-neo-black transition-transform active:translate-x-1 active:translate-y-1 active:shadow-none hover:-translate-y-1 hover:shadow-brutal;
+  }
+
+  .btn-brutal-primary {
+    @apply btn-brutal bg-neo-yellow border-neo-black text-neo-black;
+  }
+
+  .btn-brutal-dark {
+    @apply inline-flex items-center justify-center font-bold uppercase tracking-wider px-6 py-3 border-2 border-neo-white bg-neo-black text-neo-white transition-transform active:translate-x-1 active:translate-y-1 active:shadow-none hover:-translate-y-1 hover:shadow-brutal-white;
+  }
+
+  .card-brutal {
+    @apply bg-neo-cream text-neo-black border-2 border-neo-black shadow-brutal p-6;
+  }
 }
