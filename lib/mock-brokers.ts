@@ -12,10 +12,23 @@ export const mockBrokers: BrokerProfile[] = [
     websiteUrl: 'https://example.com',
     publicEmail: 'jane@velocitycapital.com',
     whyChooseYou: 'No fluff. No slow banks. Just operators who know how to move money.',
-    fundingSpecialties: ['SaaS Revenue', 'Equipment Finance', 'Bridge Loans'],
+
+    industries: ['SaaS', 'Manufacturing', 'Technology'],
+    fundingTypes: ['SaaS Revenue', 'Equipment Finance', 'Bridge Loans'],
+    urgencyCategory: 'fast',
+    fundingSpecialties: ['SaaS Revenue', 'Equipment Finance', 'Bridge Loans'], // fallback
+
+    primaryCta: {
+      label: 'Apply for Funding',
+      url: 'https://example.com/apply',
+      variant: 'primary',
+      trackingId: 'cta_jane_doe'
+    },
     primaryCtaLink: 'https://example.com/apply',
+
     approvalStatus: 'approved',
     isActive: true,
+    featuredFlag: true,
     featuredBroker: true,
     profileImage: 'https://i.pravatar.cc/300?img=5',
   },
@@ -30,10 +43,23 @@ export const mockBrokers: BrokerProfile[] = [
     websiteUrl: 'https://example.com',
     publicEmail: 'john@ironcladfunding.com',
     whyChooseYou: 'We don\'t waste your time. If the numbers make sense, we wire within 48 hours.',
-    fundingSpecialties: ['Equipment Finance', 'Real Estate', 'SBA Loans'],
+
+    industries: ['Construction', 'Real Estate', 'Logistics'],
+    fundingTypes: ['Equipment Finance', 'Real Estate', 'SBA Loans'],
+    urgencyCategory: 'standard',
+    fundingSpecialties: ['Equipment Finance', 'Real Estate', 'SBA Loans'], // fallback
+
+    primaryCta: {
+      label: 'Submit Deal',
+      url: 'https://example.com/apply',
+      variant: 'primary',
+      trackingId: 'cta_john_smith'
+    },
     primaryCtaLink: 'https://example.com/apply',
+
     approvalStatus: 'approved',
     isActive: true,
+    featuredFlag: false,
     featuredBroker: false,
     profileImage: 'https://i.pravatar.cc/300?img=11',
   },
@@ -48,10 +74,23 @@ export const mockBrokers: BrokerProfile[] = [
     websiteUrl: 'https://example.com',
     publicEmail: 'sarah@neongrowth.com',
     whyChooseYou: 'Built for founders who do not have time for institutional theater.',
-    fundingSpecialties: ['E-commerce', 'Revenue Based', 'Working Capital'],
+
+    industries: ['E-commerce', 'Retail', 'DTC'],
+    fundingTypes: ['Revenue Based', 'Working Capital'],
+    urgencyCategory: 'fast',
+    fundingSpecialties: ['E-commerce', 'Revenue Based', 'Working Capital'], // fallback
+
+    primaryCta: {
+      label: 'Get Funded Fast',
+      url: 'https://example.com/apply',
+      variant: 'primary',
+      trackingId: 'cta_sarah_jenkins'
+    },
     primaryCtaLink: 'https://example.com/apply',
+
     approvalStatus: 'approved',
     isActive: true,
+    featuredFlag: true,
     featuredBroker: true,
     profileImage: 'https://i.pravatar.cc/300?img=9',
   },
@@ -66,10 +105,23 @@ export const mockBrokers: BrokerProfile[] = [
     websiteUrl: 'https://example.com',
     publicEmail: 'marcus@vancecapital.com',
     whyChooseYou: 'I bring 20 years of structuring experience to the table. I solve complex capital stacks.',
-    fundingSpecialties: ['M&A', 'Bridge Loans', 'Term Loans'],
+
+    industries: ['Healthcare', 'B2B Services', 'Enterprise'],
+    fundingTypes: ['M&A', 'Bridge Loans', 'Term Loans'],
+    urgencyCategory: 'complex',
+    fundingSpecialties: ['M&A', 'Bridge Loans', 'Term Loans'], // fallback
+
+    primaryCta: {
+      label: 'Book Consultation',
+      url: 'https://example.com/apply',
+      variant: 'primary',
+      trackingId: 'cta_marcus_vance'
+    },
     primaryCtaLink: 'https://example.com/apply',
+
     approvalStatus: 'approved',
     isActive: true,
+    featuredFlag: false,
     featuredBroker: false,
     profileImage: 'https://i.pravatar.cc/300?img=12',
   }
