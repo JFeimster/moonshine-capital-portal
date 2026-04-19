@@ -13,5 +13,5 @@ export async function getBrokerBySlug(slug: string): Promise<BrokerProfile | nul
 
 export async function getFeaturedBrokers(): Promise<BrokerProfile[]> {
   const brokers = await getBrokers();
-  return brokers.filter(b => b.featuredFlag || b.featuredBroker);
+  return brokers.filter(b => b.featuredFlag ?? b.featuredBroker);
 }

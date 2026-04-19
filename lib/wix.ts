@@ -109,7 +109,8 @@ export async function fetchWixBrokerBySlug(slug: string): Promise<BrokerProfile 
   }
 
   try {
-    const res = await fetch(`${WIX_API_URL}/brokerProfiles?slug=${slug}&status=approved&active=true`, {
+    const encodedSlug = encodeURIComponent(slug);
+    const res = await fetch(`${WIX_API_URL}/brokerProfiles?slug=${encodedSlug}&status=approved&active=true`, {
       headers: {
         'Authorization': `Bearer ${WIX_API_KEY}`,
         'Content-Type': 'application/json'
