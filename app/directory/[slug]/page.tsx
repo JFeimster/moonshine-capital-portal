@@ -5,6 +5,8 @@ import { CTASection } from '@/components/CTASection';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+export const revalidate = 3600; // Revalidate at most every hour
+
 export async function generateStaticParams() {
   const brokers = await getBrokers();
   return brokers.map((broker) => ({

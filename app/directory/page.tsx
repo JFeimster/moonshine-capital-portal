@@ -6,7 +6,6 @@ import { getBrokers } from '@/lib/brokers';
 import { BrokerCard } from '@/components/BrokerCard';
 import { DirectoryFilters } from '@/components/DirectoryFilters';
 import { CTASection } from '@/components/CTASection';
-import { SectionHeading } from '@/components/SectionHeading';
 
 export default function DirectoryPage() {
   const [brokers, setBrokers] = useState<BrokerProfile[]>([]);
@@ -14,13 +13,22 @@ export default function DirectoryPage() {
   const [selectedState, setSelectedState] = useState('');
   const [selectedSpecialty, setSelectedSpecialty] = useState('');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function loadBrokers() {
+  const loadBrokers = async () => {
+    try {
+      setLoading(true);
+      setError(null);
       const data = await getBrokers();
       setBrokers(data);
+    } catch (err) {
+      setError('Failed to load partners. Please try again.');
+    } finally {
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
     loadBrokers();
   }, []);
 
@@ -67,6 +75,17 @@ export default function DirectoryPage() {
         {loading ? (
           <div className="py-24 text-center font-black text-2xl uppercase tracking-widest text-neo-black/40 animate-pulse">
             Loading Partners...
+          </div>
+        ) : error ? (
+          <div className="bg-neo-pink/20 border-4 border-neo-pink p-12 text-center shadow-brutal text-neo-black">
+             <h3 className="text-3xl font-black uppercase mb-4 text-neo-pink">Error Loading Data</h3>
+             <p className="font-bold text-lg">{error}</p>
+             <button
+               onClick={loadBrokers}
+               className="btn-brutal-primary mt-8 bg-neo-pink text-neo-white hover:text-neo-black border-neo-black"
+             >
+               Retry
+             </button>
           </div>
         ) : filteredBrokers.length === 0 ? (
           <div className="bg-neo-cream border-4 border-neo-black p-12 text-center shadow-brutal">
