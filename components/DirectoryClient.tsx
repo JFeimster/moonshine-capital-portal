@@ -40,6 +40,15 @@ export function DirectoryClient({ initialBrokers }: DirectoryClientProps) {
     return matchesSearch && matchesState && matchesSpecialty && matchesIndustry && matchesUrgency;
   });
 
+  const isAnyFilterActive = searchTerm !== '' || selectedState !== '' || selectedSpecialty !== '' || selectedIndustry !== '' || selectedUrgency !== '';
+  const clearFilters = () => {
+    setSearchTerm('');
+    setSelectedState('');
+    setSelectedSpecialty('');
+    setSelectedIndustry('');
+    setSelectedUrgency('');
+  };
+
   return (
     <div className="py-12 px-6 md:px-12 max-w-7xl mx-auto">
       <DirectoryFilters
@@ -57,6 +66,21 @@ export function DirectoryClient({ initialBrokers }: DirectoryClientProps) {
         availableSpecialties={availableSpecialties}
         availableIndustries={availableIndustries}
       />
+
+      <div className="mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 bg-neo-cream p-4 border-2 border-neo-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+        <div aria-live="polite" className="font-bold uppercase tracking-wider">
+          Showing {filteredBrokers.length} partner{filteredBrokers.length !== 1 ? 's' : ''}
+        </div>
+        {isAnyFilterActive && (
+          <button
+            onClick={clearFilters}
+            aria-label="Clear all filters"
+            className="text-xs font-black uppercase tracking-wider bg-neo-red text-neo-white border-2 border-neo-black px-4 py-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-y-px hover:translate-x-px hover:shadow-none transition-all focus:outline-none focus:ring-2 focus:ring-neo-black"
+          >
+            Clear Filters
+          </button>
+        )}
+      </div>
 
       {filteredBrokers.length === 0 ? (
         <div className="bg-neo-cream border-4 border-neo-black p-12 text-center shadow-brutal">
