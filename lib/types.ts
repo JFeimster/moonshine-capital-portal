@@ -37,6 +37,7 @@ export interface BrokerProfile {
 
   profileImage?: string;
   approvalStatus: ApprovalStatus;
+  brokerStatus?: 'active' | 'hidden' | 'recruiting';
   isActive: boolean;
   phoneNumber?: string;
   featuredFlag?: boolean;

@@ -23,6 +23,7 @@ interface WixBrokerResponse {
   featuredFlag?: boolean;
   profileImage?: string;
   approvalStatus: 'approved' | 'pending' | 'rejected';
+  brokerStatus?: 'active' | 'hidden' | 'recruiting';
   isActive: boolean;
   phoneNumber?: string;
   // Raw Wix CTA fields if any, we'll map them
@@ -64,7 +65,8 @@ function normalizeBroker(wixBroker: WixBrokerResponse): BrokerProfile {
 
     profileImage: wixBroker.profileImage,
     approvalStatus: wixBroker.approvalStatus,
-    isActive: wixBroker.isActive,
+    brokerStatus: wixBroker.brokerStatus || 'active',
+    isActive: wixBroker.isActive !== undefined ? wixBroker.isActive : true,
     phoneNumber: wixBroker.phoneNumber,
   };
 }

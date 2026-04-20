@@ -62,7 +62,7 @@ export function BrokerCard({ broker }: BrokerCardProps) {
           View Profile
         </Link>
         <a
-          href={ctaUrl}
+          href={`/out?broker=${broker.slug}&type=apply&source=directory`}
           target="_blank"
           rel="noopener noreferrer"
           data-tracking-id={broker.primaryCta?.trackingId}

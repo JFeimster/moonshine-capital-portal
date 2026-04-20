@@ -26,10 +26,20 @@ A mock data fallback (`lib/mock-brokers.ts`) is currently in place for local dev
 
 ## 🗺️ Current Routes
 
+**Public:**
 - `/` — Homepage / Positioning layer. Introduces the marketplace and highlights featured partners.
 - `/directory` — The core broker directory. Features client-side filtering by State, Industry, Funding Type, and Urgency.
 - `/directory/[slug]` — Individual broker profile pages. Designed as high-conversion SEO landing pages with distinct CTAs and tracked nodes.
-- `/onboarding` — Partner onboarding page featuring a Tally form placeholder.
+- `/onboarding` — Partner onboarding page featuring a Tally form.
+- `/terms` — Terms of Service and disclaimers.
+- `/privacy` — Privacy Policy.
+
+**Internal / Infrastructure:**
+- `/out` — Centralized tracking route that logs CTA clicks before 302 redirecting users.
+
+**Future (do not build yet):**
+- `/portal` — Broker dashboard and authenticated view.
+- `/admin` — Internal application review and system management.
 
 ## 🛠️ Tech Stack
 
@@ -50,6 +60,30 @@ WIX_API_KEY=your_wix_api_key
 ```
 
 *Note: If these are not provided, the app will safely fall back to local mock data.*
+
+## 📝 Notion CRM Mapping (Future Data Layer)
+
+We will map properties from Notion to the Wix CMS `BrokerProfile` model. Here is the preliminary mapping:
+
+*   **Name** -> `fullName` (Title)
+*   **Agency/Company** -> `agencyName` (Rich Text)
+*   **Slug** -> `slug` (Formula or manually set Text)
+*   **Bio/Summary** -> `shortBio` (Text)
+*   **City** -> `city` (Select or Text)
+*   **State** -> `state` (Select or Text)
+*   **Website** -> `websiteUrl` (URL)
+*   **Email** -> `publicEmail` (Email)
+*   **Why Choose Us** -> `whyChooseYou` (Text)
+*   **Industries** -> `industries` (Multi-Select)
+*   **Funding Types/Specialties** -> `fundingTypes` / `fundingSpecialties` (Multi-Select)
+*   **Speed/Urgency** -> `urgencyCategory` (Select)
+*   **Primary CTA Link** -> `primaryCtaLink` (URL)
+*   **Primary CTA Label** -> `ctaLabel` (Text)
+*   **Approval Status** -> `approvalStatus` (Select: approved, pending, rejected)
+*   **Broker Status** -> `brokerStatus` (Select: active, hidden, recruiting)
+*   **Is Active** -> `isActive` (Checkbox)
+*   **Phone Number** -> `phoneNumber` (Phone)
+*   **Profile Image** -> `profileImage` (Files & media)
 
 ## 🛣️ Next Milestones
 
