@@ -72,42 +72,69 @@ function normalizeBroker(wixBroker: WixBrokerResponse): BrokerProfile {
 }
 
 export async function fetchWixBrokers(): Promise<BrokerProfile[]> {
-  // If no API credentials, fallback to mock data
+  // If no API credentials, handle mock fallback appropriately
   if (!WIX_API_URL || !WIX_API_KEY) {
-    console.warn('WIX_API_URL or WIX_API_KEY not found. Falling back to mock data.');
-    await new Promise(resolve => setTimeout(resolve, 500));
-    return mockBrokers.filter(b => b.approvalStatus === 'approved' && b.isActive);
+    if (process.env.NODE_ENV === 'production') {
+      console.error('WIX_API_URL or WIX_API_KEY missing in production. Returning empty list instead of mock data.');
+      return [];
+    } else {
+      console.warn('WIX_API_URL or WIX_API_KEY not found. Falling back to mock data.');
+      await new Promise(resolve => setTimeout(resolve, 500));
+      return mockBrokers.filter(b => b.approvalStatus === 'approved' && b.isActive);
+    }
   }
 
+  let allBrokers: BrokerProfile[] = [];
+  let limit = 50;
+  let skip = 0;
+  let hasMore = true;
+
   try {
-    const res = await fetch(`${WIX_API_URL}/brokerProfiles?status=approved&active=true`, {
-      headers: {
-        'Authorization': `Bearer ${WIX_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      next: { revalidate: 3600 } // ISR for 1 hour
-    });
+    while (hasMore) {
+      const res = await fetch(`${WIX_API_URL}/brokerProfiles?status=approved&active=true&limit=${limit}&skip=${skip}`, {
+        headers: {
+          'Authorization': `Bearer ${WIX_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        next: { revalidate: 3600 } // ISR for 1 hour
+      });
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch from Wix: ${res.statusText}`);
+      if (!res.ok) {
+        throw new Error(`Failed to fetch from Wix: ${res.statusText}`);
+      }
+
+      const data: WixBrokerResponse[] = await res.json();
+      allBrokers = allBrokers.concat(data.map(normalizeBroker));
+
+      if (data.length < limit) {
+        hasMore = false;
+      } else {
+        skip += limit;
+      }
     }
-
-    const data: WixBrokerResponse[] = await res.json();
-    return data.map(normalizeBroker);
+    return allBrokers;
   } catch (error) {
     console.error('Error fetching Wix brokers:', error);
-    // Fallback to mock data if fetch fails
+    if (process.env.NODE_ENV === 'production') {
+      return [];
+    }
+    // Fallback to mock data if fetch fails in dev
     return mockBrokers.filter(b => b.approvalStatus === 'approved' && b.isActive);
   }
 }
 
 export async function fetchWixBrokerBySlug(slug: string): Promise<BrokerProfile | null> {
-  // If no API credentials, fallback to mock data
+  // If no API credentials, handle mock fallback appropriately
   if (!WIX_API_URL || !WIX_API_KEY) {
-    console.warn('WIX_API_URL or WIX_API_KEY not found. Falling back to mock data.');
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const broker = mockBrokers.find(b => b.slug === slug && b.approvalStatus === 'approved' && b.isActive);
-    return broker || null;
+    if (process.env.NODE_ENV === 'production') {
+      console.error('WIX_API_URL or WIX_API_KEY missing in production. Returning null instead of mock data.');
+      return null;
+    } else {
+      console.warn('WIX_API_URL or WIX_API_KEY not found. Falling back to mock data.');
+      await new Promise(resolve => setTimeout(resolve, 500));
+      const broker = mockBrokers.find(b => b.slug === slug && b.approvalStatus === 'approved' && b.isActive);
+      return broker || null;
+    }
   }
 
   try {
@@ -131,6 +158,9 @@ export async function fetchWixBrokerBySlug(slug: string): Promise<BrokerProfile 
     return null;
   } catch (error) {
     console.error(`Error fetching Wix broker with slug ${slug}:`, error);
+    if (process.env.NODE_ENV === 'production') {
+      return null;
+    }
     const broker = mockBrokers.find(b => b.slug === slug && b.approvalStatus === 'approved' && b.isActive);
     return broker || null;
   }

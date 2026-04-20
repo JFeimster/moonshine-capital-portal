@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getBrokerBySlug } from '@/lib/brokers';
+import { sanitizeUrl } from '@/lib/utils';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -21,14 +22,13 @@ export async function GET(request: NextRequest) {
   let destinationUrl = '/directory'; // Default fallback
 
   if (type === 'website' && broker.websiteUrl) {
-    destinationUrl = broker.websiteUrl;
+    destinationUrl = sanitizeUrl(broker.websiteUrl, '/directory');
   } else {
     // Default to primary CTA
-    destinationUrl = broker.primaryCta?.url || broker.primaryCtaLink || broker.websiteUrl || '#';
+    destinationUrl = sanitizeUrl(broker.primaryCta?.url || broker.primaryCtaLink || broker.websiteUrl || '#', '/directory');
   }
 
-  // Log event (MVP)
-  console.log('[Tracking Event]', {
+  const trackingPayload = {
     event: 'cta_click',
     broker: brokerSlug,
     type,
@@ -37,9 +37,28 @@ export async function GET(request: NextRequest) {
     timestamp: new Date().toISOString(),
     userAgent: request.headers.get('user-agent') || 'unknown',
     referrer: request.headers.get('referer') || 'unknown',
-  });
+  };
 
-  if (destinationUrl === '#') {
+  // Log event (MVP)
+  console.log('[Tracking Event]', trackingPayload);
+
+  // Send to n8n webhook if configured
+  if (process.env.N8N_CTA_WEBHOOK_URL) {
+    try {
+      await fetch(process.env.N8N_CTA_WEBHOOK_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(trackingPayload),
+      });
+    } catch (error) {
+      console.error('[Tracking Error] Failed to send webhook:', error);
+      // Fallback behavior: continue with redirect
+    }
+  }
+
+  if (destinationUrl === '#' || destinationUrl === '/directory') {
     return NextResponse.redirect(new URL(`/directory/${brokerSlug}`, request.url));
   }
 

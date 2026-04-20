@@ -17,7 +17,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-2xl font-bold uppercase mb-2">1. Acceptance of Terms</h2>
             <p>
-              By accessing and using the Moonshine Capital Directory ("the Directory"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our website.
+              By accessing and using the Moonshine Capital Directory (&quot;the Directory&quot;), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our website.
             </p>
           </section>
 

@@ -15,11 +15,11 @@ In the long term, this codebase is evolving into the front-end for **Funding Age
 This application uses a modular, decoupled architecture where Next.js acts as the presentation and routing layer.
 
 **Data Flow:**
-1. **Intake:** Partners apply via Tally embed (`/onboarding`).
+1. **Intake:** Partners apply via a live Tally embed on (`/onboarding`).
 2. **Review:** Applications are reviewed and managed externally.
-3. **Storage (Source of Truth):** Approved broker profiles are stored in Wix CMS.
+3. **Storage (Source of Truth):** Approved broker profiles are stored in Wix CMS, which serves as the public broker data source.
 4. **Presentation:** The Next.js app fetches approved, active brokers from Wix CMS via the `lib/wix.ts` integration layer.
-5. **Analytics & Routing:** High-intent clicks are tracked through a structured CTA model, paving the way for advanced lead routing.
+5. **Analytics & Routing:** High-intent clicks are tracked through a centralized tracked redirect system (`/out`). It logs the event, sends an n8n webhook/Google Sheets event log, and then redirects the user.
 
 **Current State:**
 A mock data fallback (`lib/mock-brokers.ts`) is currently in place for local development and build verification when live Wix API credentials are not provided.
@@ -35,7 +35,7 @@ A mock data fallback (`lib/mock-brokers.ts`) is currently in place for local dev
 - `/privacy` — Privacy Policy.
 
 **Internal / Infrastructure:**
-- `/out` — Centralized tracking route that logs CTA clicks before 302 redirecting users.
+- `/out` — Centralized tracking route that logs CTA clicks, fires webhooks, and 302 redirects users.
 
 **Future (do not build yet):**
 - `/portal` — Broker dashboard and authenticated view.
@@ -57,9 +57,10 @@ To run the app with live Wix data, provide the following environment variables:
 ```env
 WIX_API_URL=https://your-wix-site.com/_functions/api
 WIX_API_KEY=your_wix_api_key
+N8N_CTA_WEBHOOK_URL=https://your-n8n-instance.com/webhook/cta
 ```
 
-*Note: If these are not provided, the app will safely fall back to local mock data.*
+*Note: In development, if WIX variables are not provided, the app will safely fall back to local mock data. In production, this fallback is disabled.*
 
 ## 📝 Notion CRM Mapping (Future Data Layer)
 

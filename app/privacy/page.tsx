@@ -31,7 +31,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-2xl font-bold uppercase mb-2">3. Information Sharing</h2>
             <p>
-              When you interact with a partner listed in our directory (e.g., by clicking their CTA or applying through their link), we track this engagement. Depending on the partner's integration, some basic referral information may be shared to facilitate the connection. We do not sell your personal data to unauthorized third parties. However, your public directory profile will be visible to all site visitors.
+              When you interact with a partner listed in our directory (e.g., by clicking their CTA or applying through their link), we track this engagement. Depending on the partner&apos;s integration, some basic referral information may be shared to facilitate the connection. We do not sell your personal data to unauthorized third parties. However, your public directory profile will be visible to all site visitors.
             </p>
           </section>
 
