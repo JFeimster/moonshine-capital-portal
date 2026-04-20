@@ -10,7 +10,7 @@ export function Avatar({
   src,
   alt,
   className = "",
-  imageClassName = "",
+  imageClassName = "grayscale contrast-125",
   fallbackClassName = ""
 }: AvatarProps) {
   const initial = alt.charAt(0);

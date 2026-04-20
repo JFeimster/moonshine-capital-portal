@@ -14,8 +14,7 @@ export function ProfileHero({ broker }: ProfileHeroProps) {
         <Avatar
           src={broker.profileImage}
           alt={broker.fullName}
-          className="w-48 h-48 md:w-64 md:h-64 bg-neo-white border-4 border-neo-black shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] flex-shrink-0 overflow-hidden"
-          imageClassName="grayscale contrast-125"
+          className="w-48 h-48 md:w-64 md:h-64 bg-neo-white border-4 border-neo-black shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)]"
           fallbackClassName="text-neo-black text-6xl"
         />
 
