@@ -1,6 +1,6 @@
 import { BrokerProfile } from '@/lib/types';
 import Link from 'next/link';
-import { Avatar } from './Avatar';
+import Image from 'next/image';
 
 interface BrokerCardProps {
   broker: BrokerProfile;
@@ -16,13 +16,20 @@ export function BrokerCard({ broker }: BrokerCardProps) {
   return (
     <div className="card-brutal flex flex-col h-full hover:bg-neo-white transition-colors duration-200 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1">
       <div className="flex items-center gap-4 mb-6">
-        <Avatar
-          src={broker.profileImage}
-          alt={broker.fullName}
-          className="w-16 h-16 bg-neo-black border-2 border-neo-black shadow-brutal"
-          imageClassName="grayscale contrast-125"
-          fallbackClassName="text-neo-white text-xl"
-        />
+        <div className="relative w-16 h-16 bg-neo-black border-2 border-neo-black shadow-brutal flex-shrink-0 overflow-hidden">
+          {broker.profileImage ? (
+            <Image
+              src={broker.profileImage}
+              alt={broker.fullName}
+              fill
+              className="object-cover grayscale contrast-125"
+            />
+          ) : (
+             <div className="w-full h-full flex items-center justify-center text-neo-white font-black text-xl">
+               {broker.fullName.charAt(0)}
+             </div>
+          )}
+        </div>
         <div>
           <h3 className="font-black text-xl uppercase tracking-tight">{broker.fullName}</h3>
           <p className="font-bold text-neo-blue text-sm uppercase">{broker.agencyName}</p>
