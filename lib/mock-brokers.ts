@@ -1,4 +1,5 @@
 import { BrokerProfile } from './types';
+import { sanitizeUrl } from './utils';
 
 export const mockBrokers: BrokerProfile[] = [
   {
@@ -9,7 +10,7 @@ export const mockBrokers: BrokerProfile[] = [
     shortBio: 'Ex-founder turned capital allocator. I get deals done when banks say no.',
     city: 'Austin',
     state: 'TX',
-    websiteUrl: 'https://example.com',
+    websiteUrl: sanitizeUrl('https://example.com'),
     publicEmail: 'jane@velocitycapital.com',
     whyChooseYou: 'No fluff. No slow banks. Just operators who know how to move money.',
 
@@ -20,17 +21,17 @@ export const mockBrokers: BrokerProfile[] = [
 
     primaryCta: {
       label: 'Apply for Funding',
-      url: 'https://example.com/apply',
+      url: sanitizeUrl('https://example.com/apply'),
       variant: 'primary',
       trackingId: 'cta_jane_doe'
     },
-    primaryCtaLink: 'https://example.com/apply',
+    primaryCtaLink: sanitizeUrl('https://example.com/apply'),
 
     approvalStatus: 'approved',
     isActive: true,
     featuredFlag: true,
     featuredBroker: true,
-    profileImage: 'https://i.pravatar.cc/300?img=5',
+    profileImage: sanitizeUrl('https://i.pravatar.cc/300?img=5'),
   },
   {
     id: '2',
@@ -40,7 +41,7 @@ export const mockBrokers: BrokerProfile[] = [
     shortBio: 'We fund heavy machinery and real estate. Fast, aggressive, reliable.',
     city: 'Chicago',
     state: 'IL',
-    websiteUrl: 'https://example.com',
+    websiteUrl: sanitizeUrl('https://example.com'),
     publicEmail: 'john@ironcladfunding.com',
     whyChooseYou: 'We don\'t waste your time. If the numbers make sense, we wire within 48 hours.',
 
@@ -51,17 +52,17 @@ export const mockBrokers: BrokerProfile[] = [
 
     primaryCta: {
       label: 'Submit Deal',
-      url: 'https://example.com/apply',
+      url: sanitizeUrl('https://example.com/apply'),
       variant: 'primary',
       trackingId: 'cta_john_smith'
     },
-    primaryCtaLink: 'https://example.com/apply',
+    primaryCtaLink: sanitizeUrl('https://example.com/apply'),
 
     approvalStatus: 'approved',
     isActive: true,
     featuredFlag: false,
     featuredBroker: false,
-    profileImage: 'https://i.pravatar.cc/300?img=11',
+    profileImage: sanitizeUrl('https://i.pravatar.cc/300?img=11'),
   },
   {
     id: '3',
@@ -71,7 +72,7 @@ export const mockBrokers: BrokerProfile[] = [
     shortBio: 'Specializing in e-commerce inventory and marketing capital.',
     city: 'New York',
     state: 'NY',
-    websiteUrl: 'https://example.com',
+    websiteUrl: sanitizeUrl('https://example.com'),
     publicEmail: 'sarah@neongrowth.com',
     whyChooseYou: 'Built for founders who do not have time for institutional theater.',
 
@@ -82,17 +83,17 @@ export const mockBrokers: BrokerProfile[] = [
 
     primaryCta: {
       label: 'Get Funded Fast',
-      url: 'https://example.com/apply',
+      url: sanitizeUrl('https://example.com/apply'),
       variant: 'primary',
       trackingId: 'cta_sarah_jenkins'
     },
-    primaryCtaLink: 'https://example.com/apply',
+    primaryCtaLink: sanitizeUrl('https://example.com/apply'),
 
     approvalStatus: 'approved',
     isActive: true,
     featuredFlag: true,
     featuredBroker: true,
-    profileImage: 'https://i.pravatar.cc/300?img=9',
+    profileImage: sanitizeUrl('https://i.pravatar.cc/300?img=9'),
   },
   {
     id: '4',
@@ -102,7 +103,7 @@ export const mockBrokers: BrokerProfile[] = [
     shortBio: 'Strategic financing for mid-market acquisitions and expansions.',
     city: 'Miami',
     state: 'FL',
-    websiteUrl: 'https://example.com',
+    websiteUrl: sanitizeUrl('https://example.com'),
     publicEmail: 'marcus@vancecapital.com',
     whyChooseYou: 'I bring 20 years of structuring experience to the table. I solve complex capital stacks.',
 
@@ -113,16 +114,16 @@ export const mockBrokers: BrokerProfile[] = [
 
     primaryCta: {
       label: 'Book Consultation',
-      url: 'https://example.com/apply',
+      url: sanitizeUrl('https://example.com/apply'),
       variant: 'primary',
       trackingId: 'cta_marcus_vance'
     },
-    primaryCtaLink: 'https://example.com/apply',
+    primaryCtaLink: sanitizeUrl('https://example.com/apply'),
 
     approvalStatus: 'approved',
     isActive: true,
     featuredFlag: false,
     featuredBroker: false,
-    profileImage: 'https://i.pravatar.cc/300?img=12',
+    profileImage: sanitizeUrl('https://i.pravatar.cc/300?img=12'),
   }
 ];
