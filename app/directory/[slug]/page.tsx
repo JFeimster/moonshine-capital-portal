@@ -21,6 +21,9 @@ export default async function BrokerProfilePage({ params }: { params: { slug: st
     notFound();
   }
 
+  const specialties = broker.fundingTypes || broker.fundingSpecialties || [];
+  const industries = broker.industries || [];
+
   return (
     <div className="bg-neo-white min-h-screen text-neo-black">
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-8">
@@ -49,15 +52,29 @@ export default async function BrokerProfilePage({ params }: { params: { slug: st
 
           <div className="space-y-12">
             <div className="bg-neo-black text-neo-white p-8 border-4 border-neo-green shadow-brutal">
-              <h3 className="font-black text-2xl uppercase tracking-tighter mb-6 text-neo-green">Specialties</h3>
+              <h3 className="font-black text-2xl uppercase tracking-tighter mb-6 text-neo-green">Funding Types</h3>
               <ul className="space-y-3">
-                {broker.fundingSpecialties.map(spec => (
+                {specialties.map(spec => (
                   <li key={spec} className="flex items-center gap-3 font-bold text-lg">
-                    <span className="w-3 h-3 bg-neo-white inline-block"></span>
+                    <span className="w-3 h-3 bg-neo-green inline-block"></span>
                     {spec}
                   </li>
                 ))}
               </ul>
+
+              {industries.length > 0 && (
+                <>
+                  <h3 className="font-black text-2xl uppercase tracking-tighter mt-8 mb-6 text-neo-pink">Industries</h3>
+                  <ul className="space-y-3">
+                    {industries.map(ind => (
+                      <li key={ind} className="flex items-center gap-3 font-bold text-lg">
+                        <span className="w-3 h-3 bg-neo-pink inline-block"></span>
+                        {ind}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </div>
 
             <div className="bg-neo-cream p-8 border-4 border-neo-black shadow-brutal">

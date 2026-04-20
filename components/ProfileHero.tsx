@@ -6,31 +6,75 @@ interface ProfileHeroProps {
 }
 
 export function ProfileHero({ broker }: ProfileHeroProps) {
-  return (
-    <div className="bg-neo-black text-neo-white p-8 md:p-16 border-4 border-neo-orange relative overflow-hidden shadow-brutal mb-12">
-      <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-neo-orange/20 via-transparent to-transparent pointer-events-none" />
+  const specialties = broker.fundingTypes || broker.fundingSpecialties || [];
+  const ctaLabel = broker.primaryCta?.label || broker.ctaLabel || 'Apply for Funding';
+  const ctaUrl = broker.primaryCta?.url || broker.primaryCtaLink || '#';
 
-      <div className="relative z-10 flex flex-col md:flex-row gap-8 items-start md:items-center">
+  return (
+    <div className="bg-neo-black text-neo-white border-4 border-neo-black shadow-brutal mb-16 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-64 h-64 bg-neo-pink transform translate-x-1/2 -translate-y-1/2 rotate-45 opacity-20" />
+
+      <div className="p-8 md:p-16 flex flex-col md:flex-row gap-12 items-center relative z-10">
         <Avatar
           src={broker.profileImage}
           alt={broker.fullName}
-          className="w-32 h-32 md:w-48 md:h-48 bg-neo-cream border-4 border-neo-white shadow-brutal-white"
-          fallbackClassName="text-neo-black text-5xl"
+          className="w-48 h-48 md:w-64 md:h-64 bg-neo-white border-4 border-neo-black shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] flex-shrink-0 overflow-hidden"
+          imageClassName="w-full h-full object-cover grayscale contrast-125"
+          fallbackClassName="w-full h-full flex items-center justify-center text-neo-black font-black text-6xl"
         />
 
-        <div className="flex-1">
-          <div className="inline-block bg-neo-orange text-neo-black font-black text-sm uppercase px-3 py-1 border-2 border-neo-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mb-4">
-            {broker.city}, {broker.state}
+        <div className="flex-1 text-center md:text-left">
+          <div className="inline-block bg-neo-yellow text-neo-black font-black text-sm uppercase px-3 py-1 mb-4 border border-neo-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+            Verified Partner
           </div>
-          <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-2">{broker.fullName}</h1>
-          <h2 className="text-xl md:text-3xl font-bold text-neo-orange uppercase tracking-wide mb-6">{broker.agencyName}</h2>
 
-          <div className="flex flex-wrap gap-4">
-            <a href={broker.primaryCtaLink} target="_blank" rel="noopener noreferrer" className="btn-brutal bg-neo-white text-neo-black px-8 py-4 text-lg">
-              {broker.ctaLabel || 'Apply Now'}
+          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-2">
+            {broker.fullName}
+          </h1>
+
+          <h2 className="text-2xl md:text-4xl font-bold text-neo-blue mb-6 uppercase">
+            {broker.agencyName}
+          </h2>
+
+          <div className="flex flex-wrap justify-center md:justify-start gap-3 mb-8">
+            <span className="bg-neo-white text-neo-black text-sm font-bold uppercase px-3 py-1 border border-neo-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              {broker.city}, {broker.state}
+            </span>
+
+            {broker.urgencyCategory && (
+              <span className="bg-neo-orange text-neo-black text-sm font-bold uppercase px-3 py-1 border border-neo-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                Speed: {broker.urgencyCategory}
+              </span>
+            )}
+
+            {specialties.slice(0, 3).map((specialty) => (
+              <span
+                key={specialty}
+                className="bg-neo-green text-neo-black text-sm font-bold uppercase px-3 py-1 border border-neo-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+              >
+                {specialty}
+              </span>
+            ))}
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <a
+              href={ctaUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-tracking-id={broker.primaryCta?.trackingId}
+              className="btn-brutal-primary text-lg px-8 py-4 bg-neo-green border-neo-black text-neo-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all text-center"
+            >
+              {ctaLabel}
             </a>
+
             {broker.websiteUrl && (
-              <a href={broker.websiteUrl} target="_blank" rel="noopener noreferrer" className="btn-brutal-dark px-8 py-4 text-lg">
+              <a
+                href={broker.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-brutal text-lg px-8 py-4 bg-neo-white border-neo-black text-neo-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all text-center"
+              >
                 Visit Website
               </a>
             )}

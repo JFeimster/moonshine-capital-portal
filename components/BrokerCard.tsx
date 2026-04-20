@@ -7,6 +7,12 @@ interface BrokerCardProps {
 }
 
 export function BrokerCard({ broker }: BrokerCardProps) {
+  const specialties = broker.fundingTypes || broker.fundingSpecialties || [];
+
+  // Use tracked CTA if available, fallback to legacy
+  const ctaLabel = broker.primaryCta?.label || broker.ctaLabel || 'Connect';
+  const ctaUrl = broker.primaryCta?.url || broker.primaryCtaLink || '#';
+
   return (
     <div className="card-brutal flex flex-col h-full hover:bg-neo-white transition-colors duration-200 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1">
       <div className="flex items-center gap-4 mb-6">
@@ -23,10 +29,15 @@ export function BrokerCard({ broker }: BrokerCardProps) {
         </div>
       </div>
 
-      <div className="mb-4">
+      <div className="mb-4 flex flex-wrap gap-2">
         <span className="inline-block bg-neo-black text-neo-white text-xs font-bold uppercase px-2 py-1 border border-neo-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
           {broker.city}, {broker.state}
         </span>
+        {broker.urgencyCategory && (
+          <span className="inline-block bg-neo-orange text-neo-black text-xs font-bold uppercase px-2 py-1 border border-neo-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+            Speed: {broker.urgencyCategory}
+          </span>
+        )}
       </div>
 
       <p className="font-bold text-sm mb-6 flex-grow leading-relaxed">
@@ -34,9 +45,14 @@ export function BrokerCard({ broker }: BrokerCardProps) {
       </p>
 
       <div className="flex flex-wrap gap-2 mb-8">
-        {broker.fundingSpecialties.slice(0, 3).map((spec) => (
+        {specialties.slice(0, 3).map((spec) => (
           <span key={spec} className="text-xs font-black uppercase tracking-wider bg-neo-green text-neo-black border border-neo-black px-2 py-1">
             {spec}
+          </span>
+        ))}
+        {broker.industries && broker.industries.slice(0, 2).map((ind) => (
+          <span key={ind} className="text-xs font-black uppercase tracking-wider bg-neo-pink text-neo-black border border-neo-black px-2 py-1">
+            {ind}
           </span>
         ))}
       </div>
@@ -45,8 +61,14 @@ export function BrokerCard({ broker }: BrokerCardProps) {
         <Link href={`/directory/${broker.slug}`} className="btn-brutal w-full bg-neo-black text-neo-white hover:bg-neo-black hover:text-neo-white border-2 border-neo-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all">
           View Profile
         </Link>
-        <a href={broker.primaryCtaLink} target="_blank" rel="noopener noreferrer" className="btn-brutal-primary w-full text-sm py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all">
-          {broker.ctaLabel || 'Connect'}
+        <a
+          href={ctaUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-tracking-id={broker.primaryCta?.trackingId}
+          className="btn-brutal-primary w-full text-sm py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all"
+        >
+          {ctaLabel}
         </a>
       </div>
     </div>
