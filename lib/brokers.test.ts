@@ -1,4 +1,4 @@
-import { describe, expect, it, mock, beforeEach, spyOn } from 'bun:test';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { getFeaturedBrokers } from './brokers';
 import * as wix from './wix';
 import { BrokerProfile } from './types';
@@ -7,8 +7,8 @@ describe('getFeaturedBrokers', () => {
   let fetchWixBrokersSpy: any;
 
   beforeEach(() => {
-    mock.restore();
-    fetchWixBrokersSpy = spyOn(wix, 'fetchWixBrokers');
+    vi.restoreAllMocks();
+    fetchWixBrokersSpy = vi.spyOn(wix, 'fetchWixBrokers');
   });
 
   it('should return only brokers where featuredBroker is true', async () => {
