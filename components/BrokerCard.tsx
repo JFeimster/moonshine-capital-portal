@@ -22,6 +22,7 @@ export function BrokerCard({ broker }: BrokerCardProps) {
               src={broker.profileImage}
               alt={broker.fullName}
               fill
+              sizes="64px"
               className="object-cover grayscale contrast-125"
             />
           ) : (
