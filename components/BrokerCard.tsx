@@ -1,5 +1,6 @@
 import { BrokerProfile } from '@/lib/types';
 import Link from 'next/link';
+import { sanitizeUrl } from '@/lib/utils';
 
 interface BrokerCardProps {
   broker: BrokerProfile;
@@ -46,7 +47,7 @@ export function BrokerCard({ broker }: BrokerCardProps) {
         <Link href={`/directory/${broker.slug}`} className="btn-brutal w-full bg-neo-black text-neo-white hover:bg-neo-black hover:text-neo-white border-2 border-neo-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all">
           View Profile
         </Link>
-        <a href={broker.primaryCtaLink} target="_blank" rel="noopener noreferrer" className="btn-brutal-primary w-full text-sm py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all">
+        <a href={sanitizeUrl(broker.primaryCtaLink)} target="_blank" rel="noopener noreferrer" className="btn-brutal-primary w-full text-sm py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all">
           {broker.ctaLabel || 'Connect'}
         </a>
       </div>

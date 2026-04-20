@@ -1,4 +1,5 @@
 import { BrokerProfile } from '@/lib/types';
+import { sanitizeUrl } from '@/lib/utils';
 
 interface ProfileHeroProps {
   broker: BrokerProfile;
@@ -28,11 +29,11 @@ export function ProfileHero({ broker }: ProfileHeroProps) {
           <h2 className="text-xl md:text-3xl font-bold text-neo-orange uppercase tracking-wide mb-6">{broker.agencyName}</h2>
 
           <div className="flex flex-wrap gap-4">
-            <a href={broker.primaryCtaLink} target="_blank" rel="noopener noreferrer" className="btn-brutal bg-neo-white text-neo-black px-8 py-4 text-lg">
+            <a href={sanitizeUrl(broker.primaryCtaLink)} target="_blank" rel="noopener noreferrer" className="btn-brutal bg-neo-white text-neo-black px-8 py-4 text-lg">
               {broker.ctaLabel || 'Apply Now'}
             </a>
             {broker.websiteUrl && (
-              <a href={broker.websiteUrl} target="_blank" rel="noopener noreferrer" className="btn-brutal-dark px-8 py-4 text-lg">
+              <a href={sanitizeUrl(broker.websiteUrl)} target="_blank" rel="noopener noreferrer" className="btn-brutal-dark px-8 py-4 text-lg">
                 Visit Website
               </a>
             )}
