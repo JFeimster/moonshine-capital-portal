@@ -4,8 +4,33 @@ import { SectionHeading } from '@/components/SectionHeading';
 import { CTASection } from '@/components/CTASection';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 
 export const revalidate = 3600; // Revalidate at most every hour
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const broker = await getBrokerBySlug(params.slug);
+
+  if (!broker) {
+    return {
+      title: 'Partner Not Found | Moonshine Capital',
+      description: 'The requested funding partner could not be found.'
+    };
+  }
+
+  const title = `${broker.fullName} | ${broker.agencyName} | Moonshine Capital`;
+  const description = broker.shortBio || `Learn more about ${broker.fullName} at ${broker.agencyName}.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'profile',
+    }
+  };
+}
 
 export async function generateStaticParams() {
   const brokers = await getBrokers();
@@ -24,8 +49,25 @@ export default async function BrokerProfilePage({ params }: { params: { slug: st
   const specialties = broker.fundingTypes || broker.fundingSpecialties || [];
   const industries = broker.industries || [];
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": broker.fullName,
+    "jobTitle": "Funding Partner",
+    "worksFor": {
+      "@type": "Organization",
+      "name": broker.agencyName
+    },
+    "description": broker.shortBio,
+    "url": `https://moonshinecapital.com/directory/${broker.slug}`
+  };
+
   return (
     <div className="bg-neo-white min-h-screen text-neo-black">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-8">
         <Link href="/directory" className="inline-flex items-center gap-2 font-bold uppercase tracking-widest text-sm hover:text-neo-blue transition-colors mb-8">
           <span className="text-xl leading-none">&larr;</span> Back to Directory

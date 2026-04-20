@@ -59,7 +59,7 @@ export function ProfileHero({ broker }: ProfileHeroProps) {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
             <a
-              href={ctaUrl}
+              href={`/out?broker=${broker.slug}&type=apply&source=profile`}
               target="_blank"
               rel="noopener noreferrer"
               data-tracking-id={broker.primaryCta?.trackingId}
@@ -70,7 +70,7 @@ export function ProfileHero({ broker }: ProfileHeroProps) {
 
             {broker.websiteUrl && (
               <a
-                href={broker.websiteUrl}
+                href={`/out?broker=${broker.slug}&type=website&source=profile`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-brutal text-lg px-8 py-4 bg-neo-white border-neo-black text-neo-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all text-center"
