@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
+    "@wix/data": "^1.0.445",
+    "@wix/sdk": "^1.21.6",
     "next": "^14.2.35",
     "react": "18.2.0",
     "react-dom": "18.2.0"

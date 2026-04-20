@@ -1,7 +1,9 @@
+import { createClient, ApiKeyStrategy } from '@wix/sdk';
+import { items } from '@wix/data';
 import { BrokerProfile } from './types';
 import { mockBrokers } from './mock-brokers';
 
-// Define expected Wix response structure
+// Define expected Wix response structure (Wix CMS item)
 interface WixBrokerResponse {
   _id: string;
   fullName: string;
@@ -26,11 +28,20 @@ interface WixBrokerResponse {
   brokerStatus?: 'active' | 'hidden' | 'recruiting';
   isActive: boolean;
   phoneNumber?: string;
-  // Raw Wix CTA fields if any, we'll map them
 }
 
-const WIX_API_URL = process.env.WIX_API_URL || '';
 const WIX_API_KEY = process.env.WIX_API_KEY || '';
+const WIX_SITE_ID = process.env.WIX_SITE_ID || '';
+const WIX_ACCOUNT_ID = 'd981d23e-018c-471a-856f-e516d21bd10b'; // Fixed account ID from specifications
+
+const wixClient = createClient({
+  modules: { items },
+  auth: ApiKeyStrategy({
+    apiKey: WIX_API_KEY,
+    siteId: WIX_SITE_ID,
+    accountId: WIX_ACCOUNT_ID,
+  })
+});
 
 // Normalization function to ensure Wix data matches our frontend types
 function normalizeBroker(wixBroker: WixBrokerResponse): BrokerProfile {
@@ -73,26 +84,20 @@ function normalizeBroker(wixBroker: WixBrokerResponse): BrokerProfile {
 
 export async function fetchWixBrokers(): Promise<BrokerProfile[]> {
   // If no API credentials, fallback to mock data
-  if (!WIX_API_URL || !WIX_API_KEY) {
-    console.warn('WIX_API_URL or WIX_API_KEY not found. Falling back to mock data.');
+  if (!WIX_API_KEY || !WIX_SITE_ID) {
+    console.warn('WIX_API_KEY or WIX_SITE_ID not found. Falling back to mock data.');
     await new Promise(resolve => setTimeout(resolve, 500));
     return mockBrokers.filter(b => b.approvalStatus === 'approved' && b.isActive);
   }
 
   try {
-    const res = await fetch(`${WIX_API_URL}/brokerProfiles?status=approved&active=true`, {
-      headers: {
-        'Authorization': `Bearer ${WIX_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      next: { revalidate: 3600 } // ISR for 1 hour
-    });
+    const res = await wixClient.items
+      .query('brokerProfiles')
+      .eq('approvalStatus', 'approved')
+      .eq('isActive', true)
+      .find();
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch from Wix: ${res.statusText}`);
-    }
-
-    const data: WixBrokerResponse[] = await res.json();
+    const data = res.items as unknown as WixBrokerResponse[];
     return data.map(normalizeBroker);
   } catch (error) {
     console.error('Error fetching Wix brokers:', error);
@@ -103,28 +108,22 @@ export async function fetchWixBrokers(): Promise<BrokerProfile[]> {
 
 export async function fetchWixBrokerBySlug(slug: string): Promise<BrokerProfile | null> {
   // If no API credentials, fallback to mock data
-  if (!WIX_API_URL || !WIX_API_KEY) {
-    console.warn('WIX_API_URL or WIX_API_KEY not found. Falling back to mock data.');
+  if (!WIX_API_KEY || !WIX_SITE_ID) {
+    console.warn('WIX_API_KEY or WIX_SITE_ID not found. Falling back to mock data.');
     await new Promise(resolve => setTimeout(resolve, 500));
     const broker = mockBrokers.find(b => b.slug === slug && b.approvalStatus === 'approved' && b.isActive);
     return broker || null;
   }
 
   try {
-    const encodedSlug = encodeURIComponent(slug);
-    const res = await fetch(`${WIX_API_URL}/brokerProfiles?slug=${encodedSlug}&status=approved&active=true`, {
-      headers: {
-        'Authorization': `Bearer ${WIX_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      next: { revalidate: 3600 }
-    });
+    const res = await wixClient.items
+      .query('brokerProfiles')
+      .eq('slug', slug)
+      .eq('approvalStatus', 'approved')
+      .eq('isActive', true)
+      .find();
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch from Wix: ${res.statusText}`);
-    }
-
-    const data: WixBrokerResponse[] = await res.json();
+    const data = res.items as unknown as WixBrokerResponse[];
     if (data.length > 0) {
       return normalizeBroker(data[0]);
     }
