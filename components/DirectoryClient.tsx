@@ -22,10 +22,11 @@ export function DirectoryClient({ initialBrokers }: DirectoryClientProps) {
   const availableIndustries = Array.from(new Set(initialBrokers.flatMap(b => b.industries || []))).sort();
 
   // Filter brokers
+  const lowerSearchTerm = searchTerm.toLowerCase();
   const filteredBrokers = initialBrokers.filter(broker => {
     const matchesSearch =
-      broker.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      broker.agencyName.toLowerCase().includes(searchTerm.toLowerCase());
+      broker.fullName.toLowerCase().includes(lowerSearchTerm) ||
+      broker.agencyName.toLowerCase().includes(lowerSearchTerm);
 
     const matchesState = selectedState === '' || broker.state === selectedState;
 
