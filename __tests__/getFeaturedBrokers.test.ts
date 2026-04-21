@@ -9,10 +9,10 @@ vi.mock('../lib/wix', () => ({
 describe('getFeaturedBrokers', () => {
   it('should return only featured brokers', async () => {
     const mockBrokers = [
-      { id: '1', fullName: 'Broker One', featuredFlag: true, isActive: true },
-      { id: '2', fullName: 'Broker Two', featuredBroker: true, isActive: true },
-      { id: '3', fullName: 'Broker Three', isActive: true },
-      { id: '4', fullName: 'Broker Four', featuredFlag: false, featuredBroker: false, isActive: true },
+      { id: '1', fullName: 'Broker One', featuredFlag: true, isActive: true, approvalStatus: 'approved' },
+      { id: '2', fullName: 'Broker Two', featuredBroker: true, isActive: true, approvalStatus: 'approved' },
+      { id: '3', fullName: 'Broker Three', isActive: true, approvalStatus: 'approved' },
+      { id: '4', fullName: 'Broker Four', featuredFlag: false, featuredBroker: false, isActive: true, approvalStatus: 'approved' },
     ];
     vi.mocked(wix.fetchWixBrokers).mockResolvedValue(mockBrokers as any);
 

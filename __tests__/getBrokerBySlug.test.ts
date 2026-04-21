@@ -9,7 +9,7 @@ vi.mock('../lib/wix', () => ({
 
 describe('getBrokerBySlug', () => {
   it('should return a broker when a matching slug is found', async () => {
-    const mockBroker = { id: '1', fullName: 'Broker One', slug: 'broker-one', isActive: true };
+    const mockBroker = { id: '1', fullName: 'Broker One', slug: 'broker-one', isActive: true, approvalStatus: 'approved' };
     vi.mocked(wix.fetchWixBrokerBySlug).mockResolvedValue(mockBroker as any);
 
     const result = await getBrokerBySlug('broker-one');
