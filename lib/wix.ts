@@ -95,7 +95,7 @@ export async function fetchWixBrokers(): Promise<BrokerProfile[]> {
       .query('brokerProfiles')
       .eq('approvalStatus', 'approved')
       .eq('isActive', true)
-      .find();
+      .limit(100).find();
 
     const data = res.items as unknown as WixBrokerResponse[];
     return data.map(normalizeBroker);
@@ -121,7 +121,7 @@ export async function fetchWixBrokerBySlug(slug: string): Promise<BrokerProfile 
       .eq('slug', slug)
       .eq('approvalStatus', 'approved')
       .eq('isActive', true)
-      .find();
+      .limit(100).find();
 
     const data = res.items as unknown as WixBrokerResponse[];
     if (data.length > 0) {

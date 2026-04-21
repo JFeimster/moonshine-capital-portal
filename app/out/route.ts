@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getBrokerBySlug } from '@/lib/brokers';
+import { sanitizeUrl } from '@/lib/utils';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -21,10 +22,14 @@ export async function GET(request: NextRequest) {
   let destinationUrl = '/directory'; // Default fallback
 
   if (type === 'website' && broker.websiteUrl) {
-    destinationUrl = broker.websiteUrl;
+    destinationUrl = sanitizeUrl(broker.websiteUrl);
   } else {
     // Default to primary CTA
-    destinationUrl = broker.primaryCta?.url || broker.primaryCtaLink || broker.websiteUrl || '#';
+    destinationUrl = sanitizeUrl(broker.primaryCta?.url || broker.primaryCtaLink || broker.websiteUrl);
+  }
+
+  if (destinationUrl === '#') {
+    destinationUrl = `/directory/${brokerSlug}`;
   }
 
   // Log event (MVP)
@@ -39,9 +44,5 @@ export async function GET(request: NextRequest) {
     referrer: request.headers.get('referer') || 'unknown',
   });
 
-  if (destinationUrl === '#') {
-    return NextResponse.redirect(new URL(`/directory/${brokerSlug}`, request.url));
-  }
-
-  return NextResponse.redirect(destinationUrl);
+  return NextResponse.redirect(new URL(destinationUrl, request.url));
 }

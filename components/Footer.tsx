@@ -18,8 +18,8 @@ export function Footer() {
           </div>
           <div className="flex flex-col gap-2">
             <h3 className="font-bold text-neo-pink uppercase tracking-wide mb-2">Legal</h3>
-            <a href="#" className="hover:text-neo-yellow transition-colors font-semibold">Terms</a>
-            <a href="#" className="hover:text-neo-yellow transition-colors font-semibold">Privacy</a>
+            <a href="/terms" className="hover:text-neo-yellow transition-colors font-semibold">Terms</a>
+            <a href="/privacy" className="hover:text-neo-yellow transition-colors font-semibold">Privacy</a>
           </div>
         </div>
       </div>

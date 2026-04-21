@@ -64,7 +64,7 @@ The page should include:
 - embed area for Tally
 - optional FAQ or note block
 
-Use a placeholder Tally embed component or container that can easily be swapped with a real embed URL later.
+The actual Tally form embed is already implemented and functional.
 
 #### `/directory`
 Public broker directory page.
