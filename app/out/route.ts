@@ -44,18 +44,18 @@ export async function GET(request: NextRequest) {
 
   // Send to n8n webhook if configured
   if (process.env.N8N_CTA_WEBHOOK_URL) {
-    try {
-      await fetch(process.env.N8N_CTA_WEBHOOK_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(trackingPayload),
-      });
-    } catch (error) {
+    // Fire and forget, don't await the webhook to prevent blocking the redirect
+    fetch(process.env.N8N_CTA_WEBHOOK_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(trackingPayload),
+      // Adding a signal/timeout isn't strictly necessary since we aren't awaiting it,
+      // but standard fetch fire-and-forget is non-blocking to the rest of execution.
+    }).catch((error) => {
       console.error('[Tracking Error] Failed to send webhook:', error);
-      // Fallback behavior: continue with redirect
-    }
+    });
   }
 
   if (destinationUrl === '#' || destinationUrl === '/directory') {
