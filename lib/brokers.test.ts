@@ -14,8 +14,26 @@ describe('brokers data fetching', () => {
     vi.clearAllMocks();
   });
 
+  const createMockBroker = (overrides?: Partial<BrokerProfile>): BrokerProfile => ({
+    id: 'test-id',
+    fullName: 'Test User',
+    slug: 'test-user',
+    agencyName: 'Test Agency',
+    city: 'Test City',
+    state: 'TS',
+    shortBio: 'Test bio',
+    publicEmail: 'test@example.com',
+    whyChooseYou: 'Test reason',
+    industries: [],
+    fundingTypes: [],
+    urgencyCategory: 'standard',
+    approvalStatus: 'approved',
+    isActive: true,
+    ...overrides,
+  });
+
   const mockBrokers: BrokerProfile[] = [
-    {
+    createMockBroker({
       id: '1',
       fullName: 'Alice Smith',
       slug: 'alice-smith',
@@ -23,11 +41,9 @@ describe('brokers data fetching', () => {
       city: 'New York',
       state: 'NY',
       fundingSpecialties: ['SBA Loans', 'Equipment Financing'],
-      approvalStatus: 'approved',
-      isActive: true,
       featuredBroker: true,
-    },
-    {
+    }),
+    createMockBroker({
       id: '2',
       fullName: 'Bob Jones',
       slug: 'bob-jones',
@@ -35,11 +51,9 @@ describe('brokers data fetching', () => {
       city: 'Austin',
       state: 'TX',
       fundingSpecialties: ['Bridge Loans'],
-      approvalStatus: 'approved',
-      isActive: true,
       featuredBroker: false,
-    },
-    {
+    }),
+    createMockBroker({
       id: '3',
       fullName: 'Charlie Davis',
       slug: 'charlie-davis',
@@ -47,10 +61,8 @@ describe('brokers data fetching', () => {
       city: 'Chicago',
       state: 'IL',
       fundingSpecialties: ['Real Estate', 'SBA Loans'],
-      approvalStatus: 'approved',
-      isActive: true,
       featuredFlag: true,
-    },
+    }),
   ];
 
   describe('getBrokers', () => {
