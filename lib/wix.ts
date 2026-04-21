@@ -1,6 +1,5 @@
 import { BrokerProfile } from './types';
 import { mockBrokers } from './mock-brokers';
-import { sanitizeUrl } from './utils';
 
 // Define expected Wix response structure
 interface WixBrokerResponse {
@@ -43,7 +42,7 @@ function normalizeBroker(wixBroker: WixBrokerResponse): BrokerProfile {
     shortBio: wixBroker.shortBio,
     city: wixBroker.city,
     state: wixBroker.state,
-    websiteUrl: wixBroker.websiteUrl ? sanitizeUrl(wixBroker.websiteUrl) : undefined,
+    websiteUrl: wixBroker.websiteUrl,
     publicEmail: wixBroker.publicEmail,
     whyChooseYou: wixBroker.whyChooseYou,
 
@@ -52,19 +51,19 @@ function normalizeBroker(wixBroker: WixBrokerResponse): BrokerProfile {
     urgencyCategory: wixBroker.urgencyCategory || 'standard',
 
     fundingSpecialties: wixBroker.fundingSpecialties || [],
-    primaryCtaLink: wixBroker.primaryCtaLink ? sanitizeUrl(wixBroker.primaryCtaLink) : undefined,
+    primaryCtaLink: wixBroker.primaryCtaLink,
     ctaLabel: wixBroker.ctaLabel,
     featuredBroker: wixBroker.featuredBroker,
     featuredFlag: wixBroker.featuredFlag || wixBroker.featuredBroker,
 
     primaryCta: {
       label: wixBroker.ctaLabel || 'Apply Now',
-      url: wixBroker.primaryCtaLink ? sanitizeUrl(wixBroker.primaryCtaLink) : '#',
+      url: wixBroker.primaryCtaLink || '#',
       variant: 'primary',
       trackingId: `broker_cta_${wixBroker._id}`
     },
 
-    profileImage: wixBroker.profileImage ? sanitizeUrl(wixBroker.profileImage) : undefined,
+    profileImage: wixBroker.profileImage,
     approvalStatus: wixBroker.approvalStatus,
     brokerStatus: wixBroker.brokerStatus || 'active',
     isActive: wixBroker.isActive !== undefined ? wixBroker.isActive : true,
