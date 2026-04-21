@@ -14,5 +14,5 @@ This document outlines the expected fields from the initial Tally Application fo
 | **Phone Number** | Phone | `phoneNumber` | Contact phone number (Optional). |
 
 ## Notes for Ingestion (n8n Pipeline)
-- This payload creates the initial record in Notion CRM with an "Onboarding Status" of "Pending".
+- This payload creates the initial record in Notion CRM with a "Status" of "Pending".
 - No Wix CMS record is created at this stage.

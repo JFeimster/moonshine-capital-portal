@@ -4,12 +4,12 @@ This document defines the canonical data model for a Broker Profile across the D
 
 ## Merge Key
 The primary identifier for matching records across systems is the **Broker Email (`publicEmail` / `email`)**.
-Secondary fallback identifier is the **Agency Name**.
+If email is missing or changed, require manual resolution or use an immutable submission/broker ID instead.
 
 ## Field Categories
 
 ### 1. Internal-Only Fields (Notion CRM)
-- `Onboarding Status` (e.g., Pending, In Review, Approved, Rejected)
+- `Status` (e.g., Pending, In Review, Approved, Rejected)
 - `Internal Notes`
 - `Application Date`
 - `Tally Submission ID`
