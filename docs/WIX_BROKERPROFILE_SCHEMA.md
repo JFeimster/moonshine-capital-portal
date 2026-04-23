@@ -1,6 +1,19 @@
 # Wix CMS BrokerProfile Schema
 
-This document defines the schema for the `brokerProfiles` collection in Wix CMS. This collection is the source of truth for the public-facing Next.js directory.
+This document defines the schema for the `brokerProfiles` collection in Wix CMS.
+
+**Role of this file:**
+- this is the Wix-system-specific broker profile schema doc
+- this file already fills the “broker profile schema” role for Wix in this repo
+- use this file for collection fields and Wix-facing mappings
+- do not create a duplicate `docs/broker-profile-schema.md` unless this file is intentionally renamed or consolidated
+
+For related documentation:
+- use `docs/data-model.md` as the canonical app model doc
+- use `docs/FIELD_MAPPING_CONTRACT.md` as the master cross-system contract
+- use `docs/wix-integration.md` for integration behavior and data flow
+
+This collection is the source of truth for the public-facing Next.js directory.
 
 ## Wix CMS Collection Properties
 
