@@ -1,6 +1,6 @@
 # Moonshine Capital Portal
 
-Moonshine Capital Portal is the Next.js front-end layer for a broker directory, partner onboarding flow, and the future Funding Agent OS experience.
+Moonshine Capital Portal is the Next.js front-end layer for a broker directory, partner onboarding flow, taxonomy-based discovery pages, and the future Funding Agent OS experience.
 
 It provides an operator-focused capital marketplace built on a bold, dark neo-brutalist aesthetic while serving as the presentation and routing layer for broker discovery, onboarding, and click tracking.
 
@@ -15,7 +15,7 @@ In the long term, this codebase is evolving into the front-end for **Funding Age
 - partner recruitment
 - lead routing
 - click attribution
-- multi-vertical funding discovery
+- taxonomy-driven funding discovery
 - future authenticated broker and admin experiences
 
 ## 🏗️ Architecture & Data Flow
@@ -32,7 +32,7 @@ This application uses a modular architecture where **Next.js** acts as the prese
 ### Current state
 - Broker data is fetched from the Wix integration layer
 - Mock fallback patterns exist for local development and safe build behavior
-- The repo currently focuses on the directory, onboarding, legal pages, and tracked outbound routing
+- The repo now includes taxonomy discovery routes for industries and funding types
 - Future phases may introduce `/portal`, `/admin`, richer analytics, and additional taxonomy/SEO surfaces
 
 ## 🗺️ Current Routes
@@ -42,6 +42,10 @@ This application uses a modular architecture where **Next.js** acts as the prese
 - `/directory` — Broker directory index
 - `/directory/[slug]` — Individual broker profile pages
 - `/onboarding` — Partner onboarding page with Tally embed
+- `/industries` — Industry discovery hub
+- `/industries/[slug]` — Industry-specific broker discovery page
+- `/funding-types` — Funding specialty discovery hub
+- `/funding-types/[slug]` — Funding-type-specific broker discovery page
 - `/terms` — Terms of Service
 - `/privacy` — Privacy Policy
 
@@ -55,6 +59,10 @@ This application uses a modular architecture where **Next.js** acts as the prese
 - `app/directory/page.tsx`
 - `app/directory/[slug]/page.tsx`
 - `app/onboarding/page.tsx`
+- `app/industries/page.tsx`
+- `app/industries/[slug]/page.tsx`
+- `app/funding-types/page.tsx`
+- `app/funding-types/[slug]/page.tsx`
 - `app/out/route.ts`
 - `app/terms/page.tsx`
 - `app/privacy/page.tsx`
@@ -75,22 +83,35 @@ This application uses a modular architecture where **Next.js** acts as the prese
 - `SectionHeading.tsx`
 - `TallyEmbedSection.tsx`
 
-## 🧩 Full Scaffold
+## 🧩 Core Docs
 
-See the full corrected scaffold here:
-
+Primary docs for this repo:
 - [`docs/full-scaffold.md`](./docs/full-scaffold.md)
+- [`docs/route-map.md`](./docs/route-map.md)
+- [`docs/page-inventory.md`](./docs/page-inventory.md)
+- [`docs/data-model.md`](./docs/data-model.md)
+- [`docs/wix-integration.md`](./docs/wix-integration.md)
+- [`docs/tracking-flow.md`](./docs/tracking-flow.md)
+- [`docs/onboarding-flow.md`](./docs/onboarding-flow.md)
+- [`docs/future-roadmap.md`](./docs/future-roadmap.md)
+- [`docs/seo-architecture.md`](./docs/seo-architecture.md)
+- [`docs/analytics-plan.md`](./docs/analytics-plan.md)
+- [`docs/admin-portal-plan.md`](./docs/admin-portal-plan.md)
 
-That file contains:
-- confirmed current repo structure
-- recommended additional pages
-- suggested component/library expansions
-- suggested API routes
-- phased build priority
+Schema references:
+- [`docs/WIX_BROKERPROFILE_SCHEMA.md`](./docs/WIX_BROKERPROFILE_SCHEMA.md)
+- [`docs/NOTION_BROKER_CRM_SCHEMA.md`](./docs/NOTION_BROKER_CRM_SCHEMA.md)
+- [`docs/TALLY_APPLICATION_SCHEMA.md`](./docs/TALLY_APPLICATION_SCHEMA.md)
+- [`docs/TALLY_PROFILE_BUILDER_SCHEMA.md`](./docs/TALLY_PROFILE_BUILDER_SCHEMA.md)
+- [`docs/FIELD_MAPPING_CONTRACT.md`](./docs/FIELD_MAPPING_CONTRACT.md)
+
+### Canonical doc roles
+- `docs/data-model.md` = canonical app model doc
+- `docs/WIX_BROKERPROFILE_SCHEMA.md` = Wix-specific broker profile schema doc
+- `docs/FIELD_MAPPING_CONTRACT.md` = master cross-system mapping contract
+- `docs/wix-integration.md` = integration/data-flow behavior doc
 
 ## 🛣️ Suggested Next Pages
-
-These are the most logical additions for this repo:
 
 ### High-priority public pages
 - `/about`
@@ -99,10 +120,6 @@ These are the most logical additions for this repo:
 - `/apply`
 
 ### SEO / taxonomy pages
-- `/industries`
-- `/industries/[slug]`
-- `/funding-types`
-- `/funding-types/[slug]`
 - `/states`
 - `/states/[slug]`
 - `/compare/[slug]`
@@ -142,32 +159,6 @@ WIX_API_KEY=your_wix_api_key
 
 If live Wix credentials are not provided, development-safe fallback behavior should continue to be supported where applicable.
 
-## 📝 Data Model Direction
-
-This repo is centered around a `BrokerProfile`-style model that includes fields such as:
-
-- full name
-- agency / company
-- slug
-- short bio
-- city / state
-- website URL
-- public email
-- why choose us
-- industries
-- funding types / specialties
-- urgency / speed fit
-- CTA link and CTA label
-- approval status
-- active / hidden / recruiting state
-- phone number
-- profile image
-- featured flags
-
-The detailed shape and future extensions should be documented in:
-- `docs/data-model.md`
-- `docs/broker-profile-schema.md`
-
 ## 📈 Near-Term Roadmap
 
 ### Phase 1
@@ -178,7 +169,7 @@ The detailed shape and future extensions should be documented in:
 - document route map and tracking flow more clearly
 
 ### Phase 2
-- add industry, funding-type, and state-based landing pages
+- expand taxonomy surfaces with states and comparison pages
 - improve SEO / schema support
 - expand tracked discovery surfaces
 
