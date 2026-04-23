@@ -5,9 +5,16 @@ This document explains how `moonshine-capital-portal` uses Wix as the source-of-
 
 It is meant to guide:
 - data fetching
-- field mapping
+- integration boundaries
 - local fallback behavior
+- normalization expectations
 - future sync/API work
+
+This file should describe **how Wix is used in the repo**, not re-document every schema field in full.
+For field-level schema details, use:
+- `docs/WIX_BROKERPROFILE_SCHEMA.md`
+- `docs/FIELD_MAPPING_CONTRACT.md`
+- `docs/data-model.md`
 
 ---
 
@@ -79,31 +86,18 @@ This keeps the repo cleaner and makes later backend changes easier.
 
 ---
 
-## Required Data From Wix
+## Schema References
 
-The Wix collection should support the fields needed by the public broker directory.
+Use these docs for field-level definitions instead of duplicating them here:
 
-### Core fields
-- full name
-- agency name
-- slug
-- short bio
-- why choose us
-- city
-- state
-- website URL
-- public email
-- phone number
-- industries
-- funding types / specialties
-- urgency category
-- primary CTA link
-- CTA label
-- approval status
-- broker status
-- is active
-- featured flag
-- profile image
+### Wix collection schema
+- `docs/WIX_BROKERPROFILE_SCHEMA.md`
+
+### Cross-system field contract
+- `docs/FIELD_MAPPING_CONTRACT.md`
+
+### App-facing canonical model
+- `docs/data-model.md`
 
 ---
 
@@ -212,7 +206,7 @@ Recommended safeguards:
 
 ### Phase 1
 - make normalization explicit in `lib/wix.ts`
-- document exact field mapping in `docs/broker-profile-schema.md`
+- keep schema references centralized instead of repeating field inventories across docs
 
 ### Phase 2
 - add `lib/wix-normalizers.ts`
@@ -230,6 +224,6 @@ Recommended safeguards:
 
 ## Recommended Next Steps
 - verify the exact environment variable names used by `lib/wix.ts`
-- document the real broker collection schema in `docs/broker-profile-schema.md`
 - keep page code dependent on `lib/brokers.ts`, not raw Wix fetch calls
 - preserve development-safe fallback behavior so local builds remain stable
+- use the schema docs for field-level definitions rather than duplicating them here
