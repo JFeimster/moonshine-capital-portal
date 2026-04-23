@@ -2,216 +2,200 @@
 
 Moonshine Capital Portal is the Next.js front-end layer for a broker directory, partner onboarding flow, and the future Funding Agent OS experience.
 
-It provides an operator-focused capital marketplace built on a strong, dark neo-brutalist aesthetic.
+It provides an operator-focused capital marketplace built on a bold, dark neo-brutalist aesthetic while serving as the presentation and routing layer for broker discovery, onboarding, and click tracking.
 
 ## 🚀 Purpose
 
-Founders often lose weeks pitching to banks that will never approve them. This directory connects business owners directly with vetted capital allocators, brokers, and specialized lenders who underwrite fast and move money efficiently.
+Founders often waste weeks pitching banks that were never going to say yes.
 
-In the long term, this codebase is evolving into the front-end for **Funding Agent OS**—a comprehensive operating system for broker discovery, partner recruitment, lead routing, and multi-vertical funding.
+Moonshine Capital Portal exists to help business owners discover vetted funding partners, browse broker profiles, and move toward the right capital path faster.
+
+In the long term, this codebase is evolving into the front-end for **Funding Agent OS** — a broader operating system for:
+- broker discovery
+- partner recruitment
+- lead routing
+- click attribution
+- multi-vertical funding discovery
+- future authenticated broker and admin experiences
 
 ## 🏗️ Architecture & Data Flow
 
-This application uses a modular, decoupled architecture where Next.js acts as the presentation and routing layer.
+This application uses a modular architecture where **Next.js** acts as the presentation, routing, and SEO layer.
 
-**Data Flow:**
-1. **Intake:** Partners apply via Tally embed (`/onboarding`).
-2. **Review:** Applications are reviewed and managed externally.
-3. **Storage (Source of Truth):** Approved broker profiles are stored in Wix CMS.
-4. **Presentation:** The Next.js app fetches approved, active brokers from Wix CMS via the `lib/wix.ts` integration layer.
-5. **Analytics & Routing:** High-intent clicks are tracked through a structured CTA model, paving the way for advanced lead routing.
+### Current data flow
+1. **Intake:** Partners apply through a Tally-powered onboarding flow at `/onboarding`
+2. **Review:** Applications are reviewed externally
+3. **Source of truth:** Approved profiles are stored in **Wix CMS**
+4. **Presentation:** The app fetches broker records through the `lib/brokers.ts` → `lib/wix.ts` integration layer
+5. **Tracking:** CTA clicks route through `/out` before redirecting users to the appropriate external destination
 
-**Current State:**
-A mock data fallback (`lib/mock-brokers.ts`) is currently in place for local development and build verification when live Wix API credentials are not provided.
-
-## 🧩 Full Scaffold
-
-moonshine-partner-marketplace/
-├── README.md
-├── AGENTS.md
-├── CLAUDE.md
-├── docs/
-│   ├── build-sheet.md
-│   ├── data-model.md
-│   ├── route-map.md
-│   ├── full-scaffold.md
-│   ├── page-inventory.md
-│   ├── lead-routing-logic.md
-│   ├── partner-attribution-flow.md
-│   ├── tool-roadmap.md
-│   └── seo-architecture.md
-├── public/
-│   ├── images/
-│   ├── icons/
-│   └── og/
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx
-│   │   ├── page.tsx
-│   │   ├── about/
-│   │   │   ├── page.tsx
-│   │   │   └── marketplace/page.tsx
-│   │   ├── apply/
-│   │   │   ├── page.tsx
-│   │   │   ├── start/page.tsx
-│   │   │   └── success/page.tsx
-│   │   ├── contact/
-│   │   │   ├── page.tsx
-│   │   │   └── partner/page.tsx
-│   │   ├── faq/page.tsx
-│   │   ├── funding/
-│   │   │   ├── page.tsx
-│   │   │   ├── [slug]/page.tsx
-│   │   │   └── compare/
-│   │   │       └── [slug]/page.tsx
-│   │   ├── verticals/
-│   │   │   ├── page.tsx
-│   │   │   └── [slug]/page.tsx
-│   │   ├── industries/
-│   │   │   ├── page.tsx
-│   │   │   └── [slug]/page.tsx
-│   │   ├── partners/
-│   │   │   ├── page.tsx
-│   │   │   └── [partnerSlug]/page.tsx
-│   │   ├── tools/
-│   │   │   ├── page.tsx
-│   │   │   ├── funding-match/page.tsx
-│   │   │   ├── startup-planner/page.tsx
-│   │   │   ├── revenue-estimator/page.tsx
-│   │   │   ├── working-capital-estimator/page.tsx
-│   │   │   ├── equipment-finance-calculator/page.tsx
-│   │   │   ├── business-funding-readiness/page.tsx
-│   │   │   └── partner-link-builder/page.tsx
-│   │   ├── resources/
-│   │   │   ├── page.tsx
-│   │   │   └── [slug]/page.tsx
-│   │   ├── pricing/page.tsx
-│   │   ├── for-partners/page.tsx
-│   │   └── api/
-│   │       ├── lead/route.ts
-│   │       ├── track/route.ts
-│   │       ├── webhook/route.ts
-│   │       ├── partner-click/route.ts
-│   │       ├── lead-intake/route.ts
-│   │       ├── lead-score/route.ts
-│   │       ├── route-decision/route.ts
-│   │       ├── referral-context/route.ts
-│   │       ├── application-start/route.ts
-│   │       ├── application-complete/route.ts
-│   │       └── webhooks/
-│   │           ├── n8n/route.ts
-│   │           └── hubspot/route.ts
-│   ├── components/
-│   │   ├── hero.tsx
-│   │   ├── site-header.tsx
-│   │   ├── site-footer.tsx
-│   │   ├── section-heading.tsx
-│   │   ├── card-grid.tsx
-│   │   ├── offer-card.tsx
-│   │   ├── vertical-card.tsx
-│   │   ├── tool-card.tsx
-│   │   ├── cta-banner.tsx
-│   │   ├── breadcrumbs.tsx
-│   │   ├── filter-bar.tsx
-│   │   ├── param-badges.tsx
-│   │   ├── stats-strip.tsx
-│   │   └── empty-state.tsx
-│   ├── content/
-│   │   ├── funding-categories.ts
-│   │   ├── verticals.ts
-│   │   ├── tools.ts
-│   │   ├── partners.ts
-│   │   ├── resources.ts
-│   │   ├── faqs.ts
-│   │   ├── industries.ts
-│   │   └── compare-pages.ts
-│   ├── lib/
-│   │   ├── routes.ts
-│   │   ├── site.ts
-│   │   ├── tracking.ts
-│   │   ├── utils.ts
-│   │   ├── seo.ts
-│   │   ├── schema.ts
-│   │   ├── analytics.ts
-│   │   ├── content-map.ts
-│   │   ├── lead-routing.ts
-│   │   └── partner-defaults.ts
-│   └── types/
-│       ├── funding.ts
-│       ├── vertical.ts
-│       ├── tool.ts
-│       ├── partner.ts
-│       ├── tracking.ts
-│       └── lead.ts
-├── package.json
-├── tsconfig.json
-├── next.config.ts
-└── eslint.config.mjs
+### Current state
+- Broker data is fetched from the Wix integration layer
+- Mock fallback patterns exist for local development and safe build behavior
+- The repo currently focuses on the directory, onboarding, legal pages, and tracked outbound routing
+- Future phases may introduce `/portal`, `/admin`, richer analytics, and additional taxonomy/SEO surfaces
 
 ## 🗺️ Current Routes
 
-**Public:**
-- `/` — Homepage / Positioning layer. Introduces the marketplace and highlights featured partners.
-- `/directory` — The core broker directory. Features client-side filtering by State, Industry, Funding Type, and Urgency.
-- `/directory/[slug]` — Individual broker profile pages. Designed as high-conversion SEO landing pages with distinct CTAs and tracked nodes.
-- `/onboarding` — Partner onboarding page featuring a Tally form.
-- `/terms` — Terms of Service and disclaimers.
-- `/privacy` — Privacy Policy.
+### Public routes
+- `/` — Homepage / positioning layer
+- `/directory` — Broker directory index
+- `/directory/[slug]` — Individual broker profile pages
+- `/onboarding` — Partner onboarding page with Tally embed
+- `/terms` — Terms of Service
+- `/privacy` — Privacy Policy
 
-**Internal / Infrastructure:**
-- `/out` — Centralized tracking route that logs CTA clicks before 302 redirecting users.
+### Internal / infrastructure routes
+- `/out` — Centralized tracked redirect route for CTA clicks
 
-**Future (do not build yet):**
-- `/portal` — Broker dashboard and authenticated view.
-- `/admin` — Internal application review and system management.
+## 🧩 Current Core Files
+
+### App routes
+- `app/page.tsx`
+- `app/directory/page.tsx`
+- `app/directory/[slug]/page.tsx`
+- `app/onboarding/page.tsx`
+- `app/out/route.ts`
+- `app/terms/page.tsx`
+- `app/privacy/page.tsx`
+
+### Core libraries
+- `lib/brokers.ts`
+- `lib/wix.ts`
+- `lib/mock-brokers.ts`
+- `lib/utils.ts`
+- `lib/types.ts`
+
+### Core components
+- `HeroSection.tsx`
+- `BrokerCard.tsx`
+- `DirectoryClient.tsx`
+- `ProfileHero.tsx`
+- `CTASection.tsx`
+- `SectionHeading.tsx`
+- `TallyEmbedSection.tsx`
+
+## 🧩 Full Scaffold
+
+See the full corrected scaffold here:
+
+- [`docs/full-scaffold.md`](./docs/full-scaffold.md)
+
+That file contains:
+- confirmed current repo structure
+- recommended additional pages
+- suggested component/library expansions
+- suggested API routes
+- phased build priority
+
+## 🛣️ Suggested Next Pages
+
+These are the most logical additions for this repo:
+
+### High-priority public pages
+- `/about`
+- `/contact`
+- `/faq`
+- `/apply`
+
+### SEO / taxonomy pages
+- `/industries`
+- `/industries/[slug]`
+- `/funding-types`
+- `/funding-types/[slug]`
+- `/states`
+- `/states/[slug]`
+- `/compare/[slug]`
+
+### Future product pages
+- `/portal`
+- `/admin`
+
+## 🧠 Suggested Future Infra / API Routes
+
+- `/api/broker-click`
+- `/api/lead-intake`
+- `/api/onboarding-submit`
+- `/api/wix-sync`
+- `/api/webhooks/n8n`
+- `/api/webhooks/hubspot`
 
 ## 🛠️ Tech Stack
 
 - **Framework:** Next.js (App Router)
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS (Dark Neo-brutalist theme)
-- **CMS / Backend:** Wix CMS (via REST API)
+- **Styling:** Tailwind CSS
+- **CMS / Backend:** Wix CMS via integration layer
 - **Intake:** Tally Forms
 - **Deployment:** Vercel
 
 ## ⚙️ Environment Variables
 
-To run the app with live Wix data, provide the following environment variables:
+To run the app with live Wix-backed data, provide the required Wix environment variables used by the integration layer.
+
+Example placeholder values:
 
 ```env
 WIX_API_URL=https://your-wix-site.com/_functions/api
 WIX_API_KEY=your_wix_api_key
 ```
 
-*Note: If these are not provided, the app will safely fall back to local mock data.*
+If live Wix credentials are not provided, development-safe fallback behavior should continue to be supported where applicable.
 
-## 📝 Notion CRM Mapping (Future Data Layer)
+## 📝 Data Model Direction
 
-We will map properties from Notion to the Wix CMS `BrokerProfile` model. Here is the preliminary mapping:
+This repo is centered around a `BrokerProfile`-style model that includes fields such as:
 
-*   **Name** -> `fullName` (Title)
-*   **Agency/Company** -> `agencyName` (Rich Text)
-*   **Slug** -> `slug` (Formula or manually set Text)
-*   **Bio/Summary** -> `shortBio` (Text)
-*   **City** -> `city` (Select or Text)
-*   **State** -> `state` (Select or Text)
-*   **Website** -> `websiteUrl` (URL)
-*   **Email** -> `publicEmail` (Email)
-*   **Why Choose Us** -> `whyChooseYou` (Text)
-*   **Industries** -> `industries` (Multi-Select)
-*   **Funding Types/Specialties** -> `fundingTypes` / `fundingSpecialties` (Multi-Select)
-*   **Speed/Urgency** -> `urgencyCategory` (Select)
-*   **Primary CTA Link** -> `primaryCtaLink` (URL)
-*   **Primary CTA Label** -> `ctaLabel` (Text)
-*   **Approval Status** -> `approvalStatus` (Select: approved, pending, rejected)
-*   **Broker Status** -> `brokerStatus` (Select: active, hidden, recruiting)
-*   **Is Active** -> `isActive` (Checkbox)
-*   **Phone Number** -> `phoneNumber` (Phone)
-*   **Profile Image** -> `profileImage` (Files & media)
+- full name
+- agency / company
+- slug
+- short bio
+- city / state
+- website URL
+- public email
+- why choose us
+- industries
+- funding types / specialties
+- urgency / speed fit
+- CTA link and CTA label
+- approval status
+- active / hidden / recruiting state
+- phone number
+- profile image
+- featured flags
 
-## 🛣️ Next Milestones
+The detailed shape and future extensions should be documented in:
+- `docs/data-model.md`
+- `docs/broker-profile-schema.md`
 
-- **Live Wix CMS Wiring:** Finalize the Wix API endpoint structure and swap out mock data entirely in production.
-- **Advanced CTA Tracking:** Connect the structured `CTANode` tracking IDs to PostHog, Segment, or Google Analytics.
-- **Multi-Vertical Support:** Clone or adapt the directory structure to support specific funnels for Trucking, E-commerce, Real Estate, and Contractor funding.
-- **Funding Agent OS Expansion:** Introduce authenticated broker views, agent dashboards, and dynamic lead routing.
+## 📈 Near-Term Roadmap
+
+### Phase 1
+- add `/about`
+- add `/contact`
+- add `/faq`
+- add `/apply`
+- document route map and tracking flow more clearly
+
+### Phase 2
+- add industry, funding-type, and state-based landing pages
+- improve SEO / schema support
+- expand tracked discovery surfaces
+
+### Phase 3
+- harden CTA tracking and lead-intake routes
+- add analytics helpers
+- improve routing instrumentation
+
+### Phase 4
+- expand toward Funding Agent OS
+- add `/portal`
+- add `/admin`
+- add richer internal workflows and broker lifecycle management
+
+## ⚠️ Notes
+
+- This repo is **not** the same as `moonshine-partner-marketplace`
+- Its scaffold should remain aligned to the portal’s actual architecture and current purpose
+- Avoid dropping marketplace-specific `src/app` scaffolds into this repo without adapting them to the portal structure
+- Use `docs/full-scaffold.md` as the source of truth for future build prompts
