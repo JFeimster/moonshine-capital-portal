@@ -5,6 +5,12 @@ This document defines the practical data model direction for `moonshine-capital-
 
 It is based on the current repo behavior, which centers around a broker directory backed by Wix data and rendered through Next.js App Router pages.
 
+**This file should be treated as the canonical app model document** for the portal repo.
+That means:
+- this is the main app-facing model reference for frontend and application logic
+- `docs/WIX_BROKERPROFILE_SCHEMA.md` remains the Wix-system-specific schema doc
+- `docs/FIELD_MAPPING_CONTRACT.md` remains the master cross-system contract
+
 The goal is to keep the public directory model clean, flexible, and easy to extend as the portal evolves into a broader Funding Agent OS surface.
 
 ---
@@ -181,6 +187,28 @@ export type OnboardingSubmission = {
 
 ---
 
+## Relationship to Other Schema Docs
+
+### `docs/WIX_BROKERPROFILE_SCHEMA.md`
+Use that file for:
+- Wix CMS collection fields
+- Wix-specific frontend mappings
+- collection-level implementation details
+
+### `docs/FIELD_MAPPING_CONTRACT.md`
+Use that file for:
+- cross-system mapping rules
+- Tally ↔ Notion ↔ Wix contract
+- transformation and merge rules
+
+### This file (`docs/data-model.md`)
+Use this file for:
+- canonical app-facing shape
+- frontend rendering model
+- app logic and entity planning
+
+---
+
 ## Wix Mapping Direction
 
 The Wix collection should remain the source of truth for approved broker profiles.
@@ -262,6 +290,7 @@ Support richer internal models for:
 
 ## Recommended Next Steps
 - formalize `BrokerProfile` in `lib/types.ts`
-- document the real Wix field schema in `docs/broker-profile-schema.md`
+- keep this file as the canonical app model reference
+- use the Wix schema and field-mapping docs for system-specific detail
 - add `tracking.ts` and `schema.ts` as the repo grows
 - keep public display fields separate from internal review / status fields
