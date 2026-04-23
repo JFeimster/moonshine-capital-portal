@@ -24,6 +24,130 @@ This application uses a modular, decoupled architecture where Next.js acts as th
 **Current State:**
 A mock data fallback (`lib/mock-brokers.ts`) is currently in place for local development and build verification when live Wix API credentials are not provided.
 
+## 🧩 Full Scaffold
+
+moonshine-partner-marketplace/
+├── README.md
+├── AGENTS.md
+├── CLAUDE.md
+├── docs/
+│   ├── build-sheet.md
+│   ├── data-model.md
+│   ├── route-map.md
+│   ├── full-scaffold.md
+│   ├── page-inventory.md
+│   ├── lead-routing-logic.md
+│   ├── partner-attribution-flow.md
+│   ├── tool-roadmap.md
+│   └── seo-architecture.md
+├── public/
+│   ├── images/
+│   ├── icons/
+│   └── og/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── about/
+│   │   │   ├── page.tsx
+│   │   │   └── marketplace/page.tsx
+│   │   ├── apply/
+│   │   │   ├── page.tsx
+│   │   │   ├── start/page.tsx
+│   │   │   └── success/page.tsx
+│   │   ├── contact/
+│   │   │   ├── page.tsx
+│   │   │   └── partner/page.tsx
+│   │   ├── faq/page.tsx
+│   │   ├── funding/
+│   │   │   ├── page.tsx
+│   │   │   ├── [slug]/page.tsx
+│   │   │   └── compare/
+│   │   │       └── [slug]/page.tsx
+│   │   ├── verticals/
+│   │   │   ├── page.tsx
+│   │   │   └── [slug]/page.tsx
+│   │   ├── industries/
+│   │   │   ├── page.tsx
+│   │   │   └── [slug]/page.tsx
+│   │   ├── partners/
+│   │   │   ├── page.tsx
+│   │   │   └── [partnerSlug]/page.tsx
+│   │   ├── tools/
+│   │   │   ├── page.tsx
+│   │   │   ├── funding-match/page.tsx
+│   │   │   ├── startup-planner/page.tsx
+│   │   │   ├── revenue-estimator/page.tsx
+│   │   │   ├── working-capital-estimator/page.tsx
+│   │   │   ├── equipment-finance-calculator/page.tsx
+│   │   │   ├── business-funding-readiness/page.tsx
+│   │   │   └── partner-link-builder/page.tsx
+│   │   ├── resources/
+│   │   │   ├── page.tsx
+│   │   │   └── [slug]/page.tsx
+│   │   ├── pricing/page.tsx
+│   │   ├── for-partners/page.tsx
+│   │   └── api/
+│   │       ├── lead/route.ts
+│   │       ├── track/route.ts
+│   │       ├── webhook/route.ts
+│   │       ├── partner-click/route.ts
+│   │       ├── lead-intake/route.ts
+│   │       ├── lead-score/route.ts
+│   │       ├── route-decision/route.ts
+│   │       ├── referral-context/route.ts
+│   │       ├── application-start/route.ts
+│   │       ├── application-complete/route.ts
+│   │       └── webhooks/
+│   │           ├── n8n/route.ts
+│   │           └── hubspot/route.ts
+│   ├── components/
+│   │   ├── hero.tsx
+│   │   ├── site-header.tsx
+│   │   ├── site-footer.tsx
+│   │   ├── section-heading.tsx
+│   │   ├── card-grid.tsx
+│   │   ├── offer-card.tsx
+│   │   ├── vertical-card.tsx
+│   │   ├── tool-card.tsx
+│   │   ├── cta-banner.tsx
+│   │   ├── breadcrumbs.tsx
+│   │   ├── filter-bar.tsx
+│   │   ├── param-badges.tsx
+│   │   ├── stats-strip.tsx
+│   │   └── empty-state.tsx
+│   ├── content/
+│   │   ├── funding-categories.ts
+│   │   ├── verticals.ts
+│   │   ├── tools.ts
+│   │   ├── partners.ts
+│   │   ├── resources.ts
+│   │   ├── faqs.ts
+│   │   ├── industries.ts
+│   │   └── compare-pages.ts
+│   ├── lib/
+│   │   ├── routes.ts
+│   │   ├── site.ts
+│   │   ├── tracking.ts
+│   │   ├── utils.ts
+│   │   ├── seo.ts
+│   │   ├── schema.ts
+│   │   ├── analytics.ts
+│   │   ├── content-map.ts
+│   │   ├── lead-routing.ts
+│   │   └── partner-defaults.ts
+│   └── types/
+│       ├── funding.ts
+│       ├── vertical.ts
+│       ├── tool.ts
+│       ├── partner.ts
+│       ├── tracking.ts
+│       └── lead.ts
+├── package.json
+├── tsconfig.json
+├── next.config.ts
+└── eslint.config.mjs
+
 ## 🗺️ Current Routes
 
 **Public:**
