@@ -5,18 +5,23 @@ interface ToolGridProps {
   tools: ToolRegistryItem[];
   emptyTitle?: string;
   emptyCopy?: string;
+  emptyMessage?: string;
 }
 
 export function ToolGrid({
   tools,
   emptyTitle = 'No tools loaded yet',
-  emptyCopy = 'Add tools to the registry so this page becomes useful instead of decorative.',
+  emptyCopy,
+  emptyMessage,
 }: ToolGridProps) {
+  const resolvedEmptyCopy =
+    emptyMessage || emptyCopy || 'Add tools to the registry so this page becomes useful instead of decorative.';
+
   if (tools.length === 0) {
     return (
       <div className="border-4 border-dashed border-neo-black bg-neo-white p-8 text-neo-black shadow-brutal">
         <h3 className="mb-3 text-2xl font-black uppercase">{emptyTitle}</h3>
-        <p className="text-lg font-medium">{emptyCopy}</p>
+        <p className="text-lg font-medium">{resolvedEmptyCopy}</p>
       </div>
     );
   }
