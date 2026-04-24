@@ -4,7 +4,9 @@ This document describes the data flow and integration points between Tally forms
 
 ## Webhook Endpoints
 
-The ingestion layer provides two primary webhook endpoints to receive data from Tally via n8n:
+The ingestion layer provides two primary webhook endpoints to receive data from Tally via n8n.
+
+**IMPORTANT CONTRACT:** These endpoints **DO NOT** accept raw Tally webhooks directly. They expect n8n (or the caller) to have already mapped the raw Tally form keys into the documented `CanonicalBrokerProfile` JSON schema.
 
 1. **`POST /api/intake/tally/application`**
    - **Trigger:** Tally Application form is submitted.

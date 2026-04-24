@@ -6,6 +6,9 @@ import { CanonicalBrokerProfile } from '@/lib/field-mapping';
 
 export async function POST(req: NextRequest) {
   try {
+    // CONTRACT: This endpoint strictly accepts pre-normalized JSON payloads (e.g., from n8n)
+    // that conform to the CanonicalBrokerProfile schema.
+    // It DOES NOT parse raw Tally webhooks. The Tally -> Canonical mapping MUST occur in n8n.
     const rawPayload = await req.json();
 
     const validationResult = validateApplicationPayload(rawPayload);

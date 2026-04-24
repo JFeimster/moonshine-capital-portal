@@ -2,11 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { validateProfilePayload } from '@/lib/validation';
 import { normalizeUrl, normalizeArray } from '@/lib/intake-normalizers';
 import { upsertNotionCRMRecord } from '@/lib/notion';
-import { publishBrokerToWix } from '@/lib/publish-broker';
 import { CanonicalBrokerProfile } from '@/lib/field-mapping';
 
 export async function POST(req: NextRequest) {
   try {
+    // CONTRACT: This endpoint strictly accepts pre-normalized JSON payloads (e.g., from n8n)
+    // that conform to the CanonicalBrokerProfile schema.
+    // It DOES NOT parse raw Tally webhooks. The Tally -> Canonical mapping MUST occur in n8n.
     const rawPayload = await req.json();
 
     const validationResult = validateProfilePayload(rawPayload);
@@ -29,19 +31,17 @@ export async function POST(req: NextRequest) {
     };
 
     // Update CRM record (mark under review or similar)
+    // NOTE: We deliberately DO NOT publish to Wix CMS here.
+    // Wix publishing must happen as an explicit downstream step (e.g., after approval)
+    // to maintain Notion as the operational source of truth.
     const notionResponse = await upsertNotionCRMRecord(canonicalData, 'in_review');
 
-    // Assuming we want to publish or update Wix with the new profile data
-    // Even if it's pending, we might create a disabled Wix record
-    const wixResponse = await publishBrokerToWix(canonicalData);
-
-    if (!notionResponse.success || !wixResponse.success) {
+    if (!notionResponse.success) {
       return NextResponse.json(
         {
           success: false,
           error: 'Failed to process downstream updates',
-          notionDetails: notionResponse.error,
-          wixDetails: wixResponse.error
+          notionDetails: notionResponse.error
         },
         { status: 500 }
       );
@@ -51,8 +51,7 @@ export async function POST(req: NextRequest) {
       success: true,
       message: 'Profile builder data ingested successfully',
       canonicalShape: canonicalData,
-      notionId: notionResponse.notionId,
-      wixId: wixResponse.wixId
+      notionId: notionResponse.notionId
     });
   } catch (error: any) {
     console.error('Error processing profile webhook:', error);
