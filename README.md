@@ -1,39 +1,78 @@
 # Moonshine Capital Portal
 
-Moonshine Capital Portal is the Next.js front-end layer for a broker directory, partner onboarding flow, taxonomy-based discovery pages, and the future Funding Agent OS experience.
+Moonshine Capital Portal is the Next.js front-end and application layer for broker discovery, partner onboarding, tracked routing, embedded tools, and the future Funding Agent OS experience.
 
-It provides an operator-focused capital marketplace built on a bold, dark neo-brutalist aesthetic while serving as the presentation and routing layer for broker discovery, onboarding, and click tracking.
+It is no longer being treated as a Wix-first project.
+
+The current direction is:
+- **Tally** for intake
+- **Notion** for broker CRM and operational workflow
+- **Vercel / Next.js** for app logic, public UX, tracking, portal, and admin
+- **Wix** as an optional downstream publish/read layer where useful
+
+---
 
 ## 🚀 Purpose
 
-Founders often waste weeks pitching banks that were never going to say yes.
+Most founders waste time talking to the wrong lenders, the wrong brokers, or the wrong capital paths.
 
-Moonshine Capital Portal exists to help business owners discover vetted funding partners, browse broker profiles, and move toward the right capital path faster.
+Moonshine Capital Portal exists to:
+- help business owners discover relevant funding partners faster
+- onboard brokers into a structured system instead of a loose affiliate mess
+- route outbound clicks through trackable infrastructure
+- evolve into **Funding Agent OS**, a working environment for agents and admins
 
-In the long term, this codebase is evolving into the front-end for **Funding Agent OS** — a broader operating system for:
+In the long term, this codebase is the front-end and systems layer for:
 - broker discovery
 - partner recruitment
+- intake normalization
 - lead routing
 - click attribution
-- taxonomy-driven funding discovery
-- future authenticated broker and admin experiences
+- embedded calculators and tools
+- future authenticated `/portal` and `/admin` experiences
 
-## 🏗️ Architecture & Data Flow
+---
 
-This application uses a modular architecture where **Next.js** acts as the presentation, routing, and SEO layer.
+## 🏗️ Current Architecture
 
-### Current data flow
-1. **Intake:** Partners apply through a Tally-powered onboarding flow at `/onboarding`
-2. **Review:** Applications are reviewed externally
-3. **Source of truth:** Approved profiles are stored in **Wix CMS**
-4. **Presentation:** The app fetches broker records through the `lib/brokers.ts` → `lib/wix.ts` integration layer
-5. **Tracking:** CTA clicks route through `/out` before redirecting users to the appropriate external destination
+This application uses a modular architecture where **Next.js** is the presentation, routing, API, and application layer.
 
-### Current state
-- Broker data is fetched from the Wix integration layer
-- Mock fallback patterns exist for local development and safe build behavior
-- The repo now includes taxonomy discovery routes for industries and funding types
-- Future phases may introduce `/portal`, `/admin`, richer analytics, and additional taxonomy/SEO surfaces
+## Current system direction
+
+```text
+Tally → n8n / Next.js intake routes → Notion CRM → approval workflow → optional Wix publish layer → public directory / profiles
+```
+
+### Current operational roles
+- **Tally** = broker application + profile-builder intake
+- **Next.js** = route handling, normalization, validation, broker display, CTA routing, future portal/admin
+- **Notion CRM** = operational source of truth for broker lifecycle and approvals
+- **Wix** = optional downstream publish/read adapter for public broker data
+- **n8n** = webhook automation and orchestration layer
+
+### Why this matters
+This keeps intake, approval, and ops under your control instead of forcing the entire system to revolve around one CMS.
+
+---
+
+## 🔄 Current Data Flow
+
+### Intake flow
+1. Broker submits an application through a Tally form
+2. Broker may later submit a profile-builder form for richer public profile data
+3. Intake payloads are normalized through Next.js routes and/or n8n
+4. Broker record is stored/updated in Notion CRM
+5. Approved broker records may optionally be published to Wix for public-facing read support
+6. Public surfaces render broker data and route outbound clicks through `/out`
+
+### Public routing flow
+1. User lands on broker directory or broker profile
+2. User clicks a CTA
+3. CTA routes through `/out`
+4. Tracking payload is logged / forwarded
+5. User is redirected to the broker destination
+
+---
 
 ## 🗺️ Current Routes
 
@@ -41,16 +80,32 @@ This application uses a modular architecture where **Next.js** acts as the prese
 - `/` — Homepage / positioning layer
 - `/directory` — Broker directory index
 - `/directory/[slug]` — Individual broker profile pages
-- `/onboarding` — Partner onboarding page with Tally embed
+- `/onboarding` — Partner onboarding page with live Tally embed
 - `/industries` — Industry discovery hub
-- `/industries/[slug]` — Industry-specific broker discovery page
+- `/industries/[slug]` — Industry-specific discovery page
 - `/funding-types` — Funding specialty discovery hub
-- `/funding-types/[slug]` — Funding-type-specific broker discovery page
+- `/funding-types/[slug]` — Funding-type-specific discovery page
 - `/terms` — Terms of Service
 - `/privacy` — Privacy Policy
 
 ### Internal / infrastructure routes
 - `/out` — Centralized tracked redirect route for CTA clicks
+- `/api/intake/tally/application` — intake endpoint for application submissions
+- `/api/intake/tally/profile` — intake endpoint for profile-builder submissions
+
+### Planned future routes
+- `/portal`
+- `/portal/tools`
+- `/portal/resources`
+- `/portal/profile`
+- `/portal/tracking`
+- `/admin`
+- `/admin/submissions`
+- `/admin/brokers`
+- `/admin/logs`
+- `/admin/settings`
+
+---
 
 ## 🧩 Current Core Files
 
@@ -66,6 +121,8 @@ This application uses a modular architecture where **Next.js** acts as the prese
 - `app/out/route.ts`
 - `app/terms/page.tsx`
 - `app/privacy/page.tsx`
+- `app/api/intake/tally/application/route.ts`
+- `app/api/intake/tally/profile/route.ts`
 
 ### Core libraries
 - `lib/brokers.ts`
@@ -73,6 +130,12 @@ This application uses a modular architecture where **Next.js** acts as the prese
 - `lib/mock-brokers.ts`
 - `lib/utils.ts`
 - `lib/types.ts`
+- `lib/field-mapping.ts`
+- `lib/intake-normalizers.ts`
+- `lib/validation.ts`
+- `lib/status-gating.ts`
+- `lib/notion.ts`
+- `lib/publish-broker.ts`
 
 ### Core components
 - `HeroSection.tsx`
@@ -83,110 +146,152 @@ This application uses a modular architecture where **Next.js** acts as the prese
 - `SectionHeading.tsx`
 - `TallyEmbedSection.tsx`
 
-## 🧩 Core Docs
+---
 
-Primary docs for this repo:
+## 📚 Core Docs
+
+### Architecture / planning
 - [`docs/full-scaffold.md`](./docs/full-scaffold.md)
 - [`docs/route-map.md`](./docs/route-map.md)
 - [`docs/page-inventory.md`](./docs/page-inventory.md)
 - [`docs/data-model.md`](./docs/data-model.md)
-- [`docs/wix-integration.md`](./docs/wix-integration.md)
-- [`docs/tracking-flow.md`](./docs/tracking-flow.md)
-- [`docs/onboarding-flow.md`](./docs/onboarding-flow.md)
 - [`docs/future-roadmap.md`](./docs/future-roadmap.md)
 - [`docs/seo-architecture.md`](./docs/seo-architecture.md)
 - [`docs/analytics-plan.md`](./docs/analytics-plan.md)
 - [`docs/admin-portal-plan.md`](./docs/admin-portal-plan.md)
 
-Schema references:
-- [`docs/WIX_BROKERPROFILE_SCHEMA.md`](./docs/WIX_BROKERPROFILE_SCHEMA.md)
-- [`docs/NOTION_BROKER_CRM_SCHEMA.md`](./docs/NOTION_BROKER_CRM_SCHEMA.md)
+### Intake / schema / workflow docs
+- [`docs/FIELD_MAPPING_CONTRACT.md`](./docs/FIELD_MAPPING_CONTRACT.md)
 - [`docs/TALLY_APPLICATION_SCHEMA.md`](./docs/TALLY_APPLICATION_SCHEMA.md)
 - [`docs/TALLY_PROFILE_BUILDER_SCHEMA.md`](./docs/TALLY_PROFILE_BUILDER_SCHEMA.md)
-- [`docs/FIELD_MAPPING_CONTRACT.md`](./docs/FIELD_MAPPING_CONTRACT.md)
+- [`docs/NOTION_BROKER_CRM_SCHEMA.md`](./docs/NOTION_BROKER_CRM_SCHEMA.md)
+- [`docs/WIX_BROKERPROFILE_SCHEMA.md`](./docs/WIX_BROKERPROFILE_SCHEMA.md)
+- [`docs/WEBHOOKS.md`](./docs/WEBHOOKS.md)
+- [`docs/RUNBOOK.md`](./docs/RUNBOOK.md)
+- [`docs/onboarding-flow.md`](./docs/onboarding-flow.md)
+- [`docs/tracking-flow.md`](./docs/tracking-flow.md)
+- [`docs/wix-integration.md`](./docs/wix-integration.md)
 
 ### Canonical doc roles
-- `docs/data-model.md` = canonical app model doc
-- `docs/WIX_BROKERPROFILE_SCHEMA.md` = Wix-specific broker profile schema doc
-- `docs/FIELD_MAPPING_CONTRACT.md` = master cross-system mapping contract
-- `docs/wix-integration.md` = integration/data-flow behavior doc
+- `docs/FIELD_MAPPING_CONTRACT.md` = cross-system contract
+- `docs/NOTION_BROKER_CRM_SCHEMA.md` = operational CRM source-of-truth schema
+- `docs/WIX_BROKERPROFILE_SCHEMA.md` = optional publish/read schema for Wix
+- `docs/WEBHOOKS.md` = intake/webhook flow and failure modes
+- `docs/RUNBOOK.md` = operational recovery and manual rescue procedures
 
-## 🛣️ Suggested Next Pages
-
-### High-priority public pages
-- `/about`
-- `/contact`
-- `/faq`
-- `/apply`
-
-### SEO / taxonomy pages
-- `/states`
-- `/states/[slug]`
-- `/compare/[slug]`
-
-### Future product pages
-- `/portal`
-- `/admin`
-
-## 🧠 Suggested Future Infra / API Routes
-
-- `/api/broker-click`
-- `/api/lead-intake`
-- `/api/onboarding-submit`
-- `/api/wix-sync`
-- `/api/webhooks/n8n`
-- `/api/webhooks/hubspot`
+---
 
 ## 🛠️ Tech Stack
 
 - **Framework:** Next.js (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS
-- **CMS / Backend:** Wix CMS via integration layer
-- **Intake:** Tally Forms
 - **Deployment:** Vercel
+- **Intake:** Tally Forms
+- **CRM / Ops:** Notion
+- **Automation:** n8n
+- **Optional publish/read layer:** Wix
+- **Testing:** Vitest
+
+---
 
 ## ⚙️ Environment Variables
 
-To run the app with live Wix-backed data, provide the required Wix environment variables used by the integration layer.
+### Required soon
+```env
+N8N_CTA_WEBHOOK_URL=https://your-n8n-instance.com/webhook/cta
+NOTION_API_KEY=your_notion_api_key
+NOTION_BROKER_DATABASE_ID=your_notion_database_id
+```
 
-Example placeholder values:
-
+### Optional / adapter-specific
 ```env
 WIX_API_URL=https://your-wix-site.com/_functions/api
 WIX_API_KEY=your_wix_api_key
+WIX_SITE_ID=your_wix_site_id
 ```
 
-If live Wix credentials are not provided, development-safe fallback behavior should continue to be supported where applicable.
+### Current intent
+- The app should not depend on Wix to function as the operational core
+- Wix credentials should only be needed where the optional adapter path is enabled
+- Development-safe fallback behavior can still exist where appropriate
+
+---
 
 ## 📈 Near-Term Roadmap
 
-### Phase 1
-- add `/about`
-- add `/contact`
-- add `/faq`
-- add `/apply`
-- document route map and tracking flow more clearly
+### Phase 1 — lock the data contract
+- finalize field mapping contract
+- align Tally application + profile-builder flows
+- align Notion CRM properties
+- make intake payload contract explicit
 
-### Phase 2
-- expand taxonomy surfaces with states and comparison pages
-- improve SEO / schema support
-- expand tracked discovery surfaces
+### Phase 2 — harden ingestion
+- finish intake normalization and validation
+- wire Notion adapter for live writes
+- keep status gating enforced for public broker display
+- ensure profile intake does not auto-publish publicly before approval
 
-### Phase 3
-- harden CTA tracking and lead-intake routes
-- add analytics helpers
-- improve routing instrumentation
+### Phase 3 — optional publish/output layer
+- wire thin Wix adapter for optional public publish/read support
+- keep Wix isolated from core intake/CRM logic
 
-### Phase 4
-- expand toward Funding Agent OS
+### Phase 4 — utility and monetization
+- build embed registry
+- add calculators, widgets, GPT/AI tools, and partner utilities
+- expand tracked discovery and attribution infrastructure
+
+### Phase 5 — internal operating system
 - add `/portal`
 - add `/admin`
-- add richer internal workflows and broker lifecycle management
+- add broker workflow controls, approvals, resources, and tracking views
+
+---
+
+## ✅ Current Priorities
+
+1. Merge and harden schema + ingestion work
+2. Keep Notion as the source of truth
+3. Treat Wix as optional downstream infrastructure
+4. Build useful broker and portal experiences instead of static directory fluff
+
+---
+
+## 📄 Suggested Files / Docs To Add Next
+
+### Docs
+- `docs/PORTAL_IA.md`
+- `docs/ADMIN_IA.md`
+- `docs/EMBED_REGISTRY.md`
+- `docs/OAUTH_AND_SECRETS.md`
+- `docs/OPENAPI_INTEGRATIONS.md`
+- `docs/SECURITY_MODEL.md`
+- `docs/TESTING_POLICY.md`
+
+### App / API
+- `app/portal/page.tsx`
+- `app/portal/tools/page.tsx`
+- `app/portal/resources/page.tsx`
+- `app/portal/profile/page.tsx`
+- `app/portal/tracking/page.tsx`
+- `app/admin/page.tsx`
+- `app/admin/submissions/page.tsx`
+- `app/admin/brokers/page.tsx`
+- `app/admin/logs/page.tsx`
+- `app/admin/settings/page.tsx`
+
+### Libraries / components
+- `lib/embed-registry.ts`
+- `components/portal/ToolCard.tsx`
+- `components/portal/ToolGrid.tsx`
+- `components/admin/BrokerApprovalQueue.tsx`
+- `components/admin/BrokerStatusToggle.tsx`
+
+---
 
 ## ⚠️ Notes
 
 - This repo is **not** the same as `moonshine-partner-marketplace`
-- Its scaffold should remain aligned to the portal’s actual architecture and current purpose
-- Avoid dropping marketplace-specific `src/app` scaffolds into this repo without adapting them to the portal structure
-- Use `docs/full-scaffold.md` as the source of truth for future build prompts
+- Do not treat old Wix-centric assumptions as the default architecture going forward
+- Avoid catch-all mega PRs; prefer focused PRs tied to one issue or one tight dependency pair
+- Use the schema docs and runbook docs as the operational source of truth for the next build pass
