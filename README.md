@@ -1,94 +1,192 @@
 # Moonshine Capital Portal
 
-Moonshine Capital Portal is the Next.js front-end layer for a broker directory, partner onboarding flow, and the future Funding Agent OS experience.
+Moonshine Capital Portal is the Next.js front-end layer for a broker directory, partner onboarding flow, taxonomy-based discovery pages, and the future Funding Agent OS experience.
 
-It provides an operator-focused capital marketplace built on a strong, dark neo-brutalist aesthetic.
+It provides an operator-focused capital marketplace built on a bold, dark neo-brutalist aesthetic while serving as the presentation and routing layer for broker discovery, onboarding, and click tracking.
 
 ## 🚀 Purpose
 
-Founders often lose weeks pitching to banks that will never approve them. This directory connects business owners directly with vetted capital allocators, brokers, and specialized lenders who underwrite fast and move money efficiently.
+Founders often waste weeks pitching banks that were never going to say yes.
 
-In the long term, this codebase is evolving into the front-end for **Funding Agent OS**—a comprehensive operating system for broker discovery, partner recruitment, lead routing, and multi-vertical funding.
+Moonshine Capital Portal exists to help business owners discover vetted funding partners, browse broker profiles, and move toward the right capital path faster.
+
+In the long term, this codebase is evolving into the front-end for **Funding Agent OS** — a broader operating system for:
+- broker discovery
+- partner recruitment
+- lead routing
+- click attribution
+- taxonomy-driven funding discovery
+- future authenticated broker and admin experiences
 
 ## 🏗️ Architecture & Data Flow
 
-This application uses a modular, decoupled architecture where Next.js acts as the presentation and routing layer.
+This application uses a modular architecture where **Next.js** acts as the presentation, routing, and SEO layer.
 
-**Data Flow:**
-1. **Intake:** Partners apply via a live Tally embed on (`/onboarding`).
-2. **Review:** Applications are reviewed and managed externally.
-3. **Storage (Source of Truth):** Approved broker profiles are stored in Wix CMS, which serves as the public broker data source.
-4. **Presentation:** The Next.js app fetches approved, active brokers from Wix CMS via the `lib/wix.ts` integration layer.
-5. **Analytics & Routing:** High-intent clicks are tracked through a centralized tracked redirect system (`/out`). It logs the event, sends an n8n webhook/Google Sheets event log, and then redirects the user.
+### Current data flow
+1. **Intake:** Partners apply through a Tally-powered onboarding flow at `/onboarding`
+2. **Review:** Applications are reviewed externally
+3. **Source of truth:** Approved profiles are stored in **Wix CMS**
+4. **Presentation:** The app fetches broker records through the `lib/brokers.ts` → `lib/wix.ts` integration layer
+5. **Tracking:** CTA clicks route through `/out` before redirecting users to the appropriate external destination
 
-**Current State:**
-A mock data fallback (`lib/mock-brokers.ts`) is currently in place for local development and build verification when live Wix API credentials are not provided.
+### Current state
+- Broker data is fetched from the Wix integration layer
+- Mock fallback patterns exist for local development and safe build behavior
+- The repo now includes taxonomy discovery routes for industries and funding types
+- Future phases may introduce `/portal`, `/admin`, richer analytics, and additional taxonomy/SEO surfaces
 
 ## 🗺️ Current Routes
 
-**Public:**
-- `/` — Homepage / Positioning layer. Introduces the marketplace and highlights featured partners.
-- `/directory` — The core broker directory. Features client-side filtering by State, Industry, Funding Type, and Urgency.
-- `/directory/[slug]` — Individual broker profile pages. Designed as high-conversion SEO landing pages with distinct CTAs and tracked nodes.
-- `/onboarding` — Partner onboarding page featuring a Tally form.
-- `/terms` — Terms of Service and disclaimers.
-- `/privacy` — Privacy Policy.
+### Public routes
+- `/` — Homepage / positioning layer
+- `/directory` — Broker directory index
+- `/directory/[slug]` — Individual broker profile pages
+- `/onboarding` — Partner onboarding page with Tally embed
+- `/industries` — Industry discovery hub
+- `/industries/[slug]` — Industry-specific broker discovery page
+- `/funding-types` — Funding specialty discovery hub
+- `/funding-types/[slug]` — Funding-type-specific broker discovery page
+- `/terms` — Terms of Service
+- `/privacy` — Privacy Policy
 
-**Internal / Infrastructure:**
-- `/out` — Centralized tracking route that logs CTA clicks, fires webhooks, and 302 redirects users.
+### Internal / infrastructure routes
+- `/out` — Centralized tracked redirect route for CTA clicks
 
-**Future (do not build yet):**
-- `/portal` — Broker dashboard and authenticated view.
-- `/admin` — Internal application review and system management.
+## 🧩 Current Core Files
+
+### App routes
+- `app/page.tsx`
+- `app/directory/page.tsx`
+- `app/directory/[slug]/page.tsx`
+- `app/onboarding/page.tsx`
+- `app/industries/page.tsx`
+- `app/industries/[slug]/page.tsx`
+- `app/funding-types/page.tsx`
+- `app/funding-types/[slug]/page.tsx`
+- `app/out/route.ts`
+- `app/terms/page.tsx`
+- `app/privacy/page.tsx`
+
+### Core libraries
+- `lib/brokers.ts`
+- `lib/wix.ts`
+- `lib/mock-brokers.ts`
+- `lib/utils.ts`
+- `lib/types.ts`
+
+### Core components
+- `HeroSection.tsx`
+- `BrokerCard.tsx`
+- `DirectoryClient.tsx`
+- `ProfileHero.tsx`
+- `CTASection.tsx`
+- `SectionHeading.tsx`
+- `TallyEmbedSection.tsx`
+
+## 🧩 Core Docs
+
+Primary docs for this repo:
+- [`docs/full-scaffold.md`](./docs/full-scaffold.md)
+- [`docs/route-map.md`](./docs/route-map.md)
+- [`docs/page-inventory.md`](./docs/page-inventory.md)
+- [`docs/data-model.md`](./docs/data-model.md)
+- [`docs/wix-integration.md`](./docs/wix-integration.md)
+- [`docs/tracking-flow.md`](./docs/tracking-flow.md)
+- [`docs/onboarding-flow.md`](./docs/onboarding-flow.md)
+- [`docs/future-roadmap.md`](./docs/future-roadmap.md)
+- [`docs/seo-architecture.md`](./docs/seo-architecture.md)
+- [`docs/analytics-plan.md`](./docs/analytics-plan.md)
+- [`docs/admin-portal-plan.md`](./docs/admin-portal-plan.md)
+
+Schema references:
+- [`docs/WIX_BROKERPROFILE_SCHEMA.md`](./docs/WIX_BROKERPROFILE_SCHEMA.md)
+- [`docs/NOTION_BROKER_CRM_SCHEMA.md`](./docs/NOTION_BROKER_CRM_SCHEMA.md)
+- [`docs/TALLY_APPLICATION_SCHEMA.md`](./docs/TALLY_APPLICATION_SCHEMA.md)
+- [`docs/TALLY_PROFILE_BUILDER_SCHEMA.md`](./docs/TALLY_PROFILE_BUILDER_SCHEMA.md)
+- [`docs/FIELD_MAPPING_CONTRACT.md`](./docs/FIELD_MAPPING_CONTRACT.md)
+
+### Canonical doc roles
+- `docs/data-model.md` = canonical app model doc
+- `docs/WIX_BROKERPROFILE_SCHEMA.md` = Wix-specific broker profile schema doc
+- `docs/FIELD_MAPPING_CONTRACT.md` = master cross-system mapping contract
+- `docs/wix-integration.md` = integration/data-flow behavior doc
+
+## 🛣️ Suggested Next Pages
+
+### High-priority public pages
+- `/about`
+- `/contact`
+- `/faq`
+- `/apply`
+
+### SEO / taxonomy pages
+- `/states`
+- `/states/[slug]`
+- `/compare/[slug]`
+
+### Future product pages
+- `/portal`
+- `/admin`
+
+## 🧠 Suggested Future Infra / API Routes
+
+- `/api/broker-click`
+- `/api/lead-intake`
+- `/api/onboarding-submit`
+- `/api/wix-sync`
+- `/api/webhooks/n8n`
+- `/api/webhooks/hubspot`
 
 ## 🛠️ Tech Stack
 
 - **Framework:** Next.js (App Router)
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS (Dark Neo-brutalist theme)
-- **CMS / Backend:** Wix CMS (via REST API)
+- **Styling:** Tailwind CSS
+- **CMS / Backend:** Wix CMS via integration layer
 - **Intake:** Tally Forms
 - **Deployment:** Vercel
 
 ## ⚙️ Environment Variables
 
-To run the app with live Wix data, provide the following environment variables:
+To run the app with live Wix-backed data, provide the required Wix environment variables used by the integration layer.
+
+Example placeholder values:
 
 ```env
 WIX_API_URL=https://your-wix-site.com/_functions/api
 WIX_API_KEY=your_wix_api_key
-N8N_CTA_WEBHOOK_URL=https://your-n8n-instance.com/webhook/cta
 ```
 
-*Note: In development, if WIX variables are not provided, the app will safely fall back to local mock data. In production, this fallback is disabled.*
+If live Wix credentials are not provided, development-safe fallback behavior should continue to be supported where applicable.
 
-## 📝 Notion CRM Mapping (Future Data Layer)
+## 📈 Near-Term Roadmap
 
-We will map properties from Notion to the Wix CMS `BrokerProfile` model. Here is the preliminary mapping:
+### Phase 1
+- add `/about`
+- add `/contact`
+- add `/faq`
+- add `/apply`
+- document route map and tracking flow more clearly
 
-*   **Name** -> `fullName` (Title)
-*   **Agency/Company** -> `agencyName` (Rich Text)
-*   **Slug** -> `slug` (Formula or manually set Text)
-*   **Bio/Summary** -> `shortBio` (Text)
-*   **City** -> `city` (Select or Text)
-*   **State** -> `state` (Select or Text)
-*   **Website** -> `websiteUrl` (URL)
-*   **Email** -> `publicEmail` (Email)
-*   **Why Choose Us** -> `whyChooseYou` (Text)
-*   **Industries** -> `industries` (Multi-Select)
-*   **Funding Types/Specialties** -> `fundingTypes` / `fundingSpecialties` (Multi-Select)
-*   **Speed/Urgency** -> `urgencyCategory` (Select)
-*   **Primary CTA Link** -> `primaryCtaLink` (URL)
-*   **Primary CTA Label** -> `ctaLabel` (Text)
-*   **Approval Status** -> `approvalStatus` (Select: approved, pending, rejected)
-*   **Broker Status** -> `brokerStatus` (Select: active, hidden, recruiting)
-*   **Is Active** -> `isActive` (Checkbox)
-*   **Phone Number** -> `phoneNumber` (Phone)
-*   **Profile Image** -> `profileImage` (Files & media)
+### Phase 2
+- expand taxonomy surfaces with states and comparison pages
+- improve SEO / schema support
+- expand tracked discovery surfaces
 
-## 🛣️ Next Milestones
+### Phase 3
+- harden CTA tracking and lead-intake routes
+- add analytics helpers
+- improve routing instrumentation
 
-- **Live Wix CMS Wiring:** Finalize the Wix API endpoint structure and swap out mock data entirely in production.
-- **Advanced CTA Tracking:** Connect the structured `CTANode` tracking IDs to PostHog, Segment, or Google Analytics.
-- **Multi-Vertical Support:** Clone or adapt the directory structure to support specific funnels for Trucking, E-commerce, Real Estate, and Contractor funding.
-- **Funding Agent OS Expansion:** Introduce authenticated broker views, agent dashboards, and dynamic lead routing.
+### Phase 4
+- expand toward Funding Agent OS
+- add `/portal`
+- add `/admin`
+- add richer internal workflows and broker lifecycle management
+
+## ⚠️ Notes
+
+- This repo is **not** the same as `moonshine-partner-marketplace`
+- Its scaffold should remain aligned to the portal’s actual architecture and current purpose
+- Avoid dropping marketplace-specific `src/app` scaffolds into this repo without adapting them to the portal structure
+- Use `docs/full-scaffold.md` as the source of truth for future build prompts

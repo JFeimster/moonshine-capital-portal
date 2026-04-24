@@ -62,5 +62,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL(`/directory/${brokerSlug}`, request.url));
   }
 
+  // Handle both relative and absolute URLs
+  if (destinationUrl.startsWith('/')) {
+    return NextResponse.redirect(new URL(destinationUrl, request.url));
+  }
+
   return NextResponse.redirect(destinationUrl);
 }

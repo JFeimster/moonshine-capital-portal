@@ -2,6 +2,44 @@ import { BrokerProfile } from './types';
 
 export const mockBrokers: BrokerProfile[] = [
   {
+    id: 'darwin-hanneman',
+    fullName: 'Darwin Hanneman',
+    agencyName: 'Moonshine Capital',
+    slug: 'darwin-hanneman',
+    shortBio: 'Moonshine Capital funding partner with a practical, relationship-driven approach to equipment financing and related funding paths.',
+    city: 'Washington',
+    state: 'DC',
+    websiteUrl: 'https://www.distilledfunding.com',
+    publicEmail: '',
+    whyChooseYou: 'Darwin helps business owners make a more informed decision when equipment, vehicles, or business-critical assets are on the line. Instead of pitching funding like a magic trick, the goal is to help prospects understand which lane may fit best, where they may have stronger approval odds, and what next step is actually worth taking.',
+
+    industries: ['Construction', 'Logistics', 'Service Businesses', 'Real Estate'],
+    fundingTypes: ['Equipment Financing', 'Vehicle & Fleet Financing', 'Revenue-Based Funding', 'Business Term Loans', 'SBA Options'],
+    urgencyCategory: 'standard',
+    fundingSpecialties: ['Equipment Financing', 'Vehicle & Fleet Financing', 'Revenue-Based Funding', 'Business Term Loans', 'SBA Options'],
+
+    primaryCta: {
+      label: 'Apply Now',
+      url: 'https://bit.ly/fundingwithdarwin',
+      variant: 'primary',
+      trackingId: 'cta_darwin_hanneman'
+    },
+    secondaryCta: {
+      label: 'Book a Call',
+      url: 'https://distilledfunding.com/book-online',
+      variant: 'secondary',
+      trackingId: 'cta_darwin_call'
+    },
+    primaryCtaLink: 'https://bit.ly/fundingwithdarwin',
+    ctaLabel: 'Apply Now',
+
+    approvalStatus: 'approved',
+    isActive: true,
+    featuredFlag: false,
+    featuredBroker: false,
+    brokerStatus: 'active',
+  },
+  {
     id: '1',
     fullName: 'Jane Doe',
     agencyName: 'Velocity Capital',

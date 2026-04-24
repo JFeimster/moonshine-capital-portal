@@ -11,6 +11,7 @@ export function BrokerCard({ broker }: BrokerCardProps) {
 
   // Use tracked CTA if available, fallback to legacy
   const ctaLabel = broker.primaryCta?.label || broker.ctaLabel || 'Connect';
+  const ctaUrl = broker.primaryCta?.url || broker.primaryCtaLink || '#';
 
   return (
     <div className="card-brutal flex flex-col h-full hover:bg-neo-white transition-colors duration-200 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1">

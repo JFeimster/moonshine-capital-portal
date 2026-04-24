@@ -1,4 +1,4 @@
-export function sanitizeUrl(url: string | null | undefined, fallback: string = '#'): string {
+export function sanitizeUrl(url: string | undefined | null, fallback: string = '#'): string {
   if (!url) return fallback;
 
   if (url.startsWith('/') || url.startsWith('#')) {
@@ -10,7 +10,7 @@ export function sanitizeUrl(url: string | null | undefined, fallback: string = '
     if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
       return parsed.href;
     }
-  } catch (error) {
+  } catch (e) {
     // Invalid URL format
   }
 

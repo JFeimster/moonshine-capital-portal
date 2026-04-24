@@ -8,6 +8,7 @@ interface ProfileHeroProps {
 export function ProfileHero({ broker }: ProfileHeroProps) {
   const specialties = broker.fundingTypes || broker.fundingSpecialties || [];
   const ctaLabel = broker.primaryCta?.label || broker.ctaLabel || 'Apply for Funding';
+  const ctaUrl = broker.primaryCta?.url || broker.primaryCtaLink || '#';
 
   return (
     <div className="bg-neo-black text-neo-white border-4 border-neo-black shadow-brutal mb-16 relative overflow-hidden">
