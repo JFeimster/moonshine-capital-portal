@@ -1,0 +1,31 @@
+import type { ToolRegistryItem } from '@/lib/embed-registry';
+import { ToolCard } from './ToolCard';
+
+interface ToolGridProps {
+  tools: ToolRegistryItem[];
+  emptyTitle?: string;
+  emptyCopy?: string;
+}
+
+export function ToolGrid({
+  tools,
+  emptyTitle = 'No tools loaded yet',
+  emptyCopy = 'Add tools to the registry so this page becomes useful instead of decorative.',
+}: ToolGridProps) {
+  if (tools.length === 0) {
+    return (
+      <div className="border-4 border-dashed border-neo-black bg-neo-white p-8 text-neo-black shadow-brutal">
+        <h3 className="mb-3 text-2xl font-black uppercase">{emptyTitle}</h3>
+        <p className="text-lg font-medium">{emptyCopy}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
+      {tools.map((tool) => (
+        <ToolCard key={tool.id} tool={tool} />
+      ))}
+    </div>
+  );
+}
