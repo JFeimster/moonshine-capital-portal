@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { BrokerProfile } from '@/lib/types';
 import { BrokerCard } from '@/components/BrokerCard';
 import { DirectoryFilters } from '@/components/DirectoryFilters';
@@ -17,29 +17,39 @@ export function DirectoryClient({ initialBrokers }: DirectoryClientProps) {
   const [selectedUrgency, setSelectedUrgency] = useState('');
 
   // Compute unique filter options
-  const availableStates = Array.from(new Set(initialBrokers.map(b => b.state).filter(Boolean))).sort();
-  const availableSpecialties = Array.from(new Set(initialBrokers.flatMap(b => b.fundingTypes || b.fundingSpecialties || []))).sort();
-  const availableIndustries = Array.from(new Set(initialBrokers.flatMap(b => b.industries || []))).sort();
+  const availableStates = useMemo(() =>
+    Array.from(new Set(initialBrokers.map(b => b.state).filter(Boolean))).sort(),
+  [initialBrokers]);
+
+  const availableSpecialties = useMemo(() =>
+    Array.from(new Set(initialBrokers.flatMap(b => b.fundingTypes || b.fundingSpecialties || []))).sort(),
+  [initialBrokers]);
+
+  const availableIndustries = useMemo(() =>
+    Array.from(new Set(initialBrokers.flatMap(b => b.industries || []))).sort(),
+  [initialBrokers]);
 
   // Filter brokers
-  const lowerSearchTerm = searchTerm.toLowerCase();
-  const filteredBrokers = initialBrokers.filter(broker => {
-    const matchesSearch =
-      broker.fullName.toLowerCase().includes(lowerSearchTerm) ||
-      broker.agencyName.toLowerCase().includes(lowerSearchTerm);
+  const filteredBrokers = useMemo(() => {
+    const lowerSearchTerm = searchTerm.toLowerCase();
+    return initialBrokers.filter(broker => {
+      const matchesSearch =
+        broker.fullName.toLowerCase().includes(lowerSearchTerm) ||
+        broker.agencyName.toLowerCase().includes(lowerSearchTerm);
 
-    const matchesState = selectedState === '' || broker.state === selectedState;
+      const matchesState = selectedState === '' || broker.state === selectedState;
 
-    const typesToSearch = broker.fundingTypes || broker.fundingSpecialties || [];
-    const matchesSpecialty = selectedSpecialty === '' || typesToSearch.includes(selectedSpecialty);
+      const typesToSearch = broker.fundingTypes || broker.fundingSpecialties || [];
+      const matchesSpecialty = selectedSpecialty === '' || typesToSearch.includes(selectedSpecialty);
 
-    const industriesToSearch = broker.industries || [];
-    const matchesIndustry = selectedIndustry === '' || industriesToSearch.includes(selectedIndustry);
+      const industriesToSearch = broker.industries || [];
+      const matchesIndustry = selectedIndustry === '' || industriesToSearch.includes(selectedIndustry);
 
-    const matchesUrgency = selectedUrgency === '' || broker.urgencyCategory === selectedUrgency;
+      const matchesUrgency = selectedUrgency === '' || broker.urgencyCategory === selectedUrgency;
 
-    return matchesSearch && matchesState && matchesSpecialty && matchesIndustry && matchesUrgency;
-  });
+      return matchesSearch && matchesState && matchesSpecialty && matchesIndustry && matchesUrgency;
+    });
+  }, [initialBrokers, searchTerm, selectedState, selectedSpecialty, selectedIndustry, selectedUrgency]);
 
   const isAnyFilterActive = searchTerm !== '' || selectedState !== '' || selectedSpecialty !== '' || selectedIndustry !== '' || selectedUrgency !== '';
   const clearFilters = () => {
