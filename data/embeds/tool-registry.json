@@ -1,0 +1,28 @@
+{
+  "tools": [
+    {
+      "id": "funding-embed",
+      "slug": "funding-embed",
+      "title": "Funding Embed",
+      "category": "funding-widgets",
+      "type": "app",
+      "accessLevel": "public",
+      "status": "draft",
+      "url": "",
+      "embedUrl": "",
+      "tags": ["funding", "lead-capture"]
+    },
+    {
+      "id": "repair-tracker",
+      "slug": "repair-tracker",
+      "title": "Repair to Revenue Tracker",
+      "category": "calculators",
+      "type": "app",
+      "accessLevel": "portal",
+      "status": "draft",
+      "url": "",
+      "embedUrl": "",
+      "tags": ["calculator", "operations"]
+    }
+  ]
+}
