@@ -7,7 +7,7 @@ It is not meant to be a rigid product spec. It is a practical planning document 
 - broker discovery
 - onboarding
 - tracked outbound routing
-- Wix-backed directory presentation
+- Vercel/Next.js directory presentation
 - future Funding Agent OS expansion
 
 ---
@@ -21,7 +21,7 @@ The repo currently functions as a public-facing broker directory experience with
 - onboarding flow
 - tracked outbound redirects
 - legal pages
-- Wix-backed broker data
+- Notion-backed broker data (with optional Wix reads)
 
 This is the public discovery layer.
 
@@ -112,9 +112,9 @@ Turn the current click-tracking setup into a more usable routing and analytics l
 Make broker onboarding and publishing more systematic.
 
 ### Priorities
-- automate Tally → CRM → Wix CMS handoffs
+- automate Tally → CRM handoffs
 - add `/api/onboarding-submit`
-- add `/api/wix-sync`
+- add `/api/wix-sync` (optional)
 - strengthen profile publication rules
 - document review and merge workflows clearly
 
@@ -170,8 +170,8 @@ This repo should remain focused on:
 ### Avoid importing the wrong scaffold
 Do not blindly force `moonshine-partner-marketplace` architecture into this repo.
 
-### Keep Wix-backed profile delivery clean
-The public directory should remain decoupled from raw CMS details through the `lib/brokers.ts` abstraction.
+### Keep broker profile delivery clean
+The public directory should remain decoupled from raw CRM/CMS details through the `lib/brokers.ts` abstraction.
 
 ---
 

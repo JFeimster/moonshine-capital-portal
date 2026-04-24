@@ -13,7 +13,7 @@ For related documentation:
 - use `docs/FIELD_MAPPING_CONTRACT.md` as the master cross-system contract
 - use `docs/wix-integration.md` for integration behavior and data flow
 
-This collection is the source of truth for the public-facing Next.js directory.
+This collection is an **optional downstream read replica** for the public-facing Next.js directory. Notion CRM is the operational source of truth.
 
 ## Wix CMS Collection Properties
 

@@ -8,7 +8,8 @@ Build and extend a production-ready Next.js application for Moonshine Capital’
 
 This app powers a public-facing broker directory and profile pages while using:
 - Tally for onboarding intake
-- Wix CMS as the content/backend source of truth for broker profiles
+- Notion as the CRM and operational source of truth
+- Wix CMS as an optional read adapter
 - Vercel as the frontend hosting platform
 
 This is not a generic fintech SaaS template.
@@ -93,9 +94,9 @@ Should show brokers aligned to that funding specialty.
 ## Backend / Data Source Strategy
 
 ### Source of truth
-Use Wix CMS as the canonical data source for approved broker profiles.
+Use Notion as the canonical CRM data source, with Wix as an optional read adapter for approved broker profiles.
 
-Assume the Wix CMS collection is:
+Assume the optional Wix CMS collection is:
 `brokerProfiles`
 
 ### Public filtering rules
@@ -104,7 +105,7 @@ Only render brokers where:
 - `isActive = true`
 
 ### Data layer requirement
-Create and preserve a clean data layer abstraction so the UI does NOT directly depend on raw Wix response shapes.
+Create and preserve a clean data layer abstraction so the UI does NOT directly depend on raw CRM/CMS response shapes.
 
 Use helpers in `lib/` that:
 - fetch all approved active brokers

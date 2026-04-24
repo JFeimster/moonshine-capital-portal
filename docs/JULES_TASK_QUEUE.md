@@ -1,7 +1,7 @@
 # JULES_TASK_QUEUE
 
 ## Immediate sequence
-1. Issue #38 — shift repo fully away from Wix-first architecture
+1. Issue #38 — document repo as Vercel/Next.js/Notion-first (Wix is optional downstream adapter)
 2. Issue #39 — build public applications hub with the two active Tally forms
 3. Issue #40 — upgrade broker public profiles into useful resource hubs
 4. Issue #43 — implement embed registry loader and broker-assigned tool rendering
@@ -16,7 +16,7 @@
 
 ## Rules for Jules
 - prefer focused PRs
-- do not reopen Wix-first architecture creep
+- do not treat Wix as the required primary datastore
 - do not create catch-all monster branches
 - keep public website, portal, and admin concerns separated
 - optimize for utility, not just good-looking static pages
