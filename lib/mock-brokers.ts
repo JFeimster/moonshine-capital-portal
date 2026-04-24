@@ -1,4 +1,5 @@
 import { BrokerProfile } from './types';
+import { darwinProfileImage } from './profile-images';
 
 export const mockBrokers: BrokerProfile[] = [
   {
@@ -6,14 +7,14 @@ export const mockBrokers: BrokerProfile[] = [
     fullName: 'Darwin Hanneman',
     agencyName: 'Moonshine Capital',
     slug: 'darwin-hanneman',
-    shortBio: 'Moonshine Capital funding partner with a practical, relationship-driven approach to equipment financing and related funding paths.',
+    shortBio: 'Straightforward equipment finance and business funding guidance for owners who need a practical next move, not a pitch deck and a prayer.',
     city: 'Washington',
     state: 'DC',
     websiteUrl: 'https://www.distilledfunding.com',
     publicEmail: '',
-    whyChooseYou: 'Darwin helps business owners make a more informed decision when equipment, vehicles, or business-critical assets are on the line. Instead of pitching funding like a magic trick, the goal is to help prospects understand which lane may fit best, where they may have stronger approval odds, and what next step is actually worth taking.',
+    whyChooseYou: 'Darwin brings a calm, relationship-driven approach to equipment finance, fleet needs, and business-critical capital decisions. The goal is not to throw every funding product at the wall and hope something sticks. The goal is to help business owners understand what may actually fit, where approval odds may be stronger, and how to move without wasting weeks in lender theater.',
 
-    industries: ['Construction', 'Logistics', 'Service Businesses', 'Real Estate'],
+    industries: ['Construction', 'Transportation', 'Service Businesses', 'Real Estate'],
     fundingTypes: ['Equipment Financing', 'Vehicle & Fleet Financing', 'Revenue-Based Funding', 'Business Term Loans', 'SBA Options'],
     urgencyCategory: 'standard',
     fundingSpecialties: ['Equipment Financing', 'Vehicle & Fleet Financing', 'Revenue-Based Funding', 'Business Term Loans', 'SBA Options'],
@@ -32,11 +33,12 @@ export const mockBrokers: BrokerProfile[] = [
     },
     primaryCtaLink: 'https://bit.ly/fundingwithdarwin',
     ctaLabel: 'Apply Now',
+    profileImage: darwinProfileImage,
 
     approvalStatus: 'approved',
     isActive: true,
-    featuredFlag: false,
-    featuredBroker: false,
+    featuredFlag: true,
+    featuredBroker: true,
     brokerStatus: 'active',
   },
   {
@@ -54,7 +56,7 @@ export const mockBrokers: BrokerProfile[] = [
     industries: ['SaaS', 'Manufacturing', 'Technology'],
     fundingTypes: ['SaaS Revenue', 'Equipment Finance', 'Bridge Loans'],
     urgencyCategory: 'fast',
-    fundingSpecialties: ['SaaS Revenue', 'Equipment Finance', 'Bridge Loans'], // fallback
+    fundingSpecialties: ['SaaS Revenue', 'Equipment Finance', 'Bridge Loans'],
 
     primaryCta: {
       label: 'Apply for Funding',
@@ -85,7 +87,7 @@ export const mockBrokers: BrokerProfile[] = [
     industries: ['Construction', 'Real Estate', 'Logistics'],
     fundingTypes: ['Equipment Finance', 'Real Estate', 'SBA Loans'],
     urgencyCategory: 'standard',
-    fundingSpecialties: ['Equipment Finance', 'Real Estate', 'SBA Loans'], // fallback
+    fundingSpecialties: ['Equipment Finance', 'Real Estate', 'SBA Loans'],
 
     primaryCta: {
       label: 'Submit Deal',
@@ -116,7 +118,7 @@ export const mockBrokers: BrokerProfile[] = [
     industries: ['E-commerce', 'Retail', 'DTC'],
     fundingTypes: ['Revenue Based', 'Working Capital'],
     urgencyCategory: 'fast',
-    fundingSpecialties: ['E-commerce', 'Revenue Based', 'Working Capital'], // fallback
+    fundingSpecialties: ['E-commerce', 'Revenue Based', 'Working Capital'],
 
     primaryCta: {
       label: 'Get Funded Fast',
@@ -147,7 +149,7 @@ export const mockBrokers: BrokerProfile[] = [
     industries: ['Healthcare', 'B2B Services', 'Enterprise'],
     fundingTypes: ['M&A', 'Bridge Loans', 'Term Loans'],
     urgencyCategory: 'complex',
-    fundingSpecialties: ['M&A', 'Bridge Loans', 'Term Loans'], // fallback
+    fundingSpecialties: ['M&A', 'Bridge Loans', 'Term Loans'],
 
     primaryCta: {
       label: 'Book Consultation',
