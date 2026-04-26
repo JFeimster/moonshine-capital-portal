@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getRegistryDestination, type ToolRegistryItem } from '@/lib/embed-registry';
+import { getRegistryDestination, getRegistryTrackedHref, type ToolRegistryItem } from '@/lib/embed-registry';
 import { ToolGrid } from '@/components/portal/ToolGrid';
 
 interface RegistryDetailPageProps {
@@ -15,6 +15,7 @@ function isExternalHref(href: string) {
 
 export function RegistryDetailPage({ item, backHref, backLabel, relatedItems = [] }: RegistryDetailPageProps) {
   const destination = getRegistryDestination(item);
+  const trackedHref = getRegistryTrackedHref(item);
   const hasAssignments = item.brokerAssignments.length > 0;
 
   return (
@@ -39,7 +40,7 @@ export function RegistryDetailPage({ item, backHref, backLabel, relatedItems = [
               <span key={tag} className="border border-neo-black bg-neo-white px-2 py-1 text-xs font-black uppercase">{tag}</span>
             ))}
           </div>
-          <a href={destination} target={isExternalHref(destination) ? '_blank' : undefined} rel={isExternalHref(destination) ? 'noopener noreferrer' : undefined} className="btn-brutal-primary mt-8 inline-flex">
+          <a href={trackedHref} target={isExternalHref(destination) ? '_blank' : undefined} rel={isExternalHref(destination) ? 'noopener noreferrer' : undefined} className="btn-brutal-primary mt-8 inline-flex">
             {item.ctaLabel}
           </a>
         </section>
