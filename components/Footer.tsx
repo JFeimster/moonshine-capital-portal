@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export function Footer() {
   return (
     <footer className="bg-neo-black text-neo-white py-12 px-6 md:px-12 border-t-4 border-neo-yellow">
@@ -13,13 +15,14 @@ export function Footer() {
         <div className="flex gap-12">
           <div className="flex flex-col gap-2">
             <h3 className="font-bold text-neo-blue uppercase tracking-wide mb-2">Platform</h3>
-            <a href="/directory" className="hover:text-neo-yellow transition-colors font-semibold">Directory</a>
-            <a href="/onboarding" className="hover:text-neo-yellow transition-colors font-semibold">Apply</a>
+            <Link href="/apply" className="hover:text-neo-yellow transition-colors font-semibold">Get Funding</Link>
+            <Link href="/directory" className="hover:text-neo-yellow transition-colors font-semibold">Directory</Link>
+            <Link href="/onboarding" className="hover:text-neo-yellow transition-colors font-semibold">Become a Partner</Link>
           </div>
           <div className="flex flex-col gap-2">
             <h3 className="font-bold text-neo-pink uppercase tracking-wide mb-2">Legal</h3>
-            <a href="/terms" className="hover:text-neo-yellow transition-colors font-semibold">Terms</a>
-            <a href="/privacy" className="hover:text-neo-yellow transition-colors font-semibold">Privacy</a>
+            <Link href="/terms" className="hover:text-neo-yellow transition-colors font-semibold">Terms</Link>
+            <Link href="/privacy" className="hover:text-neo-yellow transition-colors font-semibold">Privacy</Link>
           </div>
         </div>
       </div>

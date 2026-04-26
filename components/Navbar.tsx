@@ -7,6 +7,9 @@ export function Navbar() {
         Distilled Funding
       </Link>
       <div className="flex gap-6 items-center font-bold text-sm">
+        <Link href="/apply" className="hover:text-neo-blue transition-colors uppercase tracking-wide">
+          Get Funding
+        </Link>
         <Link href="/directory" className="hover:text-neo-blue transition-colors uppercase tracking-wide">
           Directory
         </Link>
