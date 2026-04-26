@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getToolsByKind } from '@/lib/embed-registry';
+import { getToolsByKind, groupRegistryItemsBy } from '@/lib/embed-registry';
 import { ToolGrid } from '@/components/portal/ToolGrid';
 
 export const metadata = {
@@ -9,6 +9,7 @@ export const metadata = {
 
 export default async function PortalResourcesPage() {
   const resources = await getToolsByKind('resource');
+  const groupedResources = groupRegistryItemsBy(resources, 'funnelStage');
 
   return (
     <main className="min-h-screen bg-neo-cream px-6 py-10 text-neo-black md:px-10">
@@ -25,7 +26,9 @@ export default async function PortalResourcesPage() {
           </p>
         </section>
 
-        <ToolGrid title="Operator resources" tools={resources} emptyTitle="No resources loaded" emptyMessage="Add scripts, playbooks, and enablement assets to the registry so this stops being a pretty empty shelf." />
+        {Object.entries(groupedResources).map(([stage, stageResources]) => (
+          <ToolGrid key={stage} title={stage} tools={stageResources} emptyTitle="No resources loaded" emptyMessage="Add scripts, playbooks, and enablement assets to the registry so this stops being a pretty empty shelf." />
+        ))}
       </div>
     </main>
   );
