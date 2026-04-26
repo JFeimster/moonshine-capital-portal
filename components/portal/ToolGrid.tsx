@@ -7,6 +7,7 @@ interface ToolGridProps {
   emptyTitle?: string;
   emptyCopy?: string;
   emptyMessage?: string;
+  useTrackedPrimaryActions?: boolean;
 }
 
 export function ToolGrid({
@@ -15,6 +16,7 @@ export function ToolGrid({
   emptyTitle = 'No tools loaded yet',
   emptyCopy,
   emptyMessage,
+  useTrackedPrimaryActions = false,
 }: ToolGridProps) {
   const resolvedEmptyCopy =
     emptyMessage || emptyCopy || 'Add tools to the registry so this page becomes useful instead of decorative.';
@@ -38,7 +40,7 @@ export function ToolGrid({
       )}
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
         {tools.map((tool) => (
-          <ToolCard key={tool.id} tool={tool} />
+          <ToolCard key={tool.id} tool={tool} useTrackedPrimaryAction={useTrackedPrimaryActions} />
         ))}
       </div>
     </section>

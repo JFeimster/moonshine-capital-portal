@@ -1,16 +1,20 @@
 import Link from 'next/link';
-import type { ToolRegistryItem } from '@/lib/embed-registry';
+import { getRegistryDestination, getRegistryTrackedHref, type ToolRegistryItem } from '@/lib/embed-registry';
 
 interface ToolCardProps {
   tool: ToolRegistryItem;
+  useTrackedPrimaryAction?: boolean;
 }
 
 function getRegistryDetailHref(tool: ToolRegistryItem) {
   return tool.kind === 'resource' ? `/portal/resources/${tool.slug}` : `/portal/tools/${tool.slug}`;
 }
 
-export function ToolCard({ tool }: ToolCardProps) {
+export function ToolCard({ tool, useTrackedPrimaryAction = false }: ToolCardProps) {
   const detailHref = getRegistryDetailHref(tool);
+  const hasDestination = getRegistryDestination(tool) !== '#';
+  const primaryHref = useTrackedPrimaryAction && hasDestination ? getRegistryTrackedHref(tool) : detailHref;
+  const primaryLabel = useTrackedPrimaryAction && hasDestination ? tool.ctaLabel : 'View Details';
 
   return (
     <article className="card-brutal flex h-full flex-col gap-4 bg-neo-white text-neo-black">
@@ -42,9 +46,16 @@ export function ToolCard({ tool }: ToolCardProps) {
       </div>
 
       <div className="mt-auto flex items-center justify-between gap-3 pt-2">
-        <Link href={detailHref} className="btn-brutal-primary text-sm">
-          View Details
-        </Link>
+        <div className="flex flex-wrap items-center gap-3">
+          <Link href={primaryHref} className="btn-brutal-primary text-sm">
+            {primaryLabel}
+          </Link>
+          {useTrackedPrimaryAction && hasDestination && (
+            <Link href={detailHref} className="text-xs font-black uppercase tracking-wide text-neo-black underline decoration-2 underline-offset-4">
+              Details
+            </Link>
+          )}
+        </div>
         <span className="text-right text-xs font-bold uppercase text-neo-black/60">
           {tool.audience.slice(0, 2).join(' • ')}
         </span>
