@@ -16,7 +16,7 @@ const applicationRoutes = [
     audience: 'Urgent applicants optimizing for speed',
     purpose: 'Quickest funding path for speed-first applicants who need fast routing.',
     tally: 'Fast-lane intake form',
-    registry: 'fast-track-application',
+    registry: 'fast-application',
     nextStep: 'Prioritize speed lane, normalize source, handoff to intake workflow.',
   },
   {
@@ -25,7 +25,7 @@ const applicationRoutes = [
     audience: 'Applicants who need a quote before full intake',
     purpose: 'Lightweight quote-first path for lower-friction lead capture.',
     tally: 'Quote-first lead form',
-    registry: 'quote-request',
+    registry: 'personalized-quote',
     nextStep: 'Collect estimate request, qualify, then route to full application if viable.',
   },
 ];
