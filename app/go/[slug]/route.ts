@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getRegistryDestination, getToolBySlug } from '@/lib/embed-registry';
 
-export async function GET(_: Request, { params }: { params: { slug: string } }) {
+export async function GET(request: Request, { params }: { params: { slug: string } }) {
   const item = await getToolBySlug(params.slug);
 
   if (!item) {
@@ -14,5 +14,7 @@ export async function GET(_: Request, { params }: { params: { slug: string } }) 
     return NextResponse.json({ error: 'Missing destination' }, { status: 404 });
   }
 
-  return NextResponse.redirect(new URL(destination, 'http://localhost:3000'));
+  const redirectUrl = new URL(destination, request.url);
+
+  return NextResponse.redirect(redirectUrl);
 }
