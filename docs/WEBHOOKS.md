@@ -15,7 +15,7 @@ The ingestion layer provides two primary webhook endpoints to receive data from 
 
 2. **`POST /api/intake/tally/profile`**
    - **Trigger:** Tally Profile Builder form is submitted.
-   - **Purpose:** Update the existing Notion CRM record, push/publish details to Wix CMS.
+   - **Purpose:** Update the existing Notion CRM record. Notion acts as the primary operational source of truth. Publishing to an optional downstream layer like Wix CMS must be done manually or via a separate explicit step after team review.
    - **Payload Expectation:** Detailed profile data (shortBio, industries, fundingTypes, profileImage).
 
 ## Canonical Object Shape
