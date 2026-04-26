@@ -16,8 +16,14 @@ export function HeroSection() {
           No fluff. No slow banks. Just operators who know how to move money. Built for founders who do not have time for institutional theater.
         </p>
         <div className="flex flex-wrap gap-4">
-          <Link href="/directory" className="btn-brutal-primary text-lg px-8 py-4">
-            Browse Directory
+          <Link href="/apply" className="btn-brutal-primary text-lg px-8 py-4">
+            Get Funding
+          </Link>
+          <Link href="/apply/quote" className="btn-brutal text-lg px-8 py-4">
+            Get a Fast Quote
+          </Link>
+          <Link href="/directory" className="btn-brutal text-lg px-8 py-4">
+            Browse Partners
           </Link>
           <Link href="/onboarding" className="btn-brutal text-lg px-8 py-4">
             Become a Partner
