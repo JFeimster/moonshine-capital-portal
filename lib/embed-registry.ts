@@ -80,6 +80,21 @@ function isPubliclyAvailable(item: ToolRegistryItem) {
   return item.status === 'active';
 }
 
+function isAssignedToBroker(item: ToolRegistryItem, brokerSlug: string) {
+  return item.brokerAssignments.some((assignment) => assignment.brokerSlug === brokerSlug);
+}
+
+function sortBrokerAssignedItems(brokerSlug: string) {
+  return (a: ToolRegistryItem, b: ToolRegistryItem) => {
+    const aAssignment = a.brokerAssignments.find((assignment) => assignment.brokerSlug === brokerSlug);
+    const bAssignment = b.brokerAssignments.find((assignment) => assignment.brokerSlug === brokerSlug);
+    if (Boolean(aAssignment?.featured) !== Boolean(bAssignment?.featured)) {
+      return aAssignment?.featured ? -1 : 1;
+    }
+    return bySortThenTitle(a, b);
+  };
+}
+
 export function groupRegistryItemsBy(items: ToolRegistryItem[], field: 'category' | 'resourceType' | 'renderType' | 'funnelStage') {
   return items.reduce<Record<string, ToolRegistryItem[]>>((groups, item) => {
     const key = field === 'funnelStage' ? item.funnelStage || 'general' : item[field] || 'uncategorized';
@@ -158,6 +173,12 @@ export async function getFeaturedRegistryItems(limit?: number): Promise<ToolRegi
   return typeof limit === 'number' ? featured.slice(0, limit) : featured;
 }
 
+export async function getFeaturedResources(limit?: number): Promise<ToolRegistryItem[]> {
+  const resources = await getToolsByKind('resource');
+  const featured = resources.filter((item) => item.featured);
+  return typeof limit === 'number' ? featured.slice(0, limit) : featured;
+}
+
 export async function getToolBySlug(slug: string): Promise<ToolRegistryItem | null> {
   const items = await getAllRegistryItems();
   return items.find((item) => item.slug === slug) ?? null;
@@ -166,15 +187,17 @@ export async function getToolBySlug(slug: string): Promise<ToolRegistryItem | nu
 export async function getToolsForBroker(brokerSlug: string): Promise<ToolRegistryItem[]> {
   const items = await getActiveTools();
   return items
-    .filter((item) => item.brokerAssignments.some((assignment) => assignment.brokerSlug === brokerSlug))
-    .sort((a, b) => {
-      const aAssignment = a.brokerAssignments.find((assignment) => assignment.brokerSlug === brokerSlug);
-      const bAssignment = b.brokerAssignments.find((assignment) => assignment.brokerSlug === brokerSlug);
-      if (Boolean(aAssignment?.featured) !== Boolean(bAssignment?.featured)) {
-        return aAssignment?.featured ? -1 : 1;
-      }
-      return bySortThenTitle(a, b);
-    });
+    .filter((item) => item.kind === 'tool')
+    .filter((item) => isAssignedToBroker(item, brokerSlug))
+    .sort(sortBrokerAssignedItems(brokerSlug));
+}
+
+export async function getResourcesForBroker(brokerSlug: string): Promise<ToolRegistryItem[]> {
+  const items = await getActiveTools();
+  return items
+    .filter((item) => item.kind === 'resource')
+    .filter((item) => isAssignedToBroker(item, brokerSlug))
+    .sort(sortBrokerAssignedItems(brokerSlug));
 }
 
 export async function getToolsForVertical(vertical: string): Promise<ToolRegistryItem[]> {
