@@ -64,15 +64,26 @@ describe('intake-normalizers', () => {
   });
 
   describe('normalizeState', () => {
-    it('should uppercase and take first 2 chars', () => {
+    it('should correctly map full state names to abbreviations', () => {
+      expect(normalizeState('California')).toBe('CA');
+      expect(normalizeState('new york')).toBe('NY');
+      expect(normalizeState('Texas')).toBe('TX');
+      expect(normalizeState('florida')).toBe('FL');
+    });
+
+    it('should uppercase valid 2-letter codes', () => {
       expect(normalizeState('ny')).toBe('NY');
-      expect(normalizeState('California')).toBe('CA'); // It just takes first 2: 'CA'. Wait, 'California' would be 'CA', yes. Let's test basic.
-      expect(normalizeState('texas')).toBe('TE'); // It literally takes first 2. We'll adjust test to match implementation.
+      expect(normalizeState('tx')).toBe('TX');
+      expect(normalizeState('Ca')).toBe('CA');
     });
 
     it('should return empty string for falsy input', () => {
       expect(normalizeState('')).toBe('');
       expect(normalizeState(undefined)).toBe('');
+    });
+
+    it('should gracefully fallback to first 2 letters if unknown', () => {
+      expect(normalizeState('UnknownState')).toBe('UN');
     });
   });
 });

@@ -49,11 +49,39 @@ export function normalizeArray(input?: string | string[]): string[] {
   return arr.map(item => item.trim()).filter(item => item.length > 0);
 }
 
+const STATE_MAP: Record<string, string> = {
+  'alabama': 'AL', 'alaska': 'AK', 'arizona': 'AZ', 'arkansas': 'AR', 'california': 'CA',
+  'colorado': 'CO', 'connecticut': 'CT', 'delaware': 'DE', 'florida': 'FL', 'georgia': 'GA',
+  'hawaii': 'HI', 'idaho': 'ID', 'illinois': 'IL', 'indiana': 'IN', 'iowa': 'IA',
+  'kansas': 'KS', 'kentucky': 'KY', 'louisiana': 'LA', 'maine': 'ME', 'maryland': 'MD',
+  'massachusetts': 'MA', 'michigan': 'MI', 'minnesota': 'MN', 'mississippi': 'MS', 'missouri': 'MO',
+  'montana': 'MT', 'nebraska': 'NE', 'nevada': 'NV', 'new hampshire': 'NH', 'new jersey': 'NJ',
+  'new mexico': 'NM', 'new york': 'NY', 'north carolina': 'NC', 'north dakota': 'ND', 'ohio': 'OH',
+  'oklahoma': 'OK', 'oregon': 'OR', 'pennsylvania': 'PA', 'rhode island': 'RI', 'south carolina': 'SC',
+  'south dakota': 'SD', 'tennessee': 'TN', 'texas': 'TX', 'utah': 'UT', 'vermont': 'VT',
+  'virginia': 'VA', 'washington': 'WA', 'west virginia': 'WV', 'wisconsin': 'WI', 'wyoming': 'WY',
+  'district of columbia': 'DC', 'dc': 'DC', 'puerto rico': 'PR', 'pr': 'PR'
+};
+
 /**
- * Extracts and normalizes the state to a 2-letter abbreviation if possible.
- * This is a basic implementation.
+ * Extracts and normalizes the state to a 2-letter abbreviation using a USPS lookup.
+ * Returns the exact match if it is already a valid 2-letter code.
  */
 export function normalizeState(state?: string): string {
   if (!state) return '';
-  return state.trim().substring(0, 2).toUpperCase();
+
+  const trimmed = state.trim().toLowerCase();
+
+  // If it matches a full name, return the abbreviation
+  if (STATE_MAP[trimmed]) {
+    return STATE_MAP[trimmed];
+  }
+
+  // If it's already a 2-letter code, return it uppercased
+  if (trimmed.length === 2) {
+    return trimmed.toUpperCase();
+  }
+
+  // Fallback (for invalid states or edge cases)
+  return trimmed.substring(0, 2).toUpperCase();
 }

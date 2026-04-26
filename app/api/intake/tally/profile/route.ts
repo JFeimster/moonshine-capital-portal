@@ -3,9 +3,15 @@ import { validateProfilePayload } from '@/lib/validation';
 import { normalizeUrl, normalizeArray } from '@/lib/intake-normalizers';
 import { upsertNotionCRMRecord } from '@/lib/notion';
 import { CanonicalBrokerProfile } from '@/lib/field-mapping';
+import { validateWebhookAuth } from '@/lib/webhook-auth';
 
 export async function POST(req: NextRequest) {
   try {
+    // Enforce webhook authorization
+    if (!validateWebhookAuth(req)) {
+      return NextResponse.json({ success: false, error: 'Unauthorized webhook request' }, { status: 401 });
+    }
+
     // CONTRACT: This endpoint strictly accepts pre-normalized JSON payloads (e.g., from n8n)
     // that conform to the CanonicalBrokerProfile schema.
     // It DOES NOT parse raw Tally webhooks. The Tally -> Canonical mapping MUST occur in n8n.
