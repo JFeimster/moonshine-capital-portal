@@ -120,7 +120,7 @@ This route map is specific to the portal repo and its current architecture.
 - `/api/broker-click`
 - `/api/lead-intake`
 - `/api/onboarding-submit`
-- `/api/wix-sync`
+- `/api/wix-sync` (optional downstream sync)
 - `/api/webhooks/n8n`
 - `/api/webhooks/hubspot`
 
@@ -152,7 +152,7 @@ This route map is specific to the portal repo and its current architecture.
 /api/broker-click
 /api/lead-intake
 /api/onboarding-submit
-/api/wix-sync
+/api/wix-sync (optional downstream sync)
 /api/webhooks/n8n
 /api/webhooks/hubspot
 ```

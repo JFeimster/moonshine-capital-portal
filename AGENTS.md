@@ -19,7 +19,7 @@ A Next.js App Router project for:
 ## Build priorities
 1. strengthen public directory UX
 2. keep onboarding simple and conversion-oriented
-3. preserve Wix-backed broker data abstraction
+3. preserve broker data abstraction
 4. harden tracking and analytics flow
 5. add taxonomy pages only when they support discovery
 
@@ -41,7 +41,7 @@ A Next.js App Router project for:
 - avoid duplicate docs when a system-specific schema doc already exists
 - prefer updating existing docs over creating overlapping files
 - keep CTA routing centered on `/out` unless there is a strong reason to replace it
-- keep page code dependent on `lib/brokers.ts`, not raw Wix fetch logic
+- keep page code dependent on `lib/brokers.ts`, not raw CRM/CMS fetch logic
 
 ## Recommended next build surfaces
 - `app/about/page.tsx`

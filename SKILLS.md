@@ -5,7 +5,7 @@
 - broker profile rendering
 - onboarding and partner intake
 - tracked outbound redirect flow
-- Wix-backed data presentation
+- Vercel/Next.js/Notion-backed data presentation
 - taxonomy-based discovery pages
 - SEO-safe page expansion
 - future portal/admin planning
@@ -32,7 +32,7 @@
 - onboarding → `app/onboarding/page.tsx`
 - CTA routing → `app/out/route.ts`
 - broker data abstraction → `lib/brokers.ts`
-- Wix integration → `lib/wix.ts`
+- Wix integration (optional downstream) → `lib/wix.ts`
 - schema / planning docs → `docs/*`
 
 ## Preferred execution style

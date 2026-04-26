@@ -35,7 +35,7 @@ If qualified, broker is advanced for profile completion
    ↓
 Detailed profile data is collected
    ↓
-Approved broker profile is published to Wix CMS
+Approved broker profile is read via Next.js directly or published to Wix CMS (if optional adapter used)
    ↓
 Profile appears in the public directory
 ```
@@ -70,7 +70,7 @@ Decide whether the broker should proceed toward a public profile.
 - approved
 - rejected
 
-This likely maps into the Notion CRM workflow and later Wix publishing state.
+This maps into the Notion CRM workflow.
 
 ### Stage 3 — Profile builder / enrichment
 **Goal:**
@@ -91,7 +91,7 @@ This aligns with the current profile-builder schema doc.
 
 ### Stage 4 — Publish to public directory
 **Goal:**
-Create or update the broker’s public `BrokerProfile` record in Wix CMS.
+Make the broker live on Vercel/Next.js (optionally syncing to a Wix CMS replica).
 
 **Requirements before publish:**
 - approved status
@@ -114,9 +114,10 @@ Create or update the broker’s public `BrokerProfile` record in Wix CMS.
 - Notion CRM or equivalent review system
 
 ### Public publishing layer
-- Wix CMS
-- `lib/wix.ts`
+- Vercel/Next.js
 - `lib/brokers.ts`
+- `lib/notion.ts` (future direct sync)
+- `lib/wix.ts` (optional)
 
 ---
 
@@ -150,7 +151,7 @@ Qualified broker receives the detailed profile builder form.
 Detailed content is captured and mapped into the canonical broker profile data structure.
 
 ### 6. Approval + sync
-Approved record is synced into Wix CMS with:
+Approved record is marked active in Notion (and optionally synced to Wix CMS) with:
 - `approvalStatus = approved`
 - `isActive = true`
 
@@ -188,8 +189,8 @@ Trigger detailed profile collection.
 ### Profile builder → CRM / publishing layer
 Merge enriched data into the canonical broker record.
 
-### Approved record → Wix CMS
-Create or update the live public broker profile.
+### Approved record → Public Directory
+Record becomes visible through Next.js (or is pushed to Wix CMS if the adapter is running).
 
 ---
 

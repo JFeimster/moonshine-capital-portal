@@ -1,7 +1,7 @@
 # Wix Integration
 
 ## Purpose
-This document explains how `moonshine-capital-portal` uses Wix as the source-of-truth layer for broker profile data.
+This document explains how `moonshine-capital-portal` uses Wix as an optional downstream layer for broker profile data.
 
 It is meant to guide:
 - data fetching
@@ -20,12 +20,12 @@ For field-level schema details, use:
 
 ## Current Role of Wix in This Repo
 
-Wix is the current backend content source for approved broker profiles.
+Wix is an optional downstream publish/read adapter. Notion is the operational CRM and source of truth.
 
 The high-level pattern is:
-1. broker / partner data is approved externally
-2. approved records are stored in Wix CMS
-3. the Next.js portal reads those records through `lib/wix.ts`
+1. broker / partner data is approved in Notion
+2. approved records may be pushed to Wix CMS via automation
+3. the Next.js portal reads those records through `lib/wix.ts` if configured
 4. `lib/brokers.ts` acts as the local abstraction layer consumed by pages and components
 
 This keeps the app UI decoupled from the raw CMS integration.
@@ -192,7 +192,7 @@ This avoids fragile deploys.
 
 ## Security / Data Exposure Notes
 
-Wix should remain the content source, not an uncontrolled public dump.
+Wix (if used) should remain a read-only content replica, not an uncontrolled public dump.
 
 Recommended safeguards:
 - only publish approved / active brokers

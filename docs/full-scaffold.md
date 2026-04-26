@@ -6,7 +6,7 @@ This document defines the corrected full scaffold for the **moonshine-capital-po
 It replaces the earlier marketplace-oriented scaffold and is now aligned to the actual repo direction:
 - broker directory
 - partner onboarding flow
-- Wix-backed broker profile presentation layer
+- optional downstream Wix publish layer
 - CTA tracking / redirect infrastructure
 - future Funding Agent OS expansion
 
@@ -29,7 +29,7 @@ A Next.js front-end for:
 **Current architectural reality:**
 - App Router project using `app/`, not `src/app/`
 - broker data comes through `lib/brokers.ts`
-- broker access is backed by Wix integration helpers
+- broker access is backed by Notion with Wix integration helpers
 - onboarding is handled through Tally embed flow
 - outbound CTAs route through a tracking redirect endpoint
 
@@ -295,7 +295,7 @@ moonshine-capital-portal/
 
 ## Notes
 - This scaffold is for **moonshine-capital-portal**, not `moonshine-partner-marketplace`.
-- Keep the portal repo anchored around the broker directory and Wix-backed profile model.
+- Keep the portal repo anchored around the broker directory and Notion/Next.js-backed profile model.
 - Do not blindly port `src/app` marketplace scaffolds into this repo; the portal currently uses `app/`.
 - Prefer adding pages that support directory discovery, onboarding, tracking, and future Funding Agent OS evolution.
 - Use this document as the source scaffold for future Codex and GitHub connector prompts.

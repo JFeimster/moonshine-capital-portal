@@ -3,7 +3,7 @@
 ## Purpose
 This document defines the practical data model direction for `moonshine-capital-portal`.
 
-It is based on the current repo behavior, which centers around a broker directory backed by Wix data and rendered through Next.js App Router pages.
+It is based on the current repo behavior, which centers around a broker directory backed by Notion (with optional Wix reads) and rendered through Next.js App Router pages.
 
 **This file should be treated as the canonical app model document** for the portal repo.
 That means:
@@ -209,9 +209,9 @@ Use this file for:
 
 ---
 
-## Wix Mapping Direction
+## Notion/Wix Mapping Direction
 
-The Wix collection should remain the source of truth for approved broker profiles.
+Notion remains the operational CRM source of truth. If the optional Wix layer is used, the data maps as follows.
 
 ### Suggested field mapping
 - `Name` → `fullName`
