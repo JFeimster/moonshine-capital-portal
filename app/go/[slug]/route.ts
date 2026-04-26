@@ -15,7 +15,7 @@ export async function GET(request: Request, { params }: { params: { slug: string
     return NextResponse.json({ error: 'Missing destination' }, { status: 404 });
   }
 
-  trackRegistryClick({ item, destination, request });
+  await trackRegistryClick({ item, destination, request });
 
   const redirectUrl = new URL(destination, request.url);
 
