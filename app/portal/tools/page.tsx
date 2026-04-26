@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getFeaturedRegistryItems, getToolsByAccessLevel, getToolsForAudience } from '@/lib/embed-registry';
+import { getFeaturedRegistryItems, getToolsByAccessLevel, getToolsForAudience, groupRegistryItemsBy } from '@/lib/embed-registry';
 import { ToolGrid } from '@/components/portal/ToolGrid';
 
 export const metadata = {
@@ -11,6 +11,7 @@ export default async function PortalToolsPage() {
   const tools = await getToolsByAccessLevel('portal');
   const featured = await getFeaturedRegistryItems(3);
   const brokerTools = await getToolsForAudience('brokers');
+  const groupedTools = groupRegistryItemsBy(tools, 'category');
 
   return (
     <main className="min-h-screen bg-neo-cream px-6 py-10 text-neo-black md:px-10">
@@ -28,7 +29,16 @@ export default async function PortalToolsPage() {
 
         <ToolGrid title="Featured tools" tools={featured} />
         <ToolGrid title="Broker ops" tools={brokerTools.slice(0, 6)} />
-        <ToolGrid title="All active tools" tools={tools} emptyTitle="No portal tools active" emptyMessage="Load real Vercel apps, calculators, and GPT assets into the embed registry so this page earns its existence." />
+
+        <section className="space-y-8">
+          <div>
+            <h2 className="text-3xl font-black uppercase tracking-tight">Tool categories</h2>
+            <p className="mt-2 max-w-2xl font-medium text-neo-black/70">Scan the registry by operating lane instead of digging through one giant card pile like a raccoon in a fintech dumpster.</p>
+          </div>
+          {Object.entries(groupedTools).map(([category, categoryTools]) => (
+            <ToolGrid key={category} title={category} tools={categoryTools} />
+          ))}
+        </section>
       </div>
     </main>
   );
