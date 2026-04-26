@@ -21,8 +21,16 @@ export interface BrokerProfile {
 
   // Expanded Data Model
   industries: string[];
+  verticals?: string[];
   fundingTypes: string[];
   urgencyCategory: 'fast' | 'standard' | 'complex' | string;
+  serviceArea?: string[];
+  speedToContact?: string;
+  minimumDealSize?: number;
+  maximumDealSize?: number;
+  primaryCtaType?: string;
+  proofPoints?: string[];
+  bestFitClients?: string;
 
   // Legacy / Fallback properties
   fundingSpecialties?: string[];

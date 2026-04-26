@@ -19,6 +19,9 @@ export function HeroSection() {
           <Link href="/directory" className="btn-brutal-primary text-lg px-8 py-4">
             Browse Directory
           </Link>
+          <Link href={process.env.NEXT_PUBLIC_MATCH_URL || "/onboarding"} className="btn-brutal-primary bg-neo-yellow text-neo-black border-neo-black text-lg px-8 py-4">
+            Get Matched
+          </Link>
           <Link href="/onboarding" className="btn-brutal text-lg px-8 py-4">
             Become a Partner
           </Link>

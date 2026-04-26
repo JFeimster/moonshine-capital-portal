@@ -9,9 +9,9 @@ vi.mock('../lib/wix', () => ({
 describe('getFeaturedBrokers', () => {
   it('should return only featured brokers', async () => {
     const mockBrokers = [
-      { id: '1', fullName: 'Broker One', featuredFlag: true, isActive: true, approvalStatus: 'approved' },
-      { id: '2', fullName: 'Broker Two', featuredBroker: true, isActive: true, approvalStatus: 'approved' },
-      { id: '3', fullName: 'Broker Three', isActive: true, approvalStatus: 'approved' },
+      { _id: '1', fullName: 'Broker One', featuredFlag: true, isActive: true, approvalStatus: 'approved' },
+      { _id: '2', fullName: 'Broker Two', featuredBroker: true, isActive: true, approvalStatus: 'approved' },
+      { _id: '3', fullName: 'Broker Three', isActive: true, approvalStatus: 'approved' },
       { id: '4', fullName: 'Broker Four', featuredFlag: false, featuredBroker: false, isActive: true, approvalStatus: 'approved' },
     ];
     vi.mocked(wix.fetchWixBrokers).mockResolvedValue(mockBrokers as any);
@@ -24,8 +24,8 @@ describe('getFeaturedBrokers', () => {
 
   it('should return an empty array if there are no featured brokers', async () => {
     const mockBrokers = [
-      { id: '1', fullName: 'Broker One', isActive: true },
-      { id: '2', fullName: 'Broker Two', isActive: true },
+      { _id: '1', fullName: 'Broker One', isActive: true },
+      { _id: '2', fullName: 'Broker Two', isActive: true },
     ];
     vi.mocked(wix.fetchWixBrokers).mockResolvedValue(mockBrokers as any);
 
@@ -42,9 +42,13 @@ describe('getFeaturedBrokers', () => {
     expect(result).toEqual([]);
   });
 
-  it('should propagate errors from fetchWixBrokers', async () => {
+  it('should fallback to mock data when fetchWixBrokers throws', async () => {
     vi.mocked(wix.fetchWixBrokers).mockRejectedValue(new Error('Fetch failed'));
 
-    await expect(getFeaturedBrokers()).rejects.toThrow('Fetch failed');
+    const mockBrokers = await import('../lib/mock-brokers').then(m => m.mockBrokers);
+    const expected = mockBrokers.filter(b => b.approvalStatus === 'approved' && b.isActive && (b.featuredFlag || b.featuredBroker));
+
+    const result = await getFeaturedBrokers();
+    expect(result).toEqual(expected);
   });
 });

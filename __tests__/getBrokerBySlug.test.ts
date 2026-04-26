@@ -9,13 +9,14 @@ vi.mock('../lib/wix', () => ({
 
 describe('getBrokerBySlug', () => {
   it('should return a broker when a matching slug is found', async () => {
-    const mockBroker = { id: '1', fullName: 'Broker One', slug: 'broker-one', isActive: true, approvalStatus: 'approved' };
+    const mockBroker = { _id: '1', fullName: 'Broker One', slug: 'broker-one', isActive: true, approvalStatus: 'approved' };
     vi.mocked(wix.fetchWixBrokerBySlug).mockResolvedValue(mockBroker as any);
 
     const result = await getBrokerBySlug('broker-one');
 
     expect(wix.fetchWixBrokerBySlug).toHaveBeenCalledWith('broker-one');
-    expect(result).toEqual(mockBroker);
+    expect(result?.id).toBe('1');
+    expect(result?.fullName).toBe('Broker One');
   });
 
   it('should return null when no matching broker is found', async () => {
@@ -36,9 +37,12 @@ describe('getBrokerBySlug', () => {
     expect(result).toBeNull();
   });
 
-  it('should propagate errors from fetchWixBrokerBySlug', async () => {
+  it('should fallback to mock data when fetchWixBrokerBySlug throws', async () => {
     vi.mocked(wix.fetchWixBrokerBySlug).mockRejectedValue(new Error('Fetch failed'));
 
-    await expect(getBrokerBySlug('broker-one')).rejects.toThrow('Fetch failed');
+    const mockBrokers = await import('../lib/mock-brokers').then(m => m.mockBrokers);
+    const expected = mockBrokers.find(b => b.slug === 'jane-doe' && b.approvalStatus === 'approved' && b.isActive) || null;
+    const result = await getBrokerBySlug('jane-doe');
+    expect(result).toEqual(expected);
   });
 });

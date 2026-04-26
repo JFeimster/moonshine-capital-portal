@@ -83,6 +83,29 @@ export default async function BrokerProfilePage({ params }: { params: { slug: st
               <p className="text-xl font-bold border-l-4 border-neo-black pl-6">{broker.shortBio}</p>
             </section>
 
+            {broker.bestFitClients && (
+              <section>
+                <SectionHeading title="Best Fit Clients" color="pink" />
+                <div className="bg-neo-black text-neo-white p-8 border-4 border-neo-pink shadow-brutal text-lg font-medium leading-relaxed">
+                  {broker.bestFitClients}
+                </div>
+              </section>
+            )}
+
+            {broker.proofPoints && broker.proofPoints.length > 0 && (
+              <section>
+                <SectionHeading title="Proof Points" color="green" />
+                <ul className="space-y-4">
+                  {broker.proofPoints.map((point, i) => (
+                    <li key={i} className="flex items-start gap-4 font-bold text-lg bg-neo-white p-4 border-2 border-neo-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                      <span className="flex-shrink-0 w-6 h-6 bg-neo-green border border-neo-black mt-1"></span>
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
             <BrokerUtilitySection
               brokerName={broker.fullName}
               tools={brokerTools.length > 0 ? brokerTools : fallbackTools}
@@ -117,6 +140,14 @@ export default async function BrokerProfilePage({ params }: { params: { slug: st
                 {broker.publicEmail && <div><div className="text-sm uppercase text-neo-black/60 mb-1">Email</div><a href={`mailto:${broker.publicEmail}`} className="text-neo-blue hover:underline break-all">{broker.publicEmail}</a></div>}
                 {broker.phoneNumber && <div><div className="text-sm uppercase text-neo-black/60 mb-1">Phone</div><a href={`tel:${broker.phoneNumber}`} className="hover:underline">{broker.phoneNumber}</a></div>}
               </div>
+            </div>
+
+            <div className="bg-neo-yellow p-8 border-4 border-neo-black shadow-brutal text-center">
+              <h3 className="font-black text-2xl uppercase tracking-tighter mb-4">Not the right fit?</h3>
+              <p className="font-medium text-lg mb-6">We can match you with the perfect capital partner for your specific deal size and industry.</p>
+              <Link href={process.env.NEXT_PUBLIC_MATCH_URL || "/onboarding"} className="btn-brutal w-full bg-neo-black text-neo-white border-2 border-neo-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all inline-block">
+                Get Matched
+              </Link>
             </div>
           </div>
         </div>

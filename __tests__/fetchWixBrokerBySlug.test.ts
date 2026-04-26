@@ -17,7 +17,7 @@ describe('fetchWixBrokerBySlug', () => {
     vi.restoreAllMocks();
   });
 
-  it('should return normalized broker from fetch when env vars are present', async () => {
+  it('should return raw broker from fetch when env vars are present', async () => {
     process.env.WIX_API_URL = 'https://api.wix.test';
     process.env.WIX_API_KEY = 'test-key';
 
@@ -55,7 +55,7 @@ describe('fetchWixBrokerBySlug', () => {
       })
     );
     expect(result).not.toBeNull();
-    expect(result?.id).toBe('1');
+    expect(result?._id).toBe('1');
     expect(result?.fullName).toBe('Wix Broker');
   });
 
@@ -74,43 +74,25 @@ describe('fetchWixBrokerBySlug', () => {
     expect(result).toBeNull();
   });
 
-  it('should return mock data when WIX_API_URL or WIX_API_KEY are missing', async () => {
+  it('should throw an error when WIX_API_URL or WIX_API_KEY are missing', async () => {
     delete process.env.WIX_API_URL;
     delete process.env.WIX_API_KEY;
 
-    // Use a known slug from mock data for testing
-    const validMockSlug = mockBrokers.find(b => b.approvalStatus === 'approved' && b.isActive)?.slug || 'test-slug';
-
     const { fetchWixBrokerBySlug } = await import('../lib/wix');
-    const result = await fetchWixBrokerBySlug(validMockSlug);
-
-    expect(global.fetch).not.toHaveBeenCalled();
-    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('WIX_API_URL or WIX_API_KEY not found'));
-
-    const expectedMockData = mockBrokers.find(b => b.slug === validMockSlug && b.approvalStatus === 'approved' && b.isActive) || null;
-    expect(result).toEqual(expectedMockData);
+    await expect(fetchWixBrokerBySlug('test-slug')).rejects.toThrow('WIX_API_URL or WIX_API_KEY not found');
   });
 
-  it('should fallback to mock data when fetch fails (network error)', async () => {
+  it('should throw when fetch fails (network error)', async () => {
     process.env.WIX_API_URL = 'https://api.wix.test';
     process.env.WIX_API_KEY = 'test-key';
 
     vi.mocked(global.fetch).mockRejectedValue(new Error('Network error'));
 
-    // Use a known slug from mock data for testing
-    const validMockSlug = mockBrokers.find(b => b.approvalStatus === 'approved' && b.isActive)?.slug || 'test-slug';
-
     const { fetchWixBrokerBySlug } = await import('../lib/wix');
-    const result = await fetchWixBrokerBySlug(validMockSlug);
-
-    expect(global.fetch).toHaveBeenCalled();
-    expect(console.error).toHaveBeenCalledWith(expect.stringContaining('Error fetching Wix broker with slug'), expect.any(Error));
-
-    const expectedMockData = mockBrokers.find(b => b.slug === validMockSlug && b.approvalStatus === 'approved' && b.isActive) || null;
-    expect(result).toEqual(expectedMockData);
+    await expect(fetchWixBrokerBySlug('test-slug')).rejects.toThrow('Network error');
   });
 
-  it('should fallback to mock data when response is not ok', async () => {
+  it('should throw when response is not ok', async () => {
     process.env.WIX_API_URL = 'https://api.wix.test';
     process.env.WIX_API_KEY = 'test-key';
 
@@ -119,26 +101,9 @@ describe('fetchWixBrokerBySlug', () => {
       statusText: 'Internal Server Error'
     } as Response);
 
-    // Use a known slug from mock data for testing
-    const validMockSlug = mockBrokers.find(b => b.approvalStatus === 'approved' && b.isActive)?.slug || 'test-slug';
-
     const { fetchWixBrokerBySlug } = await import('../lib/wix');
-    const result = await fetchWixBrokerBySlug(validMockSlug);
-
-    expect(global.fetch).toHaveBeenCalled();
-    expect(console.error).toHaveBeenCalled();
-
-    const expectedMockData = mockBrokers.find(b => b.slug === validMockSlug && b.approvalStatus === 'approved' && b.isActive) || null;
-    expect(result).toEqual(expectedMockData);
+    await expect(fetchWixBrokerBySlug('test-slug')).rejects.toThrow('Failed to fetch from Wix: Internal Server Error');
   });
 
-  it('should return null when falling back to mock data and slug is not found', async () => {
-    delete process.env.WIX_API_URL;
-    delete process.env.WIX_API_KEY;
 
-    const { fetchWixBrokerBySlug } = await import('../lib/wix');
-    const result = await fetchWixBrokerBySlug('definitely-not-a-real-slug-12345');
-
-    expect(result).toBeNull();
-  });
 });

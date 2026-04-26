@@ -13,9 +13,14 @@ export function CTASection() {
         <p className="text-xl md:text-2xl font-black mb-12">
           Connect with an operator who understands your business and gets deals funded.
         </p>
-        <Link href="/directory" className="btn-brutal bg-neo-black text-neo-white text-xl px-12 py-6 border-4 border-neo-black shadow-[6px_6px_0px_0px_rgba(244,244,240,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all">
-          Find a Partner Now
-        </Link>
+        <div className="flex flex-col sm:flex-row justify-center gap-6">
+          <Link href="/directory" className="btn-brutal bg-neo-black text-neo-white text-xl px-12 py-6 border-4 border-neo-black shadow-[6px_6px_0px_0px_rgba(244,244,240,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all">
+            Browse Directory
+          </Link>
+          <Link href={process.env.NEXT_PUBLIC_MATCH_URL || "/onboarding"} className="btn-brutal bg-neo-yellow text-neo-black text-xl px-12 py-6 border-4 border-neo-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all">
+            Get Matched
+          </Link>
+        </div>
       </div>
     </section>
   );

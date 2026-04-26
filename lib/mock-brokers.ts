@@ -17,6 +17,14 @@ export const mockBrokers: BrokerProfile[] = [
     industries: ['Construction', 'Transportation', 'Service Businesses', 'Real Estate'],
     fundingTypes: ['Equipment Financing', 'Vehicle & Fleet Financing', 'Revenue-Based Funding', 'Business Term Loans', 'SBA Options'],
     urgencyCategory: 'standard',
+    serviceArea: ['Nationwide'],
+    speedToContact: 'Within 2 hours',
+    minimumDealSize: 50000,
+    maximumDealSize: 5000000,
+    primaryCtaType: 'apply',
+    proofPoints: ['Over $50M deployed', 'Fast approval process', 'Transparent terms'],
+    bestFitClients: 'Established businesses with minimum $500k annual revenue looking for equipment upgrades or expansion capital.',
+    verticals: ['Construction', 'Transportation', 'Service Businesses', 'Real Estate'],
     fundingSpecialties: ['Equipment Financing', 'Vehicle & Fleet Financing', 'Revenue-Based Funding', 'Business Term Loans', 'SBA Options'],
 
     primaryCta: {
@@ -56,6 +64,14 @@ export const mockBrokers: BrokerProfile[] = [
     industries: ['SaaS', 'Manufacturing', 'Technology'],
     fundingTypes: ['SaaS Revenue', 'Equipment Finance', 'Bridge Loans'],
     urgencyCategory: 'fast',
+    serviceArea: ['TX', 'CA', 'NY', 'FL'],
+    speedToContact: 'Within 1 hour',
+    minimumDealSize: 100000,
+    maximumDealSize: 10000000,
+    primaryCtaType: 'apply',
+    proofPoints: ['Specialized in SaaS metrics', 'Non-dilutive capital', 'Founder-friendly terms'],
+    bestFitClients: 'SaaS and tech companies with $1M+ ARR looking to extend runway without giving up equity.',
+    verticals: ['SaaS', 'Manufacturing', 'Technology'],
     fundingSpecialties: ['SaaS Revenue', 'Equipment Finance', 'Bridge Loans'],
 
     primaryCta: {
@@ -87,6 +103,14 @@ export const mockBrokers: BrokerProfile[] = [
     industries: ['Construction', 'Real Estate', 'Logistics'],
     fundingTypes: ['Equipment Finance', 'Real Estate', 'SBA Loans'],
     urgencyCategory: 'standard',
+    serviceArea: ['Midwest USA', 'IL', 'OH', 'MI'],
+    speedToContact: 'Same business day',
+    minimumDealSize: 250000,
+    maximumDealSize: 15000000,
+    primaryCtaType: 'apply',
+    proofPoints: ['Deep real estate expertise', 'Flexible collateral requirements', 'Quick closing times'],
+    bestFitClients: 'Real estate developers and construction firms needing quick access to bridge capital or equipment financing.',
+    verticals: ['Construction', 'Real Estate', 'Logistics'],
     fundingSpecialties: ['Equipment Finance', 'Real Estate', 'SBA Loans'],
 
     primaryCta: {
@@ -118,6 +142,14 @@ export const mockBrokers: BrokerProfile[] = [
     industries: ['E-commerce', 'Retail', 'DTC'],
     fundingTypes: ['Revenue Based', 'Working Capital'],
     urgencyCategory: 'fast',
+    serviceArea: ['Global'],
+    speedToContact: 'Within 30 minutes',
+    minimumDealSize: 10000,
+    maximumDealSize: 2000000,
+    primaryCtaType: 'apply',
+    proofPoints: ['Data-driven underwriting', 'Connect store directly', 'Capital in 24 hours'],
+    bestFitClients: 'E-commerce brands needing inventory or ad spend capital ahead of peak seasons.',
+    verticals: ['E-commerce', 'Retail', 'DTC'],
     fundingSpecialties: ['E-commerce', 'Revenue Based', 'Working Capital'],
 
     primaryCta: {
@@ -149,6 +181,14 @@ export const mockBrokers: BrokerProfile[] = [
     industries: ['Healthcare', 'B2B Services', 'Enterprise'],
     fundingTypes: ['M&A', 'Bridge Loans', 'Term Loans'],
     urgencyCategory: 'complex',
+    serviceArea: ['North America'],
+    speedToContact: 'Next business day',
+    minimumDealSize: 1000000,
+    maximumDealSize: 50000000,
+    primaryCtaType: 'book_call',
+    proofPoints: ['Complex structuring capabilities', 'Network of institutional partners', 'End-to-end M&A advisory'],
+    bestFitClients: 'Mid-market companies ($10M - $100M revenue) seeking acquisition financing or undergoing major recapitalization.',
+    verticals: ['Healthcare', 'B2B Services', 'Enterprise'],
     fundingSpecialties: ['M&A', 'Bridge Loans', 'Term Loans'],
 
     primaryCta: {

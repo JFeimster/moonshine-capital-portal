@@ -18,7 +18,7 @@ export function DirectoryClient({ initialBrokers }: DirectoryClientProps) {
 
   // Compute unique filter options
   const availableStates = useMemo(() =>
-    Array.from(new Set(initialBrokers.map(b => b.state).filter(Boolean))).sort(),
+    Array.from(new Set(initialBrokers.flatMap(b => [b.state, ...(b.serviceArea || [])]).filter(Boolean))).sort(),
   [initialBrokers]);
 
   const availableSpecialties = useMemo(() =>
@@ -26,7 +26,7 @@ export function DirectoryClient({ initialBrokers }: DirectoryClientProps) {
   [initialBrokers]);
 
   const availableIndustries = useMemo(() =>
-    Array.from(new Set(initialBrokers.flatMap(b => b.industries || []))).sort(),
+    Array.from(new Set(initialBrokers.flatMap(b => b.verticals || b.industries || []))).sort(),
   [initialBrokers]);
 
   // Filter brokers
@@ -37,15 +37,15 @@ export function DirectoryClient({ initialBrokers }: DirectoryClientProps) {
         broker.fullName.toLowerCase().includes(lowerSearchTerm) ||
         broker.agencyName.toLowerCase().includes(lowerSearchTerm);
 
-      const matchesState = selectedState === '' || broker.state === selectedState;
+      const matchesState = selectedState === '' || broker.state === selectedState || (broker.serviceArea && broker.serviceArea.includes(selectedState));
 
       const typesToSearch = broker.fundingTypes || broker.fundingSpecialties || [];
       const matchesSpecialty = selectedSpecialty === '' || typesToSearch.includes(selectedSpecialty);
 
-      const industriesToSearch = broker.industries || [];
+      const industriesToSearch = broker.verticals || broker.industries || [];
       const matchesIndustry = selectedIndustry === '' || industriesToSearch.includes(selectedIndustry);
 
-      const matchesUrgency = selectedUrgency === '' || broker.urgencyCategory === selectedUrgency;
+      const matchesUrgency = selectedUrgency === '' || broker.urgencyCategory === selectedUrgency || broker.speedToContact === selectedUrgency;
 
       return matchesSearch && matchesState && matchesSpecialty && matchesIndustry && matchesUrgency;
     });

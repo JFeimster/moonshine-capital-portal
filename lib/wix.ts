@@ -1,8 +1,6 @@
-import { BrokerProfile } from './types';
 import { mockBrokers } from './mock-brokers';
 
-// Define expected Wix response structure
-interface WixBrokerResponse {
+export interface WixBrokerResponse {
   _id: string;
   fullName: string;
   agencyName: string;
@@ -14,8 +12,16 @@ interface WixBrokerResponse {
   publicEmail: string;
   whyChooseYou: string;
   industries?: string[];
+  verticals?: string[];
   fundingTypes?: string[];
   urgencyCategory?: string;
+  serviceArea?: string[];
+  speedToContact?: string;
+  minimumDealSize?: number;
+  maximumDealSize?: number;
+  primaryCtaType?: string;
+  proofPoints?: string[];
+  bestFitClients?: string;
   fundingSpecialties?: string[];
   primaryCtaLink?: string;
   ctaLabel?: string;
@@ -26,112 +32,53 @@ interface WixBrokerResponse {
   brokerStatus?: 'active' | 'hidden' | 'recruiting';
   isActive: boolean;
   phoneNumber?: string;
-  // Raw Wix CTA fields if any, we'll map them
 }
 
 const WIX_API_URL = process.env.WIX_API_URL || '';
 const WIX_API_KEY = process.env.WIX_API_KEY || '';
 
-// Normalization function to ensure Wix data matches our frontend types
-function normalizeBroker(wixBroker: WixBrokerResponse): BrokerProfile {
-  return {
-    id: wixBroker._id,
-    fullName: wixBroker.fullName,
-    agencyName: wixBroker.agencyName,
-    slug: wixBroker.slug,
-    shortBio: wixBroker.shortBio,
-    city: wixBroker.city,
-    state: wixBroker.state,
-    websiteUrl: wixBroker.websiteUrl,
-    publicEmail: wixBroker.publicEmail,
-    whyChooseYou: wixBroker.whyChooseYou,
+export async function fetchWixBrokers(): Promise<WixBrokerResponse[]> {
+  if (!WIX_API_URL || !WIX_API_KEY) {
+    throw new Error('WIX_API_URL or WIX_API_KEY not found');
+  }
 
-    industries: wixBroker.industries || [],
-    fundingTypes: wixBroker.fundingTypes || wixBroker.fundingSpecialties || [],
-    urgencyCategory: wixBroker.urgencyCategory || 'standard',
-
-    fundingSpecialties: wixBroker.fundingSpecialties || [],
-    primaryCtaLink: wixBroker.primaryCtaLink,
-    ctaLabel: wixBroker.ctaLabel,
-    featuredBroker: wixBroker.featuredBroker,
-    featuredFlag: wixBroker.featuredFlag || wixBroker.featuredBroker,
-
-    primaryCta: {
-      label: wixBroker.ctaLabel || 'Apply Now',
-      url: wixBroker.primaryCtaLink || '#',
-      variant: 'primary',
-      trackingId: `broker_cta_${wixBroker._id}`
+  const res = await fetch(`${WIX_API_URL}/brokerProfiles?status=approved&active=true`, {
+    headers: {
+      'Authorization': `Bearer ${WIX_API_KEY}`,
+      'Content-Type': 'application/json'
     },
+    next: { revalidate: 3600 }
+  });
 
-    profileImage: wixBroker.profileImage,
-    approvalStatus: wixBroker.approvalStatus,
-    brokerStatus: wixBroker.brokerStatus || 'active',
-    isActive: wixBroker.isActive !== undefined ? wixBroker.isActive : true,
-    phoneNumber: wixBroker.phoneNumber,
-  };
+  if (!res.ok) {
+    throw new Error(`Failed to fetch from Wix: ${res.statusText}`);
+  }
+
+  const data: WixBrokerResponse[] = await res.json();
+  return data;
 }
 
-export async function fetchWixBrokers(): Promise<BrokerProfile[]> {
-  // If no API credentials, fallback to mock data
+export async function fetchWixBrokerBySlug(slug: string): Promise<WixBrokerResponse | null> {
   if (!WIX_API_URL || !WIX_API_KEY) {
-    console.warn('WIX_API_URL or WIX_API_KEY not found. Falling back to mock data.');
-    await new Promise(resolve => setTimeout(resolve, 500));
-    return mockBrokers.filter(b => b.approvalStatus === 'approved' && b.isActive);
+    throw new Error('WIX_API_URL or WIX_API_KEY not found');
   }
 
-  try {
-    const res = await fetch(`${WIX_API_URL}/brokerProfiles?status=approved&active=true`, {
-      headers: {
-        'Authorization': `Bearer ${WIX_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      next: { revalidate: 3600 } // ISR for 1 hour
-    });
+  const encodedSlug = encodeURIComponent(slug);
+  const res = await fetch(`${WIX_API_URL}/brokerProfiles?slug=${encodedSlug}&status=approved&active=true`, {
+    headers: {
+      'Authorization': `Bearer ${WIX_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    next: { revalidate: 3600 }
+  });
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch from Wix: ${res.statusText}`);
-    }
-
-    const data: WixBrokerResponse[] = await res.json();
-    return data.map(normalizeBroker);
-  } catch (error) {
-    console.error('Error fetching Wix brokers:', error);
-    // Fallback to mock data if fetch fails
-    return mockBrokers.filter(b => b.approvalStatus === 'approved' && b.isActive);
-  }
-}
-
-export async function fetchWixBrokerBySlug(slug: string): Promise<BrokerProfile | null> {
-  // If no API credentials, fallback to mock data
-  if (!WIX_API_URL || !WIX_API_KEY) {
-    console.warn('WIX_API_URL or WIX_API_KEY not found. Falling back to mock data.');
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const broker = mockBrokers.find(b => b.slug === slug && b.approvalStatus === 'approved' && b.isActive);
-    return broker || null;
+  if (!res.ok) {
+    throw new Error(`Failed to fetch from Wix: ${res.statusText}`);
   }
 
-  try {
-    const encodedSlug = encodeURIComponent(slug);
-    const res = await fetch(`${WIX_API_URL}/brokerProfiles?slug=${encodedSlug}&status=approved&active=true`, {
-      headers: {
-        'Authorization': `Bearer ${WIX_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      next: { revalidate: 3600 }
-    });
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch from Wix: ${res.statusText}`);
-    }
-
-    const data: WixBrokerResponse[] = await res.json();
-    if (data.length > 0) {
-      return normalizeBroker(data[0]);
-    }
-    return null;
-  } catch (error) {
-    console.error(`Error fetching Wix broker with slug ${slug}:`, error);
-    const broker = mockBrokers.find(b => b.slug === slug && b.approvalStatus === 'approved' && b.isActive);
-    return broker || null;
+  const data: WixBrokerResponse[] = await res.json();
+  if (data.length > 0) {
+    return data[0];
   }
+  return null;
 }

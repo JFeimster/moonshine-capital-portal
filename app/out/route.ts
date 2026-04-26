@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getBrokerBySlug } from '@/lib/brokers';
 import { sanitizeUrl } from '@/lib/utils';
+import { trackBrokerCtaClick } from '@/lib/tracking';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -32,8 +33,7 @@ export async function GET(request: NextRequest) {
     destinationUrl = `/directory/${brokerSlug}`;
   }
 
-  // Log event (MVP)
-  console.log('[Tracking Event]', {
+  const payload = {
     event: 'cta_click',
     broker: brokerSlug,
     type,
@@ -42,7 +42,13 @@ export async function GET(request: NextRequest) {
     timestamp: new Date().toISOString(),
     userAgent: request.headers.get('user-agent') || 'unknown',
     referrer: request.headers.get('referer') || 'unknown',
-  });
+  };
+
+  // Log event (MVP)
+  console.log('[Tracking Event]', payload);
+
+  // Send to tracking webhook asynchronously without blocking response
+  void trackBrokerCtaClick(payload);
 
   return NextResponse.redirect(new URL(destinationUrl, request.url));
 }

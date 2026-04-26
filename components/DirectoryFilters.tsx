@@ -47,14 +47,14 @@ export function DirectoryFilters({
         </div>
 
         <div className="w-full md:w-48">
-          <label htmlFor="state" className="block font-bold uppercase text-sm mb-2 text-neo-black">State</label>
+          <label htmlFor="state" className="block font-bold uppercase text-sm mb-2 text-neo-black">State / Service Area</label>
           <select
             id="state"
             value={selectedState}
             onChange={(e) => setSelectedState(e.target.value)}
             className="w-full p-3 border-2 border-neo-black bg-neo-white font-bold focus:outline-none focus:ring-2 focus:ring-neo-blue shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] appearance-none rounded-none"
           >
-            <option value="">All States</option>
+            <option value="">All Areas</option>
             {availableStates.map(s => <option key={s} value={s}>{s}</option>)}
           </select>
         </div>
@@ -88,7 +88,7 @@ export function DirectoryFilters({
         </div>
 
         <div className="w-full md:flex-1">
-          <label htmlFor="urgency" className="block font-bold uppercase text-sm mb-2 text-neo-black">Urgency</label>
+          <label htmlFor="urgency" className="block font-bold uppercase text-sm mb-2 text-neo-black">Urgency / Speed</label>
           <select
             id="urgency"
             value={selectedUrgency}
