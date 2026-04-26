@@ -1,4 +1,16 @@
 import { NextRequest } from 'next/server';
+import { timingSafeEqual } from 'crypto';
+
+function safeCompare(a: string, b: string): boolean {
+  const aBuffer = Buffer.from(a);
+  const bBuffer = Buffer.from(b);
+
+  if (aBuffer.length !== bBuffer.length) {
+    return false;
+  }
+
+  return timingSafeEqual(aBuffer, bBuffer);
+}
 
 /**
  * Validates a shared secret passed in the webhook headers to secure intake routes.
@@ -13,15 +25,13 @@ export function validateWebhookAuth(req: NextRequest): boolean {
     return false;
   }
 
-  // Check the authorization header (or a custom header like 'x-tally-secret')
   const providedSecret = req.headers.get('Authorization') || req.headers.get('x-webhook-secret');
 
   if (!providedSecret) {
     return false;
   }
 
-  // Basic Bearer token comparison or direct secret comparison
   const cleanedSecret = providedSecret.replace(/^Bearer\s+/i, '').trim();
 
-  return cleanedSecret === expectedSecret;
+  return safeCompare(cleanedSecret, expectedSecret);
 }
