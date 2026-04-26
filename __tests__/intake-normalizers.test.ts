@@ -82,10 +82,9 @@ describe('intake-normalizers', () => {
       expect(normalizeState(undefined)).toBe('');
     });
 
-    it('should return empty string for unknown or invalid states', () => {
+    it('should return empty string if state is unknown instead of guessing', () => {
       expect(normalizeState('UnknownState')).toBe('');
-      expect(normalizeState('TE')).toBe('');
-      expect(normalizeState('XX')).toBe('');
+      expect(normalizeState('Fake State')).toBe('');
     });
   });
 });

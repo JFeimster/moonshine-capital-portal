@@ -63,25 +63,28 @@ const STATE_MAP: Record<string, string> = {
   'district of columbia': 'DC', 'dc': 'DC', 'puerto rico': 'PR', 'pr': 'PR'
 };
 
-const VALID_STATE_CODES = new Set(Object.values(STATE_MAP));
-
 /**
- * Normalizes a US state or territory to a canonical 2-letter abbreviation.
- * Unknown values return an empty string so downstream systems do not receive fake state codes.
+ * Extracts and normalizes the state to a 2-letter abbreviation using a USPS lookup.
+ * Returns the exact match if it is already a valid 2-letter code.
  */
 export function normalizeState(state?: string): string {
   if (!state) return '';
 
   const trimmed = state.trim().toLowerCase();
 
+  // If it matches a full name, return the abbreviation
   if (STATE_MAP[trimmed]) {
     return STATE_MAP[trimmed];
   }
 
-  const upperCode = trimmed.toUpperCase();
-  if (upperCode.length === 2 && VALID_STATE_CODES.has(upperCode)) {
-    return upperCode;
+  // Only explicitly accept valid 2-letter codes.
+  // Validate against our map's known values.
+  const knownValues = Object.values(STATE_MAP);
+  const upperTrimmed = trimmed.toUpperCase();
+  if (knownValues.includes(upperTrimmed)) {
+    return upperTrimmed;
   }
 
+  // Return empty string for unknown/invalid states instead of guessing.
   return '';
 }

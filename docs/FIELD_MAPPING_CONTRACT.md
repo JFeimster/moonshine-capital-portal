@@ -1,6 +1,17 @@
 # Canonical Broker Schema & Field Mapping Contract
 
-This document defines the canonical data model for a Broker Profile across the Distilled Funding ecosystem. It acts as the source of truth for integrations moving data between Tally (intake), Notion (CRM), and Wix CMS (public directory).
+This document defines the canonical data model and field-mapping contract for a Broker Profile across the Moonshine Capital Portal ecosystem.
+
+**Role of this file:**
+- this is the **master cross-system contract**
+- it governs how data moves between Tally, Notion CRM, and Wix CMS
+- system-specific schema docs should remain system-specific and point back here for shared mapping logic
+
+Use related docs this way:
+- `docs/data-model.md` = canonical app model doc
+- `docs/WIX_BROKERPROFILE_SCHEMA.md` = Wix-specific schema doc
+- `docs/NOTION_BROKER_CRM_SCHEMA.md` = Notion CRM schema doc
+- `docs/TALLY_APPLICATION_SCHEMA.md` and `docs/TALLY_PROFILE_BUILDER_SCHEMA.md` = Tally intake/profile-builder docs
 
 ## Merge Key
 The primary identifier for matching records across systems is the **Broker Email (`publicEmail` / `email`)**.
@@ -63,3 +74,8 @@ If email is missing or changed, require manual resolution or use an immutable su
 - `urgencyCategory`: Default to `"standard"` if not provided.
 - `approvalStatus` (Wix): Default to `"pending"` upon initial ingestion until verified.
 - `isActive` (Wix): Default to `false` until approved.
+
+## Contract Notes
+- use this file to resolve mapping disputes between systems
+- avoid duplicating transformation rules across schema docs
+- keep system-specific docs focused on their own storage model while this file owns the cross-system contract

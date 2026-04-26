@@ -78,14 +78,14 @@ export default async function BrokerProfilePage({ params }: { params: { slug: st
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-24">
           <div className="lg:col-span-2 space-y-16">
             <section>
-              <SectionHeading title="About" color="blue" />
+              <SectionHeading title="Partner Overview" color="blue" />
               <div className="bg-neo-cream p-8 border-4 border-neo-black shadow-brutal text-lg font-medium leading-relaxed">
                 {broker.whyChooseYou}
               </div>
             </section>
 
             <section>
-              <SectionHeading title="Short Bio" color="yellow" />
+              <SectionHeading title="Snapshot" color="yellow" />
               <p className="text-xl font-bold border-l-4 border-neo-black pl-6">
                 {broker.shortBio}
               </p>
