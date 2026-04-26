@@ -3,6 +3,7 @@ import { ToolCard } from './ToolCard';
 
 interface ToolGridProps {
   tools: ToolRegistryItem[];
+  title?: string;
   emptyTitle?: string;
   emptyCopy?: string;
   emptyMessage?: string;
@@ -10,6 +11,7 @@ interface ToolGridProps {
 
 export function ToolGrid({
   tools,
+  title,
   emptyTitle = 'No tools loaded yet',
   emptyCopy,
   emptyMessage,
@@ -27,10 +29,18 @@ export function ToolGrid({
   }
 
   return (
-    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
-      {tools.map((tool) => (
-        <ToolCard key={tool.id} tool={tool} />
-      ))}
-    </div>
+    <section className="space-y-4">
+      {title && (
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-black uppercase tracking-tight">{title}</h2>
+          <span className="text-sm font-black uppercase text-neo-black/60">{tools.length} loaded</span>
+        </div>
+      )}
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
+        {tools.map((tool) => (
+          <ToolCard key={tool.id} tool={tool} />
+        ))}
+      </div>
+    </section>
   );
 }
