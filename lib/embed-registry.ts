@@ -56,6 +56,15 @@ export interface RegistryStats {
   missingDestination: number;
 }
 
+export interface RegistryCoverageItem {
+  item: ToolRegistryItem;
+  destination: string;
+  hasDestination: boolean;
+  hasBrokerAssignments: boolean;
+  missingFields: string[];
+  coverageScore: number;
+}
+
 async function readRegistryFile(): Promise<ToolRegistryFile> {
   const filePath = path.join(process.cwd(), 'data', 'embeds', 'tool-registry.json');
   const content = await fs.readFile(filePath, 'utf-8');
@@ -69,6 +78,45 @@ function bySortThenTitle(a: ToolRegistryItem, b: ToolRegistryItem) {
 
 function isPubliclyAvailable(item: ToolRegistryItem) {
   return item.status === 'active';
+}
+
+export function groupRegistryItemsBy(items: ToolRegistryItem[], field: 'category' | 'resourceType' | 'renderType' | 'funnelStage') {
+  return items.reduce<Record<string, ToolRegistryItem[]>>((groups, item) => {
+    const key = field === 'funnelStage' ? item.funnelStage || 'general' : item[field] || 'uncategorized';
+    groups[key] = groups[key] || [];
+    groups[key].push(item);
+    return groups;
+  }, {});
+}
+
+export function getRegistryDestination(item: ToolRegistryItem) {
+  return item.ctaHref || item.url || item.embedUrl || '#';
+}
+
+export function getRegistryCoverage(items: ToolRegistryItem[]): RegistryCoverageItem[] {
+  return items.map((item) => {
+    const destination = getRegistryDestination(item);
+    const missingFields = [
+      !item.description ? 'description' : null,
+      !item.ctaLabel ? 'ctaLabel' : null,
+      item.tags.length === 0 ? 'tags' : null,
+      item.audience.length === 0 ? 'audience' : null,
+      item.verticals.length === 0 ? 'verticals' : null,
+      item.useCases.length === 0 ? 'useCases' : null,
+      destination === '#' ? 'destination' : null,
+    ].filter(Boolean) as string[];
+
+    const coverageScore = Math.max(0, 100 - missingFields.length * 15 - (item.brokerAssignments.length === 0 ? 10 : 0));
+
+    return {
+      item,
+      destination,
+      hasDestination: destination !== '#',
+      hasBrokerAssignments: item.brokerAssignments.length > 0,
+      missingFields,
+      coverageScore,
+    };
+  });
 }
 
 export async function getAllRegistryItems(): Promise<ToolRegistryItem[]> {
@@ -149,8 +197,4 @@ export async function getRegistryStats(): Promise<RegistryStats> {
     assignedToBrokers: items.filter((item) => item.brokerAssignments.length > 0).length,
     missingDestination: items.filter((item) => !item.url && !item.embedUrl && !item.ctaHref).length,
   };
-}
-
-export function getRegistryDestination(item: ToolRegistryItem) {
-  return item.ctaHref || item.url || item.embedUrl || '#';
 }
