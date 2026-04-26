@@ -86,7 +86,7 @@ export default async function PortalProfilePage() {
               <p className="text-xs font-black uppercase tracking-wide">{recommendationMode}</p>
               <h2 className="mt-2 text-3xl font-black uppercase tracking-tight">Recommended broker tools</h2>
               <p className="mt-2 max-w-3xl font-medium text-neo-black/70">
-                These tools should be the first utility stack a broker sees when managing their profile. Tool clicks can move through tracked redirect paths once the profile action layer is fully wired.
+                These tools should be the first utility stack a broker sees when managing their profile. Primary actions now use tracked redirect paths so broker profile utility clicks are measurable.
               </p>
             </div>
             <Link href="/portal/tools" className="border-2 border-neo-black bg-neo-green px-4 py-2 text-xs font-black uppercase tracking-wide shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
@@ -94,7 +94,7 @@ export default async function PortalProfilePage() {
             </Link>
           </div>
           <div className="mt-6">
-            <ToolGrid title="Profile utility stack" tools={recommendedTools.slice(0, 6)} />
+            <ToolGrid title="Profile utility stack" tools={recommendedTools.slice(0, 6)} useTrackedPrimaryActions />
           </div>
         </section>
 
@@ -104,7 +104,7 @@ export default async function PortalProfilePage() {
               <p className="text-xs font-black uppercase tracking-wide">{resourceRecommendationMode}</p>
               <h2 className="mt-2 text-3xl font-black uppercase tracking-tight">Recommended broker resources</h2>
               <p className="mt-2 max-w-3xl font-medium text-neo-black/70">
-                Scripts, guides, handoff assets, and enablement resources should sit next to the tool stack so brokers can act without hunting through another digital junk drawer.
+                Scripts, guides, handoff assets, and enablement resources should sit next to the tool stack so brokers can act without hunting through another digital junk drawer. Primary resource actions are routed through tracked redirects.
               </p>
             </div>
             <Link href="/portal/resources" className="border-2 border-neo-black bg-neo-yellow px-4 py-2 text-xs font-black uppercase tracking-wide shadow-[4px_4px_0_0_rgba(0,0,0,1)]">
@@ -117,6 +117,7 @@ export default async function PortalProfilePage() {
               tools={recommendedResources.slice(0, 6)}
               emptyTitle="No broker resources assigned yet"
               emptyCopy="Assign scripts, guides, handoff assets, or playbooks in the registry so this profile becomes useful instead of ornamental fintech wallpaper."
+              useTrackedPrimaryActions
             />
           </div>
         </section>
