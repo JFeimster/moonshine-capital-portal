@@ -14,5 +14,9 @@ export default async function PortalToolDetailPage({ params }: { params: { slug:
 
   if (!item || item.kind !== 'tool') notFound();
 
-  return <RegistryDetailPage item={item} backHref="/portal/tools" backLabel="Back to tools" />;
+  const relatedItems = (await getToolsByKind('tool'))
+    .filter((tool) => tool.slug !== item.slug && tool.category === item.category)
+    .slice(0, 3);
+
+  return <RegistryDetailPage item={item} backHref="/portal/tools" backLabel="Back to tools" relatedItems={relatedItems} />;
 }
