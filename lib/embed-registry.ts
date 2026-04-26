@@ -93,6 +93,10 @@ export function getRegistryDestination(item: ToolRegistryItem) {
   return item.ctaHref || item.url || item.embedUrl || '#';
 }
 
+export function getRegistryTrackedHref(item: ToolRegistryItem) {
+  return `/go/${item.slug}`;
+}
+
 export function getRegistryCoverage(items: ToolRegistryItem[]): RegistryCoverageItem[] {
   return items.map((item) => {
     const destination = getRegistryDestination(item);
