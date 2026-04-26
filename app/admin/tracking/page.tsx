@@ -12,23 +12,43 @@ const trackedFields = [
   'userAgent',
 ];
 
+const samplePayload = {
+  event: 'registry_click',
+  slug: 'apply-hub',
+  itemId: 'apply-hub',
+  kind: 'tool',
+  category: 'applications',
+  resourceType: 'application-route',
+  destination: '/apply',
+  timestamp: '2026-04-26T10:42:00.000Z',
+  referrer: 'https://moonshine-capital-portal.vercel.app/directory/darwin-hanneman',
+  userAgent: 'Mozilla/5.0',
+};
+
 const nextSteps = [
   {
     title: 'Vercel Runtime Logs',
-    description: 'Current click events already land here. Cheapest immediate visibility. Good for proving traffic before pretending we need a warehouse.',
+    description: 'Baseline visibility. Every registry click still lands here even if no downstream sink is configured.',
   },
   {
     title: 'n8n Webhook Sink',
-    description: 'Forward click events into a webhook for enrichment, alerting, routing, and cheap downstream automations.',
+    description: 'Set REGISTRY_CLICK_WEBHOOK_URL and forward events into n8n for enrichment, routing, alerts, and cheap automation.',
   },
   {
     title: 'Notion Event Table',
-    description: 'Useful for lightweight operator review, manual QA, and quick click/event audits without real analytics infra yet.',
+    description: 'Store normalized click events in Notion for operator review, AI summaries, and dead-simple weekly audits.',
   },
   {
-    title: 'Database / Warehouse Later',
-    description: 'Only once volume justifies persistence, reporting, and actual trend analysis instead of founder cosplay with dashboards.',
+    title: 'Database Later',
+    description: 'Use real storage only after event volume justifies reporting, retention, and trend analysis.',
   },
+];
+
+const trackingStates = [
+  'Console logging active',
+  'Webhook sink optional via REGISTRY_CLICK_WEBHOOK_URL',
+  'Webhook POST timeout protected (1500ms)',
+  'Fail-open redirect behavior preserved',
 ];
 
 export default function AdminTrackingPage() {
@@ -41,9 +61,9 @@ export default function AdminTrackingPage() {
 
         <section className="card-brutal bg-neo-white">
           <span className="border-2 border-neo-black bg-neo-yellow px-3 py-1 text-xs font-black uppercase">Tracking</span>
-          <h1 className="mt-4 text-4xl font-black uppercase tracking-tight md:text-5xl">Registry click tracking is live.</h1>
-          <p className="mt-3 max-w-3xl text-base font-medium leading-relaxed text-neo-black/75">
-            Registry assets now emit structured click events through <code>/go/[slug]</code>. This is read-only infrastructure for now: enough to prove behavior, inspect payloads, and decide where persistence belongs before building fake analytics theater.
+          <h1 className="mt-4 text-4xl font-black uppercase tracking-tight md:text-5xl">Registry click tracking is live and webhook-ready.</h1>
+          <p className="mt-3 max-w-4xl text-base font-medium leading-relaxed text-neo-black/75">
+            Registry assets emit structured click events through <code>/go/[slug]</code>. Every click logs to Vercel runtime by default. When <code>REGISTRY_CLICK_WEBHOOK_URL</code> is configured, events also POST to a downstream sink with timeout protection and fail-open redirect behavior.
           </p>
         </section>
 
@@ -60,8 +80,19 @@ export default function AdminTrackingPage() {
           </Link>
           <div className="card-brutal bg-neo-white">
             <p className="text-xs font-black uppercase">Status</p>
-            <h2 className="mt-2 text-2xl font-black uppercase">Log Only</h2>
-            <p className="mt-2 font-medium text-neo-black/70">Structured server events, no persistence layer yet.</p>
+            <h2 className="mt-2 text-2xl font-black uppercase">Webhook Ready</h2>
+            <p className="mt-2 font-medium text-neo-black/70">Console-first, optional sink, timeout-protected, fail-open.</p>
+          </div>
+        </section>
+
+        <section className="card-brutal bg-neo-white">
+          <h2 className="text-3xl font-black uppercase">Tracking behavior</h2>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {trackingStates.map((state) => (
+              <div key={state} className="border-2 border-neo-black px-4 py-3 text-sm font-black uppercase">
+                {state}
+              </div>
+            ))}
           </div>
         </section>
 
@@ -74,10 +105,11 @@ export default function AdminTrackingPage() {
               </div>
             ))}
           </div>
+          <pre className="mt-6 overflow-x-auto border-2 border-neo-black bg-neo-black p-4 text-sm text-neo-green">{JSON.stringify(samplePayload, null, 2)}</pre>
         </section>
 
         <section className="card-brutal bg-neo-white">
-          <h2 className="text-3xl font-black uppercase">Next persistence options</h2>
+          <h2 className="text-3xl font-black uppercase">Recommended handoff</h2>
           <div className="mt-4 grid gap-4 md:grid-cols-2">
             {nextSteps.map((step) => (
               <div key={step.title} className="border-2 border-neo-black p-4">
