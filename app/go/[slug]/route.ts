@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getRegistryDestination, getToolBySlug } from '@/lib/embed-registry';
+import { trackRegistryClick } from '@/lib/registry-click-tracking';
 
 export async function GET(request: Request, { params }: { params: { slug: string } }) {
   const item = await getToolBySlug(params.slug);
@@ -13,6 +14,8 @@ export async function GET(request: Request, { params }: { params: { slug: string
   if (!destination || destination === '#') {
     return NextResponse.json({ error: 'Missing destination' }, { status: 404 });
   }
+
+  trackRegistryClick({ item, destination, request });
 
   const redirectUrl = new URL(destination, request.url);
 
