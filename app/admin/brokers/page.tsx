@@ -13,7 +13,6 @@ export const metadata = {
 interface BrokerCoverageRow {
   name: string;
   slug: string;
-  status: string;
   assignedTools: number;
   featuredAssignments: number;
   fallback: boolean;
@@ -33,7 +32,6 @@ async function getBrokerCoverageRows(): Promise<{ rows: BrokerCoverageRow[]; loa
         return {
           name: broker.fullName,
           slug: broker.slug,
-          status: broker.status || 'unknown',
           assignedTools: assignedTools.length,
           featuredAssignments,
           fallback: assignedTools.length === 0,
@@ -77,20 +75,18 @@ export default async function AdminBrokersPage() {
 
         <section className="grid gap-6 lg:grid-cols-[1.5fr_0.5fr]">
           <div className="overflow-hidden border-4 border-neo-black bg-neo-white shadow-[10px_10px_0_0_rgba(0,0,0,1)]">
-            <div className="grid grid-cols-6 border-b-4 border-neo-black bg-neo-black px-5 py-4 text-xs font-black uppercase tracking-wide text-neo-white">
+            <div className="grid grid-cols-5 border-b-4 border-neo-black bg-neo-black px-5 py-4 text-xs font-black uppercase tracking-wide text-neo-white">
               <span>Name</span>
               <span>Slug</span>
-              <span>Status</span>
               <span>Assigned</span>
               <span>Featured</span>
               <span>Profile</span>
             </div>
             {brokerRows.length > 0 ? (
               brokerRows.map((row) => (
-                <div key={row.slug} className="grid grid-cols-6 items-center border-b-2 border-neo-black px-5 py-4 text-sm font-bold uppercase tracking-wide last:border-b-0">
+                <div key={row.slug} className="grid grid-cols-5 items-center border-b-2 border-neo-black px-5 py-4 text-sm font-bold uppercase tracking-wide last:border-b-0">
                   <span>{row.name}</span>
                   <span>{row.slug}</span>
-                  <span>{row.status}</span>
                   <span>{row.assignedTools}</span>
                   <span>{row.featuredAssignments}</span>
                   <Link href={`/directory/${row.slug}`} className="underline">
