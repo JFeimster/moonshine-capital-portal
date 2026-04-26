@@ -19,6 +19,8 @@ export interface RegistryClickEvent {
   userAgent: string | null;
 }
 
+const REGISTRY_CLICK_WEBHOOK_TIMEOUT_MS = 1500;
+
 async function sendRegistryClickWebhook(event: RegistryClickEvent) {
   const webhookUrl = process.env.REGISTRY_CLICK_WEBHOOK_URL;
 
@@ -31,6 +33,7 @@ async function sendRegistryClickWebhook(event: RegistryClickEvent) {
         'content-type': 'application/json',
       },
       body: JSON.stringify(event),
+      signal: AbortSignal.timeout(REGISTRY_CLICK_WEBHOOK_TIMEOUT_MS),
     });
 
     if (!response.ok) {
