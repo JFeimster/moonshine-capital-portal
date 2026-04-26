@@ -1,11 +1,16 @@
-import { getRegistryDestination, type ToolRegistryItem } from '@/lib/embed-registry';
+import Link from 'next/link';
+import type { ToolRegistryItem } from '@/lib/embed-registry';
 
 interface ToolCardProps {
   tool: ToolRegistryItem;
 }
 
+function getRegistryDetailHref(tool: ToolRegistryItem) {
+  return tool.kind === 'resource' ? `/portal/resources/${tool.slug}` : `/portal/tools/${tool.slug}`;
+}
+
 export function ToolCard({ tool }: ToolCardProps) {
-  const destination = getRegistryDestination(tool);
+  const detailHref = getRegistryDetailHref(tool);
 
   return (
     <article className="card-brutal flex h-full flex-col gap-4 bg-neo-white text-neo-black">
@@ -37,9 +42,9 @@ export function ToolCard({ tool }: ToolCardProps) {
       </div>
 
       <div className="mt-auto flex items-center justify-between gap-3 pt-2">
-        <a href={destination} target={destination.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="btn-brutal-primary text-sm">
-          {tool.ctaLabel}
-        </a>
+        <Link href={detailHref} className="btn-brutal-primary text-sm">
+          View Details
+        </Link>
         <span className="text-right text-xs font-bold uppercase text-neo-black/60">
           {tool.audience.slice(0, 2).join(' • ')}
         </span>
