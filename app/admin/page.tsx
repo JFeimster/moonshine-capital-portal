@@ -8,10 +8,17 @@ export const metadata = {
 };
 
 const adminLinks = [
-  { href: '/admin/submissions', label: 'Submissions' },
-  { href: '/admin/brokers', label: 'Brokers' },
-  { href: '/admin/logs', label: 'Logs' },
-  { href: '/admin/settings', label: 'Settings' },
+  { href: '/admin/brokers', label: 'Brokers', tone: 'bg-neo-green' },
+  { href: '/admin/applications', label: 'Applications', tone: 'bg-neo-yellow' },
+  { href: '/admin/tools', label: 'Tools', tone: 'bg-neo-blue' },
+  { href: '/admin/resources', label: 'Resources', tone: 'bg-neo-pink' },
+  { href: '/admin/tracking', label: 'Tracking', tone: 'bg-neo-green' },
+];
+
+const placeholderLinks = [
+  { href: '/admin/submissions', label: 'Submissions', note: 'legacy placeholder' },
+  { href: '/admin/logs', label: 'Logs', note: 'legacy placeholder' },
+  { href: '/admin/settings', label: 'Settings', note: 'legacy placeholder' },
 ];
 
 export default function AdminPage() {
@@ -24,16 +31,25 @@ export default function AdminPage() {
             <span className="border-2 border-neo-black bg-neo-pink px-3 py-1 text-xs font-black uppercase tracking-wide text-neo-black">Control plane</span>
           </div>
           <h1 className="max-w-4xl text-4xl font-black uppercase leading-none tracking-tight md:text-6xl">
-            Review, approve, log, and keep the machine from becoming chaos.
+            Review, route, inspect, and keep the machine from becoming chaos.
           </h1>
           <p className="mt-4 max-w-3xl text-base font-medium leading-relaxed text-neo-black/80 md:text-lg">
-            Internal control surface for broker submissions, profile quality, publish state, resource assignment, and operational visibility.
+            Internal control surface for broker utility coverage, intake routes, registry quality, resource coverage, and tracking visibility.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
+
+          <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
             {adminLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="border-2 border-neo-black bg-neo-green px-4 py-3 text-sm font-black uppercase tracking-wide shadow-[4px_4px_0_0_rgba(0,0,0,1)] transition hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none">
+              <Link key={link.href} href={link.href} className={`border-2 border-neo-black px-4 py-4 text-sm font-black uppercase tracking-wide shadow-[4px_4px_0_0_rgba(0,0,0,1)] transition hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none ${link.tone}`}>
                 {link.label}
               </Link>
+            ))}
+          </div>
+
+          <div className="mt-5 flex flex-wrap gap-2 text-xs font-black uppercase tracking-wide text-neo-black/60">
+            {placeholderLinks.map((link) => (
+              <span key={link.href} className="border-2 border-dashed border-neo-black px-3 py-2">
+                {link.label} · {link.note}
+              </span>
             ))}
           </div>
         </section>
