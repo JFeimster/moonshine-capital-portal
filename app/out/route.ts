@@ -22,13 +22,18 @@ export async function GET(request: NextRequest) {
   let destinationUrl = '/directory'; // Default fallback
 
   if (type === 'website' && broker.websiteUrl) {
-    destinationUrl = sanitizeUrl(broker.websiteUrl, '/directory');
+    destinationUrl = sanitizeUrl(broker.websiteUrl);
   } else {
     // Default to primary CTA
-    destinationUrl = sanitizeUrl(broker.primaryCta?.url || broker.primaryCtaLink || broker.websiteUrl || '#', '/directory');
+    destinationUrl = sanitizeUrl(broker.primaryCta?.url || broker.primaryCtaLink || broker.websiteUrl);
   }
 
-  const trackingPayload = {
+  if (destinationUrl === '#') {
+    destinationUrl = `/directory/${brokerSlug}`;
+  }
+
+  // Log event (MVP)
+  console.log('[Tracking Event]', {
     event: 'cta_click',
     broker: brokerSlug,
     type,
@@ -37,35 +42,7 @@ export async function GET(request: NextRequest) {
     timestamp: new Date().toISOString(),
     userAgent: request.headers.get('user-agent') || 'unknown',
     referrer: request.headers.get('referer') || 'unknown',
-  };
+  });
 
-  // Log event (MVP)
-  console.log('[Tracking Event]', trackingPayload);
-
-  // Send to n8n webhook if configured
-  if (process.env.N8N_CTA_WEBHOOK_URL) {
-    // Fire and forget, don't await the webhook to prevent blocking the redirect
-    fetch(process.env.N8N_CTA_WEBHOOK_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(trackingPayload),
-      // Adding a signal/timeout isn't strictly necessary since we aren't awaiting it,
-      // but standard fetch fire-and-forget is non-blocking to the rest of execution.
-    }).catch((error) => {
-      console.error('[Tracking Error] Failed to send webhook:', error);
-    });
-  }
-
-  if (destinationUrl === '#' || destinationUrl === '/directory') {
-    return NextResponse.redirect(new URL(`/directory/${brokerSlug}`, request.url));
-  }
-
-  // Handle both relative and absolute URLs
-  if (destinationUrl.startsWith('/')) {
-    return NextResponse.redirect(new URL(destinationUrl, request.url));
-  }
-
-  return NextResponse.redirect(destinationUrl);
+  return NextResponse.redirect(new URL(destinationUrl, request.url));
 }

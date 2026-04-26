@@ -4,16 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'i.pravatar.cc',
-      },
-      // Standard Wix Media domains
-      {
-        protocol: 'https',
-        hostname: 'static.wixstatic.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'wixmp.com', // fallback for some wix media patterns
+        hostname: '**',
       },
     ],
   },

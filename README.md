@@ -24,11 +24,10 @@ This application uses a modular architecture where **Next.js** acts as the prese
 
 ### Current data flow
 1. **Intake:** Partners apply through a Tally-powered onboarding flow at `/onboarding`
-2. **Review:** Applications are reviewed and managed externally.
-3. **Source of truth:** Notion is the operational CRM and primary source of truth.
-4. **Output / CMS:** Approved profiles are stored in **Wix CMS** as a downstream publish layer.
-5. **Presentation:** The app fetches broker records through the `lib/brokers.ts` → `lib/wix.ts` integration layer. Next.js handles all application logic, embeds, and public experience.
-6. **Tracking:** CTA clicks route through `/out` before redirecting users to the appropriate external destination, while firing a non-blocking n8n webhook.
+2. **Review:** Applications are reviewed externally
+3. **Source of truth:** Approved profiles are stored in **Wix CMS**
+4. **Presentation:** The app fetches broker records through the `lib/brokers.ts` → `lib/wix.ts` integration layer
+5. **Tracking:** CTA clicks route through `/out` before redirecting users to the appropriate external destination
 
 ### Current state
 - Broker data is fetched from the Wix integration layer
@@ -156,10 +155,9 @@ Example placeholder values:
 ```env
 WIX_API_URL=https://your-wix-site.com/_functions/api
 WIX_API_KEY=your_wix_api_key
-N8N_CTA_WEBHOOK_URL=https://your-n8n-instance.com/webhook/cta
 ```
 
-If live Wix credentials are not provided, development-safe fallback behavior should continue to be supported where applicable. In production, mock fallbacks are disabled to prevent masking broken integrations.
+If live Wix credentials are not provided, development-safe fallback behavior should continue to be supported where applicable.
 
 ## 📈 Near-Term Roadmap
 
