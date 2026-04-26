@@ -82,8 +82,10 @@ describe('intake-normalizers', () => {
       expect(normalizeState(undefined)).toBe('');
     });
 
-    it('should gracefully fallback to first 2 letters if unknown', () => {
-      expect(normalizeState('UnknownState')).toBe('UN');
+    it('should return empty string for unknown or invalid states', () => {
+      expect(normalizeState('UnknownState')).toBe('');
+      expect(normalizeState('TE')).toBe('');
+      expect(normalizeState('XX')).toBe('');
     });
   });
 });
