@@ -1,1 +1,1 @@
-export const darwinProfileImage = '/brokers/darwin-hanneman.jpg';
+export const darwinProfileImage = '/brokers/darwin-hanneman-v2.jpg';
