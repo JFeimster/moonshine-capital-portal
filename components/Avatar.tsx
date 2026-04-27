@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+
 interface AvatarProps {
   src?: string;
   alt: string;
@@ -13,15 +17,18 @@ export function Avatar({
   imageClassName = "",
   fallbackClassName = ""
 }: AvatarProps) {
+  const [imageFailed, setImageFailed] = useState(false);
   const initial = alt.charAt(0);
+  const shouldShowImage = Boolean(src) && !imageFailed;
 
   return (
     <div className={`flex-shrink-0 overflow-hidden ${className}`}>
-      {src ? (
+      {shouldShowImage ? (
         <img
           src={src}
           alt={alt}
           className={`w-full h-full object-cover ${imageClassName}`}
+          onError={() => setImageFailed(true)}
         />
       ) : (
         <div className={`w-full h-full flex items-center justify-center font-black ${fallbackClassName}`}>

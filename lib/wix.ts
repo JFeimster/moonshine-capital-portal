@@ -1,5 +1,6 @@
 import { BrokerProfile } from './types';
 import { mockBrokers } from './mock-brokers';
+import { darwinProfileImage } from './profile-images';
 
 // Define expected Wix response structure
 interface WixBrokerResponse {
@@ -21,7 +22,7 @@ interface WixBrokerResponse {
   ctaLabel?: string;
   featuredBroker?: boolean;
   featuredFlag?: boolean;
-  profileImage?: string;
+  profileImage?: unknown;
   approvalStatus: 'approved' | 'pending' | 'rejected';
   brokerStatus?: 'active' | 'hidden' | 'recruiting';
   isActive: boolean;
@@ -31,6 +32,26 @@ interface WixBrokerResponse {
 
 const WIX_API_URL = process.env.WIX_API_URL || '';
 const WIX_API_KEY = process.env.WIX_API_KEY || '';
+
+function isBrowserSafeImageUrl(value: unknown): value is string {
+  return (
+    typeof value === 'string' &&
+    (value.startsWith('/') || value.startsWith('https://') || value.startsWith('http://') || value.startsWith('data:image/')) &&
+    !value.startsWith('wix:image://')
+  );
+}
+
+function normalizeProfileImage(profileImage: unknown, slug: string) {
+  if (slug === 'darwin-hanneman') {
+    return darwinProfileImage;
+  }
+
+  if (isBrowserSafeImageUrl(profileImage)) {
+    return profileImage;
+  }
+
+  return undefined;
+}
 
 // Normalization function to ensure Wix data matches our frontend types
 function normalizeBroker(wixBroker: WixBrokerResponse): BrokerProfile {
@@ -63,7 +84,7 @@ function normalizeBroker(wixBroker: WixBrokerResponse): BrokerProfile {
       trackingId: `broker_cta_${wixBroker._id}`
     },
 
-    profileImage: wixBroker.profileImage,
+    profileImage: normalizeProfileImage(wixBroker.profileImage, wixBroker.slug),
     approvalStatus: wixBroker.approvalStatus,
     brokerStatus: wixBroker.brokerStatus || 'active',
     isActive: wixBroker.isActive !== undefined ? wixBroker.isActive : true,
