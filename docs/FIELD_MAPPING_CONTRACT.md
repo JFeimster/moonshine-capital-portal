@@ -1,81 +1,230 @@
-# Canonical Broker Schema & Field Mapping Contract
+# Canonical Partner Schema & Field Mapping Contract
 
-This document defines the canonical data model and field-mapping contract for a Broker Profile across the Moonshine Capital Portal ecosystem.
+This document defines the canonical data model and cross-system mapping contract for public partner identity in `moonshine-capital-portal`.
 
-**Role of this file:**
-- this is the **master cross-system contract**
-- it governs how data moves between Tally, Notion CRM, and Wix CMS
-- system-specific schema docs should remain system-specific and point back here for shared mapping logic
+## Repository role
 
-Use related docs this way:
-- `docs/data-model.md` = canonical app model doc
-- `docs/WIX_BROKERPROFILE_SCHEMA.md` = Wix-specific schema doc
-- `docs/NOTION_BROKER_CRM_SCHEMA.md` = Notion CRM schema doc
-- `docs/TALLY_APPLICATION_SCHEMA.md` and `docs/TALLY_PROFILE_BUILDER_SCHEMA.md` = Tally intake/profile-builder docs
+This repository owns public partner identity, public profile rendering, co-branded funding pages, directory/discovery, tracked CTA routing, Tally intake/profile enrichment, and publication gating. Authenticated Partner Command ownership belongs to `JFeimster/partner-command-center`.
 
-## Merge Key
-The primary identifier for matching records across systems is the **Broker Email (`publicEmail` / `email`)**.
-If email is missing or changed, require manual resolution or use an immutable submission/broker ID instead.
+## Merge and identity keys
 
-## Field Categories
+### Current persistence merge key
 
-### 1. Internal-Only Fields (Notion CRM)
-- `Status` (e.g., Pending, In Review, Approved, Rejected)
-- `Internal Notes`
-- `Application Date`
-- `Tally Submission ID`
+Normalized partner email remains the current CRM merge key because the existing Notion adapter contract was built around email.
 
-### 2. Public-Only Fields (Wix CMS)
-- `featuredFlag` (boolean, used for sorting/display)
-- `brokerStatus` (e.g., active, hidden)
+Rules:
 
-### 3. Derived/Generated Fields
-- `slug`: Generated from `fullName` (e.g., "Jane Doe" -> "jane-doe").
-- `primaryCtaLink`: Generated/Sanitized external URL for tracking.
+- trim whitespace;
+- lowercase before matching;
+- reject writes without a merge key;
+- never create a second record merely because email casing differs.
 
-## Canonical Data Model
+### Canonical immutable identity
 
-| Field Name | Type | Description |
-| :--- | :--- | :--- |
-| `fullName` | String | Broker's full name. |
-| `email` | String | Broker's public contact email (Merge Key). |
-| `agencyName` | String | Name of the broker's agency. |
+The target cross-system identity is `partner_id` / `partnerId`.
+
+Until durable storage is wired, the intake foundation deterministically derives stable identifiers from normalized email:
+
+- `partnerId` — canonical internal/cross-system identity;
+- `referralCode` — stable attribution/referral identity;
+- `slug` — human-readable name plus stable collision-resistant suffix.
+
+If a trusted existing canonical ID/referral code/slug is supplied, preserve it rather than generating a replacement.
+
+## Field categories
+
+### Internal lifecycle / CRM
+
+- `profileStatus`
+- `approvalStatus`
+- internal notes
+- application date
+- Tally submission ID
+- `createdAt`
+- `updatedAt`
+- `publishedAt`
+
+### Public identity/profile
+
+- `partnerId`
+- `referralCode`
+- `slug`
+- `fullName`
+- `displayName`
+- `email`
+- `phoneNumber`
+- `agencyName`
+- `title`
+- `partnerType`
+- `city`
+- `state`
+- `websiteUrl`
+- `shortBio`
+- `whyChooseYou`
+- `specialties`
+- `industries`
+- `fundingTypes`
+- `markets`
+- `profileImage`
+- `logoUrl`
+- `bookingUrl`
+- `primaryCtaLabel`
+- `primaryCtaLink`
+- `disclosures`
+
+### Existing Wix/public gating fields retained for compatibility
+
+- `featuredFlag`
+- `brokerStatus`
+- `approvalStatus`
+- `isActive`
+
+Do not remove or reinterpret these until the public adapter migration is explicit. Existing `isEligibleForPublicDisplay()` remains authoritative for current public reads.
+
+## Canonical lifecycle target
+
+```text
+application_received
+→ pending_review
+→ approved
+→ profile_incomplete
+→ ready_to_publish
+→ published
+→ suspended
+→ archived
+```
+
+Legacy internal statuses (`pending`, `in_review`, `approved`, `rejected`) remain supported while storage adapters are migrated.
+
+## Canonical model
+
+| Field | Type | Purpose |
+|---|---|---|
+| `partnerId` | String | Immutable canonical partner identity. |
+| `referralCode` | String | Stable public attribution/referral identity. |
+| `slug` | String | Reserved public profile slug. |
+| `fullName` | String | Legal/full name used by existing intake. |
+| `displayName` | String | Public display name. |
+| `email` | String | Current normalized CRM merge key. |
+| `phoneNumber` | String | Contact phone. |
+| `agencyName` | String | Company/agency name. |
+| `title` | String | Public professional title. |
+| `profileStatus` | Enum | Profile lifecycle state. |
+| `approvalStatus` | Enum | Approval decision/state. |
+| `partnerType` | String | Partner classification. |
 | `city` | String | Operating city. |
-| `state` | String | Operating state (2-letter abbreviation). |
-| `websiteUrl` | String | Agency or broker website URL. |
-| `phoneNumber` | String | Public contact phone number. |
-| `shortBio` | String | Short professional biography. |
-| `whyChooseYou` | String | Value proposition ("Why choose this broker"). |
+| `state` | String | Normalized state code. |
+| `websiteUrl` | URL | Agency/partner website. |
+| `shortBio` | String | Public bio. |
+| `whyChooseYou` | String | Public value proposition. |
+| `specialties` | Array<String> | Partner specialties. |
 | `industries` | Array<String> | Target industries. |
-| `fundingTypes` | Array<String> | Types of funding offered. |
-| `urgencyCategory` | String | Typical speed of funding ('fast', 'standard', 'complex'). |
-| `profileImage` | String (URL) | URL to broker's headshot or logo. |
-| `primaryCtaLabel`| String | Custom text for primary CTA button. |
-| `primaryCtaLink` | String (URL) | Custom destination for primary CTA button. |
+| `fundingTypes` | Array<String> | Funding products/types. |
+| `markets` | Array<String> | Geographic/segment markets. |
+| `urgencyCategory` | String | Existing speed/complexity category. |
+| `profileImage` | URL | Partner photo/headshot. |
+| `logoUrl` | URL | Company/agency logo. |
+| `bookingUrl` | URL | Booking/scheduling link. |
+| `primaryCtaLabel` | String | Public primary CTA label. |
+| `primaryCtaLink` | URL | Public tracked CTA destination. |
+| `disclosures` | Array<String> | Approved public disclosures. |
+| `createdAt` | ISO timestamp | First canonical creation time. |
+| `updatedAt` | ISO timestamp | Last canonical write time. |
+| `publishedAt` | ISO timestamp | Authoritative publication time. |
 
-## Data Transformation Rules
+## External naming
 
-### 1. Slug Generation
-- Source: `fullName`
-- Transform: Lowercase, replace spaces with hyphens, remove special characters.
-- Example: "John Smith-Doe!" -> `john-smith-doe`
+TypeScript currently uses camelCase. External integrations SHOULD use snake_case where appropriate:
 
-### 2. URL Cleanup
-- Source: `websiteUrl`, `primaryCtaLink`, `profileImage`
-- Transform: Ensure protocol `https://` is present if missing. Remove trailing slashes.
-- Example: "example.com" -> `https://example.com`
+| TypeScript | External/API |
+|---|---|
+| `partnerId` | `partner_id` |
+| `referralCode` | `referral_code` |
+| `fullName` | `full_name` |
+| `displayName` | `display_name` |
+| `agencyName` | `company_name` |
+| `phoneNumber` | `phone` |
+| `profileStatus` | `profile_status` |
+| `approvalStatus` | `approval_status` |
+| `partnerType` | `partner_type` |
+| `fundingTypes` | `funding_types` |
+| `profileImage` | `photo_url` |
+| `logoUrl` | `logo_url` |
+| `bookingUrl` | `booking_url` |
+| `createdAt` | `created_at` |
+| `updatedAt` | `updated_at` |
+| `publishedAt` | `published_at` |
 
-### 3. Arrays / Multi-Select Normalization
-- Source: `industries`, `fundingTypes` (Tally Multi-Select / Checkboxes)
-- Transform: Ensure comma-separated strings are parsed into arrays of trimmed strings.
-- Example: "SaaS, Manufacturing , Technology" -> `["SaaS", "Manufacturing", "Technology"]`
+Casing differences are adapter concerns, not justification for duplicate semantic fields.
 
-### 4. Defaults
-- `urgencyCategory`: Default to `"standard"` if not provided.
-- `approvalStatus` (Wix): Default to `"pending"` upon initial ingestion until verified.
-- `isActive` (Wix): Default to `false` until approved.
+## Transformation rules
 
-## Contract Notes
-- use this file to resolve mapping disputes between systems
-- avoid duplicating transformation rules across schema docs
-- keep system-specific docs focused on their own storage model while this file owns the cross-system contract
+### Email normalization
+
+`Partner@Example.COM` → `partner@example.com`.
+
+### Partner ID / referral code
+
+Generated deterministically from normalized email only when trusted existing values are absent. These helpers are identity conveniences, not cryptographic security tokens.
+
+### Slug reservation
+
+Slug base is derived from the full name, then a short stable identity suffix is appended to reduce same-name collisions.
+
+Example shape:
+
+```text
+jane-doe-a1b2c
+```
+
+### URL cleanup
+
+Ensure `https://` when protocol is absent and strip a trailing slash.
+
+### Arrays
+
+Comma-separated or array input is normalized to a trimmed, non-empty string array.
+
+### State normalization
+
+Known U.S. states/territories normalize to two-letter codes. Unknown values return blank instead of fabricating a state code.
+
+### Blank-safe enrichment
+
+Profile-builder updates omit blank strings and empty arrays before the downstream upsert. Partial enrichment must not erase trusted application/operator data.
+
+## Application defaults
+
+Initial application ingestion sets:
+
+```text
+profileStatus = pending_review
+approvalStatus = pending
+publicationEligible = false
+```
+
+Application submission does not equal approval or publication.
+
+## Attribution fields
+
+Public partner flows should preserve when present:
+
+```text
+partner_id
+referral_code
+source
+campaign
+utm_source
+utm_medium
+utm_campaign
+```
+
+Existing `/out` tracking remains the canonical redirect/tracking foundation.
+
+## Contract notes
+
+- Reuse/normalize existing storage fields before adding duplicates.
+- Preserve canonical IDs across retries and profile enrichment.
+- Capital owns public slug, gating, rendering, and tracked CTA behavior.
+- Partner Command may manage profile configuration through the contract in `PARTNER_COMMAND_PROFILE_CONTRACT.md`.
+- The live Notion persistence adapter is still required before deterministic provisioning becomes a durable production upsert.
