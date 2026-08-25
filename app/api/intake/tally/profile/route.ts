@@ -56,18 +56,22 @@ export async function POST(req: NextRequest) {
       updatedAt: new Date().toISOString()
     });
 
-    // No approval/profile status is supplied here. upsertPartner blank-safely enriches
-    // the existing canonical record and preserves partner_id, referral_code, slug,
-    // approval status, and publication status.
-    const notionResponse = await upsertPartner(canonicalData);
+    // Profile-builder submissions may enrich an existing canonical partner only.
+    // They never create an orphan record and never independently change lifecycle state.
+    const notionResponse = await upsertPartner(canonicalData, { allowCreate: false });
     if (!notionResponse.success) {
-      const conflict = notionResponse.errorDetails?.kind === 'conflict';
+      const kind = notionResponse.errorDetails?.kind;
+      const status = kind === 'conflict' ? 409 : kind === 'not_found' ? 404 : 503;
       return NextResponse.json({
         success: false,
-        error: conflict ? 'Canonical identity conflict requires review' : 'Failed to persist profile enrichment',
+        error: kind === 'conflict'
+          ? 'Canonical identity conflict requires review'
+          : kind === 'not_found'
+            ? 'No canonical partner matched this profile enrichment submission'
+            : 'Failed to persist profile enrichment',
         details: notionResponse.error,
         retryable: notionResponse.errorDetails?.retryable || false
-      }, { status: conflict ? 409 : 503 });
+      }, { status });
     }
 
     return NextResponse.json({
