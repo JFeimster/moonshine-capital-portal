@@ -26,7 +26,9 @@ export interface PublicWixFields {
   isActive: boolean;
 }
 
-// Derived/public identity fields documented in FIELD_MAPPING_CONTRACT.md
+// Derived/public identity fields documented in FIELD_MAPPING_CONTRACT.md.
+// `slug` is required once a record is fully normalized, while the canonical
+// intake shape keeps it optional until provisioning has derived/reserved it.
 export interface DerivedFields {
   slug: string;
   partnerId?: string;
@@ -71,7 +73,8 @@ export interface CanonicalBrokerProfile {
   publishedAt?: string;
 }
 
-export interface FullyNormalizedBroker extends CanonicalBrokerProfile, DerivedFields {
+export interface FullyNormalizedBroker extends CanonicalBrokerProfile {
+  slug: string;
   internal: InternalCRMFields;
   publicWix: PublicWixFields;
 }
