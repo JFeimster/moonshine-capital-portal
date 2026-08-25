@@ -3,6 +3,7 @@ import { upsertPartner } from '../lib/notion';
 
 const page = (overrides: Record<string, any> = {}) => ({
   id: overrides.id || 'page-1',
+  created_time: overrides.createdTime || '2026-08-25T10:00:00.000Z',
   properties: {
     Name: { type: 'title', title: [{ plain_text: overrides.name || 'Test Agent' }] },
     Email: { type: 'email', email: overrides.email || 'test@example.com' },
@@ -14,7 +15,8 @@ const page = (overrides: Record<string, any> = {}) => ({
     'Approval Status': { type: 'select', select: { name: overrides.approvalStatus || 'approved' } },
     'Profile Status': { type: 'select', select: { name: overrides.profileStatus || 'published' } },
     'Latest Tally Submission ID': { type: 'rich_text', rich_text: [{ plain_text: overrides.submissionId || 'sub-1' }] },
-    'Display Name': { type: 'rich_text', rich_text: [{ plain_text: overrides.displayName || 'Test Agent' }] }
+    'Display Name': { type: 'rich_text', rich_text: [{ plain_text: overrides.displayName || 'Test Agent' }] },
+    'Why Choose You': { type: 'rich_text', rich_text: [{ plain_text: overrides.whyChooseYou || '' }] }
   }
 });
 
@@ -31,10 +33,12 @@ describe('durable Notion partner persistence', () => {
   afterEach(() => vi.restoreAllMocks());
 
   it('creates a new valid partner with immutable identity fields', async () => {
+    const createdPage = page();
     const fetchMock = vi.spyOn(globalThis, 'fetch' as any)
       .mockResolvedValueOnce(jsonResponse({ results: [] }) as any) // partner_id lookup
       .mockResolvedValueOnce(jsonResponse({ results: [] }) as any) // email lookup
-      .mockResolvedValueOnce(jsonResponse(page()) as any); // create page
+      .mockResolvedValueOnce(jsonResponse(createdPage) as any) // create page
+      .mockResolvedValueOnce(jsonResponse({ results: [createdPage] }) as any); // post-create reconciliation
 
     const result = await upsertPartner({
       fullName: 'Test Agent', email: 'test@example.com', agencyName: 'Test Co',
@@ -47,18 +51,18 @@ describe('durable Notion partner persistence', () => {
     expect(result.partner?.partnerId).toBe('prt_abc');
     expect(result.partner?.referralCode).toBe('MCABC');
     expect(result.partner?.slug).toBe('test-agent-abc');
-    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(fetchMock).toHaveBeenCalledTimes(4);
   });
 
   it('matches repeated submissions by partner_id and preserves canonical identity', async () => {
     const existing = page();
-    vi.spyOn(globalThis, 'fetch' as any)
+    const fetchMock = vi.spyOn(globalThis, 'fetch' as any)
       .mockResolvedValueOnce(jsonResponse({ results: [existing] }) as any)
-      .mockResolvedValueOnce(jsonResponse(page({ displayName: 'Enriched Agent' })) as any);
+      .mockResolvedValueOnce(jsonResponse(page({ displayName: 'Enriched Agent', whyChooseYou: 'Trusted operator.' })) as any);
 
     const result = await upsertPartner({
       partnerId: 'prt_abc', email: 'TEST@example.com', referralCode: 'DIFFERENT', slug: 'different-slug',
-      displayName: 'Enriched Agent', latestTallySubmissionId: 'sub-2'
+      displayName: 'Enriched Agent', whyChooseYou: 'Trusted operator.', latestTallySubmissionId: 'sub-2'
     });
 
     expect(result.success).toBe(true);
@@ -67,6 +71,26 @@ describe('durable Notion partner persistence', () => {
     expect(result.partner?.partnerId).toBe('prt_abc');
     expect(result.partner?.referralCode).toBe('MCABC');
     expect(result.partner?.slug).toBe('test-agent-abc');
+
+    const updateBody = JSON.parse(String((fetchMock.mock.calls[1][1] as RequestInit).body));
+    expect(updateBody.properties['Why Choose You'].rich_text[0].text.content).toBe('Trusted operator.');
+  });
+
+  it('preserves operator-imposed suspended and hidden states on a clean resubmission', async () => {
+    const existing = page({ approvalStatus: 'suspended', profileStatus: 'hidden' });
+    const fetchMock = vi.spyOn(globalThis, 'fetch' as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [existing] }) as any)
+      .mockResolvedValueOnce(jsonResponse(existing) as any);
+
+    const result = await upsertPartner({
+      partnerId: 'prt_abc', email: 'test@example.com',
+      approvalStatus: 'approved', profileStatus: 'published', displayName: 'Updated Name'
+    });
+
+    expect(result.success).toBe(true);
+    const updateBody = JSON.parse(String((fetchMock.mock.calls[1][1] as RequestInit).body));
+    expect(updateBody.properties['Approval Status'].select.name).toBe('suspended');
+    expect(updateBody.properties['Profile Status'].select.name).toBe('hidden');
   });
 
   it('returns a conflict when email resolves to a different canonical identity', async () => {
@@ -78,6 +102,38 @@ describe('durable Notion partner persistence', () => {
     expect(result.success).toBe(false);
     expect(result.errorDetails?.kind).toBe('conflict');
     expect(result.errorDetails?.retryable).toBe(false);
+  });
+
+  it('reconciles duplicate pages created by concurrent first-time deliveries', async () => {
+    const winner = page({ id: 'page-1', createdTime: '2026-08-25T10:00:00.000Z' });
+    const concurrentCreated = page({ id: 'page-2', createdTime: '2026-08-25T10:00:01.000Z' });
+    const fetchMock = vi.spyOn(globalThis, 'fetch' as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any)
+      .mockResolvedValueOnce(jsonResponse(concurrentCreated) as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [winner, concurrentCreated] }) as any)
+      .mockResolvedValueOnce(jsonResponse({}) as any); // archive duplicate
+
+    const result = await upsertPartner({
+      partnerId: 'prt_abc', email: 'test@example.com', referralCode: 'MCABC', slug: 'test-agent-abc'
+    });
+
+    expect(result.success).toBe(true);
+    expect(result.notionId).toBe('page-1');
+    expect(result.created).toBe(false);
+    expect(fetchMock).toHaveBeenCalledTimes(5);
+    const archiveBody = JSON.parse(String((fetchMock.mock.calls[4][1] as RequestInit).body));
+    expect(archiveBody.properties['Profile Status'].select.name).toBe('archived');
+  });
+
+  it('does not create an orphan when enrichment has no canonical match', async () => {
+    const fetchMock = vi.spyOn(globalThis, 'fetch' as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any);
+
+    const result = await upsertPartner({ partnerId: 'prt_missing' }, { allowCreate: false });
+    expect(result.success).toBe(false);
+    expect(result.errorDetails?.kind).toBe('not_found');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it('classifies transient Notion failures as retryable', async () => {
