@@ -15,6 +15,7 @@ export interface NotionAdapterError {
 
 export interface PersistedPartner extends Partial<CanonicalBrokerProfile> {
   notionPageId: string;
+  createdTime?: string;
 }
 
 export interface NotionAdapterResponse {
@@ -27,6 +28,10 @@ export interface NotionAdapterResponse {
   errorDetails?: NotionAdapterError;
 }
 
+export interface UpsertPartnerOptions {
+  allowCreate?: boolean;
+}
+
 function config() {
   const token = process.env.NOTION_API_KEY;
   const databaseId = process.env.NOTION_BROKER_DATABASE_ID;
@@ -37,6 +42,10 @@ function config() {
     });
   }
   return { token, databaseId };
+}
+
+function typedError(message: string, kind: NotionErrorKind, retryable = false) {
+  return Object.assign(new Error(message), { notionKind: kind, retryable });
 }
 
 function asError(error: any): NotionAdapterError {
@@ -116,6 +125,7 @@ function toNotionProperties(partner: Partial<CanonicalBrokerProfile>, creating =
     'Website URL': url(partner.websiteUrl),
     Website: url(partner.websiteUrl),
     Bio: text(partner.shortBio),
+    'Why Choose You': text(partner.whyChooseYou),
     'Photo URL': url(partner.profileImage),
     'Logo URL': url(partner.logoUrl),
     Specialties: joined(partner.specialties),
@@ -150,6 +160,7 @@ function fromNotionPage(page: any): PersistedPartner {
   const partnerType = propText(p['Partner Type']) === 'Funding Agent' ? 'funding_agent' : propText(p['Partner Type']);
   return {
     notionPageId: page.id,
+    createdTime: page.created_time,
     fullName: propText(p.Name),
     displayName: propText(p['Display Name']) || propText(p.Name),
     email: normalizeEmail(propText(p.Email)),
@@ -172,6 +183,7 @@ function fromNotionPage(page: any): PersistedPartner {
     state: propText(p.State),
     websiteUrl: propText(p['Website URL']) || propText(p.Website),
     shortBio: propText(p.Bio),
+    whyChooseYou: propText(p['Why Choose You']),
     profileImage: propText(p['Photo URL']),
     logoUrl: propText(p['Logo URL']),
     specialties: splitList(propText(p.Specialties)),
@@ -185,36 +197,71 @@ function fromNotionPage(page: any): PersistedPartner {
   };
 }
 
-async function queryOne(property: string, condition: Record<string, any>): Promise<PersistedPartner | null> {
+async function queryMatches(property: string, condition: Record<string, any>, pageSize = 10): Promise<PersistedPartner[]> {
   const { databaseId } = config();
   const body = await notionRequest(`/databases/${databaseId}/query`, {
     method: 'POST',
-    body: JSON.stringify({ page_size: 2, filter: { property, ...condition } })
+    body: JSON.stringify({ page_size: pageSize, filter: { property, ...condition } })
   });
-  if ((body.results || []).length > 1) {
-    const error: any = new Error(`Duplicate canonical records matched ${property}`);
-    error.notionKind = 'conflict';
-    error.retryable = false;
-    throw error;
+  return (body.results || []).map(fromNotionPage);
+}
+
+function deterministicWinner(partners: PersistedPartner[]) {
+  return [...partners].sort((a, b) => {
+    const timeCompare = (a.createdTime || '').localeCompare(b.createdTime || '');
+    return timeCompare || a.notionPageId.localeCompare(b.notionPageId);
+  })[0];
+}
+
+async function archiveDuplicate(partner: PersistedPartner, winnerId: string) {
+  await notionRequest(`/pages/${partner.notionPageId}`, {
+    method: 'PATCH',
+    body: JSON.stringify({
+      properties: compactProperties({
+        'Approval Status': select('needs_review'),
+        'Profile Status': select('archived'),
+        'Review Reason': text(`Duplicate canonical record reconciled; canonical page ${winnerId}`)
+      })
+    })
+  });
+}
+
+async function reconcileSameIdentity(matches: PersistedPartner[]): Promise<PersistedPartner> {
+  const identitySet = new Set(matches.map(item => item.partnerId).filter(Boolean));
+  if (identitySet.size > 1) {
+    throw typedError('Multiple records resolve to different canonical partner IDs', 'conflict');
   }
-  return body.results?.[0] ? fromNotionPage(body.results[0]) : null;
+  const winner = deterministicWinner(matches);
+  await Promise.all(matches.filter(item => item.notionPageId !== winner.notionPageId).map(item => archiveDuplicate(item, winner.notionPageId)));
+  return winner;
+}
+
+async function queryOne(property: string, condition: Record<string, any>, reconcileIfSameIdentity = false): Promise<PersistedPartner | null> {
+  const matches = await queryMatches(property, condition);
+  if (matches.length > 1) {
+    if (reconcileIfSameIdentity) return reconcileSameIdentity(matches);
+    throw typedError(`Duplicate canonical records matched ${property}`, 'conflict');
+  }
+  return matches[0] || null;
 }
 
 export async function getPartnerByPartnerId(partnerId: string) {
-  return partnerId ? queryOne('Partner ID', { rich_text: { equals: partnerId } }) : null;
+  return partnerId ? queryOne('Partner ID', { rich_text: { equals: partnerId } }, true) : null;
 }
 
 export async function getPartnerByNormalizedEmail(value: string) {
   const normalized = normalizeEmail(value);
-  return normalized ? queryOne('Email', { email: { equals: normalized } }) : null;
+  const matches = normalized ? await queryMatches('Email', { email: { equals: normalized } }) : [];
+  if (matches.length > 1) return reconcileSameIdentity(matches);
+  return matches[0] || null;
 }
 
 export async function getPartnerBySlug(slug: string) {
-  return slug ? queryOne('Slug', { rich_text: { equals: slug } }) : null;
+  return slug ? queryOne('Slug', { rich_text: { equals: slug } }, true) : null;
 }
 
 export async function getPartnerBySubmissionId(submissionId: string) {
-  return submissionId ? queryOne('Latest Tally Submission ID', { rich_text: { equals: submissionId } }) : null;
+  return submissionId ? queryOne('Latest Tally Submission ID', { rich_text: { equals: submissionId } }, true) : null;
 }
 
 export async function createPartner(partner: Partial<CanonicalBrokerProfile>): Promise<PersistedPartner> {
@@ -241,14 +288,37 @@ function nonBlankMerge(existing: PersistedPartner, incoming: Partial<CanonicalBr
     if (Array.isArray(value) && value.length === 0) continue;
     merged[key] = value;
   }
+
+  // Immutable identity always wins from the durable record.
   merged.partnerId = existing.partnerId || incoming.partnerId;
   merged.referralCode = existing.referralCode || incoming.referralCode;
   merged.slug = existing.slug || incoming.slug;
   merged.initialSubmissionAt = existing.initialSubmissionAt || incoming.initialSubmissionAt || incoming.createdAt;
+
+  // Automatic activation may advance needs_review/draft, but must never undo an
+  // operator-imposed approved/suspended/rejected or published/hidden/archived state.
+  if (existing.approvalStatus && existing.approvalStatus !== 'needs_review') {
+    merged.approvalStatus = existing.approvalStatus;
+  }
+  if (existing.profileStatus && existing.profileStatus !== 'draft') {
+    merged.profileStatus = existing.profileStatus;
+  }
+
   return merged as Partial<CanonicalBrokerProfile>;
 }
 
-export async function upsertPartner(partner: Partial<CanonicalBrokerProfile>): Promise<NotionAdapterResponse> {
+async function reconcileCreation(partner: Partial<CanonicalBrokerProfile>, created: PersistedPartner) {
+  const matches = partner.partnerId
+    ? await queryMatches('Partner ID', { rich_text: { equals: partner.partnerId } })
+    : partner.email
+      ? await queryMatches('Email', { email: { equals: normalizeEmail(partner.email) } })
+      : [created];
+
+  if (matches.length <= 1) return created;
+  return reconcileSameIdentity(matches);
+}
+
+export async function upsertPartner(partner: Partial<CanonicalBrokerProfile>, options: UpsertPartnerOptions = {}): Promise<NotionAdapterResponse> {
   try {
     let existing: PersistedPartner | null = null;
     let matchedBy: NotionAdapterResponse['matchedBy'];
@@ -268,18 +338,25 @@ export async function upsertPartner(partner: Partial<CanonicalBrokerProfile>): P
 
     if (existing) {
       if (partner.partnerId && existing.partnerId && partner.partnerId !== existing.partnerId) {
-        const error: any = new Error('Canonical partner_id conflicts with the matched existing record');
-        error.notionKind = 'conflict';
-        error.retryable = false;
-        throw error;
+        throw typedError('Canonical partner_id conflicts with the matched existing record', 'conflict');
       }
       const merged = nonBlankMerge(existing, partner);
       const updated = await updatePartner(existing.notionPageId, merged);
       return { success: true, notionId: updated.notionPageId, partner: updated, created: false, matchedBy };
     }
 
+    if (options.allowCreate === false) {
+      throw typedError('No existing canonical partner matched the enrichment payload', 'not_found');
+    }
+
     const created = await createPartner(partner);
-    return { success: true, notionId: created.notionPageId, partner: created, created: true };
+    const canonical = await reconcileCreation(partner, created);
+    return {
+      success: true,
+      notionId: canonical.notionPageId,
+      partner: canonical,
+      created: canonical.notionPageId === created.notionPageId
+    };
   } catch (error: any) {
     const details = asError(error);
     return { success: false, error: details.message, errorDetails: details };
