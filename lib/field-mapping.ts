@@ -1,13 +1,6 @@
 export type InternalStatus = 'pending' | 'in_review' | 'approved' | 'rejected';
-export type CanonicalProfileStatus =
-  | 'application_received'
-  | 'pending_review'
-  | 'profile_incomplete'
-  | 'ready_to_publish'
-  | 'published'
-  | 'suspended'
-  | 'archived';
-export type CanonicalApprovalStatus = 'pending' | 'approved' | 'rejected' | 'suspended';
+export type CanonicalProfileStatus = 'draft' | 'published' | 'hidden' | 'archived';
+export type CanonicalApprovalStatus = 'approved' | 'needs_review' | 'suspended' | 'rejected';
 
 export interface InternalCRMFields {
   status: InternalStatus;
@@ -40,7 +33,6 @@ export interface CanonicalBrokerProfile {
   primaryCtaLabel?: string;
   primaryCtaLink?: string;
 
-  // Canonical partner identity additions. Optional during migration/intake.
   partnerId?: string;
   referralCode?: string;
   slug?: string;
@@ -49,14 +41,21 @@ export interface CanonicalBrokerProfile {
   profileStatus?: CanonicalProfileStatus;
   approvalStatus?: CanonicalApprovalStatus;
   partnerType?: string;
+  reviewReason?: string;
   specialties?: string[];
   markets?: string[];
   logoUrl?: string;
   bookingUrl?: string;
   disclosures?: string[];
+  sourceForm?: string;
+  tallyFormId?: string;
+  latestTallySubmissionId?: string;
+  initialSubmissionAt?: string;
+  latestSubmissionAt?: string;
   createdAt?: string;
   updatedAt?: string;
   publishedAt?: string;
+  notionPageId?: string;
 }
 
 export interface FullyNormalizedBroker extends CanonicalBrokerProfile {

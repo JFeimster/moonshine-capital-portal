@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { validateProfilePayload } from '@/lib/validation';
-import { normalizeUrl, normalizeArray, normalizeEmail } from '@/lib/intake-normalizers';
-import { upsertNotionCRMRecord } from '@/lib/notion';
+import { normalizeUrl, normalizeArray, normalizeEmail, normalizeState } from '@/lib/intake-normalizers';
+import { upsertPartner } from '@/lib/notion';
 import { CanonicalBrokerProfile } from '@/lib/field-mapping';
 import { validateWebhookAuth } from '@/lib/webhook-auth';
 
@@ -22,52 +22,70 @@ export async function POST(req: NextRequest) {
     }
 
     const rawPayload = await req.json();
-    const validationResult = validateProfilePayload(rawPayload);
-    if (!validationResult.isValid) {
-      return NextResponse.json({ success: false, errors: validationResult.errors }, { status: 400 });
+    const validation = validateProfilePayload(rawPayload);
+    if (!validation.isValid) {
+      return NextResponse.json({ success: false, errors: validation.errors }, { status: 400 });
     }
 
-    // Only nonblank enrichment values are sent downstream so partial submissions do
-    // not erase trusted application/operator data.
     const canonicalData = compact<Partial<CanonicalBrokerProfile>>({
-      email: normalizeEmail(rawPayload.email),
+      partnerId: rawPayload.partnerId,
+      email: rawPayload.email ? normalizeEmail(rawPayload.email) : undefined,
       displayName: rawPayload.displayName,
+      fullName: rawPayload.fullName,
       agencyName: rawPayload.agencyName,
       title: rawPayload.title,
       phoneNumber: rawPayload.phoneNumber,
       shortBio: rawPayload.shortBio,
       whyChooseYou: rawPayload.whyChooseYou,
       city: rawPayload.city,
+      state: rawPayload.state ? normalizeState(rawPayload.state) : undefined,
+      websiteUrl: normalizeUrl(rawPayload.websiteUrl),
       industries: normalizeArray(rawPayload.industries),
       fundingTypes: normalizeArray(rawPayload.fundingTypes),
       specialties: normalizeArray(rawPayload.specialties),
       markets: normalizeArray(rawPayload.markets),
-      urgencyCategory: rawPayload.urgencyCategory || 'standard',
-      profileImage: normalizeUrl(rawPayload.profileImage),
+      urgencyCategory: rawPayload.urgencyCategory,
+      profileImage: normalizeUrl(rawPayload.profileImage || rawPayload.photoUrl),
       logoUrl: normalizeUrl(rawPayload.logoUrl),
       bookingUrl: normalizeUrl(rawPayload.bookingUrl),
       primaryCtaLabel: rawPayload.primaryCtaLabel,
       primaryCtaLink: normalizeUrl(rawPayload.primaryCtaLink),
       disclosures: normalizeArray(rawPayload.disclosures),
-      profileStatus: 'pending_review',
+      latestTallySubmissionId: rawPayload.tallySubmissionId || rawPayload.submissionId,
+      latestSubmissionAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     });
 
-    // Profile enrichment never publishes a partner.
-    const notionResponse = await upsertNotionCRMRecord(canonicalData, 'in_review');
+    // Profile-builder submissions may enrich an existing canonical partner only.
+    // They never create an orphan record and never independently change lifecycle state.
+    const notionResponse = await upsertPartner(canonicalData, { allowCreate: false });
     if (!notionResponse.success) {
-      return NextResponse.json(
-        { success: false, error: 'Failed to process downstream updates', notionDetails: notionResponse.error },
-        { status: 500 }
-      );
+      const kind = notionResponse.errorDetails?.kind;
+      const status = kind === 'conflict' ? 409 : kind === 'not_found' ? 404 : 503;
+      return NextResponse.json({
+        success: false,
+        error: kind === 'conflict'
+          ? 'Canonical identity conflict requires review'
+          : kind === 'not_found'
+            ? 'No canonical partner matched this profile enrichment submission'
+            : 'Failed to persist profile enrichment',
+        details: notionResponse.error,
+        retryable: notionResponse.errorDetails?.retryable || false
+      }, { status });
     }
 
     return NextResponse.json({
       success: true,
-      message: 'Existing partner profile enrichment ingested successfully',
-      canonicalShape: canonicalData,
+      message: 'Canonical partner profile enriched successfully',
       notionId: notionResponse.notionId,
-      publicationEligible: false
+      partnerId: notionResponse.partner?.partnerId,
+      referralCode: notionResponse.partner?.referralCode,
+      slug: notionResponse.partner?.slug,
+      approvalStatus: notionResponse.partner?.approvalStatus,
+      profileStatus: notionResponse.partner?.profileStatus,
+      publicationEligible: notionResponse.partner?.approvalStatus === 'approved' && notionResponse.partner?.profileStatus === 'published',
+      created: notionResponse.created,
+      matchedBy: notionResponse.matchedBy
     });
   } catch (error: any) {
     console.error('Error processing profile webhook:', error);

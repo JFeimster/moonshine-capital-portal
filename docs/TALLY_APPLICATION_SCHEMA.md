@@ -1,18 +1,67 @@
-# Tally Application Form Schema
+# Tally Funding Agent Application Schema
 
-This document outlines the expected fields from the initial Tally Application form (the onboarding intake). This form is typically shorter to reduce friction, focusing on essential details to qualify a broker.
+`POST /api/intake/tally/application` is the dedicated canonical Funding Agent intake endpoint. It accepts normalized JSON produced from the Funding Agent Tally submission (directly or through the existing normalization layer).
 
-## Expected Form Fields
+## Applicant fields consumed when available
 
-| Tally Field Label | Tally Field Type | Canonical Mapping | Description |
-| :--- | :--- | :--- | :--- |
-| **Full Name** | Short Text | `fullName` | The broker's full name. |
-| **Email Address** | Email | `email` | The broker's contact email. **(Merge Key)** |
-| **Agency Name** | Short Text | `agencyName` | The name of the broker's agency or company. |
-| **Operating State** | Dropdown / Short Text | `state` | Primary state of operation (2-letter abbreviation preferred). |
-| **Website URL** | Link / URL | `websiteUrl` | Agency or personal website URL (Optional). |
-| **Phone Number** | Phone | `phoneNumber` | Contact phone number (Optional). |
+| Intake field | Canonical mapping | Requirement |
+| --- | --- | --- |
+| `fullName` | `fullName` / default `displayName` | required for automatic activation |
+| `email` | normalized `email` | required and format-valid for automatic activation |
+| `agencyName` | `agencyName` | required for automatic activation |
+| `phoneNumber` | `phoneNumber` | optional |
+| `city` | `city` | optional |
+| `state` | normalized `state` | optional |
+| `websiteUrl` | normalized `websiteUrl` | optional |
+| `shortBio` | `shortBio` | optional |
+| `profileImage` / `photoUrl` | `profileImage` | optional |
+| `logoUrl` | `logoUrl` | optional |
+| `bookingUrl` | `bookingUrl` | optional |
 
-## Notes for Ingestion (n8n Pipeline)
-- This payload creates the initial record in Notion CRM with a "Status" of "Pending".
-- No Wix CMS record is created at this stage.
+## Source metadata
+
+When available, persist:
+
+- `tallyFormId` or `formId` → `tallyFormId`
+- `tallySubmissionId` or `submissionId` → `latestTallySubmissionId`
+- source route → `sourceForm = funding_agent_application`
+- initial/latest submission timestamps
+
+## Server-assigned partner type
+
+The applicant does not select a partner type. This route always assigns:
+
+```text
+partnerType = funding_agent
+```
+
+The route is the stable intake-source discriminator. Future partner forms should use their own explicit source mappings rather than overloading this route.
+
+## Automatic activation
+
+A submission with valid required fields proceeds to:
+
+```text
+approvalStatus = approved
+profileStatus = published
+```
+
+Malformed/unsafe submissions that can still be identified safely use:
+
+```text
+approvalStatus = needs_review
+profileStatus = draft
+reviewReason = <exception reason>
+```
+
+Identity conflicts and persistence errors are not silently converted into public profiles.
+
+## Canonical identity
+
+The endpoint preserves supplied canonical IDs when present and otherwise provisions deterministic fallback identity from the normalized email for first-time intake:
+
+- `partnerId`
+- `referralCode`
+- `slug`
+
+Durable upsert then resolves by partner ID, known submission ID, normalized email, or creation in that order.

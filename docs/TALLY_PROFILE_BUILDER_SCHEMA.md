@@ -1,23 +1,67 @@
-# Tally Profile Builder Form Schema
+# Tally Profile Builder Schema
 
-This document outlines the expected fields from the detailed Tally Profile Builder form. This form is sent to brokers after initial intake to collect the full profile data required for the public directory.
+The profile-builder flow enriches the **same canonical partner record** created by the Funding Agent application. It does not create a second profile or independently change approval/publication state.
 
-## Expected Form Fields
+## Match fields
 
-| Tally Field Label | Tally Field Type | Canonical Mapping | Description |
-| :--- | :--- | :--- | :--- |
-| **Email Address** | Email | `email` | **(Merge Key)** Used to match this submission to the existing CRM record. |
-| **Short Bio** | Long Text | `shortBio` | Professional biography. |
-| **Why Choose You?** | Long Text | `whyChooseYou` | Value proposition for potential clients. |
-| **Operating City** | Short Text | `city` | Primary city of operation. |
-| **Target Industries** | Multiple Choice / Checkboxes | `industries` | Array of target industries (e.g., SaaS, Construction). |
-| **Funding Types** | Multiple Choice / Checkboxes | `fundingTypes` | Array of funding specialties. |
-| **Funding Speed** | Dropdown | `urgencyCategory` | Typical speed (fast, standard, complex). |
-| **Profile Image / Logo** | File Upload | `profileImage` | URL to the uploaded image. |
-| **Primary CTA Label** | Short Text | `primaryCtaLabel` | Custom text for the button (Optional). |
-| **Primary CTA Link** | Link / URL | `primaryCtaLink` | Where the button should link to (Optional). |
+Preferred:
 
-## Notes for Ingestion (n8n Pipeline)
-- This payload updates the existing record in Notion CRM.
-- It triggers the creation/update of the corresponding Wix CMS `BrokerProfile`.
-- File uploads (images) from Tally must be securely accessible or re-hosted if necessary before passing the URL to Wix CMS.
+| Intake field | Canonical mapping | Purpose |
+| --- | --- | --- |
+| `partnerId` | `partnerId` | Preferred immutable lookup key |
+| `email` | normalized `email` | Fallback lookup key when partner ID is unavailable |
+| `tallySubmissionId` / `submissionId` | `latestTallySubmissionId` | Traceability metadata |
+
+At least `partnerId` or a valid email must be present.
+
+## Enrichment fields consumed when available
+
+- `displayName`
+- `fullName`
+- `agencyName`
+- `title`
+- `phoneNumber`
+- `shortBio`
+- `whyChooseYou`
+- `city`
+- `state`
+- `websiteUrl`
+- `industries`
+- `fundingTypes`
+- `specialties`
+- `markets`
+- `urgencyCategory`
+- `profileImage` / `photoUrl`
+- `logoUrl`
+- `bookingUrl`
+- `primaryCtaLabel`
+- `primaryCtaLink`
+- `disclosures`
+
+URLs and arrays are normalized at the application boundary.
+
+## Blank-safe update rule
+
+```text
+existing trusted value + blank incoming value → preserve existing value
+```
+
+Profile enrichment does not intentionally overwrite:
+
+- `partnerId`
+- `referralCode`
+- persisted `slug`
+- `approvalStatus`
+- `profileStatus`
+
+The durable adapter resolves the existing partner and preserves canonical identity on routine updates/retries.
+
+## Publication
+
+This endpoint does not publish a partner by itself. It returns the durable record's current approval/profile state. Public eligibility continues to require:
+
+```text
+approvalStatus = approved
+AND
+profileStatus = published
+```
