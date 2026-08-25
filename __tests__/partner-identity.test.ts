@@ -4,7 +4,7 @@ import {
   generatePartnerSlug,
   generateReferralCode,
   normalizeEmail
-} from '@/lib/intake-normalizers';
+} from '../lib/intake-normalizers';
 
 describe('canonical partner identity', () => {
   it('normalizes email merge keys', () => {
