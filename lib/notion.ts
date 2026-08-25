@@ -126,6 +126,7 @@ function toNotionProperties(partner: Partial<CanonicalBrokerProfile>, creating =
     Website: url(partner.websiteUrl),
     Bio: text(partner.shortBio),
     'Why Choose You': text(partner.whyChooseYou),
+    'Urgency Category': text(partner.urgencyCategory),
     'Photo URL': url(partner.profileImage),
     'Logo URL': url(partner.logoUrl),
     Specialties: joined(partner.specialties),
@@ -184,6 +185,7 @@ function fromNotionPage(page: any): PersistedPartner {
     websiteUrl: propText(p['Website URL']) || propText(p.Website),
     shortBio: propText(p.Bio),
     whyChooseYou: propText(p['Why Choose You']),
+    urgencyCategory: propText(p['Urgency Category']) || 'standard',
     profileImage: propText(p['Photo URL']),
     logoUrl: propText(p['Logo URL']),
     specialties: splitList(propText(p.Specialties)),
@@ -264,6 +266,23 @@ export async function getPartnerBySubmissionId(submissionId: string) {
   return submissionId ? queryOne('Latest Tally Submission ID', { rich_text: { equals: submissionId } }, true) : null;
 }
 
+export async function listPublishedPartners(): Promise<PersistedPartner[]> {
+  const { databaseId } = config();
+  const body = await notionRequest(`/databases/${databaseId}/query`, {
+    method: 'POST',
+    body: JSON.stringify({
+      page_size: 100,
+      filter: {
+        and: [
+          { property: 'Approval Status', select: { equals: 'approved' } },
+          { property: 'Profile Status', select: { equals: 'published' } }
+        ]
+      }
+    })
+  });
+  return (body.results || []).map(fromNotionPage);
+}
+
 export async function createPartner(partner: Partial<CanonicalBrokerProfile>): Promise<PersistedPartner> {
   const { databaseId } = config();
   const page = await notionRequest('/pages', {
@@ -289,14 +308,11 @@ function nonBlankMerge(existing: PersistedPartner, incoming: Partial<CanonicalBr
     merged[key] = value;
   }
 
-  // Immutable identity always wins from the durable record.
   merged.partnerId = existing.partnerId || incoming.partnerId;
   merged.referralCode = existing.referralCode || incoming.referralCode;
   merged.slug = existing.slug || incoming.slug;
   merged.initialSubmissionAt = existing.initialSubmissionAt || incoming.initialSubmissionAt || incoming.createdAt;
 
-  // Automatic activation may advance needs_review/draft, but must never undo an
-  // operator-imposed approved/suspended/rejected or published/hidden/archived state.
   if (existing.approvalStatus && existing.approvalStatus !== 'needs_review') {
     merged.approvalStatus = existing.approvalStatus;
   }
@@ -316,6 +332,21 @@ async function reconcileCreation(partner: Partial<CanonicalBrokerProfile>, creat
 
   if (matches.length <= 1) return created;
   return reconcileSameIdentity(matches);
+}
+
+async function assertSecondaryKeysCompatible(existing: PersistedPartner, partner: Partial<CanonicalBrokerProfile>) {
+  if (partner.email) {
+    const byEmail = await getPartnerByNormalizedEmail(partner.email);
+    if (byEmail && byEmail.notionPageId !== existing.notionPageId) {
+      throw typedError('Supplied email resolves to a different canonical partner', 'conflict');
+    }
+  }
+  if (partner.latestTallySubmissionId) {
+    const bySubmission = await getPartnerBySubmissionId(partner.latestTallySubmissionId);
+    if (bySubmission && bySubmission.notionPageId !== existing.notionPageId) {
+      throw typedError('Supplied submission ID resolves to a different canonical partner', 'conflict');
+    }
+  }
 }
 
 export async function upsertPartner(partner: Partial<CanonicalBrokerProfile>, options: UpsertPartnerOptions = {}): Promise<NotionAdapterResponse> {
@@ -340,6 +371,7 @@ export async function upsertPartner(partner: Partial<CanonicalBrokerProfile>, op
       if (partner.partnerId && existing.partnerId && partner.partnerId !== existing.partnerId) {
         throw typedError('Canonical partner_id conflicts with the matched existing record', 'conflict');
       }
+      await assertSecondaryKeysCompatible(existing, partner);
       const merged = nonBlankMerge(existing, partner);
       const updated = await updatePartner(existing.notionPageId, merged);
       return { success: true, notionId: updated.notionPageId, partner: updated, created: false, matchedBy };
@@ -363,7 +395,6 @@ export async function upsertPartner(partner: Partial<CanonicalBrokerProfile>, op
   }
 }
 
-// Backward-compatible export for existing call sites while Batch 2.5 migrates them.
 export async function upsertNotionCRMRecord(partner: Partial<CanonicalBrokerProfile>): Promise<NotionAdapterResponse> {
   return upsertPartner(partner);
 }
