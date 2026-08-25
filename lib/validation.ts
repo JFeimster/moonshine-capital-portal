@@ -22,10 +22,9 @@ export function validateApplicationPayload(payload: any): ValidationResult {
     errors.push('Missing required field: fullName');
   }
 
-  if (!payload?.agencyName || typeof payload.agencyName !== 'string' || payload.agencyName.trim() === '') {
-    errors.push('Missing required field: agencyName');
-  }
-
+  // Track C uses a deliberately minimal Join form. Agency/brand details are
+  // enriched by the follow-on profile builder, so agencyName must not block
+  // canonical identity creation or automatic activation at the Join step.
   return { isValid: errors.length === 0, errors };
 }
 
