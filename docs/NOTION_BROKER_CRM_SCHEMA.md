@@ -41,6 +41,7 @@ The CRM reuses existing fields where possible and stores canonical profile value
 - Website / Website URL
 - Bio
 - Why Choose You
+- Urgency Category
 - Photo URL
 - Logo URL
 - Specialties
@@ -62,6 +63,8 @@ Array-like canonical values are stored as comma-separated text in the current No
 4. create a new record
 
 Once present, `partnerId`, `referralCode`, and `slug` are preserved during routine retries and profile enrichment.
+
+When a partner ID matches, supplied secondary identifiers (email and submission ID) are cross-checked. If a secondary key resolves to another canonical partner, the write is rejected as a conflict instead of corrupting either record.
 
 Profile enrichment uses the same matching hierarchy but is **update-only**: if no existing canonical partner matches, it returns not found rather than creating an orphan record.
 
