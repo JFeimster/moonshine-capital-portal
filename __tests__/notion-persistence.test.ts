@@ -32,10 +32,9 @@ describe('durable Notion partner persistence', () => {
 
   it('creates a new valid partner with immutable identity fields', async () => {
     const fetchMock = vi.spyOn(globalThis, 'fetch' as any)
-      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any)
-      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any)
-      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any)
-      .mockResolvedValueOnce(jsonResponse(page()) as any);
+      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any) // partner_id lookup
+      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any) // email lookup
+      .mockResolvedValueOnce(jsonResponse(page()) as any); // create page
 
     const result = await upsertPartner({
       fullName: 'Test Agent', email: 'test@example.com', agencyName: 'Test Co',
@@ -48,7 +47,7 @@ describe('durable Notion partner persistence', () => {
     expect(result.partner?.partnerId).toBe('prt_abc');
     expect(result.partner?.referralCode).toBe('MCABC');
     expect(result.partner?.slug).toBe('test-agent-abc');
-    expect(fetchMock).toHaveBeenCalledTimes(4);
+    expect(fetchMock).toHaveBeenCalledTimes(3);
   });
 
   it('matches repeated submissions by partner_id and preserves canonical identity', async () => {
@@ -70,11 +69,10 @@ describe('durable Notion partner persistence', () => {
     expect(result.partner?.slug).toBe('test-agent-abc');
   });
 
-  it('returns a conflict when the matched canonical identity disagrees', async () => {
+  it('returns a conflict when email resolves to a different canonical identity', async () => {
     vi.spyOn(globalThis, 'fetch' as any)
-      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any)
-      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any)
-      .mockResolvedValueOnce(jsonResponse({ results: [page({ partnerId: 'prt_existing' })] }) as any);
+      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any) // incoming partner_id not found
+      .mockResolvedValueOnce(jsonResponse({ results: [page({ partnerId: 'prt_existing' })] }) as any); // email match
 
     const result = await upsertPartner({ partnerId: 'prt_incoming', email: 'test@example.com' });
     expect(result.success).toBe(false);
