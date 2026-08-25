@@ -4,13 +4,16 @@ export interface ValidationResult {
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MISSING_MERGE_KEY = 'Missing or invalid required merge key: email';
 
 export function validateApplicationPayload(payload: any): ValidationResult {
   const errors: string[] = [];
   const email = typeof payload?.email === 'string' ? payload.email.trim() : '';
 
   if (!email) {
-    errors.push('Missing required field: email');
+    // Preserve the established external validation contract while tightening
+    // format validation for nonblank email values.
+    errors.push(MISSING_MERGE_KEY);
   } else if (!EMAIL_RE.test(email)) {
     errors.push('Invalid email');
   }
@@ -31,8 +34,11 @@ export function validateProfilePayload(payload: any): ValidationResult {
   const hasPartnerId = typeof payload?.partnerId === 'string' && payload.partnerId.trim() !== '';
   const email = typeof payload?.email === 'string' ? payload.email.trim() : '';
 
+  // Batch 2.5 allows canonical partner_id to replace email as the preferred
+  // enrichment lookup key, while retaining the established error contract when
+  // neither lookup key is available.
   if (!hasPartnerId && !email) {
-    errors.push('Profile enrichment requires partnerId or email');
+    errors.push(MISSING_MERGE_KEY);
   }
   if (email && !EMAIL_RE.test(email)) {
     errors.push('Invalid email');
