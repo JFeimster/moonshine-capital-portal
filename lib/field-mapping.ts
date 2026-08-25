@@ -1,6 +1,14 @@
 export type InternalStatus = 'pending' | 'in_review' | 'approved' | 'rejected';
+export type CanonicalProfileStatus =
+  | 'application_received'
+  | 'pending_review'
+  | 'profile_incomplete'
+  | 'ready_to_publish'
+  | 'published'
+  | 'suspended'
+  | 'archived';
+export type CanonicalApprovalStatus = 'pending' | 'approved' | 'rejected' | 'suspended';
 
-// Maps exactly to NOTION_BROKER_CRM_SCHEMA.md
 export interface InternalCRMFields {
   status: InternalStatus;
   internalNotes?: string;
@@ -8,7 +16,6 @@ export interface InternalCRMFields {
   tallySubmissionId: string;
 }
 
-// Maps exactly to WIX_BROKERPROFILE_SCHEMA.md
 export interface PublicWixFields {
   featuredFlag: boolean;
   brokerStatus: 'active' | 'hidden' | 'recruiting';
@@ -16,13 +23,6 @@ export interface PublicWixFields {
   isActive: boolean;
 }
 
-// Derived fields documented in FIELD_MAPPING_CONTRACT.md
-export interface DerivedFields {
-  slug: string;
-  primaryCtaLink?: string;
-}
-
-// Canonical fields from FIELD_MAPPING_CONTRACT.md
 export interface CanonicalBrokerProfile {
   fullName: string;
   email: string;
@@ -35,13 +35,32 @@ export interface CanonicalBrokerProfile {
   whyChooseYou?: string;
   industries: string[];
   fundingTypes: string[];
-  urgencyCategory: string; // 'fast', 'standard', 'complex'
+  urgencyCategory: string;
   profileImage?: string;
   primaryCtaLabel?: string;
   primaryCtaLink?: string;
+
+  // Canonical partner identity additions. Optional during migration/intake.
+  partnerId?: string;
+  referralCode?: string;
+  slug?: string;
+  displayName?: string;
+  title?: string;
+  profileStatus?: CanonicalProfileStatus;
+  approvalStatus?: CanonicalApprovalStatus;
+  partnerType?: string;
+  specialties?: string[];
+  markets?: string[];
+  logoUrl?: string;
+  bookingUrl?: string;
+  disclosures?: string[];
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
 }
 
-export interface FullyNormalizedBroker extends CanonicalBrokerProfile, DerivedFields {
+export interface FullyNormalizedBroker extends CanonicalBrokerProfile {
+  slug: string;
   internal: InternalCRMFields;
   publicWix: PublicWixFields;
 }
