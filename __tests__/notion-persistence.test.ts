@@ -16,7 +16,8 @@ const page = (overrides: Record<string, any> = {}) => ({
     'Profile Status': { type: 'select', select: { name: overrides.profileStatus || 'published' } },
     'Latest Tally Submission ID': { type: 'rich_text', rich_text: [{ plain_text: overrides.submissionId || 'sub-1' }] },
     'Display Name': { type: 'rich_text', rich_text: [{ plain_text: overrides.displayName || 'Test Agent' }] },
-    'Why Choose You': { type: 'rich_text', rich_text: [{ plain_text: overrides.whyChooseYou || '' }] }
+    'Why Choose You': { type: 'rich_text', rich_text: [{ plain_text: overrides.whyChooseYou || '' }] },
+    'Urgency Category': { type: 'rich_text', rich_text: [{ plain_text: overrides.urgencyCategory || 'standard' }] }
   }
 });
 
@@ -35,10 +36,10 @@ describe('durable Notion partner persistence', () => {
   it('creates a new valid partner with immutable identity fields', async () => {
     const createdPage = page();
     const fetchMock = vi.spyOn(globalThis, 'fetch' as any)
-      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any) // partner_id lookup
-      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any) // email lookup
-      .mockResolvedValueOnce(jsonResponse(createdPage) as any) // create page
-      .mockResolvedValueOnce(jsonResponse({ results: [createdPage] }) as any); // post-create reconciliation
+      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any)
+      .mockResolvedValueOnce(jsonResponse(createdPage) as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [createdPage] }) as any);
 
     const result = await upsertPartner({
       fullName: 'Test Agent', email: 'test@example.com', agencyName: 'Test Co',
@@ -56,13 +57,16 @@ describe('durable Notion partner persistence', () => {
 
   it('matches repeated submissions by partner_id and preserves canonical identity', async () => {
     const existing = page();
+    const enriched = page({ displayName: 'Enriched Agent', whyChooseYou: 'Trusted operator.', urgencyCategory: 'fast', submissionId: 'sub-2' });
     const fetchMock = vi.spyOn(globalThis, 'fetch' as any)
       .mockResolvedValueOnce(jsonResponse({ results: [existing] }) as any)
-      .mockResolvedValueOnce(jsonResponse(page({ displayName: 'Enriched Agent', whyChooseYou: 'Trusted operator.' })) as any);
+      .mockResolvedValueOnce(jsonResponse({ results: [existing] }) as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any)
+      .mockResolvedValueOnce(jsonResponse(enriched) as any);
 
     const result = await upsertPartner({
       partnerId: 'prt_abc', email: 'TEST@example.com', referralCode: 'DIFFERENT', slug: 'different-slug',
-      displayName: 'Enriched Agent', whyChooseYou: 'Trusted operator.', latestTallySubmissionId: 'sub-2'
+      displayName: 'Enriched Agent', whyChooseYou: 'Trusted operator.', urgencyCategory: 'fast', latestTallySubmissionId: 'sub-2'
     });
 
     expect(result.success).toBe(true);
@@ -71,14 +75,17 @@ describe('durable Notion partner persistence', () => {
     expect(result.partner?.partnerId).toBe('prt_abc');
     expect(result.partner?.referralCode).toBe('MCABC');
     expect(result.partner?.slug).toBe('test-agent-abc');
+    expect(result.partner?.urgencyCategory).toBe('fast');
 
-    const updateBody = JSON.parse(String((fetchMock.mock.calls[1][1] as RequestInit).body));
+    const updateBody = JSON.parse(String((fetchMock.mock.calls[3][1] as RequestInit).body));
     expect(updateBody.properties['Why Choose You'].rich_text[0].text.content).toBe('Trusted operator.');
+    expect(updateBody.properties['Urgency Category'].rich_text[0].text.content).toBe('fast');
   });
 
   it('preserves operator-imposed suspended and hidden states on a clean resubmission', async () => {
     const existing = page({ approvalStatus: 'suspended', profileStatus: 'hidden' });
     const fetchMock = vi.spyOn(globalThis, 'fetch' as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [existing] }) as any)
       .mockResolvedValueOnce(jsonResponse({ results: [existing] }) as any)
       .mockResolvedValueOnce(jsonResponse(existing) as any);
 
@@ -88,20 +95,33 @@ describe('durable Notion partner persistence', () => {
     });
 
     expect(result.success).toBe(true);
-    const updateBody = JSON.parse(String((fetchMock.mock.calls[1][1] as RequestInit).body));
+    const updateBody = JSON.parse(String((fetchMock.mock.calls[2][1] as RequestInit).body));
     expect(updateBody.properties['Approval Status'].select.name).toBe('suspended');
     expect(updateBody.properties['Profile Status'].select.name).toBe('hidden');
   });
 
-  it('returns a conflict when email resolves to a different canonical identity', async () => {
+  it('returns a conflict when email fallback resolves to a different canonical identity', async () => {
     vi.spyOn(globalThis, 'fetch' as any)
-      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any) // incoming partner_id not found
-      .mockResolvedValueOnce(jsonResponse({ results: [page({ partnerId: 'prt_existing' })] }) as any); // email match
+      .mockResolvedValueOnce(jsonResponse({ results: [] }) as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [page({ partnerId: 'prt_existing' })] }) as any);
 
     const result = await upsertPartner({ partnerId: 'prt_incoming', email: 'test@example.com' });
     expect(result.success).toBe(false);
     expect(result.errorDetails?.kind).toBe('conflict');
     expect(result.errorDetails?.retryable).toBe(false);
+  });
+
+  it('rejects a secondary email that belongs to another partner after partner_id matches', async () => {
+    const partnerA = page({ id: 'page-a', partnerId: 'prt_a', email: 'a@example.com' });
+    const partnerB = page({ id: 'page-b', partnerId: 'prt_b', email: 'b@example.com' });
+    const fetchMock = vi.spyOn(globalThis, 'fetch' as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [partnerA] }) as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [partnerB] }) as any);
+
+    const result = await upsertPartner({ partnerId: 'prt_a', email: 'b@example.com', displayName: 'Corrupting Update' });
+    expect(result.success).toBe(false);
+    expect(result.errorDetails?.kind).toBe('conflict');
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
   it('reconciles duplicate pages created by concurrent first-time deliveries', async () => {
@@ -112,7 +132,7 @@ describe('durable Notion partner persistence', () => {
       .mockResolvedValueOnce(jsonResponse({ results: [] }) as any)
       .mockResolvedValueOnce(jsonResponse(concurrentCreated) as any)
       .mockResolvedValueOnce(jsonResponse({ results: [winner, concurrentCreated] }) as any)
-      .mockResolvedValueOnce(jsonResponse({}) as any); // archive duplicate
+      .mockResolvedValueOnce(jsonResponse({}) as any);
 
     const result = await upsertPartner({
       partnerId: 'prt_abc', email: 'test@example.com', referralCode: 'MCABC', slug: 'test-agent-abc'
