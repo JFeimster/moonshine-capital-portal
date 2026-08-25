@@ -1,4 +1,14 @@
 export type InternalStatus = 'pending' | 'in_review' | 'approved' | 'rejected';
+export type CanonicalProfileStatus =
+  | 'application_received'
+  | 'pending_review'
+  | 'profile_incomplete'
+  | 'ready_to_publish'
+  | 'published'
+  | 'suspended'
+  | 'archived';
+
+export type CanonicalApprovalStatus = 'pending' | 'approved' | 'rejected' | 'suspended';
 
 // Maps exactly to NOTION_BROKER_CRM_SCHEMA.md
 export interface InternalCRMFields {
@@ -16,13 +26,15 @@ export interface PublicWixFields {
   isActive: boolean;
 }
 
-// Derived fields documented in FIELD_MAPPING_CONTRACT.md
+// Derived/public identity fields documented in FIELD_MAPPING_CONTRACT.md
 export interface DerivedFields {
   slug: string;
+  partnerId?: string;
+  referralCode?: string;
   primaryCtaLink?: string;
 }
 
-// Canonical fields from FIELD_MAPPING_CONTRACT.md
+// Canonical public partner identity. Existing fields remain intact for backward compatibility.
 export interface CanonicalBrokerProfile {
   fullName: string;
   email: string;
@@ -35,10 +47,28 @@ export interface CanonicalBrokerProfile {
   whyChooseYou?: string;
   industries: string[];
   fundingTypes: string[];
-  urgencyCategory: string; // 'fast', 'standard', 'complex'
+  urgencyCategory: string;
   profileImage?: string;
   primaryCtaLabel?: string;
   primaryCtaLink?: string;
+
+  // Batch 2 canonical identity additions. Optional until downstream stores are migrated.
+  partnerId?: string;
+  referralCode?: string;
+  slug?: string;
+  displayName?: string;
+  title?: string;
+  profileStatus?: CanonicalProfileStatus;
+  approvalStatus?: CanonicalApprovalStatus;
+  partnerType?: string;
+  specialties?: string[];
+  markets?: string[];
+  logoUrl?: string;
+  bookingUrl?: string;
+  disclosures?: string[];
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
 }
 
 export interface FullyNormalizedBroker extends CanonicalBrokerProfile, DerivedFields {
