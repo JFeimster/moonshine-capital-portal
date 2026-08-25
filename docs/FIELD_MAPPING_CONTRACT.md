@@ -1,81 +1,124 @@
-# Canonical Broker Schema & Field Mapping Contract
+# Canonical Broker / Partner Schema & Field Mapping Contract
 
-This document defines the canonical data model and field-mapping contract for a Broker Profile across the Moonshine Capital Portal ecosystem.
+This file is the master cross-system contract for partner identity and profile data moving between Tally, Notion CRM, and public rendering.
 
-**Role of this file:**
-- this is the **master cross-system contract**
-- it governs how data moves between Tally, Notion CRM, and Wix CMS
-- system-specific schema docs should remain system-specific and point back here for shared mapping logic
+## Identity contract
 
-Use related docs this way:
-- `docs/data-model.md` = canonical app model doc
-- `docs/WIX_BROKERPROFILE_SCHEMA.md` = Wix-specific schema doc
-- `docs/NOTION_BROKER_CRM_SCHEMA.md` = Notion CRM schema doc
-- `docs/TALLY_APPLICATION_SCHEMA.md` and `docs/TALLY_PROFILE_BUILDER_SCHEMA.md` = Tally intake/profile-builder docs
+`partnerId` / `partner_id` is the immutable cross-system identity.
 
-## Merge Key
-The primary identifier for matching records across systems is the **Broker Email (`publicEmail` / `email`)**.
-If email is missing or changed, require manual resolution or use an immutable submission/broker ID instead.
+Matching/upsert order:
 
-## Field Categories
+1. `partnerId`, when supplied
+2. known intake/submission ID
+3. normalized `email`
+4. otherwise create a new canonical partner
 
-### 1. Internal-Only Fields (Notion CRM)
-- `Status` (e.g., Pending, In Review, Approved, Rejected)
-- `Internal Notes`
-- `Application Date`
-- `Tally Submission ID`
+Email is a matching field, not the permanent primary identity. Name, company, email, public slug display inputs, Notion page ID, and later system-specific IDs may change without changing the canonical partner ID.
 
-### 2. Public-Only Fields (Wix CMS)
-- `featuredFlag` (boolean, used for sorting/display)
-- `brokerStatus` (e.g., active, hidden)
+Once assigned during normal operations, preserve:
 
-### 3. Derived/Generated Fields
-- `slug`: Generated from `fullName` (e.g., "Jane Doe" -> "jane-doe").
-- `primaryCtaLink`: Generated/Sanitized external URL for tracking.
+- `partnerId`
+- `referralCode`
+- `slug`
 
-## Canonical Data Model
+## Intake-source contract
 
-| Field Name | Type | Description |
-| :--- | :--- | :--- |
-| `fullName` | String | Broker's full name. |
-| `email` | String | Broker's public contact email (Merge Key). |
-| `agencyName` | String | Name of the broker's agency. |
-| `city` | String | Operating city. |
-| `state` | String | Operating state (2-letter abbreviation). |
-| `websiteUrl` | String | Agency or broker website URL. |
-| `phoneNumber` | String | Public contact phone number. |
-| `shortBio` | String | Short professional biography. |
-| `whyChooseYou` | String | Value proposition ("Why choose this broker"). |
-| `industries` | Array<String> | Target industries. |
-| `fundingTypes` | Array<String> | Types of funding offered. |
-| `urgencyCategory` | String | Typical speed of funding ('fast', 'standard', 'complex'). |
-| `profileImage` | String (URL) | URL to broker's headshot or logo. |
-| `primaryCtaLabel`| String | Custom text for primary CTA button. |
-| `primaryCtaLink` | String (URL) | Custom destination for primary CTA button. |
+The canonical Funding Agent application route is source-specific and assigns:
 
-## Data Transformation Rules
+```text
+partnerType = funding_agent
+```
 
-### 1. Slug Generation
-- Source: `fullName`
-- Transform: Lowercase, replace spaces with hyphens, remove special characters.
-- Example: "John Smith-Doe!" -> `john-smith-doe`
+server-side. It does not depend on an applicant-selected partner type.
 
-### 2. URL Cleanup
-- Source: `websiteUrl`, `primaryCtaLink`, `profileImage`
-- Transform: Ensure protocol `https://` is present if missing. Remove trailing slashes.
-- Example: "example.com" -> `https://example.com`
+## Lifecycle fields
 
-### 3. Arrays / Multi-Select Normalization
-- Source: `industries`, `fundingTypes` (Tally Multi-Select / Checkboxes)
-- Transform: Ensure comma-separated strings are parsed into arrays of trimmed strings.
-- Example: "SaaS, Manufacturing , Technology" -> `["SaaS", "Manufacturing", "Technology"]`
+Approval and publication remain separate:
 
-### 4. Defaults
-- `urgencyCategory`: Default to `"standard"` if not provided.
-- `approvalStatus` (Wix): Default to `"pending"` upon initial ingestion until verified.
-- `isActive` (Wix): Default to `false` until approved.
+```text
+approvalStatus = approved | needs_review | suspended | rejected
+profileStatus = draft | published | hidden | archived
+```
 
-## Contract Notes
-- use this file to resolve mapping disputes between systems
-- avoid duplicating transformation rules across schema docs
-- keep system-specific docs focused on their own storage model while this file owns the cross-system contract
+Normal clean Funding Agent application:
+
+```text
+approved + published
+```
+
+Exception application:
+
+```text
+needs_review + draft
+```
+
+Public eligibility requires both `approved` and `published`.
+
+## Canonical data model
+
+| Field | Type | Purpose |
+| --- | --- | --- |
+| `partnerId` | string | Immutable partner identity |
+| `referralCode` | string | Persistent attribution identity |
+| `slug` | string | Persistent public route identity |
+| `partnerType` | string | Intake-source assigned partner class |
+| `approvalStatus` | enum | Approval lifecycle |
+| `profileStatus` | enum | Publication lifecycle |
+| `reviewReason` | string | Exception reason when review is required |
+| `fullName` | string | Full name |
+| `displayName` | string | Preferred public display name |
+| `email` | string | Normalized fallback match/contact field |
+| `agencyName` | string | Company/agency |
+| `city` | string | City |
+| `state` | string | State/region |
+| `websiteUrl` | URL | Website |
+| `phoneNumber` | string | Phone |
+| `shortBio` | string | Public biography |
+| `industries` | string[] | Industries served |
+| `fundingTypes` | string[] | Funding products |
+| `specialties` | string[] | Specialties |
+| `markets` | string[] | Markets |
+| `profileImage` | URL | Profile/headshot image |
+| `logoUrl` | URL | Company logo |
+| `bookingUrl` | URL | Booking destination |
+| `primaryCtaLabel` | string | CTA label |
+| `primaryCtaLink` | URL | CTA destination |
+| `disclosures` | string[] | Disclosures |
+
+## Traceability attributes
+
+System/source identifiers are attributes, not canonical identity:
+
+- `notionPageId`
+- `tallyFormId`
+- `latestTallySubmissionId`
+- future `supabaseUserId`
+- future `hubspotContactId`
+
+Source timestamps include `initialSubmissionAt`, `latestSubmissionAt`, and `updatedAt`.
+
+## Transformation rules
+
+- Normalize email to trimmed lowercase before matching.
+- Normalize supported U.S. state values to two-letter codes.
+- Normalize URLs and add a protocol when absent.
+- Normalize comma-separated/multi-select values to arrays in the application domain.
+- The current Notion CRM stores array-like profile values as comma-separated text; the adapter converts them at the persistence boundary.
+- Partial profile enrichment is blank-safe: blank values do not erase existing trusted values.
+- Slug generation is deterministic for a new identity; persisted slugs take precedence on retry/enrichment.
+
+## Attribution
+
+Preserve canonical identity through existing tracking:
+
+```text
+partner_id
+referral_code
+source
+campaign
+utm_source
+utm_medium
+utm_campaign
+```
+
+Continue using the existing `/out` tracking infrastructure rather than creating a parallel attribution system.
