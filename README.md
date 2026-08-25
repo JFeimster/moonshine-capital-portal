@@ -1,135 +1,229 @@
 # Moonshine Capital Portal
 
-Moonshine Capital Portal is the Next.js front-end and application layer for broker discovery, partner onboarding, tracked routing, embedded tools, and the future Funding Agent OS experience.
+`moonshine-capital-portal` is the canonical **public partner identity, co-branded funding-page, directory, intake, attribution, and publication-gating** application for the Moonshine / Distilled Funding partner ecosystem.
 
-It is no longer being treated as a Wix-first project.
-
-The current direction is:
-- **Tally** for intake
-- **Notion** for broker CRM and operational workflow
-- **Vercel / Next.js** for app logic, public UX, tracking, portal, and admin
-- **Wix** as an optional downstream publish/read layer where useful
-
----
-
-## 🚀 Purpose
-
-Most founders waste time talking to the wrong lenders, the wrong brokers, or the wrong capital paths.
-
-Moonshine Capital Portal exists to:
-- help business owners discover relevant funding partners faster
-- onboard brokers into a structured system instead of a loose affiliate mess
-- route outbound clicks through trackable infrastructure
-- evolve into **Funding Agent OS**, a working environment for agents and admins
-
-In the long term, this codebase is the front-end and systems layer for:
-- broker discovery
-- partner recruitment
-- intake normalization
-- lead routing
-- click attribution
-- embedded calculators and tools
-- future authenticated `/portal` and `/admin` experiences
-
----
-
-## 🏗️ Current Architecture
-
-This application uses a modular architecture where **Next.js** is the presentation, routing, API, and application layer.
-
-## Current system direction
+Target public host:
 
 ```text
-Tally → n8n / Next.js intake routes → Notion CRM → approval workflow → optional Wix publish layer → public directory / profiles
+capital.distilledfunding.com
 ```
 
-### Current operational roles
-- **Tally** = broker application + profile-builder intake
-- **Next.js** = route handling, normalization, validation, broker display, CTA routing, future portal/admin
-- **Notion CRM** = operational source of truth for broker lifecycle and approvals
-- **Wix** = optional downstream publish/read adapter for public broker data
-- **n8n** = webhook automation and orchestration layer
-
-### Why this matters
-This keeps intake, approval, and ops under your control instead of forcing the entire system to revolve around one CMS.
+This repository is **not** the authenticated Partner Command / Partner OS. Authenticated partner operations belong to [`JFeimster/partner-command-center`](https://github.com/JFeimster/partner-command-center), whose future canonical host is `app.distilledfunding.com`.
 
 ---
 
-## 🔄 Current Data Flow
+## Canonical ownership
 
-### Intake flow
-1. Broker submits an application through a Tally form
-2. Broker may later submit a profile-builder form for richer public profile data
-3. Intake payloads are normalized through Next.js routes and/or n8n
-4. Broker record is stored/updated in Notion CRM
-5. Approved broker records may optionally be published to Wix for public-facing read support
-6. Public surfaces render broker data and route outbound clicks through `/out`
+This repo owns:
 
-### Public routing flow
-1. User lands on broker directory or broker profile
-2. User clicks a CTA
-3. CTA routes through `/out`
-4. Tracking payload is logged / forwarded
-5. User is redirected to the broker destination
+```text
+PUBLIC PARTNER IDENTITY
+PUBLIC PARTNER PROFILE
+CO-BRANDED FUNDING PAGE
+BROKER / PARTNER DIRECTORY
+TRACKED CTA ROUTING
+TALLY INTAKE
+PROFILE ENRICHMENT
+PUBLICATION GATING
+```
 
----
+It does **not** own:
 
-## 🗺️ Current Routes
+```text
+AUTHENTICATED PARTNER COMMAND
+COMMISSIONS
+TEAM MANAGEMENT
+OPERATING DASHBOARD
+TRAINING RUNTIME
+PARTNER OS
+```
 
-### Public routes
-- `/` — Homepage / positioning layer
-- `/directory` — Broker directory index
-- `/directory/[slug]` — Individual broker profile pages
-- `/onboarding` — Partner onboarding page with live Tally embed
-- `/industries` — Industry discovery hub
-- `/industries/[slug]` — Industry-specific discovery page
-- `/funding-types` — Funding specialty discovery hub
-- `/funding-types/[slug]` — Funding-type-specific discovery page
-- `/terms` — Terms of Service
-- `/privacy` — Privacy Policy
-
-### Internal / infrastructure routes
-- `/out` — Centralized tracked redirect route for CTA clicks
-- `/api/intake/tally/application` — intake endpoint for application submissions
-- `/api/intake/tally/profile` — intake endpoint for profile-builder submissions
-
-### Planned future routes
-- `/portal`
-- `/portal/tools`
-- `/portal/resources`
-- `/portal/profile`
-- `/portal/tracking`
-- `/admin`
-- `/admin/submissions`
-- `/admin/brokers`
-- `/admin/logs`
-- `/admin/settings`
+Those responsibilities belong to `partner-command-center`.
 
 ---
 
-## 🧩 Current Core Files
+## Current architecture
 
-### App routes
-- `app/page.tsx`
+```text
+Tally / normalized intake
+        ↓
+Next.js intake contracts
+        ↓
+canonical partner identity
+partnerId + referralCode + reserved slug
+        ↓
+Notion CRM adapter
+        ↓
+approval / enrichment
+        ↓
+optional Wix publish/read adapter
+        ↓
+public Capital profile + tracked CTA routing
+```
+
+### Operational roles
+
+- **Tally** = partner application and profile-builder intake.
+- **Next.js** = validation, normalization, identity derivation, public rendering, discovery, and tracked routing.
+- **Notion CRM** = intended operational source of truth for partner lifecycle/approvals.
+- **Wix** = optional downstream publish/read adapter where useful.
+- **n8n** = optional webhook orchestration and raw-Tally-to-canonical mapping.
+- **Partner Command** = authenticated editing/operations surface in a separate canonical repo.
+
+> Current limitation: `lib/notion.ts` is still a stub adapter. The identity/provisioning contract is implemented, but durable production persistence requires the real Notion adapter and credentials before this lifecycle can be considered fully production-live.
+
+---
+
+## Canonical partner lifecycle
+
+```text
+application_received
+→ pending_review
+→ approved
+→ profile_incomplete
+→ ready_to_publish
+→ published
+→ suspended / archived
+```
+
+The current intake foundation intentionally keeps applicants non-public. Public rendering remains guarded by approval/status gating.
+
+### Application flow
+
+1. Receive authenticated, pre-normalized application payload.
+2. Validate required data.
+3. Normalize the email merge key.
+4. Preserve incoming canonical IDs when supplied; otherwise deterministically derive:
+   - `partnerId`
+   - `referralCode`
+   - collision-resistant `slug`
+5. Set pending/draft lifecycle state.
+6. Upsert through the CRM adapter using the existing merge key.
+7. Return `publicationEligible: false`.
+
+Repeated submissions for the same normalized email converge on the same derived identity.
+
+### Profile enrichment flow
+
+1. Receive authenticated profile-builder payload.
+2. Validate it.
+3. Normalize profile fields.
+4. Drop blank/empty enrichment values so they do not erase trusted existing data.
+5. Upsert the existing partner record by merge key.
+6. Keep the record non-public until the explicit approval/publication workflow authorizes it.
+
+---
+
+## Public routes
+
+- `/` — public positioning layer.
+- `/<partner-slug>` — canonical share-route foundation for a public approved partner profile.
+- `/directory` — partner directory index.
+- `/directory/[slug]` — mature internal public-profile route retained for compatibility.
+- `/industries` and `/industries/[slug]` — industry discovery.
+- `/funding-types` and `/funding-types/[slug]` — funding-type discovery.
+- `/onboarding` — partner onboarding/application surface.
+- `/terms` — Terms of Service.
+- `/privacy` — Privacy Policy.
+
+### Infrastructure routes
+
+- `/out` — centralized tracked redirect route.
+- `/api/intake/tally/application` — normalized partner application intake.
+- `/api/intake/tally/profile` — existing-partner profile enrichment intake.
+
+### Legacy / transitional authenticated surfaces
+
+Existing `/portal/*` and `/admin/*` code is transitional/legacy implementation material. It does **not** establish canonical authenticated-OS ownership. Future partner operating features belong in `partner-command-center`; these routes should be migrated, reduced, redirected, or retired only in a controlled later batch after dependency review.
+
+---
+
+## Public profile safety
+
+`lib/brokers.ts` routes public reads through `isEligibleForPublicDisplay()`.
+
+A profile is public only when:
+
+- approval is explicitly `approved`;
+- the record is explicitly active; and
+- it is not hidden.
+
+The new top-level `/<partner-slug>` route delegates to the mature directory profile implementation, so pending/unapproved partners do not gain a second publication path.
+
+---
+
+## Canonical identity model
+
+The application now supports the following identity/profile contract while preserving existing field names for backward compatibility:
+
+```text
+partnerId
+referralCode
+slug
+fullName
+displayName
+email
+phoneNumber
+agencyName
+title
+profileStatus
+approvalStatus
+partnerType
+specialties
+industries
+fundingTypes
+markets
+shortBio
+profileImage
+logoUrl
+bookingUrl
+primaryCtaLabel
+primaryCtaLink
+disclosures
+createdAt
+updatedAt
+publishedAt
+```
+
+External integrations may use snake_case equivalents; see `docs/PARTNER_COMMAND_PROFILE_CONTRACT.md` and `docs/FIELD_MAPPING_CONTRACT.md` for boundary mapping.
+
+---
+
+## Attribution contract
+
+Public profile/funding flows should preserve when present:
+
+```text
+partner_id
+referral_code
+source
+campaign
+utm_source
+utm_medium
+utm_campaign
+```
+
+Existing `/out` and tracking infrastructure remains the foundation. Do not build a competing attribution system.
+
+---
+
+## Core files
+
+### Routes
+
+- `app/[slug]/page.tsx`
 - `app/directory/page.tsx`
 - `app/directory/[slug]/page.tsx`
-- `app/onboarding/page.tsx`
-- `app/industries/page.tsx`
-- `app/industries/[slug]/page.tsx`
-- `app/funding-types/page.tsx`
-- `app/funding-types/[slug]/page.tsx`
+- `app/industries/*`
+- `app/funding-types/*`
 - `app/out/route.ts`
-- `app/terms/page.tsx`
-- `app/privacy/page.tsx`
 - `app/api/intake/tally/application/route.ts`
 - `app/api/intake/tally/profile/route.ts`
 
-### Core libraries
+### Libraries
+
 - `lib/brokers.ts`
 - `lib/wix.ts`
-- `lib/mock-brokers.ts`
-- `lib/utils.ts`
-- `lib/types.ts`
 - `lib/field-mapping.ts`
 - `lib/intake-normalizers.ts`
 - `lib/validation.ts`
@@ -137,161 +231,69 @@ This keeps intake, approval, and ops under your control instead of forcing the e
 - `lib/notion.ts`
 - `lib/publish-broker.ts`
 
-### Core components
-- `HeroSection.tsx`
-- `BrokerCard.tsx`
-- `DirectoryClient.tsx`
-- `ProfileHero.tsx`
-- `CTASection.tsx`
-- `SectionHeading.tsx`
-- `TallyEmbedSection.tsx`
-
 ---
 
-## 📚 Core Docs
+## Core documentation
 
-### Architecture / planning
-- [`docs/full-scaffold.md`](./docs/full-scaffold.md)
-- [`docs/route-map.md`](./docs/route-map.md)
-- [`docs/page-inventory.md`](./docs/page-inventory.md)
-- [`docs/data-model.md`](./docs/data-model.md)
-- [`docs/future-roadmap.md`](./docs/future-roadmap.md)
-- [`docs/seo-architecture.md`](./docs/seo-architecture.md)
-- [`docs/analytics-plan.md`](./docs/analytics-plan.md)
-- [`docs/admin-portal-plan.md`](./docs/admin-portal-plan.md)
-
-### Intake / schema / workflow docs
 - [`docs/FIELD_MAPPING_CONTRACT.md`](./docs/FIELD_MAPPING_CONTRACT.md)
 - [`docs/TALLY_APPLICATION_SCHEMA.md`](./docs/TALLY_APPLICATION_SCHEMA.md)
 - [`docs/TALLY_PROFILE_BUILDER_SCHEMA.md`](./docs/TALLY_PROFILE_BUILDER_SCHEMA.md)
 - [`docs/NOTION_BROKER_CRM_SCHEMA.md`](./docs/NOTION_BROKER_CRM_SCHEMA.md)
-- [`docs/WIX_BROKERPROFILE_SCHEMA.md`](./docs/WIX_BROKERPROFILE_SCHEMA.md)
-- [`docs/WEBHOOKS.md`](./docs/WEBHOOKS.md)
-- [`docs/RUNBOOK.md`](./docs/RUNBOOK.md)
 - [`docs/onboarding-flow.md`](./docs/onboarding-flow.md)
 - [`docs/tracking-flow.md`](./docs/tracking-flow.md)
-- [`docs/wix-integration.md`](./docs/wix-integration.md)
-
-### Canonical doc roles
-- `docs/FIELD_MAPPING_CONTRACT.md` = cross-system contract
-- `docs/NOTION_BROKER_CRM_SCHEMA.md` = operational CRM source-of-truth schema
-- `docs/WIX_BROKERPROFILE_SCHEMA.md` = optional publish/read schema for Wix
-- `docs/WEBHOOKS.md` = intake/webhook flow and failure modes
-- `docs/RUNBOOK.md` = operational recovery and manual rescue procedures
+- [`docs/PARTNER_COMMAND_PROFILE_CONTRACT.md`](./docs/PARTNER_COMMAND_PROFILE_CONTRACT.md)
+- [`docs/WEBHOOKS.md`](./docs/WEBHOOKS.md)
+- [`docs/RUNBOOK.md`](./docs/RUNBOOK.md)
 
 ---
 
-## 🛠️ Tech Stack
+## Tech stack
 
-- **Framework:** Next.js (App Router)
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **Deployment:** Vercel
-- **Intake:** Tally Forms
-- **CRM / Ops:** Notion
-- **Automation:** n8n
-- **Optional publish/read layer:** Wix
-- **Testing:** Vitest
+- Next.js App Router
+- TypeScript
+- Tailwind CSS
+- Vercel
+- Vitest
+- Tally
+- Notion adapter (production persistence still to be wired)
+- optional n8n orchestration
+- optional Wix downstream adapter
 
 ---
 
-## ⚙️ Environment Variables
+## Environment variables
 
-### Required soon
+Production persistence requires:
+
 ```env
-N8N_CTA_WEBHOOK_URL=https://your-n8n-instance.com/webhook/cta
 NOTION_API_KEY=your_notion_api_key
 NOTION_BROKER_DATABASE_ID=your_notion_database_id
 ```
 
-### Optional / adapter-specific
+Adapter-specific/optional values may include:
+
 ```env
+N8N_CTA_WEBHOOK_URL=https://your-n8n-instance.com/webhook/cta
 WIX_API_URL=https://your-wix-site.com/_functions/api
 WIX_API_KEY=your_wix_api_key
 WIX_SITE_ID=your_wix_site_id
 ```
 
-### Current intent
-- The app should not depend on Wix to function as the operational core
-- Wix credentials should only be needed where the optional adapter path is enabled
-- Development-safe fallback behavior can still exist where appropriate
+Do not assign `capital.distilledfunding.com` until the persistence path, production behavior, and current public routes have been verified end-to-end.
 
 ---
 
-## 📈 Near-Term Roadmap
+## Near-term priorities
 
-### Phase 1 — lock the data contract
-- finalize field mapping contract
-- align Tally application + profile-builder flows
-- align Notion CRM properties
-- make intake payload contract explicit
-
-### Phase 2 — harden ingestion
-- finish intake normalization and validation
-- wire Notion adapter for live writes
-- keep status gating enforced for public broker display
-- ensure profile intake does not auto-publish publicly before approval
-
-### Phase 3 — optional publish/output layer
-- wire thin Wix adapter for optional public publish/read support
-- keep Wix isolated from core intake/CRM logic
-
-### Phase 4 — utility and monetization
-- build embed registry
-- add calculators, widgets, GPT/AI tools, and partner utilities
-- expand tracked discovery and attribution infrastructure
-
-### Phase 5 — internal operating system
-- add `/portal`
-- add `/admin`
-- add broker workflow controls, approvals, resources, and tracking views
+1. Replace the Notion stub with a real idempotent persisted upsert.
+2. Map canonical identity additions into the actual CRM schema without duplicating existing fields.
+3. Verify application retry behavior against durable storage.
+4. Preserve approval gating and existing directory behavior.
+5. Complete the Partner Command ↔ Capital profile integration contract.
+6. Assign the final Capital domain only after production readiness.
 
 ---
 
-## ✅ Current Priorities
+## Architecture references
 
-1. Merge and harden schema + ingestion work
-2. Keep Notion as the source of truth
-3. Treat Wix as optional downstream infrastructure
-4. Build useful broker and portal experiences instead of static directory fluff
-
----
-
-## 📄 Suggested Files / Docs To Add Next
-
-### Docs
-- `docs/PORTAL_IA.md`
-- `docs/ADMIN_IA.md`
-- `docs/EMBED_REGISTRY.md`
-- `docs/OAUTH_AND_SECRETS.md`
-- `docs/OPENAPI_INTEGRATIONS.md`
-- `docs/SECURITY_MODEL.md`
-- `docs/TESTING_POLICY.md`
-
-### App / API
-- `app/portal/page.tsx`
-- `app/portal/tools/page.tsx`
-- `app/portal/resources/page.tsx`
-- `app/portal/profile/page.tsx`
-- `app/portal/tracking/page.tsx`
-- `app/admin/page.tsx`
-- `app/admin/submissions/page.tsx`
-- `app/admin/brokers/page.tsx`
-- `app/admin/logs/page.tsx`
-- `app/admin/settings/page.tsx`
-
-### Libraries / components
-- `lib/embed-registry.ts`
-- `components/portal/ToolCard.tsx`
-- `components/portal/ToolGrid.tsx`
-- `components/admin/BrokerApprovalQueue.tsx`
-- `components/admin/BrokerStatusToggle.tsx`
-
----
-
-## ⚠️ Notes
-
-- This repo is **not** the same as `moonshine-partner-marketplace`
-- Do not treat old Wix-centric assumptions as the default architecture going forward
-- Avoid catch-all mega PRs; prefer focused PRs tied to one issue or one tight dependency pair
-- Use the schema docs and runbook docs as the operational source of truth for the next build pass
+The ecosystem-level ownership decision is tracked in `JFeimster/partner-command-center` Issue #25 and its canonical architecture docs.
