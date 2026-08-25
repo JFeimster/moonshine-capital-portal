@@ -6,15 +6,24 @@ import { getPartnerBySlug, listPublishedPartners } from './notion';
 function persistedToBroker(partner: any): BrokerProfile {
   return {
     id: partner.partnerId || partner.notionPageId,
+    partnerId: partner.partnerId,
+    referralCode: partner.referralCode,
     fullName: partner.fullName || partner.displayName || 'Funding Agent',
+    displayName: partner.displayName || partner.fullName || 'Funding Agent',
     agencyName: partner.agencyName || '',
+    companyName: partner.agencyName || '',
+    title: partner.title || 'Funding Advisor',
     slug: partner.slug || '',
     shortBio: partner.shortBio || '',
     city: partner.city || '',
     state: partner.state || '',
+    markets: partner.markets || [],
     websiteUrl: partner.websiteUrl,
+    bookingUrl: partner.bookingUrl,
+    logoUrl: partner.logoUrl,
     publicEmail: partner.email || '',
     whyChooseYou: partner.whyChooseYou || '',
+    disclosures: partner.disclosures || [],
     industries: partner.industries || [],
     fundingTypes: partner.fundingTypes || [],
     urgencyCategory: partner.urgencyCategory || 'standard',
@@ -24,6 +33,7 @@ function persistedToBroker(partner: any): BrokerProfile {
     primaryCta: partner.primaryCtaLink ? { label: partner.primaryCtaLabel || 'Apply for Funding', url: partner.primaryCtaLink } : undefined,
     profileImage: partner.profileImage,
     approvalStatus: 'approved',
+    profileStatus: partner.profileStatus || 'published',
     brokerStatus: 'active',
     isActive: true,
     phoneNumber: partner.phoneNumber,
@@ -34,14 +44,11 @@ function persistedToBroker(partner: any): BrokerProfile {
 function mergePublicSources(wixBrokers: BrokerProfile[], durableBrokers: BrokerProfile[]) {
   const merged = new Map<string, BrokerProfile>();
 
-  // Preserve mature Wix records as the compatibility baseline.
   for (const broker of wixBrokers.filter(isEligibleForPublicDisplay)) {
     const key = broker.slug || broker.id;
     if (key) merged.set(key, broker);
   }
 
-  // Durable canonical records win on the same slug so an activated Notion partner
-  // is immediately discoverable without requiring a second Wix synchronization.
   for (const broker of durableBrokers) {
     const key = broker.slug || broker.id;
     if (key) merged.set(key, broker);
@@ -65,8 +72,6 @@ export async function getBrokers(): Promise<BrokerProfile[]> {
 }
 
 export async function getBrokerBySlug(slug: string): Promise<BrokerProfile | null> {
-  // Durable partner state is authoritative for Batch 2.5 public partner routes.
-  // If Notion is not configured/available, preserve the existing Wix directory path.
   try {
     const partner = await getPartnerBySlug(slug);
     if (partner) {
