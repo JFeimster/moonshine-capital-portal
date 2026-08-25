@@ -1,7 +1,7 @@
 import { BrokerProfile } from './types';
 import { fetchWixBrokers, fetchWixBrokerBySlug } from './wix';
 import { isEligibleForPublicDisplay } from './status-gating';
-import { getPartnerBySlug } from './notion';
+import { getPartnerBySlug, listPublishedPartners } from './notion';
 
 function persistedToBroker(partner: any): BrokerProfile {
   return {
@@ -31,9 +31,37 @@ function persistedToBroker(partner: any): BrokerProfile {
   };
 }
 
+function mergePublicSources(wixBrokers: BrokerProfile[], durableBrokers: BrokerProfile[]) {
+  const merged = new Map<string, BrokerProfile>();
+
+  // Preserve mature Wix records as the compatibility baseline.
+  for (const broker of wixBrokers.filter(isEligibleForPublicDisplay)) {
+    const key = broker.slug || broker.id;
+    if (key) merged.set(key, broker);
+  }
+
+  // Durable canonical records win on the same slug so an activated Notion partner
+  // is immediately discoverable without requiring a second Wix synchronization.
+  for (const broker of durableBrokers) {
+    const key = broker.slug || broker.id;
+    if (key) merged.set(key, broker);
+  }
+
+  return Array.from(merged.values());
+}
+
 export async function getBrokers(): Promise<BrokerProfile[]> {
-  const brokers = await fetchWixBrokers();
-  return brokers.filter(isEligibleForPublicDisplay);
+  const wixBrokers = await fetchWixBrokers();
+
+  try {
+    const durable = (await listPublishedPartners())
+      .filter(partner => Boolean(partner.slug))
+      .map(persistedToBroker);
+    return mergePublicSources(wixBrokers, durable);
+  } catch (error) {
+    console.warn('Durable partner directory lookup unavailable; using Wix compatibility source.', error);
+    return wixBrokers.filter(isEligibleForPublicDisplay);
+  }
 }
 
 export async function getBrokerBySlug(slug: string): Promise<BrokerProfile | null> {
