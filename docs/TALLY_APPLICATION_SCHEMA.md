@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | `fullName` | `fullName` / default `displayName` | required for automatic activation |
 | `email` | normalized `email` | required and format-valid for automatic activation |
-| `agencyName` | `agencyName` | required for automatic activation |
+| `agencyName` | `agencyName`; defaults to `fullName` at Join when omitted | optional at minimal Join; enrich through Profile Builder |
 | `phoneNumber` | `phoneNumber` | optional |
 | `city` | `city` | optional |
 | `state` | normalized `state` | optional |
@@ -17,6 +17,19 @@
 | `profileImage` / `photoUrl` | `profileImage` | optional |
 | `logoUrl` | `logoUrl` | optional |
 | `bookingUrl` | `bookingUrl` | optional |
+
+## Minimal Join contract
+
+Track C separates identity creation from profile enrichment. The canonical Join form therefore only needs a safe merge identity to create and activate the Funding Agent record:
+
+```text
+fullName
+email
+```
+
+Phone, referral metadata, consent, and source attribution may also be collected by the form, but they are not required by this endpoint for deterministic identity creation.
+
+When `agencyName` is omitted at Join, the endpoint uses `fullName` as a neutral display-safe fallback. The follow-on Profile Builder is expected to replace/enrich that value when the agent supplies an agency or brand name. This keeps the Join step short without creating a second identity or weakening merge safety.
 
 ## Source metadata
 
@@ -39,7 +52,7 @@ The route is the stable intake-source discriminator. Future partner forms should
 
 ## Automatic activation
 
-A submission with valid required fields proceeds to:
+A submission with valid required identity fields and the neutral public-shell defaults proceeds to:
 
 ```text
 approvalStatus = approved

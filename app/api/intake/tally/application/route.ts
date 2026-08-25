@@ -38,19 +38,26 @@ export async function POST(req: NextRequest) {
       }, { status: 400 });
     }
 
+    const fullName = typeof rawPayload.fullName === 'string' ? rawPayload.fullName.trim() : '';
+    // Track C intentionally keeps Join minimal. Until the profile-builder supplies
+    // a real agency/brand name, use the applicant's name as a neutral display-safe
+    // fallback instead of blocking canonical identity creation.
+    const agencyName = typeof rawPayload.agencyName === 'string' && rawPayload.agencyName.trim()
+      ? rawPayload.agencyName.trim()
+      : fullName;
     const partnerId = rawPayload.partnerId || generatePartnerId(email);
     const referralCode = rawPayload.referralCode || generateReferralCode(email);
-    const slug = rawPayload.slug || generatePartnerSlug(rawPayload.fullName || 'partner', email);
+    const slug = rawPayload.slug || generatePartnerSlug(fullName || 'partner', email);
     const shortBio = typeof rawPayload.shortBio === 'string' && rawPayload.shortBio.trim()
       ? rawPayload.shortBio.trim()
       : DEFAULT_FUNDING_AGENT_BIO;
 
-    // The existing public model requires identity, a usable bio, and at least one
-    // contact/CTA path. The normalized application email is a valid contact path;
-    // the neutral system bio avoids fabricating applicant-specific claims.
+    // The minimal Join step only needs stable identity + a usable public shell.
+    // Rich agency/profile details are intentionally collected by the follow-on
+    // profile builder and blank-safely enrich this same canonical record.
     const publicationReady = Boolean(
-      rawPayload.fullName?.trim?.() &&
-      rawPayload.agencyName?.trim?.() &&
+      fullName &&
+      agencyName &&
       slug &&
       shortBio &&
       (email || rawPayload.phoneNumber || rawPayload.websiteUrl || rawPayload.primaryCtaLink)
@@ -61,10 +68,10 @@ export async function POST(req: NextRequest) {
       : [...validation.errors, ...(publicationReady ? [] : ['Public profile requirements are incomplete'])].join('; ');
 
     const canonicalData: Partial<CanonicalBrokerProfile> = {
-      fullName: rawPayload.fullName,
-      displayName: rawPayload.displayName || rawPayload.fullName,
+      fullName,
+      displayName: rawPayload.displayName || fullName,
       email,
-      agencyName: rawPayload.agencyName,
+      agencyName,
       city: rawPayload.city,
       state: normalizeState(rawPayload.state),
       websiteUrl: normalizeUrl(rawPayload.websiteUrl),
