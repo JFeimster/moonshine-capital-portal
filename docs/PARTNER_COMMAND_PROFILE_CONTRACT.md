@@ -146,6 +146,10 @@ A partner record supplied by Partner Command is not automatically public. Capita
 - Failed persistence must return an error and remain retryable/idempotent.
 - Downstream publication failure must not change an applicant into `published`.
 
+## Deployment safety
+
+Automatic Vercel Git deployments are intentionally disabled in `vercel.json` while this foundation is being productionized. GitHub Actions is the validation gate for pull requests. A production deployment should be an explicit release action after CI passes and the production gate is intentionally enabled; branch commits must not generate preview-deployment churn.
+
 ## Current implementation limitation
 
 `lib/notion.ts` is presently a stub. Therefore the interface and deterministic identity foundation exist, but the application does not yet have durable production CRM upserts. Wiring the real persistence adapter is required before this contract is considered production-complete.
