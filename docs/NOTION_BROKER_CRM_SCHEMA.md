@@ -14,7 +14,7 @@ Canonical durable partner database: **Moonshine Capital Partners CRM**.
 | Partner Type | `partnerType` | `Funding Agent` for canonical Funding Agent intake |
 | Approval Status | `approvalStatus` | `approved`, `needs_review`, `suspended`, `rejected` |
 | Profile Status | `profileStatus` | `draft`, `published`, `hidden`, `archived` |
-| Review Reason | `reviewReason` | Human-readable exception reason |
+| Review Reason | `reviewReason` | Human-readable exception/reconciliation reason |
 
 ## Traceability
 
@@ -40,6 +40,7 @@ The CRM reuses existing fields where possible and stores canonical profile value
 - State
 - Website / Website URL
 - Bio
+- Why Choose You
 - Photo URL
 - Logo URL
 - Specialties
@@ -61,6 +62,31 @@ Array-like canonical values are stored as comma-separated text in the current No
 4. create a new record
 
 Once present, `partnerId`, `referralCode`, and `slug` are preserved during routine retries and profile enrichment.
+
+Profile enrichment uses the same matching hierarchy but is **update-only**: if no existing canonical partner matches, it returns not found rather than creating an orphan record.
+
+## Concurrent-delivery reconciliation
+
+Notion does not provide a uniqueness constraint on text properties. After first-time creation, the adapter re-queries the canonical identity. If concurrent webhook deliveries created duplicate pages, it deterministically keeps the earliest canonical page and marks later same-identity pages:
+
+```text
+Approval Status = needs_review
+Profile Status = archived
+Review Reason = duplicate reconciliation note
+```
+
+Records resolving to different canonical partner IDs are treated as conflicts and are not silently merged.
+
+## Lifecycle preservation
+
+Automatic activation may advance `needs_review → approved` and `draft → published`, but routine application retries do not override operator-imposed states such as:
+
+- suspended
+- rejected
+- hidden
+- archived
+
+Likewise, an already approved/published record is not downgraded by a partial retry.
 
 ## Publication rule
 
