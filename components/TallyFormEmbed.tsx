@@ -17,11 +17,20 @@ type TallyWidgetEventName =
   | 'Tally.FormPageView'
   | 'Tally.FormSubmitted';
 
+type TallyRuntime = {
+  loadEmbeds?: () => void;
+};
+
 const TALLY_WIDGET_EVENTS: TallyWidgetEventName[] = [
   'Tally.FormLoaded',
   'Tally.FormPageView',
   'Tally.FormSubmitted',
 ];
+
+function loadTallyEmbeds() {
+  const browserWindow = window as Window & { Tally?: TallyRuntime };
+  browserWindow.Tally?.loadEmbeds?.();
+}
 
 export function TallyFormEmbed({
   formId,
@@ -32,6 +41,13 @@ export function TallyFormEmbed({
   titleColor = 'black'
 }: TallyFormEmbedProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    // Next.js can keep the external Tally script loaded across client-side route changes.
+    // Reinitialize on every mount so a newly inserted data-tally-src iframe receives its
+    // src, dynamic-height behavior, and automatic parent-page/query forwarding.
+    loadTallyEmbeds();
+  }, [formId]);
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
@@ -106,7 +122,6 @@ export function TallyFormEmbed({
 
         <iframe
           ref={iframeRef}
-          src={embedUrl}
           data-tally-src={embedUrl}
           loading="lazy"
           width="100%"
@@ -116,7 +131,11 @@ export function TallyFormEmbed({
           marginWidth={0}
           title={title}>
         </iframe>
-        <Script src="https://tally.so/widgets/embed.js" strategy="lazyOnload" />
+        <Script
+          src="https://tally.so/widgets/embed.js"
+          strategy="lazyOnload"
+          onReady={loadTallyEmbeds}
+        />
       </div>
     </section>
   );
