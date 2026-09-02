@@ -66,7 +66,7 @@ function validateToolRegistry() {
   const tools = data.tools;
   const knownBrokers = getKnownBrokerSlugs();
   const allowedAccessLevels = new Set(['public', 'portal', 'admin']);
-  const allowedRenderTypes = new Set(['iframe', 'internal', 'external']);
+  const allowedRenderTypes = new Set(['iframe', 'internal', 'external', 'guide']);
   const allowedKinds = new Set(['tool', 'resource']);
   const required = [
     'id', 'slug', 'title', 'description', 'kind', 'category', 'resourceType', 'renderType',
