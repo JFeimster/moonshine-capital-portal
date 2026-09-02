@@ -20,6 +20,15 @@ export type IntakeServiceResult = {
   body: Record<string, unknown>;
 };
 
+export type FundingAgentJoinOptions = {
+  /**
+   * Raw public Join submissions may create a new canonical identity, but they may
+   * not mutate an identity that already exists. A Tally signature authenticates
+   * Tally delivery, not ownership of the submitted email address.
+   */
+  publicCreateOnly?: boolean;
+};
+
 export type FundingAgentProfileOptions = {
   /**
    * Public Tally enrichment is only allowed while the canonical record is still
@@ -43,7 +52,10 @@ export function isPublicProfileEnrichmentAllowed(approvalStatus?: string, profil
   return approvalStatus === 'needs_review' && profileStatus === 'draft';
 }
 
-export async function processFundingAgentJoin(rawPayload: any): Promise<IntakeServiceResult> {
+export async function processFundingAgentJoin(
+  rawPayload: any,
+  options: FundingAgentJoinOptions = {}
+): Promise<IntakeServiceResult> {
   const validation = validateApplicationPayload(rawPayload);
   const email = normalizeEmail(rawPayload?.email);
   const now = new Date().toISOString();
@@ -58,6 +70,21 @@ export async function processFundingAgentJoin(rawPayload: any): Promise<IntakeSe
         reviewReason: validation.errors.join('; ') || 'Missing email'
       }
     };
+  }
+
+  if (options.publicCreateOnly) {
+    const existing = await getPartnerByNormalizedEmail(email);
+    if (existing) {
+      return {
+        status: 202,
+        body: {
+          success: true,
+          accepted: false,
+          existingIdentity: true,
+          message: 'Funding Agent identity already exists; public Join cannot modify an existing partner'
+        }
+      };
+    }
   }
 
   const fullName = typeof rawPayload?.fullName === 'string' ? rawPayload.fullName.trim() : '';
