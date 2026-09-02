@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { getBrokers } from '../lib/brokers';
 import * as wix from '../lib/wix';
 import * as notion from '../lib/notion';
+import { createBroker } from './fixtures/broker';
 
 vi.mock('../lib/wix', () => ({
   fetchWixBrokers: vi.fn(),
@@ -21,10 +22,10 @@ describe('getBrokers', () => {
 
   it('should return a list of brokers on happy path', async () => {
     const mockBrokers = [
-      { id: '1', fullName: 'Broker One', slug: 'broker-one', isActive: true, approvalStatus: 'approved' },
-      { id: '2', fullName: 'Broker Two', slug: 'broker-two', isActive: true, approvalStatus: 'approved' },
+      createBroker({ id: '1', fullName: 'Broker One', slug: 'broker-one' }),
+      createBroker({ id: '2', fullName: 'Broker Two', slug: 'broker-two' }),
     ];
-    vi.mocked(wix.fetchWixBrokers).mockResolvedValue(mockBrokers as any);
+    vi.mocked(wix.fetchWixBrokers).mockResolvedValue(mockBrokers);
 
     const result = await getBrokers();
 
@@ -50,8 +51,8 @@ describe('getBrokers', () => {
 
   it('prefers durable canonical data when Wix has the same slug', async () => {
     vi.mocked(wix.fetchWixBrokers).mockResolvedValue([
-      { id: 'wix-1', fullName: 'Old Name', slug: 'same-agent', isActive: true, approvalStatus: 'approved' }
-    ] as any);
+      createBroker({ id: 'wix-1', fullName: 'Old Name', slug: 'same-agent' })
+    ]);
     vi.mocked(notion.listPublishedPartners).mockResolvedValue([{
       notionPageId: 'notion-1', partnerId: 'prt_1', fullName: 'Canonical Name', agencyName: 'Canonical Co',
       slug: 'same-agent', email: 'canonical@example.com', shortBio: 'Funding Agent.',
@@ -75,9 +76,9 @@ describe('getBrokers', () => {
 
   it('falls back to Wix when durable listing is unavailable', async () => {
     const mockBrokers = [
-      { id: '1', fullName: 'Broker One', slug: 'broker-one', isActive: true, approvalStatus: 'approved' }
+      createBroker({ id: '1', fullName: 'Broker One', slug: 'broker-one' })
     ];
-    vi.mocked(wix.fetchWixBrokers).mockResolvedValue(mockBrokers as any);
+    vi.mocked(wix.fetchWixBrokers).mockResolvedValue(mockBrokers);
     vi.mocked(notion.listPublishedPartners).mockRejectedValue(new Error('Notion unavailable'));
 
     const result = await getBrokers();
