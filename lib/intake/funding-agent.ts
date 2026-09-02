@@ -8,7 +8,7 @@ import {
   normalizeState,
   normalizeUrl
 } from '@/lib/intake-normalizers';
-import { upsertPartner } from '@/lib/notion';
+import { getPartnerByNormalizedEmail, upsertPartner } from '@/lib/notion';
 import { validateApplicationPayload, validateProfilePayload } from '@/lib/validation';
 
 const CANONICAL_SOURCE_FORM = 'funding_agent_application';
@@ -20,6 +20,15 @@ export type IntakeServiceResult = {
   body: Record<string, unknown>;
 };
 
+export type FundingAgentProfileOptions = {
+  /**
+   * Public Tally enrichment is only allowed while the canonical record is still
+   * in its pre-review state. Trusted/internal callers may edit an existing record
+   * through the compatibility endpoint after authenticating with the shared secret.
+   */
+  publicDraftOnly?: boolean;
+};
+
 function compact<T extends Record<string, unknown>>(value: T): Partial<T> {
   return Object.fromEntries(
     Object.entries(value).filter(([, field]) => {
@@ -28,6 +37,10 @@ function compact<T extends Record<string, unknown>>(value: T): Partial<T> {
       return true;
     })
   ) as Partial<T>;
+}
+
+export function isPublicProfileEnrichmentAllowed(approvalStatus?: string, profileStatus?: string): boolean {
+  return approvalStatus === 'needs_review' && profileStatus === 'draft';
 }
 
 export async function processFundingAgentJoin(rawPayload: any): Promise<IntakeServiceResult> {
@@ -83,9 +96,6 @@ export async function processFundingAgentJoin(rawPayload: any): Promise<IntakeSe
     referralCode,
     slug,
     partnerType: 'funding_agent',
-    // Public Join submissions only create/reconcile identity. They cannot grant
-    // approval or publication authority. Existing operator-controlled states are
-    // preserved by the Notion adapter's non-blank merge rules.
     approvalStatus: 'needs_review',
     profileStatus: 'draft',
     reviewReason,
@@ -139,16 +149,52 @@ export async function processFundingAgentJoin(rawPayload: any): Promise<IntakeSe
   };
 }
 
-export async function processFundingAgentProfile(rawPayload: any): Promise<IntakeServiceResult> {
+export async function processFundingAgentProfile(
+  rawPayload: any,
+  options: FundingAgentProfileOptions = {}
+): Promise<IntakeServiceResult> {
   const validation = validateProfilePayload(rawPayload);
   if (!validation.isValid) {
     return { status: 400, body: { success: false, errors: validation.errors } };
   }
 
+  const normalizedEmail = rawPayload?.email ? normalizeEmail(rawPayload.email) : '';
+
+  if (options.publicDraftOnly) {
+    // A Tally webhook signature proves Tally delivered the submission; it does not
+    // authenticate the respondent. Public profile enrichment therefore resolves by
+    // email only and is allowed solely before an operator has moved the record out
+    // of needs_review + draft. Approved/published/hidden/suspended/rejected/archived
+    // records require a trusted authenticated update path.
+    if (!normalizedEmail) {
+      return { status: 400, body: { success: false, error: 'Profile email is required' } };
+    }
+
+    const existing = await getPartnerByNormalizedEmail(normalizedEmail);
+    if (!existing) {
+      return {
+        status: 404,
+        body: { success: false, error: 'No canonical partner matched this profile enrichment submission' }
+      };
+    }
+
+    if (!isPublicProfileEnrichmentAllowed(existing.approvalStatus, existing.profileStatus)) {
+      return {
+        status: 403,
+        body: {
+          success: false,
+          error: 'This Funding Agent profile can no longer be edited through the public profile form'
+        }
+      };
+    }
+  }
+
   const now = new Date().toISOString();
   const canonicalData = compact<Partial<CanonicalBrokerProfile>>({
-    partnerId: rawPayload?.partnerId,
-    email: rawPayload?.email ? normalizeEmail(rawPayload.email) : undefined,
+    // Public raw Tally callers intentionally omit partnerId. Trusted normalized
+    // callers may still supply it after authenticating at the compatibility route.
+    partnerId: options.publicDraftOnly ? undefined : rawPayload?.partnerId,
+    email: normalizedEmail || undefined,
     displayName: rawPayload?.displayName,
     fullName: rawPayload?.fullName,
     agencyName: rawPayload?.agencyName,
@@ -175,14 +221,12 @@ export async function processFundingAgentProfile(rawPayload: any): Promise<Intak
     updatedAt: now
   });
 
-  // Profile submissions enrich an existing canonical partner only. They do not
-  // create an orphan record and they never independently change lifecycle state.
   const notionResponse = await upsertPartner(canonicalData, { allowCreate: false });
   if (!notionResponse.success) {
     const kind = notionResponse.errorDetails?.kind;
-    const status = kind === 'conflict' ? 409 : kind === 'not_found' ? 404 : 503;
+    const responseStatus = kind === 'conflict' ? 409 : kind === 'not_found' ? 404 : 503;
     return {
-      status,
+      status: responseStatus,
       body: {
         success: false,
         error: kind === 'conflict'
