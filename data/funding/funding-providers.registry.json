@@ -16,7 +16,9 @@
       ],
       "productFamilyIds": [
         "business-line-access",
-        "structured-growth-loans",
+        "equipment-finance",
+        "real-estate-capital",
+        "startup-credit-leverage",
         "working-capital"
       ],
       "financingProducts": [
@@ -134,7 +136,6 @@
       ],
       "productFamilyIds": [
         "business-line-access",
-        "structured-growth-loans",
         "working-capital"
       ],
       "financingProducts": [
@@ -363,7 +364,9 @@
         "Consulting",
         "Business"
       ],
-      "productFamilyIds": [],
+      "productFamilyIds": [
+        "startup-credit-leverage"
+      ],
       "financingProducts": [],
       "geographicCoverage": [
         "US"
@@ -632,7 +635,6 @@
         "Business"
       ],
       "productFamilyIds": [
-        "structured-growth-loans",
         "working-capital"
       ],
       "financingProducts": [
@@ -693,6 +695,7 @@
         "Consulting"
       ],
       "productFamilyIds": [
+        "startup-credit-leverage",
         "working-capital"
       ],
       "financingProducts": [
@@ -811,7 +814,6 @@
         "equipment-finance",
         "real-estate-capital",
         "startup-credit-leverage",
-        "structured-growth-loans",
         "working-capital"
       ],
       "financingProducts": [
@@ -873,7 +875,8 @@
         "Business"
       ],
       "productFamilyIds": [
-        "equipment-finance"
+        "equipment-finance",
+        "startup-credit-leverage"
       ],
       "financingProducts": [
         "Equipment Financing"
@@ -1259,8 +1262,10 @@
         "Real Estate"
       ],
       "productFamilyIds": [
+        "business-line-access",
+        "equipment-finance",
         "real-estate-capital",
-        "structured-growth-loans",
+        "startup-credit-leverage",
         "working-capital"
       ],
       "financingProducts": [
@@ -1479,7 +1484,7 @@
       "productFamilyIds": [
         "business-line-access",
         "equipment-finance",
-        "structured-growth-loans",
+        "startup-credit-leverage",
         "working-capital"
       ],
       "financingProducts": [
@@ -1538,7 +1543,6 @@
       ],
       "productFamilyIds": [
         "business-line-access",
-        "structured-growth-loans",
         "working-capital"
       ],
       "financingProducts": [
@@ -1591,7 +1595,6 @@
         "Business"
       ],
       "productFamilyIds": [
-        "structured-growth-loans",
         "working-capital"
       ],
       "financingProducts": [
@@ -1752,6 +1755,114 @@
         "lastVerified": "2026-06-26",
         "notes": []
       }
+    },
+    {
+      "id": "blue-bridge-financial",
+      "slug": "blue-bridge-financial",
+      "name": "Blue Bridge Financial",
+      "categories": [
+        "Business"
+      ],
+      "productFamilyIds": [
+        "equipment-finance"
+      ],
+      "financingProducts": [
+        "Asset Backed"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "Standard commercial applicant",
+      "eligibility": {
+        "minCreditScore": 600,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": 24
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": null
+      },
+      "terms": {
+        "fundingAmountText": null
+      },
+      "affiliate": {
+        "affiliateStatus": "pending",
+        "directory": [],
+        "affiliateUrl": null,
+        "applyUrl": null,
+        "commissionRate": null,
+        "contactEmail": null,
+        "keyContact": null,
+        "website": null
+      },
+      "source": {
+        "derivedFrom": "Generated from product references",
+        "verificationStatus": "needs_review",
+        "lastVerified": "2026-09-02",
+        "notes": [
+          "Auto-generated provider stub for missing product providerId"
+        ]
+      },
+      "needsReview": [
+        "auto_generated_stub"
+      ]
+    },
+    {
+      "id": "national-business-capital",
+      "slug": "national-business-capital",
+      "name": "National Business Capital",
+      "categories": [
+        "Business"
+      ],
+      "productFamilyIds": [
+        "working-capital"
+      ],
+      "financingProducts": [
+        "Term Loan"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "Standard commercial applicant",
+      "eligibility": {
+        "minCreditScore": 600,
+        "minMonthlyRevenue": 10000,
+        "minTimeInBusinessMonths": 12
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": null
+      },
+      "terms": {
+        "fundingAmountText": null
+      },
+      "affiliate": {
+        "affiliateStatus": "pending",
+        "directory": [],
+        "affiliateUrl": null,
+        "applyUrl": null,
+        "commissionRate": null,
+        "contactEmail": null,
+        "keyContact": null,
+        "website": null
+      },
+      "source": {
+        "derivedFrom": "Generated from product references",
+        "verificationStatus": "needs_review",
+        "lastVerified": "2026-09-02",
+        "notes": [
+          "Auto-generated provider stub for missing product providerId"
+        ]
+      },
+      "needsReview": [
+        "auto_generated_stub"
+      ]
     }
   ]
 }

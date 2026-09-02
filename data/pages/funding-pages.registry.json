@@ -76,7 +76,6 @@
             "startup-credit-leverage",
             "working-capital",
             "business-line-access",
-            "structured-growth-loans",
             "equipment-finance",
             "real-estate-capital",
             "marketplace-capital"
@@ -113,7 +112,6 @@
           "startup-credit-leverage",
           "working-capital",
           "business-line-access",
-          "structured-growth-loans",
           "equipment-finance",
           "real-estate-capital",
           "marketplace-capital"
@@ -247,7 +245,6 @@
           "itemIds": [
             "startup-credit-leverage",
             "business-line-access",
-            "structured-growth-loans",
             "equipment-finance",
             "real-estate-capital",
             "marketplace-capital"
@@ -393,7 +390,6 @@
           "itemIds": [
             "startup-credit-leverage",
             "working-capital",
-            "structured-growth-loans",
             "equipment-finance",
             "real-estate-capital",
             "marketplace-capital"
@@ -539,7 +535,6 @@
           "itemIds": [
             "working-capital",
             "business-line-access",
-            "structured-growth-loans",
             "equipment-finance",
             "real-estate-capital",
             "marketplace-capital"
@@ -686,7 +681,6 @@
             "startup-credit-leverage",
             "working-capital",
             "business-line-access",
-            "structured-growth-loans",
             "real-estate-capital",
             "marketplace-capital"
           ]
@@ -832,7 +826,6 @@
             "startup-credit-leverage",
             "working-capital",
             "business-line-access",
-            "structured-growth-loans",
             "equipment-finance",
             "marketplace-capital"
           ]
@@ -978,7 +971,6 @@
             "startup-credit-leverage",
             "working-capital",
             "business-line-access",
-            "structured-growth-loans",
             "equipment-finance",
             "real-estate-capital"
           ]
