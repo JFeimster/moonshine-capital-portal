@@ -6,7 +6,7 @@ const webhookTestSource = readFileSync(resolve(process.cwd(), '__tests__/webhook
 
 describe('webhook rejection coverage', () => {
   it('keeps fail-closed and invalid-secret cases in the webhook suite', () => {
-    expect(webhookTestSource).toContain('without TALLY_WEBHOOK_SECRET');
+    expect(webhookTestSource).toContain('TALLY_WEBHOOK_SECRET is not set');
     expect(webhookTestSource).toContain('invalid secret');
   });
 });
