@@ -49,10 +49,7 @@ try {
     }
 
     Write-Host "Fetching existing Tally webhooks..." -ForegroundColor DarkCyan
-    $Existing = Invoke-RestMethod \
-        -Method GET \
-        -Uri "https://api.tally.so/webhooks?limit=100" \
-        -Headers $Headers
+    $Existing = Invoke-RestMethod -Method GET -Uri "https://api.tally.so/webhooks?limit=100" -Headers $Headers
 
     foreach ($FormId in $CanonicalForms) {
         $Matches = @(
@@ -73,23 +70,13 @@ try {
             $WebhookId = $Matches[0].id
             $Payload.isEnabled = $true
 
-            Invoke-RestMethod \
-                -Method PATCH \
-                -Uri "https://api.tally.so/webhooks/$WebhookId" \
-                -Headers $Headers \
-                -Body ($Payload | ConvertTo-Json -Depth 6) | Out-Null
-
+            Invoke-RestMethod -Method PATCH -Uri "https://api.tally.so/webhooks/$WebhookId" -Headers $Headers -Body ($Payload | ConvertTo-Json -Depth 6) | Out-Null
             Write-Host "UPDATED  $FormId  $WebhookId" -ForegroundColor Yellow
         }
         else {
             $Payload.externalSubscriber = "moonshine-capital-portal"
 
-            $Created = Invoke-RestMethod \
-                -Method POST \
-                -Uri "https://api.tally.so/webhooks" \
-                -Headers $Headers \
-                -Body ($Payload | ConvertTo-Json -Depth 6)
-
+            $Created = Invoke-RestMethod -Method POST -Uri "https://api.tally.so/webhooks" -Headers $Headers -Body ($Payload | ConvertTo-Json -Depth 6)
             Write-Host "CREATED  $FormId  $($Created.id)" -ForegroundColor Green
         }
     }
@@ -97,10 +84,7 @@ try {
     Write-Host ""
     Write-Host "Verifying canonical webhook state..." -ForegroundColor DarkCyan
 
-    $Verified = Invoke-RestMethod \
-        -Method GET \
-        -Uri "https://api.tally.so/webhooks?limit=100" \
-        -Headers $Headers
+    $Verified = Invoke-RestMethod -Method GET -Uri "https://api.tally.so/webhooks?limit=100" -Headers $Headers
 
     $Canonical = @(
         $Verified.webhooks | Where-Object {
