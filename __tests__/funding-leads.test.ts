@@ -4,6 +4,7 @@ import {
   externalLeadIdForSubmission,
   parseMoneyValue,
   requestedAmountBand,
+  shouldIgnoreFundingStage,
   timeInBusinessBand
 } from '../lib/funding-leads';
 import type { ParsedTallySubmission } from '../lib/tally-webhook';
@@ -80,5 +81,11 @@ describe('funding lead normalization helpers', () => {
 
   it('falls back to a form/submission idempotency key when no session exists', () => {
     expect(externalLeadIdForSubmission(submission())).toBe('tally:dWvEqN:sub_1');
+  });
+
+  it('never lets a delayed Step 1 webhook overwrite a persisted Step 2 stage', () => {
+    expect(shouldIgnoreFundingStage('funding_application', 'funding_intake')).toBe(true);
+    expect(shouldIgnoreFundingStage('funding_intake', 'funding_application')).toBe(false);
+    expect(shouldIgnoreFundingStage('funding_application', 'funding_application')).toBe(false);
   });
 });
