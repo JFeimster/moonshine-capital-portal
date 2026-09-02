@@ -460,14 +460,53 @@ export async function upsertFundingLead(submission: ParsedTallySubmission): Prom
     });
 
     // Notion has no uniqueness constraint for rich-text External Lead ID. Re-query
-    // after creation so concurrent identical deliveries are deterministically
-    // reconciled: keep the earliest page and archive later duplicates.
+    // after creation so concurrent deliveries are deterministically reconciled.
+    // If another request won the canonical page, this request must still merge its
+    // payload into that winner before returning success. This is especially
+    // important when Step 1 and richer Step 2 submissions race on the same session.
     const canonical = await canonicalFundingLead(input.externalLeadId) || created;
+    if (canonical.id !== created.id) {
+      assertIdentityCompatible(canonical, input);
+      const audit = readAuditEnvelope(canonical);
+
+      if (isReplay(canonical, input)) {
+        return {
+          success: true,
+          status: 200,
+          result: 'duplicate_replayed',
+          notionId: canonical.id,
+          externalLeadId: input.externalLeadId
+        };
+      }
+
+      if (shouldIgnoreFundingStage(audit.stage, input.stage)) {
+        return {
+          success: true,
+          status: 200,
+          result: 'stale_stage_ignored',
+          notionId: canonical.id,
+          externalLeadId: input.externalLeadId
+        };
+      }
+
+      const merged = await notionRequest(`/pages/${canonical.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ properties: buildProperties(input, canonical) })
+      });
+      return {
+        success: true,
+        status: 200,
+        result: 'updated',
+        notionId: merged.id,
+        externalLeadId: input.externalLeadId
+      };
+    }
+
     return {
       success: true,
-      status: canonical.id === created.id ? 201 : 200,
-      result: canonical.id === created.id ? 'created' : 'duplicate_replayed',
-      notionId: canonical.id,
+      status: 201,
+      result: 'created',
+      notionId: created.id,
       externalLeadId: input.externalLeadId
     };
   } catch (error: any) {
