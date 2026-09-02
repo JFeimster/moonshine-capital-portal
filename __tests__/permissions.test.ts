@@ -1,5 +1,8 @@
-import { describe, it, expect } from 'vitest';
-import { hasAccess } from '../lib/permissions';
+import { describe, expect, it } from 'vitest';
+import {
+  hasAccess,
+  resolveAuthorizedReturnTo,
+} from '../lib/permissions';
 
 describe('Permissions', () => {
   it('denies access if no role is provided', () => {
@@ -21,8 +24,37 @@ describe('Permissions', () => {
     expect(hasAccess('portal', '/admin/settings')).toBe(false);
   });
 
-  it('denies access to unknown routes implicitly handled by permissions gate', () => {
-    // If we call hasAccess on something not starting with /admin or /portal, it returns false
-    expect(hasAccess('admin', '/something-else')).toBe(false);
+  it('rejects prefix lookalikes and external-style paths', () => {
+    expect(hasAccess('admin', '/administrator')).toBe(false);
+    expect(hasAccess('admin', '/admin-old')).toBe(false);
+    expect(hasAccess('portal', '/portalish')).toBe(false);
+    expect(hasAccess('admin', '//example.com/admin')).toBe(false);
+  });
+
+  it('preserves valid nested destinations for an authorized role', () => {
+    expect(resolveAuthorizedReturnTo('admin', '/admin/settings')).toBe(
+      '/admin/settings'
+    );
+    expect(resolveAuthorizedReturnTo('portal', '/portal/tools')).toBe(
+      '/portal/tools'
+    );
+  });
+
+  it('allows an admin to return to portal routes', () => {
+    expect(resolveAuthorizedReturnTo('admin', '/portal/resources')).toBe(
+      '/portal/resources'
+    );
+  });
+
+  it('falls back when a portal user requests an admin destination', () => {
+    expect(resolveAuthorizedReturnTo('portal', '/admin')).toBe('/portal');
+    expect(resolveAuthorizedReturnTo('portal', '/admin/settings')).toBe(
+      '/portal'
+    );
+  });
+
+  it('falls back for malformed protected-route lookalikes', () => {
+    expect(resolveAuthorizedReturnTo('admin', '/administrator')).toBe('/admin');
+    expect(resolveAuthorizedReturnTo('portal', '/portalish')).toBe('/portal');
   });
 });
