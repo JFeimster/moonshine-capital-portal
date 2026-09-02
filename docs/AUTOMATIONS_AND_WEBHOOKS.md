@@ -1,7 +1,7 @@
 # AUTOMATIONS_AND_WEBHOOKS
 
 ## Goal
-Map the automation layer so intake, routing, resource assignment, and notifications can happen without duct tape.
+Map intake, persistence, routing, and downstream automation without duplicating canonical field logic across tools.
 
 ## Canonical Tally forms
 
@@ -9,26 +9,23 @@ Map the automation layer so intake, routing, resource assignment, and notificati
 1. `dWvEqN` — **Personalized Funding Quote Intake**
    - canonical first-step funding intake
    - captures core business metrics plus attribution/referral hidden fields
-   - should normally be the first public funding CTA
+   - normally the first public funding CTA
 
 2. `w4R2Ad` — **Funding for ANY Reason**
    - canonical broader/full funding application
-   - should remain available as the second step and as a direct campaign/referral path
+   - remains available as Step 2 and as a direct campaign/referral path
 
 3. `mDEJB5` — **Get a Personalized Funding Quote — No Hard Credit Check**
    - legacy only
-   - retain for historical links while removing it from new portal surfaces
 
 ### Funding Agent intake
 1. `rjM6do` — **Join Moonshine Capital — Funding Agent**
    - canonical identity-creation step
-   - normalized payload target: `/api/intake/tally/application`
-   - new records initialize as `needs_review` + `draft`
+   - new identities initialize as `needs_review` + `draft`
    - no approval/publication authority
 
 2. `9qjWEE` — **Build Your Funding Agent Profile**
    - canonical profile-enrichment step
-   - normalized payload target: `/api/intake/tally/profile`
    - must enrich an existing canonical partner only
    - no approval/publication authority
 
@@ -38,37 +35,81 @@ Map the automation layer so intake, routing, resource assignment, and notificati
 
 4. `mOe658` — **Join the #1 B2B Funding Platform!**
    - legacy all-in-one Funding Agent form
-   - retain for historical links/submissions; do not use as the canonical new-user path
+
+## Canonical ingestion boundary
+
+All four active funding/agent forms send raw `FORM_RESPONSE` events to:
+
+```text
+POST /api/webhooks/tally
+```
+
+The Next.js/Vercel receiver owns:
+
+```text
+raw Tally payload
+→ signature verification
+→ form allowlist
+→ UUID/label normalization
+→ canonical service dispatch
+→ Notion persistence
+```
+
+This makes normalization versioned, tested code beside the schemas and lifecycle rules instead of a second mapping layer in n8n.
 
 ## Core workflows
 
 ### 1. Public funding application flow
-`dWvEqN` → webhook → n8n → Notion lead record → review / next-step routing
 
-When the review calls for a broader application:
-`w4R2Ad` → webhook → n8n → enrich/update the same lead → underwriting/follow-up workflow
+```text
+dWvEqN
+→ /api/webhooks/tally
+→ Funding Leads upsert
+→ review / next-step routing
+```
 
-The public funding flow is deliberately two-stage. Do not force every applicant into the full form before the initial review.
+When a broader application is appropriate:
 
-### 2. Funding Agent join flow
-`rjM6do` → webhook → n8n normalization → `/api/intake/tally/application` → canonical Notion partner record (`needs_review` + `draft` for new identities)
+```text
+w4R2Ad
+→ /api/webhooks/tally
+→ enrich/update the same Funding Lead when session_id is preserved
+→ underwriting/follow-up workflow
+```
 
-The application endpoint owns deterministic identity creation only. A public Join submission cannot self-approve or self-publish. Existing approved/published records remain intact when the same identity re-submits.
+Without `session_id`, a form/submission-scoped external key is used rather than guessing that two submissions belong to the same business.
 
-### 3. Funding Agent profile-builder flow
-`9qjWEE` → webhook → n8n normalization → `/api/intake/tally/profile` → update existing Notion partner record
+### 2. Funding Agent Join
 
-The profile endpoint must not create an orphan partner and must not independently approve or publish a profile.
+```text
+rjM6do
+→ /api/webhooks/tally
+→ shared Funding Agent Join service
+→ canonical Notion partner record
+```
 
-### 4. Funding Agent launch-plan flow
-`A7edqy` → webhook → n8n → operating-plan / enablement data
+A public Join submission cannot self-approve or self-publish. Existing approved/published records remain intact when the same identity re-submits.
 
-This flow may enrich internal operating context but has no approval/publication authority.
+### 3. Funding Agent Profile
+
+```text
+9qjWEE
+→ /api/webhooks/tally
+→ shared Funding Agent Profile service
+→ update existing canonical partner
+```
+
+The profile service does not create orphan partners and cannot independently change lifecycle state.
+
+### 4. Funding Agent launch plan
+
+`A7edqy` remains a post-profile operating-plan workflow with no approval/publication authority. It is not yet dispatched by the canonical raw receiver and can remain a downstream automation surface until an explicit operating-plan destination is implemented.
 
 ### 5. Broker approval flow
-Admin action / Notion status change → n8n → publish profile state / send broker update
 
-Public eligibility requires both:
+Operator/admin action or explicit Notion lifecycle change controls publication.
+
+Public eligibility requires:
 
 ```text
 approvalStatus = approved
@@ -77,37 +118,49 @@ profileStatus = published
 ```
 
 ### 6. CTA tracking flow
-`/out` route → webhook → event log store → reporting layer
 
-## Recommended webhook endpoints
-- `/api/intake/tally/application`
-- `/api/intake/tally/profile`
-- `/out`
-- future: canonical public funding-lead intake endpoint if/when the current n8n → Notion lead path is moved behind the app
-- future: `/api/admin/publish-broker`
-- future: `/api/admin/assign-resources`
+`/out` remains the canonical tracked redirect boundary.
+
+## n8n role
+
+n8n is optional downstream orchestration, not the canonical normalization engine.
+
+Good n8n uses after persistence include:
+
+- internal notifications
+- applicant/broker follow-up sequences
+- document request workflows
+- CRM/lender handoffs
+- enrichment
+- retry queues
+- scheduled operational reporting
+
+If n8n is used, it should consume canonical IDs/state rather than recreate Tally field mappings.
+
+## Endpoints
+
+- `POST /api/webhooks/tally` — canonical raw Tally receiver
+- `POST /api/intake/tally/application` — trusted normalized Funding Agent Join compatibility endpoint
+- `POST /api/intake/tally/profile` — trusted normalized profile compatibility endpoint
+- `/out` — tracked redirect boundary
+- future: explicit admin publication/resource assignment endpoints as the admin surface matures
 
 ## Embed/event-forwarding rule
-Use the Tally JavaScript/HTML embed path rather than a bare static iframe whenever forms are embedded in the app. Tally's embed script forwards the parent page and query parameters into matching hidden fields, which preserves `source`, referral, partner and UTM context when those hidden fields exist on the form.
 
-The shared Next.js embed must re-run `Tally.loadEmbeds()` on mount because client-side route transitions can reuse the already-loaded Tally script while inserting a new `data-tally-src` iframe.
+The shared Tally embed forwards browser lifecycle events for analytics/app signaling and re-runs `Tally.loadEmbeds()` on mount for Next.js client navigation.
 
-Do not treat browser-side form events as lifecycle authority. Submission persistence and approval/publication changes must continue through authenticated webhook/intake routes and the canonical Notion record.
+Browser events are not persistence or lifecycle authority. Canonical writes originate from the signed server-side webhook path.
 
-## Event payloads to normalize
-- source
-- submission type
-- Tally form id
-- Tally submission id
-- email
-- partner id / lead id / slug
-- referral code / referring partner
-- status
-- timestamp
-- destination URL
+## Event data worth preserving
+
+- Tally form ID
+- Tally submission/event ID
+- canonical partner/lead ID
+- source/referral/partner attribution
+- session ID where available
 - page source
 - UTM fields
+- canonical lifecycle/review state
+- timestamps
 
-## Notes
-Automations should enforce the system design.
-If the workflow allows bad data to glide through just because a webhook technically fired, the automation is still bad.
+Do not store a complete raw funding payload in a broadly accessible audit/event field when a minimal redacted envelope is sufficient.
