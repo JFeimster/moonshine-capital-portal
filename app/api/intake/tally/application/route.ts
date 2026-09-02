@@ -14,6 +14,7 @@ import { validateWebhookAuth } from '@/lib/webhook-auth';
 
 const CANONICAL_SOURCE_FORM = 'funding_agent_application';
 const DEFAULT_FUNDING_AGENT_BIO = 'Moonshine Capital Funding Agent.';
+const AWAITING_REVIEW_REASON = 'Awaiting profile completion and explicit approval';
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,8 +22,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'Unauthorized webhook request' }, { status: 401 });
     }
 
-    // This endpoint is dedicated to the canonical Funding Agent intake. It accepts
+    // This endpoint is dedicated to the canonical Funding Agent Join step. It accepts
     // pre-normalized JSON (for example from Tally/n8n) rather than a raw Tally webhook.
+    // Join creates/reconciles identity only; it never grants publication authority.
     const rawPayload = await req.json();
     const validation = validateApplicationPayload(rawPayload);
     const email = normalizeEmail(rawPayload.email);
@@ -39,9 +41,8 @@ export async function POST(req: NextRequest) {
     }
 
     const fullName = typeof rawPayload.fullName === 'string' ? rawPayload.fullName.trim() : '';
-    // Track C intentionally keeps Join minimal. Until the profile-builder supplies
-    // a real agency/brand name, use the applicant's name as a neutral display-safe
-    // fallback instead of blocking canonical identity creation.
+    // Keep Join minimal. Until the profile-builder supplies a real agency/brand name,
+    // use the applicant's name as a neutral display-safe fallback for the durable record.
     const agencyName = typeof rawPayload.agencyName === 'string' && rawPayload.agencyName.trim()
       ? rawPayload.agencyName.trim()
       : fullName;
@@ -52,20 +53,10 @@ export async function POST(req: NextRequest) {
       ? rawPayload.shortBio.trim()
       : DEFAULT_FUNDING_AGENT_BIO;
 
-    // The minimal Join step only needs stable identity + a usable public shell.
-    // Rich agency/profile details are intentionally collected by the follow-on
-    // profile builder and blank-safely enrich this same canonical record.
-    const publicationReady = Boolean(
-      fullName &&
-      agencyName &&
-      slug &&
-      shortBio &&
-      (email || rawPayload.phoneNumber || rawPayload.websiteUrl || rawPayload.primaryCtaLink)
-    );
-    const clean = validation.isValid && publicationReady;
-    const reviewReason = clean
-      ? undefined
-      : [...validation.errors, ...(publicationReady ? [] : ['Public profile requirements are incomplete'])].join('; ');
+    const reviewReason = [
+      ...validation.errors,
+      AWAITING_REVIEW_REASON
+    ].filter(Boolean).join('; ');
 
     const canonicalData: Partial<CanonicalBrokerProfile> = {
       fullName,
@@ -87,8 +78,11 @@ export async function POST(req: NextRequest) {
       referralCode,
       slug,
       partnerType: 'funding_agent',
-      approvalStatus: clean ? 'approved' : 'needs_review',
-      profileStatus: clean ? 'published' : 'draft',
+      // A public Tally Join submission is never allowed to self-approve or self-publish.
+      // Existing approved/published records remain protected by nonBlankMerge in the
+      // Notion adapter, while new identities start in review + draft.
+      approvalStatus: 'needs_review',
+      profileStatus: 'draft',
       reviewReason,
       sourceForm: CANONICAL_SOURCE_FORM,
       tallyFormId: rawPayload.tallyFormId || rawPayload.formId,
@@ -96,8 +90,7 @@ export async function POST(req: NextRequest) {
       initialSubmissionAt: rawPayload.initialSubmissionAt || rawPayload.createdAt || now,
       latestSubmissionAt: now,
       createdAt: rawPayload.createdAt || now,
-      updatedAt: now,
-      publishedAt: clean ? (rawPayload.publishedAt || now) : undefined
+      updatedAt: now
     };
 
     const notionResponse = await upsertPartner(canonicalData);
@@ -113,15 +106,15 @@ export async function POST(req: NextRequest) {
       }, { status: isConflict ? 409 : 503 });
     }
 
-    const approvalStatus = notionResponse.partner?.approvalStatus || (clean ? 'approved' : 'needs_review');
-    const profileStatus = notionResponse.partner?.profileStatus || (clean ? 'published' : 'draft');
+    const approvalStatus = notionResponse.partner?.approvalStatus || 'needs_review';
+    const profileStatus = notionResponse.partner?.profileStatus || 'draft';
     const publicationEligible = approvalStatus === 'approved' && profileStatus === 'published';
 
     return NextResponse.json({
       success: true,
       message: publicationEligible
-        ? 'Funding Agent persisted, approved, and published'
-        : 'Funding Agent persisted with durable lifecycle controls',
+        ? 'Existing Funding Agent identity reconciled without changing its lifecycle state'
+        : 'Funding Agent identity persisted for profile completion and explicit review',
       partnerType: notionResponse.partner?.partnerType || 'funding_agent',
       approvalStatus,
       profileStatus,
@@ -132,7 +125,7 @@ export async function POST(req: NextRequest) {
       slug: notionResponse.partner?.slug || slug,
       created: notionResponse.created,
       matchedBy: notionResponse.matchedBy
-    }, { status: clean ? 200 : 202 });
+    }, { status: publicationEligible ? 200 : 202 });
   } catch (error: any) {
     console.error('Error processing application webhook:', error);
     return NextResponse.json(
