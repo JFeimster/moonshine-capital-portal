@@ -99,7 +99,7 @@ export async function POST(request: Request) {
 
   try {
     if (submission.kind === 'funding_agent_join') {
-      const result = await processFundingAgentJoin(agentJoinPayload(submission));
+      const result = await processFundingAgentJoin(agentJoinPayload(submission), { publicCreateOnly: true });
       return NextResponse.json({
         ...result.body,
         source: 'tally_webhook',
