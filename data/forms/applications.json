@@ -1,22 +1,37 @@
 {
   "forms": [
     {
+      "id": "dWvEqN",
+      "name": "Personalized Funding Quote Intake",
+      "purpose": "Canonical first-step public funding intake and qualification form",
+      "url": "https://tally.so/r/dWvEqN",
+      "embedUrl": "https://tally.so/embed/dWvEqN?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1",
+      "defaultPlacement": ["homepage", "apply", "quote", "funding-pages", "landing-pages"],
+      "flowStage": "funding_intake",
+      "canonical": true,
+      "status": "active"
+    },
+    {
       "id": "w4R2Ad",
       "name": "Funding for ANY Reason",
-      "purpose": "Primary public funding application form",
+      "purpose": "Canonical second-step broad/full funding application",
       "url": "https://tally.so/r/w4R2Ad",
       "embedUrl": "https://tally.so/embed/w4R2Ad?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1",
-      "defaultPlacement": ["homepage", "apply", "funding-pages"],
+      "defaultPlacement": ["apply", "full-application", "funding-pages"],
+      "flowStage": "full_application",
+      "canonical": true,
       "status": "active"
     },
     {
       "id": "mDEJB5",
       "name": "Get a Personalized Funding Quote — No Hard Credit Check",
-      "purpose": "Secondary quote / qualification form",
+      "purpose": "Legacy personalized quote form retained for historical links only",
       "url": "https://tally.so/r/mDEJB5",
       "embedUrl": "https://tally.so/embed/mDEJB5?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1",
-      "defaultPlacement": ["homepage", "quote", "landing-pages"],
-      "status": "active"
+      "defaultPlacement": [],
+      "flowStage": "legacy_quote",
+      "canonical": false,
+      "status": "legacy"
     }
   ]
 }
