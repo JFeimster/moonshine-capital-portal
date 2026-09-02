@@ -1,11 +1,10 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const testRoot = resolve(process.cwd(), '__tests__');
 
 function collectTestSources(directory: string): string[] {
-  const { readdirSync, statSync } = require('node:fs') as typeof import('node:fs');
   return readdirSync(directory).flatMap((entry) => {
     const path = resolve(directory, entry);
     return statSync(path).isDirectory() ? collectTestSources(path) : path.endsWith('.test.ts') ? [path] : [];
