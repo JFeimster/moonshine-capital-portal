@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/auth';
+import { resolveAuthorizedReturnTo } from '@/lib/permissions';
 import { AccessForm } from './AccessForm';
 
 export const metadata = {
@@ -19,12 +20,7 @@ export default async function AccessPage({
   const session = await getSession();
 
   if (session) {
-    // If they already have a session, send them back or to their default destination
-    if (searchParams.returnTo && (searchParams.returnTo.startsWith('/admin') || searchParams.returnTo.startsWith('/portal'))) {
-       redirect(searchParams.returnTo);
-    } else {
-       redirect(session.role === 'admin' ? '/admin' : '/portal');
-    }
+    redirect(resolveAuthorizedReturnTo(session.role, searchParams.returnTo));
   }
 
   return (
