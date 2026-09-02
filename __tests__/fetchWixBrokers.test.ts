@@ -55,9 +55,9 @@ describe('fetchWixBrokers', () => {
       })
     );
     expect(result).toHaveLength(1);
-    expect(result[0].id).toBe('1');
-    expect(result[0].fullName).toBe('Wix Broker');
-    expect(result[0].primaryCta.label).toBe('Apply Now');
+    expect(result[0]?.id).toBe('1');
+    expect(result[0]?.fullName).toBe('Wix Broker');
+    expect(result[0]?.primaryCta?.label).toBe('Apply Now');
   });
 
   it('should return mock data when WIX_API_URL or WIX_API_KEY are missing', async () => {
