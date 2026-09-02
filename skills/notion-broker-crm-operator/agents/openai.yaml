@@ -1,0 +1,4 @@
+interface:
+  display_name: "Notion Broker CRM Operator"
+  short_description: "Review and operate Moonshine broker CRM"
+  default_prompt: "Use $notion-broker-crm-operator to review a broker CRM record without changing it."
