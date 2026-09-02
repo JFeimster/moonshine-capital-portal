@@ -104,7 +104,7 @@ export function TallyFormEmbed({
 
         <iframe
           ref={iframeRef}
-          data-tally-src={`https://tally.so/embed/${formId}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
+          data-tally-src={`https://tally.so/embed/${formId}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1&formEventsForwarding=1`}
           loading="lazy"
           width="100%"
           height="500"
