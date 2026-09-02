@@ -1,5 +1,5 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { basename, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const testRoot = resolve(process.cwd(), '__tests__');
@@ -13,10 +13,12 @@ function collectTestSources(directory: string): string[] {
 
 describe('test runner policy', () => {
   it('keeps the test suite on Vitest only', () => {
+    const forbiddenModule = ['bun', 'test'].join(':');
+
     for (const file of collectTestSources(testRoot)) {
+      if (basename(file) === 'runner-policy.test.ts') continue;
       const source = readFileSync(file, 'utf8');
-      expect(source).not.toContain("from 'bun:test'");
-      expect(source).not.toContain('from "bun:test"');
+      expect(source).not.toContain(forbiddenModule);
     }
   });
 });
