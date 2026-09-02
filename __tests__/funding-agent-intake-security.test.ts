@@ -1,12 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const getPartnerByNormalizedEmail = vi.fn();
-const upsertPartner = vi.fn();
-
-vi.mock('../lib/notion', () => ({
-  getPartnerByNormalizedEmail,
-  upsertPartner
+const notionMocks = vi.hoisted(() => ({
+  getPartnerByNormalizedEmail: vi.fn(),
+  upsertPartner: vi.fn()
 }));
+
+vi.mock('../lib/notion', () => notionMocks);
 
 import {
   processFundingAgentJoin,
@@ -15,12 +14,12 @@ import {
 
 describe('public Funding Agent intake security boundaries', () => {
   beforeEach(() => {
-    getPartnerByNormalizedEmail.mockReset();
-    upsertPartner.mockReset();
+    notionMocks.getPartnerByNormalizedEmail.mockReset();
+    notionMocks.upsertPartner.mockReset();
   });
 
   it('does not let public Join mutate an existing canonical Funding Agent', async () => {
-    getPartnerByNormalizedEmail.mockResolvedValue({
+    notionMocks.getPartnerByNormalizedEmail.mockResolvedValue({
       partnerId: 'prt_existing',
       email: 'agent@example.com',
       approvalStatus: 'approved',
@@ -39,11 +38,11 @@ describe('public Funding Agent intake security boundaries', () => {
       accepted: false,
       existingIdentity: true
     });
-    expect(upsertPartner).not.toHaveBeenCalled();
+    expect(notionMocks.upsertPartner).not.toHaveBeenCalled();
   });
 
   it('blocks public Profile enrichment once a partner leaves needs_review + draft', async () => {
-    getPartnerByNormalizedEmail.mockResolvedValue({
+    notionMocks.getPartnerByNormalizedEmail.mockResolvedValue({
       partnerId: 'prt_existing',
       email: 'agent@example.com',
       approvalStatus: 'approved',
@@ -58,17 +57,17 @@ describe('public Funding Agent intake security boundaries', () => {
 
     expect(result.status).toBe(403);
     expect(result.body).toMatchObject({ success: false });
-    expect(upsertPartner).not.toHaveBeenCalled();
+    expect(notionMocks.upsertPartner).not.toHaveBeenCalled();
   });
 
   it('allows public Profile enrichment only during the pre-review draft stage', async () => {
-    getPartnerByNormalizedEmail.mockResolvedValue({
+    notionMocks.getPartnerByNormalizedEmail.mockResolvedValue({
       partnerId: 'prt_pending',
       email: 'pending@example.com',
       approvalStatus: 'needs_review',
       profileStatus: 'draft'
     });
-    upsertPartner.mockResolvedValue({
+    notionMocks.upsertPartner.mockResolvedValue({
       success: true,
       notionId: 'notion_1',
       created: false,
@@ -90,8 +89,8 @@ describe('public Funding Agent intake security boundaries', () => {
     }, { publicDraftOnly: true });
 
     expect(result.status).toBe(200);
-    expect(upsertPartner).toHaveBeenCalledTimes(1);
-    expect(upsertPartner.mock.calls[0]?.[0]).not.toHaveProperty('partnerId');
-    expect(upsertPartner.mock.calls[0]?.[1]).toEqual({ allowCreate: false });
+    expect(notionMocks.upsertPartner).toHaveBeenCalledTimes(1);
+    expect(notionMocks.upsertPartner.mock.calls[0]?.[0]).not.toHaveProperty('partnerId');
+    expect(notionMocks.upsertPartner.mock.calls[0]?.[1]).toEqual({ allowCreate: false });
   });
 });
