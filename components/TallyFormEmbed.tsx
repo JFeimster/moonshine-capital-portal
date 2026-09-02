@@ -88,6 +88,8 @@ export function TallyFormEmbed({
     white: 'text-neo-white',
   };
 
+  const embedUrl = `https://tally.so/embed/${formId}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1&formEventsForwarding=1`;
+
   return (
     <section className="w-full">
       <div className="bg-neo-cream border-4 border-neo-black p-8 md:p-12 shadow-brutal text-neo-black relative">
@@ -104,7 +106,8 @@ export function TallyFormEmbed({
 
         <iframe
           ref={iframeRef}
-          data-tally-src={`https://tally.so/embed/${formId}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1&formEventsForwarding=1`}
+          src={embedUrl}
+          data-tally-src={embedUrl}
           loading="lazy"
           width="100%"
           height="500"
