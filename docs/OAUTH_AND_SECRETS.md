@@ -37,3 +37,10 @@ Do not bury secrets in markdown examples and then forget about them.
 For now, keep the stack simple:
 Tally + Notion + n8n + Vercel.
 Do not introduce OAuth complexity until it solves a real problem.
+
+## Temporary Internal Access Gate
+The application currently uses a lightweight access code system for `/admin` and `/portal` routes.
+- `AUTH_SESSION_SECRET`: Used to sign the session cookies. Must be a strong, random secret.
+- `ADMIN_ACCESS_PASSWORD`: Required. Grants access to both `/admin` and `/portal`.
+- `PORTAL_ACCESS_PASSWORD`: Optional. Grants access only to `/portal`.
+**Note:** This access gate is temporary. It will be replaced by a robust identity and role-based access control system in the final Funding Agent OS architecture.

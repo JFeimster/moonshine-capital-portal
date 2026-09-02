@@ -30,3 +30,9 @@
 ## Notes
 Security here is mostly boring hygiene.
 That is exactly why it matters.
+
+## Temporary Access Gate
+A lightweight, signed-cookie access gate is currently implemented to protect `/admin` and `/portal` routes.
+- This relies on `AUTH_SESSION_SECRET` and `ADMIN_ACCESS_PASSWORD` (and optionally `PORTAL_ACCESS_PASSWORD`).
+- **This is a TEMPORARY measure.** It is not the final Funding Agent OS identity system.
+- Long-term auth will feature individual identities, fine-grained broker permissions, and proper session lifecycle.
