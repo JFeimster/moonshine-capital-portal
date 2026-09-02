@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://capital.distilledfunding.com/schemas/broker-profile.schema.json",
+  "title": "Moonshine Capital Broker Profile",
+  "type": "object",
+  "required": [
+    "id", "fullName", "agencyName", "slug", "shortBio", "city", "state",
+    "publicEmail", "whyChooseYou", "industries", "fundingTypes", "urgencyCategory",
+    "approvalStatus", "isActive"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "partnerId": { "type": "string" },
+    "referralCode": { "type": "string" },
+    "fullName": { "type": "string", "minLength": 1 },
+    "displayName": { "type": "string" },
+    "agencyName": { "type": "string", "minLength": 1 },
+    "companyName": { "type": "string" },
+    "title": { "type": "string" },
+    "slug": { "type": "string", "minLength": 1, "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "shortBio": { "type": "string" },
+    "city": { "type": "string" },
+    "state": { "type": "string" },
+    "markets": { "type": "array", "items": { "type": "string" } },
+    "websiteUrl": { "type": "string" },
+    "bookingUrl": { "type": "string" },
+    "logoUrl": { "type": "string" },
+    "publicEmail": { "type": "string" },
+    "whyChooseYou": { "type": "string" },
+    "disclosures": { "type": "array", "items": { "type": "string" } },
+    "industries": { "type": "array", "items": { "type": "string" } },
+    "fundingTypes": { "type": "array", "items": { "type": "string" } },
+    "fundingSpecialties": { "type": "array", "items": { "type": "string" } },
+    "urgencyCategory": { "type": "string" },
+    "primaryCtaLink": { "type": "string" },
+    "ctaLabel": { "type": "string" },
+    "featuredBroker": { "type": "boolean" },
+    "profileImage": { "type": "string" },
+    "approvalStatus": { "enum": ["approved", "pending", "rejected"] },
+    "profileStatus": { "type": "string" },
+    "brokerStatus": { "enum": ["active", "hidden", "recruiting"] },
+    "isActive": { "type": "boolean" },
+    "phoneNumber": { "type": "string" },
+    "featuredFlag": { "type": "boolean" },
+    "primaryCta": { "$ref": "#/$defs/cta" },
+    "secondaryCta": { "$ref": "#/$defs/cta" }
+  },
+  "$defs": {
+    "cta": {
+      "type": "object",
+      "required": ["label", "url"],
+      "additionalProperties": true,
+      "properties": {
+        "label": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "minLength": 1 },
+        "variant": { "enum": ["primary", "secondary", "outline", "ghost"] },
+        "trackingId": { "type": "string" }
+      }
+    }
+  }
+}
