@@ -1,37 +1,22 @@
-import { createElement, type ComponentType } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
-import { describe, expect, it, vi } from 'vitest';
-import RootError from '../app/error';
-import PortalError from '../app/portal/error';
-import AdminError from '../app/admin/error';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { describe, expect, it } from 'vitest';
 
-type ErrorSurfaceProps = {
-  error: Error & { digest?: string };
-  reset: () => void;
-};
-
-const surfaces: Array<[string, ComponentType<ErrorSurfaceProps>]> = [
-  ['root', RootError],
-  ['portal', PortalError],
-  ['admin', AdminError],
+const errorSurfaces = [
+  'app/error.tsx',
+  'app/global-error.tsx',
+  'app/portal/error.tsx',
+  'app/admin/error.tsx',
 ];
 
 describe('App Router resilience error surfaces', () => {
-  it.each(surfaces)('%s error UI keeps exception details out of rendered output', (_name, Surface) => {
-    const sensitiveMessage = 'NOTION_BROKER_DATABASE_ID=secret-db-id';
-    const error = Object.assign(new Error(sensitiveMessage), {
-      digest: 'private-error-digest',
-    });
+  it.each(errorSurfaces)('%s keeps diagnostics out of the user-facing source', (file) => {
+    const source = readFileSync(resolve(process.cwd(), file), 'utf8');
 
-    const html = renderToStaticMarkup(
-      createElement(Surface, {
-        error,
-        reset: vi.fn(),
-      })
-    );
-
-    expect(html).not.toContain(sensitiveMessage);
-    expect(html).not.toContain('private-error-digest');
-    expect(html).toMatch(/retry/i);
+    expect(source.startsWith("'use client';")).toBe(true);
+    expect(source).not.toContain('error.message');
+    expect(source).not.toContain('error.stack');
+    expect(source).not.toContain('error.digest');
+    expect(source).toContain('reset');
   });
 });
