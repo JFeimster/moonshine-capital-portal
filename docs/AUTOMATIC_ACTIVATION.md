@@ -1,27 +1,24 @@
-# Automatic Funding Agent Activation
+# Funding Agent Activation and Publication
 
-Batch 2.5 makes durable Notion persistence and automatic activation the default path for the dedicated Funding Agent application endpoint.
+Durable Notion persistence is the default path for Funding Agent Join/Profile intake. Public activation is an explicit lifecycle decision, not a side effect of submitting a public form.
 
 ## Canonical lifecycle
 
 ```text
-canonical Funding Agent intake
-→ validate
+Funding Agent Join
+→ verify + normalize
 → partner_type = funding_agent
-→ resolve canonical identity
+→ resolve/create canonical identity
 → durable Notion upsert
-→ approved + published (clean submission)
+→ approval_status = needs_review
+→ profile_status = draft
+→ profile enrichment
+→ explicit operator/admin review
+→ approved + published when appropriate
 → public route eligibility
 ```
 
-Exception path:
-
-```text
-malformed input / identity conflict / unsafe persistence condition
-→ approval_status = needs_review
-→ profile_status = draft
-→ review_reason recorded when a safe record can be persisted
-```
+A Tally Join or Profile submission cannot directly grant `approved` or `published` state.
 
 ## Identity rules
 
@@ -30,19 +27,36 @@ malformed input / identity conflict / unsafe persistence condition
 - `referral_code` and `slug` are preserved once assigned.
 - `latest_tally_submission_id` is traceability metadata, not partner identity.
 - profile enrichment updates the same canonical record and does not blank trusted values.
+- an already approved/published partner is not demoted when that same canonical identity re-submits Join.
 
 Matching hierarchy:
 
 1. `partner_id`
 2. latest known Tally submission ID
 3. normalized email
-4. create a new partner
+4. create a new partner for Join only
+
+Profile enrichment uses the same matching hierarchy but is update-only and cannot create an orphan partner.
 
 ## Intake-source mapping
 
-`POST /api/intake/tally/application` is the dedicated canonical Funding Agent intake endpoint, so it assigns `partner_type = funding_agent` server-side. Applicant-supplied partner type is ignored.
+Raw Tally `FORM_RESPONSE` events use:
 
-The endpoint accepts pre-normalized JSON and may receive `tallyFormId`/`formId` and `tallySubmissionId`/`submissionId` for traceability. Tally form metadata is not required to determine partner type because the route itself is source-specific.
+```text
+POST /api/webhooks/tally
+```
+
+The receiver verifies the Tally HMAC signature, normalizes the live form UUIDs, then dispatches:
+
+- `rjM6do` → Funding Agent Join service
+- `9qjWEE` → Funding Agent Profile service
+
+Trusted callers with already-normalized JSON may continue using:
+
+- `POST /api/intake/tally/application`
+- `POST /api/intake/tally/profile`
+
+Both paths reuse the same shared lifecycle services.
 
 ## Durable source of truth
 
@@ -57,7 +71,7 @@ Credentials are never committed.
 
 ## Publication gating
 
-A durable partner is eligible for the top-level public partner route only when:
+A durable partner is eligible for a public partner route only when:
 
 ```text
 approval_status = approved
@@ -65,4 +79,4 @@ AND
 profile_status = published
 ```
 
-`needs_review`, `draft`, `hidden`, `suspended`, `rejected`, and `archived` records are not public. Existing Wix directory lookup remains as a compatibility fallback if durable Notion lookup is unavailable.
+`needs_review`, `draft`, `hidden`, `suspended`, `rejected`, and `archived` records are not public. Existing Wix lookup remains an optional compatibility fallback; it does not own canonical lifecycle state.

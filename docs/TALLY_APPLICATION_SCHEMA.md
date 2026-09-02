@@ -1,6 +1,8 @@
 # Tally Funding Agent Application Schema
 
-`POST /api/intake/tally/application` is the dedicated canonical Funding Agent Join endpoint. It accepts normalized JSON produced from the Funding Agent Tally submission through the existing normalization/orchestration layer.
+The canonical live Join form is `rjM6do`.
+
+Raw Tally `FORM_RESPONSE` events enter through `POST /api/webhooks/tally`, where the live Tally question UUIDs are normalized and dispatched to the shared Funding Agent Join service. `POST /api/intake/tally/application` remains a trusted compatibility endpoint for callers that already supply normalized JSON. Both paths execute the same lifecycle logic.
 
 ## Applicant fields consumed when available
 
@@ -27,9 +29,9 @@ fullName
 email
 ```
 
-Phone, referral metadata, consent, and source attribution may also be collected by the form, but they are not required by this endpoint for deterministic identity creation.
+Phone, referral metadata, consent, and source attribution may also be collected by the form, but they are not required for deterministic identity creation.
 
-When `agencyName` is omitted at Join, the endpoint uses `fullName` as a neutral display-safe fallback. The follow-on Profile Builder is expected to replace/enrich that value when the agent supplies an agency or brand name. This keeps the Join step short without creating a second identity or weakening merge safety.
+When `agencyName` is omitted at Join, the service uses `fullName` as a neutral display-safe fallback. The follow-on Profile Builder is expected to replace/enrich that value when the agent supplies an agency or brand name. This keeps Join short without creating a second identity or weakening merge safety.
 
 ## Source metadata
 
@@ -42,13 +44,13 @@ When available, persist:
 
 ## Server-assigned partner type
 
-The applicant does not select a partner type. This route always assigns:
+The applicant does not select a partner type. The Join service always assigns:
 
 ```text
 partnerType = funding_agent
 ```
 
-The route is the stable intake-source discriminator. Future partner forms should use their own explicit source mappings rather than overloading this route.
+The canonical form ID/source mapping is server-owned. Applicant-supplied partner type is not lifecycle authority.
 
 ## Approval and publication gate
 
@@ -60,7 +62,7 @@ profileStatus = draft
 reviewReason = Awaiting profile completion and explicit approval
 ```
 
-The Profile Builder may enrich the existing canonical record, but it does not independently change lifecycle state. Public directory eligibility continues to require the durable record to reach both states through an explicit review/approval path:
+The Profile Builder may enrich the existing canonical record, but it does not independently change lifecycle state. Public directory eligibility continues to require:
 
 ```text
 approvalStatus = approved
@@ -74,10 +76,10 @@ Identity conflicts and persistence errors are never silently converted into publ
 
 ## Canonical identity
 
-The endpoint preserves supplied canonical IDs when present and otherwise provisions deterministic fallback identity from the normalized email for first-time intake:
+The service preserves supplied canonical IDs when present and otherwise provisions deterministic fallback identity from the normalized email for first-time intake:
 
 - `partnerId`
 - `referralCode`
 - `slug`
 
-Durable upsert then resolves by partner ID, known submission ID, normalized email, or creation in that order.
+Durable upsert resolves by partner ID, known submission ID, normalized email, or creation in that order.
