@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://capital.distilledfunding.com/schemas/application-registry.schema.json",
+  "title": "Moonshine Capital Application Registry",
+  "type": "object",
+  "required": ["forms"],
+  "additionalProperties": true,
+  "properties": {
+    "forms": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/form" }
+    },
+    "flow": { "type": "object" }
+  },
+  "$defs": {
+    "form": {
+      "type": "object",
+      "required": ["id", "name", "purpose", "url", "embedUrl", "flowStage", "canonical", "status"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9]+$" },
+        "name": { "type": "string", "minLength": 1 },
+        "purpose": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "pattern": "^https://tally\\.so/r/[A-Za-z0-9]+$" },
+        "embedUrl": { "type": "string", "pattern": "^https://tally\\.so/embed/[A-Za-z0-9]+" },
+        "defaultPlacement": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "flowStage": { "type": "string", "minLength": 1 },
+        "intakeEndpoint": { "type": ["string", "null"] },
+        "createsCanonicalRecord": { "type": "boolean" },
+        "mayChangeLifecycleState": { "type": "boolean" },
+        "initialApprovalStatus": { "type": "string" },
+        "initialProfileStatus": { "type": "string" },
+        "canonical": { "type": "boolean" },
+        "status": { "enum": ["active", "active_later", "legacy"] }
+      }
+    }
+  }
+}
