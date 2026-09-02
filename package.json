@@ -10,7 +10,9 @@
     "lint": "next lint",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "check": "pnpm typecheck && pnpm lint && pnpm test"
+    "validate:data": "node scripts/validate-data.mjs",
+    "check:links": "node scripts/check-internal-links.mjs",
+    "check": "pnpm typecheck && pnpm lint && pnpm validate:data && pnpm check:links && pnpm test"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
