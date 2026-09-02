@@ -1,4 +1,7 @@
+'use client';
+
 import Script from 'next/script';
+import { useEffect, useRef } from 'react';
 
 export interface TallyFormEmbedProps {
   formId: string;
@@ -9,6 +12,17 @@ export interface TallyFormEmbedProps {
   titleColor?: 'black' | 'white';
 }
 
+type TallyWidgetEventName =
+  | 'Tally.FormLoaded'
+  | 'Tally.FormPageView'
+  | 'Tally.FormSubmitted';
+
+const TALLY_WIDGET_EVENTS: TallyWidgetEventName[] = [
+  'Tally.FormLoaded',
+  'Tally.FormPageView',
+  'Tally.FormSubmitted',
+];
+
 export function TallyFormEmbed({
   formId,
   title,
@@ -17,6 +31,50 @@ export function TallyFormEmbed({
   badgeColor = 'yellow',
   titleColor = 'black'
 }: TallyFormEmbedProps) {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.source !== iframeRef.current?.contentWindow || typeof event.data !== 'string') {
+        return;
+      }
+
+      const eventName = TALLY_WIDGET_EVENTS.find((candidate) => event.data.includes(candidate));
+      if (!eventName) return;
+
+      try {
+        const parsed = JSON.parse(event.data) as { payload?: unknown };
+        const detail = {
+          event: eventName,
+          formId,
+          payload: parsed.payload,
+        };
+
+        // Same-origin consumers can listen for one normalized app-level event without
+        // depending on Tally's postMessage transport directly.
+        window.dispatchEvent(new CustomEvent('moonshine:tally-event', { detail }));
+
+        // If a GTM-style dataLayer already exists, forward the same lifecycle event.
+        // This is analytics/event forwarding only. Persistence and lifecycle changes
+        // continue through authenticated webhook/intake routes.
+        const browserWindow = window as Window & {
+          dataLayer?: Array<Record<string, unknown>>;
+        };
+
+        browserWindow.dataLayer?.push({
+          event: eventName,
+          tally_form_id: formId,
+          tally_payload: parsed.payload,
+        });
+      } catch {
+        // Ignore malformed/unrelated postMessage payloads from the embedded frame.
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [formId]);
+
   const badgeColors = {
     yellow: 'bg-neo-yellow',
     pink: 'bg-neo-pink',
@@ -45,6 +103,7 @@ export function TallyFormEmbed({
         </p>
 
         <iframe
+          ref={iframeRef}
           data-tally-src={`https://tally.so/embed/${formId}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
           loading="lazy"
           width="100%"
