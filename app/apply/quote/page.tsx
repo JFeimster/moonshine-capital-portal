@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const metadata = {
   title: 'Personalized Funding Quote | Distilled Funding',
-  description: 'Get a personalized funding quote with no hard credit check. See your best options before committing.',
+  description: 'Start with a short business funding intake so we can review your needs and identify the most appropriate next step.',
 };
 
 export default function QuoteApplyPage() {
@@ -18,17 +18,17 @@ export default function QuoteApplyPage() {
         </Link>
 
         <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4">
-          Personalized Quote
+          Personalized Funding Intake
         </h1>
         <p className="text-xl font-medium max-w-2xl border-l-4 border-neo-blue pl-4 mb-12">
-          See what you qualify for before making a commitment. This path uses a soft pull only and won&apos;t affect your credit score.
+          Start here. Give us the core business and funding details we need to review your situation and determine the most useful next step. Submitting this intake does not guarantee approval or funding.
         </p>
 
         <TallyFormEmbed
-          formId="mDEJB5"
-          title="Get Your Options"
-          description="Provide your business details below to see tailored funding options."
-          badgeText="Quote"
+          formId="dWvEqN"
+          title="Start Your Funding Review"
+          description="Share your funding need, business metrics, and contact details. If a fuller application is appropriate, we can move you into that next step without making this first interaction heavier than it needs to be."
+          badgeText="Step 1"
           badgeColor="blue"
         />
       </div>

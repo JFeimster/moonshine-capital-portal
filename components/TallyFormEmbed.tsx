@@ -1,4 +1,7 @@
+'use client';
+
 import Script from 'next/script';
+import { useEffect, useRef } from 'react';
 
 export interface TallyFormEmbedProps {
   formId: string;
@@ -9,6 +12,26 @@ export interface TallyFormEmbedProps {
   titleColor?: 'black' | 'white';
 }
 
+type TallyWidgetEventName =
+  | 'Tally.FormLoaded'
+  | 'Tally.FormPageView'
+  | 'Tally.FormSubmitted';
+
+type TallyRuntime = {
+  loadEmbeds?: () => void;
+};
+
+const TALLY_WIDGET_EVENTS: TallyWidgetEventName[] = [
+  'Tally.FormLoaded',
+  'Tally.FormPageView',
+  'Tally.FormSubmitted',
+];
+
+function loadTallyEmbeds() {
+  const browserWindow = window as Window & { Tally?: TallyRuntime };
+  browserWindow.Tally?.loadEmbeds?.();
+}
+
 export function TallyFormEmbed({
   formId,
   title,
@@ -17,6 +40,57 @@ export function TallyFormEmbed({
   badgeColor = 'yellow',
   titleColor = 'black'
 }: TallyFormEmbedProps) {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    // Next.js can keep the external Tally script loaded across client-side route changes.
+    // Reinitialize on every mount so a newly inserted data-tally-src iframe receives its
+    // src, dynamic-height behavior, and automatic parent-page/query forwarding.
+    loadTallyEmbeds();
+  }, [formId]);
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.source !== iframeRef.current?.contentWindow || typeof event.data !== 'string') {
+        return;
+      }
+
+      const eventName = TALLY_WIDGET_EVENTS.find((candidate) => event.data.includes(candidate));
+      if (!eventName) return;
+
+      try {
+        const parsed = JSON.parse(event.data) as { payload?: unknown };
+        const detail = {
+          event: eventName,
+          formId,
+          payload: parsed.payload,
+        };
+
+        // Same-origin consumers can listen for one normalized app-level event without
+        // depending on Tally's postMessage transport directly.
+        window.dispatchEvent(new CustomEvent('moonshine:tally-event', { detail }));
+
+        // If a GTM-style dataLayer already exists, forward the same lifecycle event.
+        // This is analytics/event forwarding only. Persistence and lifecycle changes
+        // continue through authenticated webhook/intake routes.
+        const browserWindow = window as Window & {
+          dataLayer?: Array<Record<string, unknown>>;
+        };
+
+        browserWindow.dataLayer?.push({
+          event: eventName,
+          tally_form_id: formId,
+          tally_payload: parsed.payload,
+        });
+      } catch {
+        // Ignore malformed/unrelated postMessage payloads from the embedded frame.
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [formId]);
+
   const badgeColors = {
     yellow: 'bg-neo-yellow',
     pink: 'bg-neo-pink',
@@ -29,6 +103,8 @@ export function TallyFormEmbed({
     black: 'text-neo-black',
     white: 'text-neo-white',
   };
+
+  const embedUrl = `https://tally.so/embed/${formId}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1&formEventsForwarding=1`;
 
   return (
     <section className="w-full">
@@ -45,7 +121,8 @@ export function TallyFormEmbed({
         </p>
 
         <iframe
-          data-tally-src={`https://tally.so/embed/${formId}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
+          ref={iframeRef}
+          data-tally-src={embedUrl}
           loading="lazy"
           width="100%"
           height="500"
@@ -54,7 +131,11 @@ export function TallyFormEmbed({
           marginWidth={0}
           title={title}>
         </iframe>
-        <Script src="https://tally.so/widgets/embed.js" strategy="lazyOnload" />
+        <Script
+          src="https://tally.so/widgets/embed.js"
+          strategy="lazyOnload"
+          onReady={loadTallyEmbeds}
+        />
       </div>
     </section>
   );
