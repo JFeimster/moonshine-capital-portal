@@ -1,0 +1,429 @@
+{
+  "id": "funding-product-families",
+  "name": "Funding Product Families",
+  "version": "0.3.0",
+  "enrichedFrom": "Funding Partners Database",
+  "enrichedAt": "2026-06-26",
+  "entries": [
+    {
+      "id": "working-capital",
+      "slug": "working-capital",
+      "route": "/funding/working-capital",
+      "name": "Working Capital",
+      "publicName": "Working Capital Funding",
+      "category": "business",
+      "summary": "Fast capital for payroll, inventory, materials, short-cycle opportunities, and cash-flow gaps. Also covers amortizing term loans, SBA 7(a) programs, and business expansion loans folded in from structured growth loans.",
+      "bestFitBorrower": [
+        "Active business with visible deposits",
+        "Needs speed more than perfect pricing",
+        "Has recent business bank statements"
+      ],
+      "avoidWhen": [
+        "No active revenue",
+        "Long-term expansion need",
+        "Margins are already too thin"
+      ],
+      "commonUseCases": [
+        "Payroll gap",
+        "Inventory purchase",
+        "Materials for a new job",
+        "Ad spend recovery",
+        "Short-term cash-flow bridge"
+      ],
+      "qualificationSignals": {
+        "minCreditScoreGuide": 500,
+        "minMonthlyRevenueGuide": 10000,
+        "minTimeInBusinessMonthsGuide": 6,
+        "creditTier": [
+          "subprime",
+          "fair"
+        ],
+        "repaymentSource": "business_revenue"
+      },
+      "speedProfile": {
+        "label": "Fast",
+        "typicalTimeToFunding": "24 hours to 3 days"
+      },
+      "requiredDocuments": [
+        "Recent business bank statements",
+        "Business basics",
+        "Revenue proof",
+        "Bank/API connection where applicable"
+      ],
+      "fastDisqualifiers": [
+        "Open bankruptcy",
+        "Repeated recent NSFs",
+        "No revenue for a revenue-based request",
+        "Severe stacking risk"
+      ],
+      "relatedProductIds": [],
+      "relatedProviderIds": [
+        "7-figures-funding",
+        "8fig",
+        "bank-breezy",
+        "capchase",
+        "credibly",
+        "david-allen-capital",
+        "fora-financial",
+        "fundandgrow",
+        "gokapital",
+        "onramp",
+        "payability",
+        "rok-financial",
+        "sellersfi",
+        "the-finance-factory",
+        "uncapped",
+        "uplyft-capital"
+      ],
+      "relatedToolIds": [],
+      "primaryCta": {
+        "label": "Check Working Capital Options",
+        "href": "https://tally.so/r/mDEJB5",
+        "trackingId": "working_capital_quote"
+      },
+      "status": "draft",
+      "visibility": "public",
+      "needsReview": [
+        "absorbed-structured-growth-loans-term-sba"
+      ]
+    },
+    {
+      "id": "startup-credit-leverage",
+      "slug": "startup-credit-leverage",
+      "route": "/funding/startup-funding",
+      "name": "Startup Credit Leverage",
+      "publicName": "Startup Funding",
+      "category": "business",
+      "summary": "0% intro business credit cards and startup/venture debt that leverage strong personal credit into usable business capital without requiring revenue history. Also includes franchise launch/acquisition financing.",
+      "bestFitBorrower": [],
+      "avoidWhen": [],
+      "commonUseCases": [],
+      "qualificationSignals": {
+        "minCreditScoreGuide": 600,
+        "minMonthlyRevenueGuide": 3000,
+        "minTimeInBusinessMonthsGuide": 6,
+        "creditTier": [
+          "subprime",
+          "fair"
+        ],
+        "repaymentSource": "personal_credit"
+      },
+      "speedProfile": null,
+      "requiredDocuments": [],
+      "fastDisqualifiers": [],
+      "relatedProductIds": [],
+      "relatedProviderIds": [
+        "equitynet",
+        "gokapital",
+        "opm-mastery",
+        "ramp",
+        "rok-financial"
+      ],
+      "relatedToolIds": [],
+      "primaryCta": {
+        "label": "Check Startup Funding Options",
+        "href": "https://tally.so/r/mDEJB5",
+        "trackingId": "startup_credit_leverage_quote"
+      },
+      "status": "draft",
+      "visibility": "public",
+      "needsData": false,
+      "dataSource": {
+        "qualificationGuidesDerivedFrom": "Funding Partners Database",
+        "providerCount": 4,
+        "derivedAt": "2026-06-26"
+      },
+      "needsReview": [
+        "bestFitBorrower",
+        "avoidWhen",
+        "commonUseCases",
+        "requiredDocuments",
+        "fastDisqualifiers",
+        "speedProfile"
+      ]
+    },
+    {
+      "id": "business-line-access",
+      "slug": "business-line-access",
+      "route": "/funding/business-line-of-credit",
+      "name": "Business Line Access",
+      "publicName": "Business Line of Credit",
+      "category": "business",
+      "summary": "Revolving credit lines that let an established business draw, repay, and redraw working capital as needed instead of taking a single lump sum.",
+      "bestFitBorrower": [],
+      "avoidWhen": [],
+      "commonUseCases": [],
+      "qualificationSignals": {
+        "minCreditScoreGuide": 500,
+        "minMonthlyRevenueGuide": 3000,
+        "minTimeInBusinessMonthsGuide": 3,
+        "creditTier": [
+          "subprime",
+          "fair"
+        ],
+        "repaymentSource": "business_revenue"
+      },
+      "speedProfile": null,
+      "requiredDocuments": [],
+      "fastDisqualifiers": [],
+      "relatedProductIds": [],
+      "relatedProviderIds": [
+        "7-figures-funding",
+        "bank-breezy",
+        "credibly",
+        "david-allen-capital",
+        "gokapital",
+        "the-finance-factory",
+        "uncapped"
+      ],
+      "relatedToolIds": [],
+      "primaryCta": {
+        "label": "Check Business Line of Credit Options",
+        "href": "https://tally.so/r/mDEJB5",
+        "trackingId": "business_line_access_quote"
+      },
+      "status": "draft",
+      "visibility": "public",
+      "needsData": false,
+      "dataSource": {
+        "qualificationGuidesDerivedFrom": "Funding Partners Database",
+        "providerCount": 7,
+        "derivedAt": "2026-06-26"
+      },
+      "needsReview": [
+        "bestFitBorrower",
+        "avoidWhen",
+        "commonUseCases",
+        "requiredDocuments",
+        "fastDisqualifiers",
+        "speedProfile"
+      ]
+    },
+    {
+      "id": "structured-growth-loans",
+      "slug": "structured-growth-loans",
+      "route": null,
+      "name": "Structured Growth Loans",
+      "publicName": "Term & SBA Growth Loans",
+      "category": "business",
+      "summary": "[MERGED] Amortizing term loans, SBA programs, and acquisition/franchise financing for planned expansion where pricing matters more than speed. Folded into Working Capital (term/SBA/expansion loans) and Startup Credit Leverage (franchise financing); no standalone lane page.",
+      "bestFitBorrower": [],
+      "avoidWhen": [],
+      "commonUseCases": [],
+      "qualificationSignals": {
+        "minCreditScoreGuide": 500,
+        "minMonthlyRevenueGuide": 3000,
+        "minTimeInBusinessMonthsGuide": 3,
+        "creditTier": [
+          "subprime",
+          "fair"
+        ],
+        "repaymentSource": "business_revenue"
+      },
+      "speedProfile": null,
+      "requiredDocuments": [],
+      "fastDisqualifiers": [],
+      "relatedProductIds": [],
+      "relatedProviderIds": [
+        "7-figures-funding",
+        "bank-breezy",
+        "fora-financial",
+        "gokapital",
+        "rok-financial",
+        "the-finance-factory",
+        "uncapped",
+        "uplyft-capital"
+      ],
+      "relatedToolIds": [],
+      "primaryCta": {
+        "label": "Check Term & SBA Growth Loans Options",
+        "href": "https://tally.so/r/mDEJB5",
+        "trackingId": "structured_growth_loans_quote"
+      },
+      "status": "deprecated",
+      "visibility": "internal",
+      "needsData": false,
+      "dataSource": {
+        "qualificationGuidesDerivedFrom": "Funding Partners Database",
+        "providerCount": 8,
+        "derivedAt": "2026-06-26"
+      },
+      "needsReview": [
+        "bestFitBorrower",
+        "avoidWhen",
+        "commonUseCases",
+        "requiredDocuments",
+        "fastDisqualifiers",
+        "speedProfile"
+      ],
+      "deprecated": true,
+      "mergedInto": [
+        "working-capital",
+        "startup-credit-leverage"
+      ]
+    },
+    {
+      "id": "equipment-finance",
+      "slug": "equipment-finance",
+      "route": "/funding/equipment-financing",
+      "name": "Equipment Finance",
+      "publicName": "Equipment Financing",
+      "category": "business",
+      "summary": "Financing secured by the equipment being purchased, letting a business acquire machinery or vehicles while preserving cash.",
+      "bestFitBorrower": [],
+      "avoidWhen": [],
+      "commonUseCases": [],
+      "qualificationSignals": {
+        "minCreditScoreGuide": 600,
+        "minMonthlyRevenueGuide": 3000,
+        "minTimeInBusinessMonthsGuide": 3,
+        "creditTier": [
+          "subprime",
+          "fair"
+        ],
+        "repaymentSource": "business_revenue"
+      },
+      "speedProfile": null,
+      "requiredDocuments": [],
+      "fastDisqualifiers": [],
+      "relatedProductIds": [],
+      "relatedProviderIds": [
+        "credibly",
+        "gokapital",
+        "guidant",
+        "the-finance-factory"
+      ],
+      "relatedToolIds": [],
+      "primaryCta": {
+        "label": "Check Equipment Financing Options",
+        "href": "https://tally.so/r/mDEJB5",
+        "trackingId": "equipment_finance_quote"
+      },
+      "status": "draft",
+      "visibility": "public",
+      "needsData": false,
+      "dataSource": {
+        "qualificationGuidesDerivedFrom": "Funding Partners Database",
+        "providerCount": 4,
+        "derivedAt": "2026-06-26"
+      },
+      "needsReview": [
+        "bestFitBorrower",
+        "avoidWhen",
+        "commonUseCases",
+        "requiredDocuments",
+        "fastDisqualifiers",
+        "speedProfile"
+      ]
+    },
+    {
+      "id": "real-estate-capital",
+      "slug": "real-estate-capital",
+      "route": "/funding/real-estate-capital",
+      "name": "Real Estate Capital",
+      "publicName": "Real Estate Capital",
+      "category": "real_estate",
+      "summary": "Commercial mortgages, bridge, fix-and-flip, ground-up construction, and DSCR loans underwritten primarily on the property and its income.",
+      "bestFitBorrower": [],
+      "avoidWhen": [],
+      "commonUseCases": [],
+      "qualificationSignals": {
+        "minCreditScoreGuide": 600,
+        "minMonthlyRevenueGuide": 3000,
+        "minTimeInBusinessMonthsGuide": 6,
+        "creditTier": [
+          "subprime",
+          "fair"
+        ],
+        "repaymentSource": "property_income_or_sale"
+      },
+      "speedProfile": null,
+      "requiredDocuments": [],
+      "fastDisqualifiers": [],
+      "relatedProductIds": [],
+      "relatedProviderIds": [
+        "dlp-capital",
+        "gator-lending",
+        "gokapital",
+        "kiava",
+        "new-silver",
+        "rok-financial",
+        "subto",
+        "visio-lending"
+      ],
+      "relatedToolIds": [],
+      "primaryCta": {
+        "label": "Check Real Estate Capital Options",
+        "href": "https://tally.so/r/mDEJB5",
+        "trackingId": "real_estate_capital_quote"
+      },
+      "status": "draft",
+      "visibility": "public",
+      "needsData": false,
+      "dataSource": {
+        "qualificationGuidesDerivedFrom": "Funding Partners Database",
+        "providerCount": 8,
+        "derivedAt": "2026-06-26"
+      },
+      "needsReview": [
+        "bestFitBorrower",
+        "avoidWhen",
+        "commonUseCases",
+        "requiredDocuments",
+        "fastDisqualifiers",
+        "speedProfile"
+      ]
+    },
+    {
+      "id": "marketplace-capital",
+      "slug": "marketplace-capital",
+      "route": "/funding/ecommerce-seller-funding",
+      "name": "Marketplace Capital",
+      "publicName": "E-commerce & Marketplace Seller Funding",
+      "category": "business",
+      "summary": "Revenue-based financing and working capital sized to marketplace and e-commerce sales velocity for inventory, ad spend, and growth.",
+      "bestFitBorrower": [],
+      "avoidWhen": [],
+      "commonUseCases": [],
+      "qualificationSignals": {
+        "minCreditScoreGuide": null,
+        "minMonthlyRevenueGuide": 3000,
+        "minTimeInBusinessMonthsGuide": 3,
+        "creditTier": [],
+        "repaymentSource": "platform_sales"
+      },
+      "speedProfile": null,
+      "requiredDocuments": [],
+      "fastDisqualifiers": [],
+      "relatedProductIds": [],
+      "relatedProviderIds": [
+        "8fig",
+        "onramp",
+        "payability",
+        "sellersfi"
+      ],
+      "relatedToolIds": [],
+      "primaryCta": {
+        "label": "Check E-commerce & Marketplace Seller Funding Options",
+        "href": "https://tally.so/r/mDEJB5",
+        "trackingId": "marketplace_capital_quote"
+      },
+      "status": "draft",
+      "visibility": "public",
+      "needsData": false,
+      "dataSource": {
+        "qualificationGuidesDerivedFrom": "Funding Partners Database",
+        "providerCount": 4,
+        "derivedAt": "2026-06-26"
+      },
+      "needsReview": [
+        "bestFitBorrower",
+        "avoidWhen",
+        "commonUseCases",
+        "requiredDocuments",
+        "fastDisqualifiers",
+        "speedProfile"
+      ]
+    }
+  ]
+}

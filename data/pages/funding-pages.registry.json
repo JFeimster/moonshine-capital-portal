@@ -1,0 +1,1035 @@
+{
+  "id": "funding-pages",
+  "name": "Funding Pages Registry",
+  "version": "0.1.0",
+  "visibility": "public",
+  "source": "manual",
+  "lastUpdated": "2026-06-26",
+  "site": "https://moonshine-capital-portal.vercel.app/",
+  "references": {
+    "productFamilies": "funding/funding-product-families.registry.json",
+    "products": "funding/funding-products.registry.json",
+    "providers": "funding/funding-providers.registry.json",
+    "tools": "embeds/tool-registry.json",
+    "forms": "forms/applications.json"
+  },
+  "pages": [
+    {
+      "id": "funding",
+      "slug": "funding",
+      "route": "/funding",
+      "template": "funding-hub",
+      "status": "draft",
+      "visibility": "public",
+      "nav": {
+        "label": "Funding",
+        "group": "main",
+        "order": 20,
+        "showInHeader": true,
+        "showInFooter": true
+      },
+      "seo": {
+        "title": "Business Funding Options | Moonshine Capital",
+        "description": "Explore working capital, business lines of credit, startup funding, equipment financing, real estate capital, and marketplace seller funding options.",
+        "canonical": "/funding",
+        "ogTitle": "Find the Right Funding Path",
+        "ogDescription": "Compare funding lanes, qualification basics, tools, and next steps.",
+        "ogImage": "/images/og/funding.png",
+        "schemaType": "CollectionPage"
+      },
+      "hero": {
+        "eyebrow": "Moonshine Capital Funding Paths",
+        "headline": "Find the capital lane that actually fits the file.",
+        "subheadline": "Compare funding options by use case, speed, credit profile, revenue, documentation burden, and next best action.",
+        "primaryCta": {
+          "label": "Get a Funding Quote",
+          "href": "https://tally.so/r/mDEJB5",
+          "trackingId": "funding_hub_quote"
+        },
+        "secondaryCta": {
+          "label": "Funding for Any Reason",
+          "href": "https://tally.so/r/w4R2Ad",
+          "trackingId": "funding_hub_any_reason"
+        }
+      },
+      "pageIntent": [
+        "education",
+        "lead_capture",
+        "funding_routing",
+        "seo"
+      ],
+      "audiences": [
+        "business_owners",
+        "startup_founders",
+        "real_estate_investors",
+        "ecommerce_sellers",
+        "brokers"
+      ],
+      "sections": [
+        {
+          "id": "funding-lanes",
+          "type": "product-family-grid",
+          "title": "Funding Lanes",
+          "description": "Start with the repayment source, then match the product lane.",
+          "source": "funding-product-families",
+          "itemIds": [
+            "startup-credit-leverage",
+            "working-capital",
+            "business-line-access",
+            "structured-growth-loans",
+            "equipment-finance",
+            "real-estate-capital",
+            "marketplace-capital"
+          ]
+        },
+        {
+          "id": "qualification-bands",
+          "type": "qualification-band-table",
+          "title": "Qualification Bands",
+          "source": "funding-product-families"
+        },
+        {
+          "id": "funding-tools",
+          "type": "tool-grid",
+          "title": "Funding Tools",
+          "source": "tool-registry",
+          "filters": {
+            "tags": [
+              "funding",
+              "calculator",
+              "prequal"
+            ]
+          }
+        },
+        {
+          "id": "application-cta",
+          "type": "form-embed",
+          "title": "Check Your Options",
+          "formId": "mDEJB5"
+        }
+      ],
+      "dataRefs": {
+        "productFamilyIds": [
+          "startup-credit-leverage",
+          "working-capital",
+          "business-line-access",
+          "structured-growth-loans",
+          "equipment-finance",
+          "real-estate-capital",
+          "marketplace-capital"
+        ],
+        "featuredProductIds": [],
+        "featuredProviderIds": [],
+        "featuredToolIds": [],
+        "featuredGptIds": [
+          "funding-pathfinder",
+          "get-my-funding-offer"
+        ],
+        "formIds": [
+          "w4R2Ad",
+          "mDEJB5"
+        ]
+      },
+      "filters": {
+        "enabled": true,
+        "fields": [
+          "productFamily",
+          "fundingType",
+          "creditTier",
+          "timeToFunding",
+          "minCreditScore",
+          "minMonthlyRevenue",
+          "minTimeInBusinessMonths",
+          "industryFit",
+          "useCase"
+        ]
+      },
+      "compliance": {
+        "reviewStatus": "needs_review",
+        "disclaimer": "Funding availability, terms, speed, and eligibility vary by provider, applicant profile, documentation, and underwriting review. No approval or funding outcome is guaranteed.",
+        "forbiddenClaims": [
+          "guaranteed approval",
+          "guaranteed funding",
+          "no documentation required",
+          "instant approval for all applicants"
+        ]
+      }
+    },
+    {
+      "id": "working-capital",
+      "slug": "working-capital",
+      "route": "/funding/working-capital",
+      "parent": "funding",
+      "template": "funding-lane",
+      "status": "draft",
+      "visibility": "public",
+      "nav": {
+        "label": "Working Capital",
+        "group": "funding",
+        "order": 21,
+        "showInHeader": false,
+        "showInFooter": true
+      },
+      "seo": {
+        "title": "Working Capital Funding | Moonshine Capital",
+        "description": "Compare working capital and revenue-based funding by speed, credit profile, revenue, and documentation.",
+        "canonical": "/funding/working-capital",
+        "ogTitle": "Working Capital",
+        "ogDescription": "Compare working capital and revenue-based funding by speed, credit profile, revenue, and documentation.",
+        "ogImage": "/images/og/working-capital.png",
+        "schemaType": "CollectionPage"
+      },
+      "hero": {
+        "eyebrow": "Moonshine Capital Funding Paths",
+        "headline": "Working capital that moves at the speed of revenue.",
+        "subheadline": "Short-term and revenue-based options to cover gaps, payroll, inventory, and growth.",
+        "primaryCta": {
+          "label": "Get a Funding Quote",
+          "href": "https://tally.so/r/mDEJB5",
+          "trackingId": "working_capital_quote"
+        },
+        "secondaryCta": {
+          "label": "Funding for Any Reason",
+          "href": "https://tally.so/r/w4R2Ad",
+          "trackingId": "working_capital_any_reason"
+        }
+      },
+      "pageIntent": [
+        "education",
+        "lead_capture",
+        "funding_routing",
+        "seo"
+      ],
+      "audiences": [
+        "business_owners",
+        "brokers"
+      ],
+      "sections": [
+        {
+          "id": "products",
+          "type": "product-grid",
+          "title": "Working Capital Options",
+          "source": "funding-products",
+          "filters": {
+            "productFamily": [
+              "working-capital"
+            ]
+          }
+        },
+        {
+          "id": "qualification-bands",
+          "type": "qualification-band-table",
+          "title": "Qualification Bands",
+          "source": "funding-product-families",
+          "itemIds": [
+            "working-capital"
+          ]
+        },
+        {
+          "id": "funding-tools",
+          "type": "tool-grid",
+          "title": "Tools",
+          "source": "tool-registry",
+          "filters": {
+            "tags": [
+              "funding",
+              "working-capital",
+              "calculator",
+              "prequal"
+            ]
+          }
+        },
+        {
+          "id": "related-lanes",
+          "type": "product-family-grid",
+          "title": "Other Funding Lanes",
+          "source": "funding-product-families",
+          "itemIds": [
+            "startup-credit-leverage",
+            "business-line-access",
+            "structured-growth-loans",
+            "equipment-finance",
+            "real-estate-capital",
+            "marketplace-capital"
+          ]
+        },
+        {
+          "id": "application-cta",
+          "type": "form-embed",
+          "title": "Check Your Options",
+          "formId": "mDEJB5"
+        }
+      ],
+      "dataRefs": {
+        "productFamilyIds": [
+          "working-capital"
+        ],
+        "featuredProductIds": [],
+        "featuredProviderIds": [],
+        "featuredToolIds": [],
+        "featuredGptIds": [
+          "funding-pathfinder",
+          "get-my-funding-offer"
+        ],
+        "formIds": [
+          "w4R2Ad",
+          "mDEJB5"
+        ]
+      },
+      "filters": {
+        "enabled": true,
+        "fields": [
+          "productFamily",
+          "fundingType",
+          "creditTier",
+          "timeToFunding",
+          "minCreditScore",
+          "minMonthlyRevenue",
+          "minTimeInBusinessMonths",
+          "industryFit",
+          "useCase"
+        ]
+      },
+      "compliance": {
+        "reviewStatus": "needs_review",
+        "disclaimer": "Funding availability, terms, speed, and eligibility vary by provider, applicant profile, documentation, and underwriting review. No approval or funding outcome is guaranteed.",
+        "forbiddenClaims": [
+          "guaranteed approval",
+          "guaranteed funding",
+          "no documentation required",
+          "instant approval for all applicants"
+        ]
+      }
+    },
+    {
+      "id": "business-line-of-credit",
+      "slug": "business-line-of-credit",
+      "route": "/funding/business-line-of-credit",
+      "parent": "funding",
+      "template": "funding-lane",
+      "status": "draft",
+      "visibility": "public",
+      "nav": {
+        "label": "Business Line of Credit",
+        "group": "funding",
+        "order": 22,
+        "showInHeader": false,
+        "showInFooter": true
+      },
+      "seo": {
+        "title": "Business Line of Credit | Moonshine Capital",
+        "description": "Explore revolving business lines of credit by limit, draw terms, credit tier, and qualification basics.",
+        "canonical": "/funding/business-line-of-credit",
+        "ogTitle": "Business Line of Credit",
+        "ogDescription": "Explore revolving business lines of credit by limit, draw terms, credit tier, and qualification basics.",
+        "ogImage": "/images/og/business-line-of-credit.png",
+        "schemaType": "CollectionPage"
+      },
+      "hero": {
+        "eyebrow": "Moonshine Capital Funding Paths",
+        "headline": "Flexible credit you draw only when you need it.",
+        "subheadline": "Revolving lines of credit for ongoing, variable capital needs.",
+        "primaryCta": {
+          "label": "Get a Funding Quote",
+          "href": "https://tally.so/r/mDEJB5",
+          "trackingId": "business_line_of_credit_quote"
+        },
+        "secondaryCta": {
+          "label": "Funding for Any Reason",
+          "href": "https://tally.so/r/w4R2Ad",
+          "trackingId": "business_line_of_credit_any_reason"
+        }
+      },
+      "pageIntent": [
+        "education",
+        "lead_capture",
+        "funding_routing",
+        "seo"
+      ],
+      "audiences": [
+        "business_owners",
+        "brokers"
+      ],
+      "sections": [
+        {
+          "id": "products",
+          "type": "product-grid",
+          "title": "Business Line of Credit Options",
+          "source": "funding-products",
+          "filters": {
+            "productFamily": [
+              "business-line-access"
+            ]
+          }
+        },
+        {
+          "id": "qualification-bands",
+          "type": "qualification-band-table",
+          "title": "Qualification Bands",
+          "source": "funding-product-families",
+          "itemIds": [
+            "business-line-access"
+          ]
+        },
+        {
+          "id": "funding-tools",
+          "type": "tool-grid",
+          "title": "Tools",
+          "source": "tool-registry",
+          "filters": {
+            "tags": [
+              "funding",
+              "line-of-credit",
+              "calculator",
+              "prequal"
+            ]
+          }
+        },
+        {
+          "id": "related-lanes",
+          "type": "product-family-grid",
+          "title": "Other Funding Lanes",
+          "source": "funding-product-families",
+          "itemIds": [
+            "startup-credit-leverage",
+            "working-capital",
+            "structured-growth-loans",
+            "equipment-finance",
+            "real-estate-capital",
+            "marketplace-capital"
+          ]
+        },
+        {
+          "id": "application-cta",
+          "type": "form-embed",
+          "title": "Check Your Options",
+          "formId": "mDEJB5"
+        }
+      ],
+      "dataRefs": {
+        "productFamilyIds": [
+          "business-line-access"
+        ],
+        "featuredProductIds": [],
+        "featuredProviderIds": [],
+        "featuredToolIds": [],
+        "featuredGptIds": [
+          "funding-pathfinder",
+          "get-my-funding-offer"
+        ],
+        "formIds": [
+          "w4R2Ad",
+          "mDEJB5"
+        ]
+      },
+      "filters": {
+        "enabled": true,
+        "fields": [
+          "productFamily",
+          "fundingType",
+          "creditTier",
+          "timeToFunding",
+          "minCreditScore",
+          "minMonthlyRevenue",
+          "minTimeInBusinessMonths",
+          "industryFit",
+          "useCase"
+        ]
+      },
+      "compliance": {
+        "reviewStatus": "needs_review",
+        "disclaimer": "Funding availability, terms, speed, and eligibility vary by provider, applicant profile, documentation, and underwriting review. No approval or funding outcome is guaranteed.",
+        "forbiddenClaims": [
+          "guaranteed approval",
+          "guaranteed funding",
+          "no documentation required",
+          "instant approval for all applicants"
+        ]
+      }
+    },
+    {
+      "id": "startup-funding",
+      "slug": "startup-funding",
+      "route": "/funding/startup-funding",
+      "parent": "funding",
+      "template": "funding-lane",
+      "status": "draft",
+      "visibility": "public",
+      "nav": {
+        "label": "Startup Funding",
+        "group": "funding",
+        "order": 23,
+        "showInHeader": false,
+        "showInFooter": true
+      },
+      "seo": {
+        "title": "Startup Funding & Credit Leverage | Moonshine Capital",
+        "description": "Startup funding options using business credit, personal credit leverage, and early-stage friendly structures.",
+        "canonical": "/funding/startup-funding",
+        "ogTitle": "Startup Funding",
+        "ogDescription": "Startup funding options using business credit, personal credit leverage, and early-stage friendly structures.",
+        "ogImage": "/images/og/startup-funding.png",
+        "schemaType": "CollectionPage"
+      },
+      "hero": {
+        "eyebrow": "Moonshine Capital Funding Paths",
+        "headline": "Capital for businesses without years of history.",
+        "subheadline": "Credit-leverage and startup-friendly funding paths built around personal profile and early traction.",
+        "primaryCta": {
+          "label": "Get a Funding Quote",
+          "href": "https://tally.so/r/mDEJB5",
+          "trackingId": "startup_funding_quote"
+        },
+        "secondaryCta": {
+          "label": "Funding for Any Reason",
+          "href": "https://tally.so/r/w4R2Ad",
+          "trackingId": "startup_funding_any_reason"
+        }
+      },
+      "pageIntent": [
+        "education",
+        "lead_capture",
+        "funding_routing",
+        "seo"
+      ],
+      "audiences": [
+        "startup_founders",
+        "business_owners"
+      ],
+      "sections": [
+        {
+          "id": "products",
+          "type": "product-grid",
+          "title": "Startup Funding Options",
+          "source": "funding-products",
+          "filters": {
+            "productFamily": [
+              "startup-credit-leverage"
+            ]
+          }
+        },
+        {
+          "id": "qualification-bands",
+          "type": "qualification-band-table",
+          "title": "Qualification Bands",
+          "source": "funding-product-families",
+          "itemIds": [
+            "startup-credit-leverage"
+          ]
+        },
+        {
+          "id": "funding-tools",
+          "type": "tool-grid",
+          "title": "Tools",
+          "source": "tool-registry",
+          "filters": {
+            "tags": [
+              "funding",
+              "startup",
+              "credit",
+              "prequal"
+            ]
+          }
+        },
+        {
+          "id": "related-lanes",
+          "type": "product-family-grid",
+          "title": "Other Funding Lanes",
+          "source": "funding-product-families",
+          "itemIds": [
+            "working-capital",
+            "business-line-access",
+            "structured-growth-loans",
+            "equipment-finance",
+            "real-estate-capital",
+            "marketplace-capital"
+          ]
+        },
+        {
+          "id": "application-cta",
+          "type": "form-embed",
+          "title": "Check Your Options",
+          "formId": "mDEJB5"
+        }
+      ],
+      "dataRefs": {
+        "productFamilyIds": [
+          "startup-credit-leverage"
+        ],
+        "featuredProductIds": [],
+        "featuredProviderIds": [],
+        "featuredToolIds": [],
+        "featuredGptIds": [
+          "funding-pathfinder",
+          "get-my-funding-offer"
+        ],
+        "formIds": [
+          "w4R2Ad",
+          "mDEJB5"
+        ]
+      },
+      "filters": {
+        "enabled": true,
+        "fields": [
+          "productFamily",
+          "fundingType",
+          "creditTier",
+          "timeToFunding",
+          "minCreditScore",
+          "minMonthlyRevenue",
+          "minTimeInBusinessMonths",
+          "industryFit",
+          "useCase"
+        ]
+      },
+      "compliance": {
+        "reviewStatus": "needs_review",
+        "disclaimer": "Funding availability, terms, speed, and eligibility vary by provider, applicant profile, documentation, and underwriting review. No approval or funding outcome is guaranteed.",
+        "forbiddenClaims": [
+          "guaranteed approval",
+          "guaranteed funding",
+          "no documentation required",
+          "instant approval for all applicants"
+        ]
+      }
+    },
+    {
+      "id": "equipment-financing",
+      "slug": "equipment-financing",
+      "route": "/funding/equipment-financing",
+      "parent": "funding",
+      "template": "funding-lane",
+      "status": "draft",
+      "visibility": "public",
+      "nav": {
+        "label": "Equipment Financing",
+        "group": "funding",
+        "order": 24,
+        "showInHeader": false,
+        "showInFooter": true
+      },
+      "seo": {
+        "title": "Equipment Financing | Moonshine Capital",
+        "description": "Compare equipment loans and leases by term, down payment, credit tier, and time to funding.",
+        "canonical": "/funding/equipment-financing",
+        "ogTitle": "Equipment Financing",
+        "ogDescription": "Compare equipment loans and leases by term, down payment, credit tier, and time to funding.",
+        "ogImage": "/images/og/equipment-financing.png",
+        "schemaType": "CollectionPage"
+      },
+      "hero": {
+        "eyebrow": "Moonshine Capital Funding Paths",
+        "headline": "Finance the equipment, keep the cash.",
+        "subheadline": "Loans and leases secured by the equipment you need to operate and grow.",
+        "primaryCta": {
+          "label": "Get a Funding Quote",
+          "href": "https://tally.so/r/mDEJB5",
+          "trackingId": "equipment_financing_quote"
+        },
+        "secondaryCta": {
+          "label": "Funding for Any Reason",
+          "href": "https://tally.so/r/w4R2Ad",
+          "trackingId": "equipment_financing_any_reason"
+        }
+      },
+      "pageIntent": [
+        "education",
+        "lead_capture",
+        "funding_routing",
+        "seo"
+      ],
+      "audiences": [
+        "business_owners",
+        "brokers"
+      ],
+      "sections": [
+        {
+          "id": "products",
+          "type": "product-grid",
+          "title": "Equipment Financing Options",
+          "source": "funding-products",
+          "filters": {
+            "productFamily": [
+              "equipment-finance"
+            ]
+          }
+        },
+        {
+          "id": "qualification-bands",
+          "type": "qualification-band-table",
+          "title": "Qualification Bands",
+          "source": "funding-product-families",
+          "itemIds": [
+            "equipment-finance"
+          ]
+        },
+        {
+          "id": "funding-tools",
+          "type": "tool-grid",
+          "title": "Tools",
+          "source": "tool-registry",
+          "filters": {
+            "tags": [
+              "funding",
+              "equipment",
+              "calculator",
+              "prequal"
+            ]
+          }
+        },
+        {
+          "id": "related-lanes",
+          "type": "product-family-grid",
+          "title": "Other Funding Lanes",
+          "source": "funding-product-families",
+          "itemIds": [
+            "startup-credit-leverage",
+            "working-capital",
+            "business-line-access",
+            "structured-growth-loans",
+            "real-estate-capital",
+            "marketplace-capital"
+          ]
+        },
+        {
+          "id": "application-cta",
+          "type": "form-embed",
+          "title": "Check Your Options",
+          "formId": "mDEJB5"
+        }
+      ],
+      "dataRefs": {
+        "productFamilyIds": [
+          "equipment-finance"
+        ],
+        "featuredProductIds": [],
+        "featuredProviderIds": [],
+        "featuredToolIds": [],
+        "featuredGptIds": [
+          "funding-pathfinder",
+          "get-my-funding-offer"
+        ],
+        "formIds": [
+          "w4R2Ad",
+          "mDEJB5"
+        ]
+      },
+      "filters": {
+        "enabled": true,
+        "fields": [
+          "productFamily",
+          "fundingType",
+          "creditTier",
+          "timeToFunding",
+          "minCreditScore",
+          "minMonthlyRevenue",
+          "minTimeInBusinessMonths",
+          "industryFit",
+          "useCase"
+        ]
+      },
+      "compliance": {
+        "reviewStatus": "needs_review",
+        "disclaimer": "Funding availability, terms, speed, and eligibility vary by provider, applicant profile, documentation, and underwriting review. No approval or funding outcome is guaranteed.",
+        "forbiddenClaims": [
+          "guaranteed approval",
+          "guaranteed funding",
+          "no documentation required",
+          "instant approval for all applicants"
+        ]
+      }
+    },
+    {
+      "id": "real-estate-capital",
+      "slug": "real-estate-capital",
+      "route": "/funding/real-estate-capital",
+      "parent": "funding",
+      "template": "funding-lane",
+      "status": "draft",
+      "visibility": "public",
+      "nav": {
+        "label": "Real Estate Capital",
+        "group": "funding",
+        "order": 25,
+        "showInHeader": false,
+        "showInFooter": true
+      },
+      "seo": {
+        "title": "Real Estate Capital | Moonshine Capital",
+        "description": "Real estate funding including bridge, fix-and-flip, and commercial capital by LTV, exit, and profile.",
+        "canonical": "/funding/real-estate-capital",
+        "ogTitle": "Real Estate Capital",
+        "ogDescription": "Real estate funding including bridge, fix-and-flip, and commercial capital by LTV, exit, and profile.",
+        "ogImage": "/images/og/real-estate-capital.png",
+        "schemaType": "CollectionPage"
+      },
+      "hero": {
+        "eyebrow": "Moonshine Capital Funding Paths",
+        "headline": "Capital for the deal, the build, and the hold.",
+        "subheadline": "Bridge, fix-and-flip, and commercial real estate capital matched to the project and exit.",
+        "primaryCta": {
+          "label": "Get a Funding Quote",
+          "href": "https://tally.so/r/mDEJB5",
+          "trackingId": "real_estate_capital_quote"
+        },
+        "secondaryCta": {
+          "label": "Funding for Any Reason",
+          "href": "https://tally.so/r/w4R2Ad",
+          "trackingId": "real_estate_capital_any_reason"
+        }
+      },
+      "pageIntent": [
+        "education",
+        "lead_capture",
+        "funding_routing",
+        "seo"
+      ],
+      "audiences": [
+        "real_estate_investors",
+        "business_owners"
+      ],
+      "sections": [
+        {
+          "id": "products",
+          "type": "product-grid",
+          "title": "Real Estate Capital Options",
+          "source": "funding-products",
+          "filters": {
+            "productFamily": [
+              "real-estate-capital"
+            ]
+          }
+        },
+        {
+          "id": "qualification-bands",
+          "type": "qualification-band-table",
+          "title": "Qualification Bands",
+          "source": "funding-product-families",
+          "itemIds": [
+            "real-estate-capital"
+          ]
+        },
+        {
+          "id": "funding-tools",
+          "type": "tool-grid",
+          "title": "Tools",
+          "source": "tool-registry",
+          "filters": {
+            "tags": [
+              "funding",
+              "real-estate",
+              "calculator",
+              "prequal"
+            ]
+          }
+        },
+        {
+          "id": "related-lanes",
+          "type": "product-family-grid",
+          "title": "Other Funding Lanes",
+          "source": "funding-product-families",
+          "itemIds": [
+            "startup-credit-leverage",
+            "working-capital",
+            "business-line-access",
+            "structured-growth-loans",
+            "equipment-finance",
+            "marketplace-capital"
+          ]
+        },
+        {
+          "id": "application-cta",
+          "type": "form-embed",
+          "title": "Check Your Options",
+          "formId": "mDEJB5"
+        }
+      ],
+      "dataRefs": {
+        "productFamilyIds": [
+          "real-estate-capital"
+        ],
+        "featuredProductIds": [],
+        "featuredProviderIds": [],
+        "featuredToolIds": [],
+        "featuredGptIds": [
+          "funding-pathfinder",
+          "get-my-funding-offer"
+        ],
+        "formIds": [
+          "w4R2Ad",
+          "mDEJB5"
+        ]
+      },
+      "filters": {
+        "enabled": true,
+        "fields": [
+          "productFamily",
+          "fundingType",
+          "creditTier",
+          "timeToFunding",
+          "minCreditScore",
+          "minMonthlyRevenue",
+          "minTimeInBusinessMonths",
+          "industryFit",
+          "useCase"
+        ]
+      },
+      "compliance": {
+        "reviewStatus": "needs_review",
+        "disclaimer": "Funding availability, terms, speed, and eligibility vary by provider, applicant profile, documentation, and underwriting review. No approval or funding outcome is guaranteed.",
+        "forbiddenClaims": [
+          "guaranteed approval",
+          "guaranteed funding",
+          "no documentation required",
+          "instant approval for all applicants"
+        ]
+      }
+    },
+    {
+      "id": "ecommerce-seller-funding",
+      "slug": "ecommerce-seller-funding",
+      "route": "/funding/ecommerce-seller-funding",
+      "parent": "funding",
+      "template": "funding-lane",
+      "status": "draft",
+      "visibility": "public",
+      "nav": {
+        "label": "Ecommerce & Seller Funding",
+        "group": "funding",
+        "order": 26,
+        "showInHeader": false,
+        "showInFooter": true
+      },
+      "seo": {
+        "title": "Ecommerce & Marketplace Seller Funding | Moonshine Capital",
+        "description": "Funding for Amazon, Shopify, and marketplace sellers based on payouts, revenue, and inventory cycles.",
+        "canonical": "/funding/ecommerce-seller-funding",
+        "ogTitle": "Ecommerce & Seller Funding",
+        "ogDescription": "Funding for Amazon, Shopify, and marketplace sellers based on payouts, revenue, and inventory cycles.",
+        "ogImage": "/images/og/ecommerce-seller-funding.png",
+        "schemaType": "CollectionPage"
+      },
+      "hero": {
+        "eyebrow": "Moonshine Capital Funding Paths",
+        "headline": "Funding built for marketplace cash flow.",
+        "subheadline": "Capital matched to payout cycles, ad spend, and inventory for ecommerce and marketplace sellers.",
+        "primaryCta": {
+          "label": "Get a Funding Quote",
+          "href": "https://tally.so/r/mDEJB5",
+          "trackingId": "ecommerce_seller_funding_quote"
+        },
+        "secondaryCta": {
+          "label": "Funding for Any Reason",
+          "href": "https://tally.so/r/w4R2Ad",
+          "trackingId": "ecommerce_seller_funding_any_reason"
+        }
+      },
+      "pageIntent": [
+        "education",
+        "lead_capture",
+        "funding_routing",
+        "seo"
+      ],
+      "audiences": [
+        "ecommerce_sellers",
+        "business_owners"
+      ],
+      "sections": [
+        {
+          "id": "products",
+          "type": "product-grid",
+          "title": "Ecommerce & Seller Funding Options",
+          "source": "funding-products",
+          "filters": {
+            "productFamily": [
+              "marketplace-capital"
+            ]
+          }
+        },
+        {
+          "id": "qualification-bands",
+          "type": "qualification-band-table",
+          "title": "Qualification Bands",
+          "source": "funding-product-families",
+          "itemIds": [
+            "marketplace-capital"
+          ]
+        },
+        {
+          "id": "funding-tools",
+          "type": "tool-grid",
+          "title": "Tools",
+          "source": "tool-registry",
+          "filters": {
+            "tags": [
+              "funding",
+              "ecommerce",
+              "marketplace",
+              "prequal"
+            ]
+          }
+        },
+        {
+          "id": "related-lanes",
+          "type": "product-family-grid",
+          "title": "Other Funding Lanes",
+          "source": "funding-product-families",
+          "itemIds": [
+            "startup-credit-leverage",
+            "working-capital",
+            "business-line-access",
+            "structured-growth-loans",
+            "equipment-finance",
+            "real-estate-capital"
+          ]
+        },
+        {
+          "id": "application-cta",
+          "type": "form-embed",
+          "title": "Check Your Options",
+          "formId": "mDEJB5"
+        }
+      ],
+      "dataRefs": {
+        "productFamilyIds": [
+          "marketplace-capital"
+        ],
+        "featuredProductIds": [],
+        "featuredProviderIds": [],
+        "featuredToolIds": [],
+        "featuredGptIds": [
+          "funding-pathfinder",
+          "get-my-funding-offer"
+        ],
+        "formIds": [
+          "w4R2Ad",
+          "mDEJB5"
+        ]
+      },
+      "filters": {
+        "enabled": true,
+        "fields": [
+          "productFamily",
+          "fundingType",
+          "creditTier",
+          "timeToFunding",
+          "minCreditScore",
+          "minMonthlyRevenue",
+          "minTimeInBusinessMonths",
+          "industryFit",
+          "useCase"
+        ]
+      },
+      "compliance": {
+        "reviewStatus": "needs_review",
+        "disclaimer": "Funding availability, terms, speed, and eligibility vary by provider, applicant profile, documentation, and underwriting review. No approval or funding outcome is guaranteed.",
+        "forbiddenClaims": [
+          "guaranteed approval",
+          "guaranteed funding",
+          "no documentation required",
+          "instant approval for all applicants"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,1757 @@
+{
+  "id": "funding-providers",
+  "name": "Funding Providers",
+  "version": "0.2.0",
+  "visibility": "internal",
+  "generatedFrom": "Funding Partners Database (Active partners)",
+  "generatedAt": "2026-06-26",
+  "entries": [
+    {
+      "id": "7-figures-funding",
+      "slug": "7-figures-funding",
+      "name": "7 Figures Funding",
+      "categories": [
+        "Personal",
+        "Business"
+      ],
+      "productFamilyIds": [
+        "business-line-access",
+        "structured-growth-loans",
+        "working-capital"
+      ],
+      "financingProducts": [
+        "Term Loan",
+        "Line of Credit",
+        "Revenue-Based Financing (RBF)",
+        "Merchant Cash Advance (MCA)"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Startups",
+        "Entrepreneurs"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "680+ credit score, U.S. citizen, no recent bankruptcies",
+      "eligibility": {
+        "minCreditScore": 680,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": "Soft PG",
+        "disqualifiers": null,
+        "requirementsNote": "680+ credit score, U.S. citizen, no recent bankruptcies"
+      },
+      "terms": {
+        "fundingAmountText": null
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "Direct"
+        ],
+        "affiliateUrl": "https://www.7figurescredit.com?a_aid=MoonshineCapital",
+        "applyUrl": "https://portal.7figurespartners.com/affiliates/panel.php#Home",
+        "commissionRate": "Varies; typically 2-3%",
+        "contactEmail": "partners@7figures.com",
+        "keyContact": null,
+        "website": "https://www.7figuresfunding.com/"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1c54bc1bd63c809984b5c8dc573aa6b2",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "8fig",
+      "slug": "8fig",
+      "name": "8fig",
+      "categories": [
+        "Business"
+      ],
+      "productFamilyIds": [
+        "marketplace-capital",
+        "working-capital"
+      ],
+      "financingProducts": [
+        "Revenue-Based Financing (RBF)"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "E-commerce",
+        "Amazon Sellers",
+        "Walmart Sellers",
+        "Shopify Sellers"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "E-commerce businesses with consistent sales history, seeking growth capital",
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": 12000,
+        "minTimeInBusinessMonths": 6
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": "E-commerce businesses with consistent sales history, seeking growth capital"
+      },
+      "terms": {
+        "fundingAmountText": "$10,000,000"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "PartnerStack"
+        ],
+        "affiliateUrl": null,
+        "applyUrl": null,
+        "commissionRate": "10%",
+        "contactEmail": null,
+        "keyContact": "Contact via partner portal",
+        "website": "https://8fig.co/"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1c54bc1bd63c80358660edcb75f4a3de",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "bank-breezy",
+      "slug": "bank-breezy",
+      "name": "Bank Breezy",
+      "categories": [
+        "Business"
+      ],
+      "productFamilyIds": [
+        "business-line-access",
+        "structured-growth-loans",
+        "working-capital"
+      ],
+      "financingProducts": [
+        "Working Capital (General)",
+        "Line of Credit",
+        "Term Loan",
+        "Revenue-Based Financing (RBF)",
+        "Merchant Cash Advance (MCA)"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Construction",
+        "Healthcare",
+        "Restaurants",
+        "Contractors",
+        "HVAC",
+        "Gig Workers",
+        "Self-Employed",
+        "Freelancers"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": null,
+      "eligibility": {
+        "minCreditScore": 500,
+        "minMonthlyRevenue": 3000,
+        "minTimeInBusinessMonths": 3
+      },
+      "requirements": {
+        "pgType": "Soft PG",
+        "disqualifiers": null,
+        "requirementsNote": null
+      },
+      "terms": {
+        "fundingAmountText": "up to $2,000,000"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "Direct"
+        ],
+        "affiliateUrl": "https://bankbreezy.com/jason/",
+        "applyUrl": "https://bankbreezy.com/funding/jason/",
+        "commissionRate": "2-8%",
+        "contactEmail": null,
+        "keyContact": null,
+        "website": "https://bankbreezy.com/"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/2e34bc1bd63c80ef8afad1d34a091033",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "business-credit-workshop",
+      "slug": "business-credit-workshop",
+      "name": "Business Credit Workshop",
+      "categories": [
+        "Personal",
+        "Consulting"
+      ],
+      "productFamilyIds": [],
+      "financingProducts": [
+        "Business Credit Cards / 0% Stacking",
+        "Line of Credit"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": null,
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": null
+      },
+      "terms": {
+        "fundingAmountText": null
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [],
+        "affiliateUrl": null,
+        "applyUrl": null,
+        "commissionRate": null,
+        "contactEmail": null,
+        "keyContact": null,
+        "website": null
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1ed4bc1bd63c8085bb9ccfdaac089d57",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "capchase",
+      "slug": "capchase",
+      "name": "Capchase",
+      "categories": [
+        "Business"
+      ],
+      "productFamilyIds": [
+        "working-capital"
+      ],
+      "financingProducts": [
+        "Revenue-Based Financing (RBF)"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Startups",
+        "Entrepreneurs",
+        "Small Business"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "Recurring-revenue business. Eligibility based on MRR/ARR and cohort metrics. No personal guarantee or collateral.",
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": "Recurring-revenue business. Eligibility based on MRR/ARR and cohort metrics. No personal guarantee or collateral."
+      },
+      "terms": {
+        "fundingAmountText": null
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [],
+        "affiliateUrl": "https://capchase.com/referrals?referralId=395c26d9",
+        "applyUrl": "https://capchase.com/referrals?referralId=395c26d9",
+        "commissionRate": null,
+        "contactEmail": null,
+        "keyContact": null,
+        "website": "https://capchase.com/"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1ed4bc1bd63c8033a9b4ceefd73bdda5",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "credibly",
+      "slug": "credibly",
+      "name": "Credibly",
+      "categories": [
+        "Business"
+      ],
+      "productFamilyIds": [
+        "business-line-access",
+        "equipment-finance",
+        "working-capital"
+      ],
+      "financingProducts": [
+        "Line of Credit",
+        "Working Capital (General)",
+        "Equipment Financing"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Small Business",
+        "Healthcare",
+        "Retail"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "6+ months in business, $15k/month revenue, 500+ credit score",
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": "6+ months in business, $15k/month revenue, 500+ credit score"
+      },
+      "terms": {
+        "fundingAmountText": "$5k-$600k"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [],
+        "affiliateUrl": null,
+        "applyUrl": null,
+        "commissionRate": "Varies; typically 1-3%",
+        "contactEmail": null,
+        "keyContact": "Contact via partner portal",
+        "website": null
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1c54bc1bd63c8082acf9df9478b17849",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "credit-suite",
+      "slug": "credit-suite",
+      "name": "Credit Suite",
+      "categories": [
+        "Personal",
+        "Consulting",
+        "Business"
+      ],
+      "productFamilyIds": [],
+      "financingProducts": [],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Small Business"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "Business owners seeking to build business credit profiles",
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": "Business owners seeking to build business credit profiles"
+      },
+      "terms": {
+        "fundingAmountText": null
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "Direct"
+        ],
+        "affiliateUrl": null,
+        "applyUrl": null,
+        "commissionRate": "Varies; typically a flat fee per referral",
+        "contactEmail": null,
+        "keyContact": "Contact via partner portal",
+        "website": "https://creditsuite.com/"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1c54bc1bd63c80269e58ca4525cf3cbf",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "david-allen-capital",
+      "slug": "david-allen-capital",
+      "name": "David Allen Capital",
+      "categories": [
+        "Business"
+      ],
+      "productFamilyIds": [
+        "business-line-access",
+        "working-capital"
+      ],
+      "financingProducts": [
+        "Revenue-Based Financing (RBF)",
+        "Merchant Cash Advance (MCA)",
+        "Line of Credit",
+        "Instant Micro Funding"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Construction",
+        "Contractors",
+        "HVAC",
+        "Restaurants",
+        "Healthcare",
+        "Gig Workers",
+        "Self-Employed",
+        "Freelancers"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "Minimum 3 months in business, $3k/month revenue, 500+ credit score",
+      "eligibility": {
+        "minCreditScore": 500,
+        "minMonthlyRevenue": 3000,
+        "minTimeInBusinessMonths": 3
+      },
+      "requirements": {
+        "pgType": "Soft PG",
+        "disqualifiers": null,
+        "requirementsNote": "Minimum 3 months in business, $3k/month revenue, 500+ credit score"
+      },
+      "terms": {
+        "fundingAmountText": "$10k-$2m"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "Direct"
+        ],
+        "affiliateUrl": "https://davidallencapital.com/jason/",
+        "applyUrl": null,
+        "commissionRate": "Varies; typically 2-8% of funded amount",
+        "contactEmail": "support@davidallencapital.com",
+        "keyContact": "support@davidallencapital.com",
+        "website": "https://davidallencapital.com"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1c54bc1bd63c80369ef1fbeeab04f27b",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "dlp-capital",
+      "slug": "dlp-capital",
+      "name": "DLP Capital",
+      "categories": [
+        "Real Estate"
+      ],
+      "productFamilyIds": [
+        "real-estate-capital"
+      ],
+      "financingProducts": [
+        "Commercial Real Estate Loan",
+        "Working Capital (General)"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": null,
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": null
+      },
+      "terms": {
+        "fundingAmountText": null
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "Impact"
+        ],
+        "affiliateUrl": null,
+        "applyUrl": null,
+        "commissionRate": "Lead Converted to Contact: $250.00",
+        "contactEmail": null,
+        "keyContact": null,
+        "website": null
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1ed4bc1bd63c80e59381d43190a92e17",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "equitynet",
+      "slug": "equitynet",
+      "name": "EquityNet",
+      "categories": [
+        "Marketplace"
+      ],
+      "productFamilyIds": [
+        "startup-credit-leverage"
+      ],
+      "financingProducts": [
+        "Startup / Venture Debt"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": null,
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": null
+      },
+      "terms": {
+        "fundingAmountText": null
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [],
+        "affiliateUrl": "https://equitynetinc.sjv.io/Kj1aOv",
+        "applyUrl": "https://equitynetinc.sjv.io/Kj1aOv",
+        "commissionRate": null,
+        "contactEmail": null,
+        "keyContact": null,
+        "website": null
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1c54bc1bd63c80f7911cd3444f7c4a07",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "finta-io",
+      "slug": "finta-io",
+      "name": "Finta.io",
+      "categories": [
+        "Software"
+      ],
+      "productFamilyIds": [],
+      "financingProducts": [
+        "Funding-as-a-Service Platform"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": null,
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": null
+      },
+      "terms": {
+        "fundingAmountText": null
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [],
+        "affiliateUrl": null,
+        "applyUrl": "https://partners.dub.co/programs",
+        "commissionRate": "10%",
+        "contactEmail": null,
+        "keyContact": null,
+        "website": null
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/2324bc1bd63c80c2a530f30186694a83",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": [
+          "affiliate link present in CRM but not a clean URL; reconfirm"
+        ]
+      }
+    },
+    {
+      "id": "fora-financial",
+      "slug": "fora-financial",
+      "name": "Fora Financial",
+      "categories": [
+        "Business"
+      ],
+      "productFamilyIds": [
+        "structured-growth-loans",
+        "working-capital"
+      ],
+      "financingProducts": [
+        "Working Capital (General)",
+        "Term Loan"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Small Business",
+        "Retail",
+        "Restaurants"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "6+ months in business, $12k/month revenue, 500+ credit score",
+      "eligibility": {
+        "minCreditScore": 570,
+        "minMonthlyRevenue": 12000,
+        "minTimeInBusinessMonths": 4
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": "6+ months in business, $12k/month revenue, 500+ credit score"
+      },
+      "terms": {
+        "fundingAmountText": "$5k-$500k"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "Impact",
+          "Flex Offers"
+        ],
+        "affiliateUrl": "https://forafinancial.pxf.io/c/2229127/2015280/24953",
+        "applyUrl": "https://forafinancial.pxf.io/gOWX1v",
+        "commissionRate": "Funded: 4%",
+        "contactEmail": "sales@forafinancial.com",
+        "keyContact": null,
+        "website": "https://www.forafinancial.com/"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1c54bc1bd63c804e9135c30d904e8c6b",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "fundandgrow",
+      "slug": "fundandgrow",
+      "name": "Fund&Grow",
+      "categories": [
+        "Personal",
+        "Business",
+        "Consulting"
+      ],
+      "productFamilyIds": [
+        "working-capital"
+      ],
+      "financingProducts": [
+        "Working Capital (General)"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Small Business",
+        "Startups"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "700+ credit score, U.S. citizen, no recent bankruptcies",
+      "eligibility": {
+        "minCreditScore": 700,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": "700+ credit score, U.S. citizen, no recent bankruptcies"
+      },
+      "terms": {
+        "fundingAmountText": "up to $250,000"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "Direct"
+        ],
+        "affiliateUrl": "https://www.fundandgrow.com/jasonfeimster/",
+        "applyUrl": null,
+        "commissionRate": "Varies; typically a flat fee per client",
+        "contactEmail": null,
+        "keyContact": null,
+        "website": "https://www.fundandgrow.com/"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1c54bc1bd63c80878a7ccc3fea92f458",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "gator-lending",
+      "slug": "gator-lending",
+      "name": "Gator Lending",
+      "categories": [
+        "Real Estate"
+      ],
+      "productFamilyIds": [
+        "real-estate-capital"
+      ],
+      "financingProducts": [
+        "Commercial Real Estate Loan",
+        "Real Estate Bridge Loan",
+        "Fix & Flip Loan",
+        "DSCR Loan"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Real Estate"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": null,
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": null
+      },
+      "terms": {
+        "fundingAmountText": null
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "Impact"
+        ],
+        "affiliateUrl": null,
+        "applyUrl": null,
+        "commissionRate": null,
+        "contactEmail": null,
+        "keyContact": null,
+        "website": null
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/25b4bc1bd63c8035ae57ce72991ce002",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "gokapital",
+      "slug": "gokapital",
+      "name": "GoKapital",
+      "categories": [
+        "Personal",
+        "Business",
+        "Real Estate"
+      ],
+      "productFamilyIds": [
+        "business-line-access",
+        "equipment-finance",
+        "real-estate-capital",
+        "startup-credit-leverage",
+        "structured-growth-loans",
+        "working-capital"
+      ],
+      "financingProducts": [
+        "Revenue-Based Financing (RBF)",
+        "Commercial Real Estate Loan",
+        "Line of Credit",
+        "Term Loan",
+        "SBA 7(a)",
+        "Equipment Financing",
+        "Working Capital (General)",
+        "Startup / Venture Debt"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Real Estate",
+        "Healthcare",
+        "Retail"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "1+ year in business, $30k/month revenue, 600+ credit score",
+      "eligibility": {
+        "minCreditScore": 600,
+        "minMonthlyRevenue": 3000,
+        "minTimeInBusinessMonths": 6
+      },
+      "requirements": {
+        "pgType": "Soft PG",
+        "disqualifiers": null,
+        "requirementsNote": "1+ year in business, $30k/month revenue, 600+ credit score"
+      },
+      "terms": {
+        "fundingAmountText": "up to $5,000,000"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [],
+        "affiliateUrl": null,
+        "applyUrl": "https://www.cognitoforms.com/GoKapitalInc/businessloanapplication",
+        "commissionRate": "Varies; typically 1-3%",
+        "contactEmail": null,
+        "keyContact": null,
+        "website": "https://gokapital.com"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1c54bc1bd63c80bba589c7cc4a13bdfe",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "guidant",
+      "slug": "guidant",
+      "name": "Guidant",
+      "categories": [
+        "Business"
+      ],
+      "productFamilyIds": [
+        "equipment-finance"
+      ],
+      "financingProducts": [
+        "Equipment Financing"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Franchises",
+        "Startups",
+        "Small Business"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "Clients interested in using retirement funds for business startup or expansion",
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": "Clients interested in using retirement funds for business startup or expansion"
+      },
+      "terms": {
+        "fundingAmountText": "$50k-$5M"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [],
+        "affiliateUrl": "https://www.gfprequal.com/mc",
+        "applyUrl": null,
+        "commissionRate": "Varies; typically a flat fee per referral",
+        "contactEmail": null,
+        "keyContact": "Contact via partner portal",
+        "website": null
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1c54bc1bd63c805d9ad3eef3691c79a8",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "kiava",
+      "slug": "kiava",
+      "name": "Kiava",
+      "categories": [
+        "Real Estate"
+      ],
+      "productFamilyIds": [
+        "real-estate-capital"
+      ],
+      "financingProducts": [],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": null,
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": null
+      },
+      "terms": {
+        "fundingAmountText": null
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "PartnerStack"
+        ],
+        "affiliateUrl": "https://try.kiavi.com/wc6dxe4vsra5",
+        "applyUrl": null,
+        "commissionRate": null,
+        "contactEmail": null,
+        "keyContact": null,
+        "website": null
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/3264bc1bd63c802d9a57de4411c0f976",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "new-silver",
+      "slug": "new-silver",
+      "name": "New Silver",
+      "categories": [
+        "Real Estate"
+      ],
+      "productFamilyIds": [
+        "real-estate-capital"
+      ],
+      "financingProducts": [
+        "Ground-Up Construction Loan",
+        "Commercial Real Estate Loan"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Real Estate"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": null,
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": null
+      },
+      "terms": {
+        "fundingAmountText": null
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "Flex Offers"
+        ],
+        "affiliateUrl": "https://fxo.co/ItIN",
+        "applyUrl": null,
+        "commissionRate": "$50 per completed loan application; $750 per qualified sale",
+        "contactEmail": null,
+        "keyContact": null,
+        "website": "https://newsilver.com/"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/25b4bc1bd63c80509586eea6588c5a72",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "onramp",
+      "slug": "onramp",
+      "name": "Onramp",
+      "categories": [
+        "Business"
+      ],
+      "productFamilyIds": [
+        "marketplace-capital",
+        "working-capital"
+      ],
+      "financingProducts": [
+        "Revenue-Based Financing (RBF)"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "E-commerce",
+        "Amazon Sellers",
+        "Shopify Sellers",
+        "Walmart Sellers"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "E-commerce businesses with stable revenue, seeking inventory or marketing funding",
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": 3000,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": "E-commerce businesses with stable revenue, seeking inventory or marketing funding"
+      },
+      "terms": {
+        "fundingAmountText": "up to $2M"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "PartnerStack"
+        ],
+        "affiliateUrl": null,
+        "applyUrl": null,
+        "commissionRate": "Typically 1-3%",
+        "contactEmail": null,
+        "keyContact": null,
+        "website": "https://www.onrampfunds.com/"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1c54bc1bd63c80caa1e6f6ee21169fbc",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "opm-mastery",
+      "slug": "opm-mastery",
+      "name": "OPM Mastery",
+      "categories": [
+        "Personal",
+        "Business"
+      ],
+      "productFamilyIds": [
+        "startup-credit-leverage"
+      ],
+      "financingProducts": [
+        "Business Credit Cards / 0% Stacking"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Small Business",
+        "Entrepreneurs",
+        "Startups",
+        "Real Estate"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "For larger approvals: 700+ personal credit, $50k+ monthly business revenue, and 2+ years in business.",
+      "eligibility": {
+        "minCreditScore": 700,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": 24
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": "For larger approvals: 700+ personal credit, $50k+ monthly business revenue, and 2+ years in business."
+      },
+      "terms": {
+        "fundingAmountText": "$50,000 to $2,000,000"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "Direct"
+        ],
+        "affiliateUrl": "https://opmmastery.referralrock.com/v2/1",
+        "applyUrl": "https://opmmastery.referralrock.com/l/JASONFEIMS03/",
+        "commissionRate": null,
+        "contactEmail": null,
+        "keyContact": null,
+        "website": "https://opmmastery.com"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/22d4bc1bd63c80f8b5fbe8c6d6b691fc",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "payability",
+      "slug": "payability",
+      "name": "Payability",
+      "categories": [
+        "Business"
+      ],
+      "productFamilyIds": [
+        "marketplace-capital",
+        "working-capital"
+      ],
+      "financingProducts": [
+        "Revenue-Based Financing (RBF)",
+        "Working Capital (General)"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "E-commerce",
+        "Amazon Sellers",
+        "Walmart Sellers"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "At least 3 months of selling history and monthly sales of $10,000.",
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": 10000,
+        "minTimeInBusinessMonths": 3
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": "At least 3 months of selling history and monthly sales of $10,000."
+      },
+      "terms": {
+        "fundingAmountText": "Up to $250,000"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "Tapfiliate"
+        ],
+        "affiliateUrl": "https://fas.st/t/P7LZc7v7",
+        "applyUrl": "https://payability.tapfiliate.com/p/new/dashboard/",
+        "commissionRate": null,
+        "contactEmail": "partners@payability",
+        "keyContact": null,
+        "website": "https://payability.com"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/2394bc1bd63c8090aa17f903852220da",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "ramp",
+      "slug": "ramp",
+      "name": "Ramp",
+      "categories": [
+        "Business",
+        "Software"
+      ],
+      "productFamilyIds": [
+        "startup-credit-leverage"
+      ],
+      "financingProducts": [
+        "Business Credit Cards / 0% Stacking"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": null,
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": null
+      },
+      "terms": {
+        "fundingAmountText": null
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [],
+        "affiliateUrl": "https://api.fintelconnect.com/t/l/645b368ec92e38001ba614ac",
+        "applyUrl": null,
+        "commissionRate": null,
+        "contactEmail": null,
+        "keyContact": null,
+        "website": null
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/37e8bd3a4fd44987adddf592833c800e",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "rok-financial",
+      "slug": "rok-financial",
+      "name": "ROK Financial",
+      "categories": [
+        "Personal",
+        "Business",
+        "Real Estate"
+      ],
+      "productFamilyIds": [
+        "real-estate-capital",
+        "structured-growth-loans",
+        "working-capital"
+      ],
+      "financingProducts": [
+        "Working Capital (General)",
+        "Term Loan"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Small Business",
+        "Healthcare",
+        "Construction"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "2+ years in business, $15k/month revenue, 600+ credit score",
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": "2+ years in business, $15k/month revenue, 600+ credit score"
+      },
+      "terms": {
+        "fundingAmountText": "$20k-$5M"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [],
+        "affiliateUrl": "https://go.mypartner.io/business-financing/?ref=0014x00000H3JAsAAN",
+        "applyUrl": "https://rok.my.site.com/MyPartner/s/",
+        "commissionRate": "Varies; typically 1-3%",
+        "contactEmail": "ckelleher@rok.biz | Partners@Rok.biz",
+        "keyContact": "Christian Kelleher",
+        "website": "https://www.rok.biz/"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1c54bc1bd63c80598b49df8944065ac6",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "sellersfi",
+      "slug": "sellersfi",
+      "name": "SellersFi",
+      "categories": [
+        "Business"
+      ],
+      "productFamilyIds": [
+        "marketplace-capital",
+        "working-capital"
+      ],
+      "financingProducts": [
+        "Revenue-Based Financing (RBF)",
+        "Working Capital (General)"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "E-commerce"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "E-commerce businesses with significant sales volume, seeking working capital or expansion funding",
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": "E-commerce businesses with significant sales volume, seeking working capital or expansion funding"
+      },
+      "terms": {
+        "fundingAmountText": "$10k-$10M"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "PartnerStack"
+        ],
+        "affiliateUrl": null,
+        "applyUrl": null,
+        "commissionRate": "Varies; typically 1-3%",
+        "contactEmail": null,
+        "keyContact": null,
+        "website": null
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1c54bc1bd63c80728751f147b19f562a",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "stilt",
+      "slug": "stilt",
+      "name": "Stilt",
+      "categories": [
+        "Personal"
+      ],
+      "productFamilyIds": [],
+      "financingProducts": [
+        "Embedded Finance (API / White-label)"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "General Consumers"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "Personal loans for immigrants/underserved; cash-flow underwriting.",
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": "Not in eligible state; unwillingness to link bank account; collections or bankruptcies.",
+        "requirementsNote": "Personal loans for immigrants/underserved; cash-flow underwriting."
+      },
+      "terms": {
+        "fundingAmountText": "Up to $100,000"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "Flex Offers"
+        ],
+        "affiliateUrl": "https://fxo.co/IwSM",
+        "applyUrl": null,
+        "commissionRate": "0.8% on Approved Loan orders.",
+        "contactEmail": null,
+        "keyContact": null,
+        "website": null
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/2704bc1bd63c803eb35ac5e767d03ecb",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "subto",
+      "slug": "subto",
+      "name": "Subto",
+      "categories": [
+        "Real Estate"
+      ],
+      "productFamilyIds": [
+        "real-estate-capital"
+      ],
+      "financingProducts": [],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Real Estate"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": null,
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": null
+      },
+      "terms": {
+        "fundingAmountText": null
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "Impact"
+        ],
+        "affiliateUrl": null,
+        "applyUrl": null,
+        "commissionRate": null,
+        "contactEmail": null,
+        "keyContact": null,
+        "website": "https://www.subto.com/"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/2e34bc1bd63c80258a67d37345aa122c",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "the-finance-factory",
+      "slug": "the-finance-factory",
+      "name": "The Finance Factory",
+      "categories": [
+        "Personal",
+        "Business"
+      ],
+      "productFamilyIds": [
+        "business-line-access",
+        "equipment-finance",
+        "structured-growth-loans",
+        "working-capital"
+      ],
+      "financingProducts": [
+        "SBA 7(a)",
+        "Term Loan",
+        "Working Capital (General)",
+        "Revenue-Based Financing (RBF)",
+        "Equipment Financing",
+        "Line of Credit"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Small Business"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "600+ FICO, 3+ months in business, $10k+ monthly revenue, no open bankruptcies. Revenue-based option: min 500 FICO, 6+ months in business.",
+      "eligibility": {
+        "minCreditScore": 600,
+        "minMonthlyRevenue": 10000,
+        "minTimeInBusinessMonths": 3
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": "600+ FICO, 3+ months in business, $10k+ monthly revenue, no open bankruptcies. Revenue-based option: min 500 FICO, 6+ months in business."
+      },
+      "terms": {
+        "fundingAmountText": "up to $5M"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [],
+        "affiliateUrl": "https://lp.thefinancefactory.com/lp/r/6018",
+        "applyUrl": "https://lp.thefinancefactory.com/lp/r/6018",
+        "commissionRate": null,
+        "contactEmail": null,
+        "keyContact": null,
+        "website": null
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1ed4bc1bd63c806a83e2fa1ff2317756",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "uncapped",
+      "slug": "uncapped",
+      "name": "Uncapped",
+      "categories": [
+        "Business"
+      ],
+      "productFamilyIds": [
+        "business-line-access",
+        "structured-growth-loans",
+        "working-capital"
+      ],
+      "financingProducts": [
+        "Working Capital (General)",
+        "Line of Credit",
+        "Term Loan"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": null,
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": 100000,
+        "minTimeInBusinessMonths": 6
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": null
+      },
+      "terms": {
+        "fundingAmountText": "$100,000 to $10,000,000"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [],
+        "affiliateUrl": "https://portal.weareuncapped.com/registration?referral=moonshinecapital",
+        "applyUrl": "https://login.weareuncapped.com/login",
+        "commissionRate": null,
+        "contactEmail": null,
+        "keyContact": null,
+        "website": "https://weareuncapped.com"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/2f0852ec08c044818caf03394c199180",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "uplyft-capital",
+      "slug": "uplyft-capital",
+      "name": "Uplyft Capital",
+      "categories": [
+        "Business"
+      ],
+      "productFamilyIds": [
+        "structured-growth-loans",
+        "working-capital"
+      ],
+      "financingProducts": [
+        "Working Capital (General)",
+        "SBA 7(a)"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Small Business",
+        "Retail",
+        "Restaurants"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "6+ months in business, $10k/month revenue, 500+ credit score",
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": "6+ months in business, $10k/month revenue, 500+ credit score"
+      },
+      "terms": {
+        "fundingAmountText": "$5k-$500k"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "Flex Offers"
+        ],
+        "affiliateUrl": null,
+        "applyUrl": "https://uplyftcapital.com/",
+        "commissionRate": "Varies; typically 2-4%",
+        "contactEmail": null,
+        "keyContact": "Contact via partner portal",
+        "website": "https://uplyftcapital.com/"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1c54bc1bd63c80c08df8ed1b00bc0dad",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "upstart",
+      "slug": "upstart",
+      "name": "Upstart",
+      "categories": [
+        "Personal"
+      ],
+      "productFamilyIds": [],
+      "financingProducts": [
+        "Term Loan",
+        "Line of Credit",
+        "Business Credit Cards / 0% Stacking",
+        "Auto Loan",
+        "HELOC / Home Equity"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "General Consumers"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": "U.S. resident, age 18+, valid SSN, minimum annual income $12,000.",
+      "eligibility": {
+        "minCreditScore": 600,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": "Soft PG",
+        "disqualifiers": "Income below $12,000/year; not a U.S. resident; ineligible state; fails underwriting after hard pull.",
+        "requirementsNote": "U.S. resident, age 18+, valid SSN, minimum annual income $12,000."
+      },
+      "terms": {
+        "fundingAmountText": "$1k-$50k"
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "Impact"
+        ],
+        "affiliateUrl": "https://upstart.9c65.net/qnKBjj",
+        "applyUrl": null,
+        "commissionRate": "1.4% of funded loans.",
+        "contactEmail": null,
+        "keyContact": null,
+        "website": "https://www.upstart.com/"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1c54bc1bd63c805697ded07f815ddee1",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    },
+    {
+      "id": "visio-lending",
+      "slug": "visio-lending",
+      "name": "Visio Lending",
+      "categories": [
+        "Real Estate"
+      ],
+      "productFamilyIds": [
+        "real-estate-capital"
+      ],
+      "financingProducts": [
+        "DSCR Loan",
+        "Commercial Real Estate Loan",
+        "Asset-Based Lending (ABL)"
+      ],
+      "geographicCoverage": [
+        "US"
+      ],
+      "industryAppetite": [
+        "Real Estate"
+      ],
+      "restrictedIndustries": [],
+      "typicalBorrowerProfile": null,
+      "eligibility": {
+        "minCreditScore": null,
+        "minMonthlyRevenue": null,
+        "minTimeInBusinessMonths": null
+      },
+      "requirements": {
+        "pgType": null,
+        "disqualifiers": null,
+        "requirementsNote": null
+      },
+      "terms": {
+        "fundingAmountText": null
+      },
+      "affiliate": {
+        "affiliateStatus": "active",
+        "directory": [
+          "Impact"
+        ],
+        "affiliateUrl": null,
+        "applyUrl": null,
+        "commissionRate": "Qualified Lead: $50.00",
+        "contactEmail": "mark.gochenour@visiolending.com",
+        "keyContact": "Mark Gochenour",
+        "website": "https://visiolending.com/"
+      },
+      "source": {
+        "derivedFrom": "Funding Partners Database",
+        "notionUrl": "https://app.notion.com/p/1ea4bc1bd63c8004ae40e4ff07fb81f3",
+        "verificationStatus": "verified",
+        "lastVerified": "2026-06-26",
+        "notes": []
+      }
+    }
+  ]
+}
