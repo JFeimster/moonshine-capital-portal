@@ -1,6 +1,7 @@
 import { BrokerProfile } from './types';
+import { SITE_CONFIG } from './site-config';
 
-export const CAPITAL_BASE_URL = 'https://capital.distilledfunding.com';
+export const CAPITAL_BASE_URL = SITE_CONFIG.canonicalOrigin;
 export const PARTNER_LEAD_FORM_URL = 'https://tally.so/r/dWvEqN';
 
 export interface AttributionContext {
