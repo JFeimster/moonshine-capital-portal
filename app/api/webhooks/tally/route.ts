@@ -32,7 +32,9 @@ function agentJoinPayload(submission: ReturnType<typeof parseTallySubmission>) {
 
 function agentProfilePayload(submission: ReturnType<typeof parseTallySubmission>) {
   return {
-    partnerId: asString(submission.hidden.partner_id) || undefined,
+    // A hidden partner_id is useful for attribution, but it is not proof that the
+    // public respondent owns an existing profile. Raw public enrichment therefore
+    // resolves by email and is additionally constrained to needs_review + draft.
     email: asString(submission.fields.email),
     displayName: asString(submission.fields.displayName),
     agencyName: asString(submission.fields.agencyName),
@@ -107,7 +109,7 @@ export async function POST(request: Request) {
     }
 
     if (submission.kind === 'funding_agent_profile') {
-      const result = await processFundingAgentProfile(agentProfilePayload(submission));
+      const result = await processFundingAgentProfile(agentProfilePayload(submission), { publicDraftOnly: true });
       return NextResponse.json({
         ...result.body,
         source: 'tally_webhook',
