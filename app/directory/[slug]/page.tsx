@@ -4,9 +4,11 @@ import { ProfileHero } from '@/components/ProfileHero';
 import { SectionHeading } from '@/components/SectionHeading';
 import { CTASection } from '@/components/CTASection';
 import { BrokerUtilitySection } from '@/components/BrokerUtilitySection';
+import { constructPartnerMetadata } from '@/lib/seo';
+import { generatePartnerSchema } from '@/lib/schema';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 export const revalidate = 3600;
 
@@ -15,23 +17,18 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
   if (!broker) {
     return {
-      title: 'Partner Not Found | Moonshine Capital',
-      description: 'The requested funding partner could not be found.'
+      title: 'Partner Not Found',
+      description: 'The requested funding partner could not be found.',
+      robots: { index: false, follow: false },
     };
   }
 
-  const title = `${broker.fullName} | ${broker.agencyName} | Moonshine Capital`;
-  const description = broker.shortBio || `Learn more about ${broker.fullName} at ${broker.agencyName}.`;
-
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      type: 'profile',
-    }
-  };
+  return constructPartnerMetadata({
+    slug: broker.slug,
+    partnerName: broker.fullName,
+    companyName: broker.agencyName,
+    description: broker.shortBio,
+  });
 }
 
 export async function generateStaticParams() {
@@ -49,15 +46,12 @@ export default async function BrokerProfilePage({ params }: { params: { slug: st
   const brokerTools = await getToolsForBroker(broker.slug);
   const fallbackTools = brokerTools.length === 0 ? await getFeaturedRegistryItems(3) : [];
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
+  const jsonLd = generatePartnerSchema({
+    slug: broker.slug,
     name: broker.fullName,
-    jobTitle: 'Funding Partner',
-    worksFor: { '@type': 'Organization', name: broker.agencyName },
+    companyName: broker.agencyName,
     description: broker.shortBio,
-    url: `https://moonshinecapital.com/directory/${broker.slug}`,
-  };
+  });
 
   return (
     <div className="bg-neo-white min-h-screen text-neo-black">
