@@ -5,6 +5,12 @@ const NOTION_API_BASE = 'https://api.notion.com/v1';
 
 type FundingStage = 'funding_intake' | 'funding_application';
 
+type NotionFundingLeadPage = {
+  id: string;
+  created_time?: string;
+  properties?: Record<string, any>;
+};
+
 export type FundingLeadResult = {
   success: boolean;
   status: number;
@@ -191,6 +197,13 @@ export function shouldIgnoreFundingStage(existingStage: FundingStage | undefined
   return existingStage === 'funding_application' && incomingStage === 'funding_intake';
 }
 
+export function selectCanonicalFundingLeadPage<T extends { id: string; created_time?: string }>(matches: T[]): T | undefined {
+  return [...matches].sort((a, b) => {
+    const timeCompare = (a.created_time || '').localeCompare(b.created_time || '');
+    return timeCompare || a.id.localeCompare(b.id);
+  })[0];
+}
+
 function cleanEmail(value: unknown): string {
   return asString(value).trim().toLowerCase();
 }
@@ -320,8 +333,6 @@ function buildProperties(input: FundingLeadInput, existing?: any) {
     'Time in Business': select(input.timeInBusiness),
     'Business Bank Account': select(input.businessBankAccount),
     'Account Type': select(input.accountType),
-    // Operator-owned lifecycle/readiness fields are only initialized on creation.
-    // A webhook retry or Step 2 enrichment must never move an active lead backwards.
     'Lead Status': isExisting ? undefined : status('New'),
     'Review Status': isExisting ? undefined : status('Received'),
     'Lead Priority': isExisting ? undefined : select('Warm'),
@@ -347,19 +358,38 @@ function buildProperties(input: FundingLeadInput, existing?: any) {
   });
 }
 
-async function findByExternalLeadId(externalLeadId: string) {
+async function queryByExternalLeadId(externalLeadId: string): Promise<NotionFundingLeadPage[]> {
   const { databaseId } = config();
   const body = await notionRequest(`/databases/${databaseId}/query`, {
     method: 'POST',
     body: JSON.stringify({
-      page_size: 1,
+      page_size: 100,
       filter: {
         property: 'External Lead ID',
         rich_text: { equals: externalLeadId }
       }
     })
   });
-  return body.results?.[0] || null;
+  return body.results || [];
+}
+
+async function reconcileDuplicateFundingLeads(matches: NotionFundingLeadPage[]): Promise<NotionFundingLeadPage | null> {
+  if (!matches.length) return null;
+  const winner = selectCanonicalFundingLeadPage(matches);
+  if (!winner) return null;
+
+  const duplicates = matches.filter((page) => page.id !== winner.id);
+  await Promise.all(duplicates.map((page) => notionRequest(`/pages/${page.id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ archived: true })
+  })));
+
+  return winner;
+}
+
+async function canonicalFundingLead(externalLeadId: string) {
+  const matches = await queryByExternalLeadId(externalLeadId);
+  return matches.length > 1 ? reconcileDuplicateFundingLeads(matches) : matches[0] || null;
 }
 
 function assertIdentityCompatible(existing: any, input: FundingLeadInput) {
@@ -383,7 +413,7 @@ export async function upsertFundingLead(submission: ParsedTallySubmission): Prom
   try {
     const input = normalizeFundingLead(submission);
     const { databaseId } = config();
-    const existing = await findByExternalLeadId(input.externalLeadId);
+    const existing = await canonicalFundingLead(input.externalLeadId);
     assertIdentityCompatible(existing, input);
 
     if (existing && isReplay(existing, input)) {
@@ -421,18 +451,23 @@ export async function upsertFundingLead(submission: ParsedTallySubmission): Prom
       };
     }
 
-    const page = await notionRequest('/pages', {
+    const created = await notionRequest('/pages', {
       method: 'POST',
       body: JSON.stringify({
         parent: { database_id: databaseId },
         properties: buildProperties(input)
       })
     });
+
+    // Notion has no uniqueness constraint for rich-text External Lead ID. Re-query
+    // after creation so concurrent identical deliveries are deterministically
+    // reconciled: keep the earliest page and archive later duplicates.
+    const canonical = await canonicalFundingLead(input.externalLeadId) || created;
     return {
       success: true,
-      status: 201,
-      result: 'created',
-      notionId: page.id,
+      status: canonical.id === created.id ? 201 : 200,
+      result: canonical.id === created.id ? 'created' : 'duplicate_replayed',
+      notionId: canonical.id,
       externalLeadId: input.externalLeadId
     };
   } catch (error: any) {
