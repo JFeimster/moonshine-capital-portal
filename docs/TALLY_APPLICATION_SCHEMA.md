@@ -1,13 +1,13 @@
 # Tally Funding Agent Application Schema
 
-`POST /api/intake/tally/application` is the dedicated canonical Funding Agent intake endpoint. It accepts normalized JSON produced from the Funding Agent Tally submission (directly or through the existing normalization layer).
+`POST /api/intake/tally/application` is the dedicated canonical Funding Agent Join endpoint. It accepts normalized JSON produced from the Funding Agent Tally submission through the existing normalization/orchestration layer.
 
 ## Applicant fields consumed when available
 
 | Intake field | Canonical mapping | Requirement |
 | --- | --- | --- |
-| `fullName` | `fullName` / default `displayName` | required for automatic activation |
-| `email` | normalized `email` | required and format-valid for automatic activation |
+| `fullName` | `fullName` / default `displayName` | required for a usable identity record |
+| `email` | normalized `email` | required as the deterministic merge key |
 | `agencyName` | `agencyName`; defaults to `fullName` at Join when omitted | optional at minimal Join; enrich through Profile Builder |
 | `phoneNumber` | `phoneNumber` | optional |
 | `city` | `city` | optional |
@@ -20,7 +20,7 @@
 
 ## Minimal Join contract
 
-Track C separates identity creation from profile enrichment. The canonical Join form therefore only needs a safe merge identity to create and activate the Funding Agent record:
+The onboarding flow separates identity creation from profile enrichment and approval. The canonical Join form therefore only needs a safe merge identity to create the Funding Agent record:
 
 ```text
 fullName
@@ -50,24 +50,27 @@ partnerType = funding_agent
 
 The route is the stable intake-source discriminator. Future partner forms should use their own explicit source mappings rather than overloading this route.
 
-## Automatic activation
+## Approval and publication gate
 
-A submission with valid required identity fields and the neutral public-shell defaults proceeds to:
-
-```text
-approvalStatus = approved
-profileStatus = published
-```
-
-Malformed/unsafe submissions that can still be identified safely use:
+A public Join submission is never allowed to self-approve or self-publish. New Funding Agent identities begin as:
 
 ```text
 approvalStatus = needs_review
 profileStatus = draft
-reviewReason = <exception reason>
+reviewReason = Awaiting profile completion and explicit approval
 ```
 
-Identity conflicts and persistence errors are not silently converted into public profiles.
+The Profile Builder may enrich the existing canonical record, but it does not independently change lifecycle state. Public directory eligibility continues to require the durable record to reach both states through an explicit review/approval path:
+
+```text
+approvalStatus = approved
+AND
+profileStatus = published
+```
+
+The Notion adapter preserves an already-approved/published lifecycle state when an existing Funding Agent re-submits the Join form, so a repeated identity submission does not demote a previously approved agent.
+
+Identity conflicts and persistence errors are never silently converted into public profiles.
 
 ## Canonical identity
 
