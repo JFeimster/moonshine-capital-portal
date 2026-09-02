@@ -56,7 +56,30 @@
         "No revenue for a revenue-based request",
         "Severe stacking risk"
       ],
-      "relatedProductIds": [],
+      "relatedProductIds": [
+        "7figs-mca",
+        "7figs-sba",
+        "dac-corerate",
+        "dac-flexrate",
+        "dac-giggle",
+        "dac-canada",
+        "gokap-mca",
+        "gokap-sbl",
+        "gokap-term",
+        "gokap-sba",
+        "gokap-consumer",
+        "gokap-cannabis",
+        "rok-term",
+        "rok-sba",
+        "rok-ar",
+        "rok-mca",
+        "nbc-term",
+        "fora-sbl",
+        "fora-advance",
+        "credibly-wc",
+        "credibly-ex",
+        "uplyft-mca"
+      ],
       "relatedProviderIds": [
         "7-figures-funding",
         "8fig",
@@ -111,7 +134,21 @@
       "speedProfile": null,
       "requiredDocuments": [],
       "fastDisqualifiers": [],
-      "relatedProductIds": [],
+      "relatedProductIds": [
+        "7figs-stacking",
+        "7figs-personal-startup",
+        "7figs-personal-term",
+        "7figs-personal-loc",
+        "7figs-debt-consol",
+        "7figs-personal-cards",
+        "gokap-startup",
+        "rok-franchise",
+        "rok-startup",
+        "fundgrow-stacking",
+        "creditsuite-builder",
+        "guidant-robs",
+        "finfactory-ubf"
+      ],
       "relatedProviderIds": [
         "equitynet",
         "gokapital",
@@ -166,7 +203,12 @@
       "speedProfile": null,
       "requiredDocuments": [],
       "fastDisqualifiers": [],
-      "relatedProductIds": [],
+      "relatedProductIds": [
+        "7figs-bloc",
+        "dac-loc",
+        "gokap-loc",
+        "rok-bloc"
+      ],
       "relatedProviderIds": [
         "7-figures-funding",
         "bank-breezy",
@@ -286,7 +328,13 @@
       "speedProfile": null,
       "requiredDocuments": [],
       "fastDisqualifiers": [],
-      "relatedProductIds": [],
+      "relatedProductIds": [
+        "7figs-equip",
+        "gokap-equip",
+        "gokap-truck",
+        "rok-equip",
+        "bluebridge-efa"
+      ],
       "relatedProviderIds": [
         "credibly",
         "gokapital",
@@ -340,7 +388,18 @@
       "speedProfile": null,
       "requiredDocuments": [],
       "fastDisqualifiers": [],
-      "relatedProductIds": [],
+      "relatedProductIds": [
+        "7figs-cre",
+        "7figs-heloc",
+        "gokap-hardmoney",
+        "gokap-cre",
+        "gokap-rental",
+        "gokap-foreign",
+        "rok-res-invest",
+        "rok-cre",
+        "visio-rental",
+        "newsilver-flip"
+      ],
       "relatedProviderIds": [
         "dlp-capital",
         "gator-lending",
@@ -395,7 +454,13 @@
       "speedProfile": null,
       "requiredDocuments": [],
       "fastDisqualifiers": [],
-      "relatedProductIds": [],
+      "relatedProductIds": [
+        "8fig-growth",
+        "onramp-growth",
+        "payability-instant",
+        "payability-advance",
+        "sellersfi-wc"
+      ],
       "relatedProviderIds": [
         "8fig",
         "onramp",

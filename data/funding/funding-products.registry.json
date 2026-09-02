@@ -5,12 +5,11 @@
   "visibility": "internal",
   "count": 59,
   "familyCounts": {
-    "startup-credit-leverage": 12,
+    "startup-credit-leverage": 13,
     "business-line-access": 4,
-    "working-capital": 11,
+    "working-capital": 22,
     "equipment-finance": 5,
     "real-estate-capital": 10,
-    "structured-growth-loans": 12,
     "marketplace-capital": 5
   },
   "entries": [
@@ -1558,10 +1557,7 @@
         "derivedFrom": "funding_product_portfolio_report.md (Full Product Inventory)",
         "verificationStatus": "imported_from_portfolio_report",
         "lastVerified": "2026-06-26"
-      },
-      "needsReview": [
-        "providerId not yet in funding-providers.registry"
-      ]
+      }
     },
     {
       "id": "nbc-term",
@@ -1594,9 +1590,6 @@
         "verificationStatus": "imported_from_portfolio_report",
         "lastVerified": "2026-06-26"
       },
-      "needsReview": [
-        "providerId not yet in funding-providers.registry"
-      ],
       "familyNote": "Reassigned from structured-growth-loans (merged into existing lanes)"
     },
     {
