@@ -1,33 +1,75 @@
 import Link from 'next/link';
 
+const footerGroups = [
+  {
+    title: 'Capital',
+    links: [
+      { href: '/directory', label: 'Find an Advisor' },
+      { href: '/apply', label: 'Apply for Funding' },
+      { href: '/how-it-works', label: 'How It Works' },
+    ],
+  },
+  {
+    title: 'Explore',
+    links: [
+      { href: '/funding-types', label: 'Funding' },
+      { href: '/industries', label: 'Industries' },
+      { href: '/directory', label: 'Advisors' },
+      { href: '/faq', label: 'FAQ' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { href: '/about', label: 'About' },
+      { href: '/contact', label: 'Contact' },
+    ],
+  },
+  {
+    title: 'Legal',
+    links: [
+      { href: '/privacy', label: 'Privacy' },
+      { href: '/terms', label: 'Terms' },
+      { href: '/disclosures', label: 'Disclosures' },
+    ],
+  },
+];
+
 export function Footer() {
   return (
-    <footer className="bg-neo-black text-neo-white py-12 px-6 md:px-12 border-t-4 border-neo-yellow">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-8">
+    <footer className="border-t-4 border-neo-yellow bg-neo-black text-neo-white">
+      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 md:px-8 lg:grid-cols-[1.25fr_1fr_1fr_1fr] lg:px-12">
         <div>
-          <h2 className="font-black text-3xl uppercase tracking-tighter mb-4 text-neo-yellow">
+          <div className="mb-4 flex items-center gap-3 font-black uppercase tracking-tighter text-2xl text-neo-yellow">
+            <span className="flex h-9 w-9 items-center justify-center border-2 border-neo-yellow bg-neo-black text-xs">DF</span>
             Distilled Funding
-          </h2>
-          <p className="max-w-sm text-neo-cream/80 font-medium">
-            The marketplace for operators who move money. No fluff. No slow banks.
+          </div>
+          <p className="max-w-sm text-sm font-medium leading-relaxed text-neo-cream/80">
+            Capital without the runaround. We connect founders with real funding paths and the people who know how to move them.
           </p>
         </div>
-        <div className="flex gap-12">
-          <div className="flex flex-col gap-2">
-            <h3 className="font-bold text-neo-blue uppercase tracking-wide mb-2">Platform</h3>
-            <Link href="/apply" className="hover:text-neo-yellow transition-colors font-semibold">Get Funding</Link>
-            <Link href="/directory" className="hover:text-neo-yellow transition-colors font-semibold">Directory</Link>
-            <Link href="/onboarding" className="hover:text-neo-yellow transition-colors font-semibold">Become a Partner</Link>
+
+        {footerGroups.map((group) => (
+          <div key={group.title}>
+            <h3 className="mb-4 text-xs font-black uppercase tracking-[0.2em] text-neo-green">{group.title}</h3>
+            <ul className="space-y-2 text-sm font-semibold text-neo-cream/85">
+              {group.links.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="transition-colors hover:text-neo-yellow">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="flex flex-col gap-2">
-            <h3 className="font-bold text-neo-pink uppercase tracking-wide mb-2">Legal</h3>
-            <Link href="/terms" className="hover:text-neo-yellow transition-colors font-semibold">Terms</Link>
-            <Link href="/privacy" className="hover:text-neo-yellow transition-colors font-semibold">Privacy</Link>
-          </div>
-        </div>
+        ))}
       </div>
-      <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-neo-white/20 text-sm font-semibold text-neo-cream/60">
-        &copy; {new Date().getFullYear()} Distilled Funding. All rights reserved.
+
+      <div className="border-t border-neo-white/15">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-5 text-xs font-bold uppercase tracking-[0.14em] text-neo-cream/60 md:px-8 lg:px-12">
+          <span>© {new Date().getFullYear()} Distilled Funding</span>
+          <span>Capital Network</span>
+        </div>
       </div>
     </footer>
   );
