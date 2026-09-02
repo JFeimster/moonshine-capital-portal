@@ -1,0 +1,61 @@
+{
+  "forms": [
+    {
+      "id": "rjM6do",
+      "name": "Join Moonshine Capital — Funding Agent",
+      "purpose": "Canonical Funding Agent signup and identity-creation intake",
+      "url": "https://tally.so/r/rjM6do",
+      "embedUrl": "https://tally.so/embed/rjM6do?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1",
+      "flowStage": "agent_join",
+      "intakeEndpoint": "/api/intake/tally/application",
+      "createsCanonicalRecord": true,
+      "mayChangeLifecycleState": true,
+      "canonical": true,
+      "status": "active"
+    },
+    {
+      "id": "9qjWEE",
+      "name": "Build Your Funding Agent Profile",
+      "purpose": "Canonical profile-enrichment step for an existing Funding Agent record",
+      "url": "https://tally.so/r/9qjWEE",
+      "embedUrl": "https://tally.so/embed/9qjWEE?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1",
+      "flowStage": "agent_profile",
+      "intakeEndpoint": "/api/intake/tally/profile",
+      "createsCanonicalRecord": false,
+      "mayChangeLifecycleState": false,
+      "canonical": true,
+      "status": "active"
+    },
+    {
+      "id": "A7edqy",
+      "name": "Launch Your Agency",
+      "purpose": "Post-profile launch planning and operating-plan intake",
+      "url": "https://tally.so/r/A7edqy",
+      "embedUrl": "https://tally.so/embed/A7edqy?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1",
+      "flowStage": "agent_launch_plan",
+      "intakeEndpoint": null,
+      "createsCanonicalRecord": false,
+      "mayChangeLifecycleState": false,
+      "canonical": true,
+      "status": "active_later"
+    },
+    {
+      "id": "mOe658",
+      "name": "Join the #1 B2B Funding Platform!",
+      "purpose": "Legacy all-in-one Funding Agent application retained for historical links and submissions",
+      "url": "https://tally.so/r/mOe658",
+      "embedUrl": "https://tally.so/embed/mOe658?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1",
+      "flowStage": "legacy_agent_application",
+      "intakeEndpoint": null,
+      "createsCanonicalRecord": false,
+      "mayChangeLifecycleState": false,
+      "canonical": false,
+      "status": "legacy"
+    }
+  ],
+  "flow": {
+    "primarySequence": ["rjM6do", "9qjWEE"],
+    "postProfileSequence": ["A7edqy"],
+    "notes": "Keep Join and Profile as deliberate separate steps. Join owns canonical identity creation and lifecycle evaluation. Profile only enriches an existing canonical record and must not independently approve or publish it."
+  }
+}
