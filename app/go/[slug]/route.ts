@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getRegistryDestination, getToolBySlug } from '@/lib/embed-registry';
 import { trackRegistryClick } from '@/lib/registry-click-tracking';
+import { resolveSafeRedirect } from '@/lib/redirect-safety';
 
 export async function GET(request: Request, { params }: { params: { slug: string } }) {
   const item = await getToolBySlug(params.slug);
@@ -15,9 +16,12 @@ export async function GET(request: Request, { params }: { params: { slug: string
     return NextResponse.json({ error: 'Missing destination' }, { status: 404 });
   }
 
-  await trackRegistryClick({ item, destination, request });
+  const redirectUrl = resolveSafeRedirect(destination, request.url);
+  if (!redirectUrl) {
+    return NextResponse.json({ error: 'Invalid destination' }, { status: 400 });
+  }
 
-  const redirectUrl = new URL(destination, request.url);
+  await trackRegistryClick({ item, destination: redirectUrl.toString(), request });
 
   return NextResponse.redirect(redirectUrl);
 }

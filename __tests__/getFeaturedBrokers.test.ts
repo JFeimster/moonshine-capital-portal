@@ -1,20 +1,33 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { getFeaturedBrokers } from '../lib/brokers';
 import * as wix from '../lib/wix';
+import * as notion from '../lib/notion';
+import { createBroker } from './fixtures/broker';
 
 vi.mock('../lib/wix', () => ({
   fetchWixBrokers: vi.fn(),
+  fetchWixBrokerBySlug: vi.fn(),
+}));
+
+vi.mock('../lib/notion', () => ({
+  getPartnerBySlug: vi.fn(),
+  listPublishedPartners: vi.fn(),
 }));
 
 describe('getFeaturedBrokers', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.mocked(notion.listPublishedPartners).mockResolvedValue([]);
+  });
+
   it('should return only featured brokers', async () => {
     const mockBrokers = [
-      { id: '1', fullName: 'Broker One', featuredFlag: true, isActive: true, approvalStatus: 'approved' },
-      { id: '2', fullName: 'Broker Two', featuredBroker: true, isActive: true, approvalStatus: 'approved' },
-      { id: '3', fullName: 'Broker Three', isActive: true, approvalStatus: 'approved' },
-      { id: '4', fullName: 'Broker Four', featuredFlag: false, featuredBroker: false, isActive: true, approvalStatus: 'approved' },
+      createBroker({ id: '1', slug: 'broker-one', fullName: 'Broker One', featuredFlag: true }),
+      createBroker({ id: '2', slug: 'broker-two', fullName: 'Broker Two', featuredBroker: true }),
+      createBroker({ id: '3', slug: 'broker-three', fullName: 'Broker Three' }),
+      createBroker({ id: '4', slug: 'broker-four', fullName: 'Broker Four', featuredFlag: false, featuredBroker: false }),
     ];
-    vi.mocked(wix.fetchWixBrokers).mockResolvedValue(mockBrokers as any);
+    vi.mocked(wix.fetchWixBrokers).mockResolvedValue(mockBrokers);
 
     const result = await getFeaturedBrokers();
 
@@ -24,10 +37,10 @@ describe('getFeaturedBrokers', () => {
 
   it('should return an empty array if there are no featured brokers', async () => {
     const mockBrokers = [
-      { id: '1', fullName: 'Broker One', isActive: true },
-      { id: '2', fullName: 'Broker Two', isActive: true },
+      createBroker({ id: '1', slug: 'broker-one', fullName: 'Broker One' }),
+      createBroker({ id: '2', slug: 'broker-two', fullName: 'Broker Two' }),
     ];
-    vi.mocked(wix.fetchWixBrokers).mockResolvedValue(mockBrokers as any);
+    vi.mocked(wix.fetchWixBrokers).mockResolvedValue(mockBrokers);
 
     const result = await getFeaturedBrokers();
 

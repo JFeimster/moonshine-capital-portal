@@ -2,12 +2,15 @@
   "name": "moonshine-capital-portal",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "pnpm@10.15.1",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "check": "pnpm typecheck && pnpm lint && pnpm test"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
