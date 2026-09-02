@@ -54,7 +54,7 @@ export function constructPartnerMetadata({
   const canonical = getCanonicalPartnerUrl(slug);
   const resolvedDescription = description || `Explore business funding options with ${partnerName} and ${SITE_CONFIG.publicBrand}.`;
   return {
-    title,
+    title: { absolute: title },
     description: resolvedDescription,
     alternates: { canonical },
     openGraph: {
