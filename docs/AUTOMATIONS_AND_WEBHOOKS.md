@@ -23,11 +23,14 @@ Map the automation layer so intake, routing, resource assignment, and notificati
 1. `rjM6do` — **Join Moonshine Capital — Funding Agent**
    - canonical identity-creation step
    - normalized payload target: `/api/intake/tally/application`
+   - new records initialize as `needs_review` + `draft`
+   - no approval/publication authority
 
 2. `9qjWEE` — **Build Your Funding Agent Profile**
    - canonical profile-enrichment step
    - normalized payload target: `/api/intake/tally/profile`
    - must enrich an existing canonical partner only
+   - no approval/publication authority
 
 3. `A7edqy` — **Launch Your Agency**
    - post-profile operating-plan step
@@ -48,9 +51,9 @@ When the review calls for a broader application:
 The public funding flow is deliberately two-stage. Do not force every applicant into the full form before the initial review.
 
 ### 2. Funding Agent join flow
-`rjM6do` → webhook → n8n normalization → `/api/intake/tally/application` → canonical Notion partner record
+`rjM6do` → webhook → n8n normalization → `/api/intake/tally/application` → canonical Notion partner record (`needs_review` + `draft` for new identities)
 
-The application endpoint owns deterministic identity creation and lifecycle evaluation. Existing approval/publication gates remain authoritative.
+The application endpoint owns deterministic identity creation only. A public Join submission cannot self-approve or self-publish. Existing approved/published records remain intact when the same identity re-submits.
 
 ### 3. Funding Agent profile-builder flow
 `9qjWEE` → webhook → n8n normalization → `/api/intake/tally/profile` → update existing Notion partner record
@@ -65,6 +68,14 @@ This flow may enrich internal operating context but has no approval/publication 
 ### 5. Broker approval flow
 Admin action / Notion status change → n8n → publish profile state / send broker update
 
+Public eligibility requires both:
+
+```text
+approvalStatus = approved
+AND
+profileStatus = published
+```
+
 ### 6. CTA tracking flow
 `/out` route → webhook → event log store → reporting layer
 
@@ -78,6 +89,8 @@ Admin action / Notion status change → n8n → publish profile state / send bro
 
 ## Embed/event-forwarding rule
 Use the Tally JavaScript/HTML embed path rather than a bare static iframe whenever forms are embedded in the app. Tally's embed script forwards the parent page and query parameters into matching hidden fields, which preserves `source`, referral, partner and UTM context when those hidden fields exist on the form.
+
+The shared Next.js embed must re-run `Tally.loadEmbeds()` on mount because client-side route transitions can reuse the already-loaded Tally script while inserting a new `data-tally-src` iframe.
 
 Do not treat browser-side form events as lifecycle authority. Submission persistence and approval/publication changes must continue through authenticated webhook/intake routes and the canonical Notion record.
 
