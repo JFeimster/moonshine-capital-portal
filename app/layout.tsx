@@ -2,11 +2,23 @@ import type { Metadata } from 'next';
 import { Analytics } from '@vercel/analytics/next';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { SITE_CONFIG } from '@/lib/site-config';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Distilled Funding',
-  description: 'The marketplace for operators who move money.',
+  metadataBase: new URL(SITE_CONFIG.canonicalOrigin),
+  title: {
+    default: SITE_CONFIG.defaultTitle,
+    template: `%s | ${SITE_CONFIG.publicBrand}`,
+  },
+  description: SITE_CONFIG.defaultDescription,
+  openGraph: {
+    title: SITE_CONFIG.defaultTitle,
+    description: SITE_CONFIG.defaultDescription,
+    siteName: SITE_CONFIG.publicBrand,
+    type: 'website',
+    url: SITE_CONFIG.canonicalOrigin,
+  },
 };
 
 export default function RootLayout({
