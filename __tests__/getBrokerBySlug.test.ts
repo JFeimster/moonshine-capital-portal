@@ -1,16 +1,24 @@
 import { describe, it, expect, vi } from 'vitest';
 import { getBrokerBySlug } from '../lib/brokers';
 import * as wix from '../lib/wix';
+import * as notion from '../lib/notion';
+import { createBroker } from './fixtures/broker';
 
 vi.mock('../lib/wix', () => ({
   fetchWixBrokers: vi.fn(),
   fetchWixBrokerBySlug: vi.fn(),
 }));
 
+vi.mock('../lib/notion', () => ({
+  getPartnerBySlug: vi.fn(),
+  listPublishedPartners: vi.fn(),
+}));
+
 describe('getBrokerBySlug', () => {
   it('should return a broker when a matching slug is found', async () => {
-    const mockBroker = { id: '1', fullName: 'Broker One', slug: 'broker-one', isActive: true, approvalStatus: 'approved' };
-    vi.mocked(wix.fetchWixBrokerBySlug).mockResolvedValue(mockBroker as any);
+    const mockBroker = createBroker({ id: '1', fullName: 'Broker One', slug: 'broker-one' });
+    vi.mocked(notion.getPartnerBySlug).mockResolvedValue(null);
+    vi.mocked(wix.fetchWixBrokerBySlug).mockResolvedValue(mockBroker);
 
     const result = await getBrokerBySlug('broker-one');
 
@@ -19,6 +27,7 @@ describe('getBrokerBySlug', () => {
   });
 
   it('should return null when no matching broker is found', async () => {
+    vi.mocked(notion.getPartnerBySlug).mockResolvedValue(null);
     vi.mocked(wix.fetchWixBrokerBySlug).mockResolvedValue(null);
 
     const result = await getBrokerBySlug('non-existent-broker');
@@ -28,6 +37,7 @@ describe('getBrokerBySlug', () => {
   });
 
   it('should handle edge case of empty slug string', async () => {
+    vi.mocked(notion.getPartnerBySlug).mockResolvedValue(null);
     vi.mocked(wix.fetchWixBrokerBySlug).mockResolvedValue(null);
 
     const result = await getBrokerBySlug('');
@@ -37,6 +47,7 @@ describe('getBrokerBySlug', () => {
   });
 
   it('should propagate errors from fetchWixBrokerBySlug', async () => {
+    vi.mocked(notion.getPartnerBySlug).mockResolvedValue(null);
     vi.mocked(wix.fetchWixBrokerBySlug).mockRejectedValue(new Error('Fetch failed'));
 
     await expect(getBrokerBySlug('broker-one')).rejects.toThrow('Fetch failed');
