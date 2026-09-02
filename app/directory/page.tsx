@@ -1,33 +1,20 @@
 import { getBrokers } from '@/lib/brokers';
 import { DirectoryClient } from '@/components/DirectoryClient';
 import { CTASection } from '@/components/CTASection';
+import { constructMetadata } from '@/lib/seo';
+import { generateItemListSchema } from '@/lib/schema';
 
-import { Metadata } from 'next';
+export const revalidate = 3600;
 
-export const revalidate = 3600; // ISR for 1 hour
-
-export const metadata: Metadata = {
-  title: 'Partner Directory | Moonshine Capital',
+export const metadata = constructMetadata({
+  title: 'Partner Directory',
   description: 'Find the right capital partner for your next move. Browse our directory of verified funding partners.',
-  openGraph: {
-    title: 'Partner Directory | Moonshine Capital',
-    description: 'Find the right capital partner for your next move. Browse our directory of verified funding partners.',
-    type: 'website',
-  },
-};
+  path: '/directory',
+});
 
 export default async function DirectoryPage() {
   const brokers = await getBrokers();
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    "itemListElement": brokers.map((broker, index) => ({
-      "@type": "ListItem",
-      "position": index + 1,
-      "url": `https://moonshinecapital.com/directory/${broker.slug}`
-    }))
-  };
+  const jsonLd = generateItemListSchema(brokers);
 
   return (
     <div className="bg-neo-white min-h-screen text-neo-black">
