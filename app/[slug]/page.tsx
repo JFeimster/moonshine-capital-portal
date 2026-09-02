@@ -1,9 +1,11 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getBrokerBySlug, getBrokers } from '@/lib/brokers';
 import { getFeaturedRegistryItems, getToolsForBroker } from '@/lib/embed-registry';
 import { BrokerUtilitySection } from '@/components/BrokerUtilitySection';
-import { buildPartnerLeadFormUrl, buildPublicFundingUrl, buildTrackedOutUrl, AttributionContext } from '@/lib/distribution';
+import { buildPartnerLeadFormUrl, buildTrackedOutUrl, AttributionContext } from '@/lib/distribution';
+import { constructPartnerMetadata } from '@/lib/seo';
+import { generatePartnerSchema } from '@/lib/schema';
 
 export const revalidate = 3600;
 
@@ -23,17 +25,14 @@ function contextFromSearch(searchParams: Record<string, string | string[] | unde
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const broker = await getBrokerBySlug(params.slug);
-  if (!broker) return { title: 'Funding Page Not Found | Distilled Funding' };
+  if (!broker) return { title: 'Funding Page Not Found', robots: { index: false, follow: false } };
   const name = broker.displayName || broker.fullName;
-  const title = `${name} | Business Funding`;
-  const description = broker.shortBio || `Explore business funding options with ${name} and Distilled Funding.`;
-  const canonical = buildPublicFundingUrl(broker).split('?')[0];
-  return {
-    title,
-    description,
-    alternates: { canonical },
-    openGraph: { title, description, type: 'website', url: canonical }
-  };
+  return constructPartnerMetadata({
+    slug: broker.slug,
+    partnerName: name,
+    companyName: broker.companyName || broker.agencyName,
+    description: broker.shortBio,
+  });
 }
 
 export async function generateStaticParams() {
@@ -69,14 +68,14 @@ export default async function PublicFundingPage({
     ? broker.disclosures
     : ['Funding approval, terms, and availability depend on provider underwriting and applicant qualifications.'];
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FinancialService',
-    name: company || `${name} Funding Desk`,
-    employee: { '@type': 'Person', name, jobTitle: role },
+  const jsonLd = generatePartnerSchema({
+    slug: broker.slug,
+    name,
+    companyName: company,
+    jobTitle: role,
     areaServed: markets.length ? markets : location || 'United States',
-    url: buildPublicFundingUrl(broker).split('?')[0]
-  };
+    type: 'FinancialService',
+  });
 
   return (
     <main className="min-h-screen bg-neo-white text-neo-black">
