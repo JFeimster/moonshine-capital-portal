@@ -3,10 +3,12 @@ import { ParsedTallySubmission, asString } from '@/lib/tally-webhook';
 const NOTION_VERSION = '2022-06-28';
 const NOTION_API_BASE = 'https://api.notion.com/v1';
 
+type FundingStage = 'funding_intake' | 'funding_application';
+
 export type FundingLeadResult = {
   success: boolean;
   status: number;
-  result?: 'created' | 'updated' | 'duplicate_replayed';
+  result?: 'created' | 'updated' | 'duplicate_replayed' | 'stale_stage_ignored';
   notionId?: string;
   externalLeadId?: string;
   error?: string;
@@ -18,7 +20,7 @@ type FundingLeadInput = {
   eventId: string;
   formId: string;
   submissionId: string;
-  stage: 'funding_intake' | 'funding_application';
+  stage: FundingStage;
   businessName: string;
   contactName: string;
   email: string;
@@ -30,6 +32,8 @@ type FundingLeadInput = {
   businessBankAccount?: 'Yes' | 'No' | 'Unknown';
   accountType?: 'business' | 'personal' | 'mixed' | 'unknown';
   partnerId: string;
+  referralCode: string;
+  referralPartner: string;
   campaignId: string;
   sourceUrl: string;
   utmSource: string;
@@ -41,12 +45,21 @@ type FundingLeadInput = {
   notes: string;
 };
 
+type FundingAuditEnvelope = {
+  source?: string;
+  form_id?: string;
+  submission_id?: string;
+  webhook_event_id?: string;
+  stage?: FundingStage;
+  external_lead_id?: string;
+};
+
 function config() {
   const token = process.env.NOTION_API_KEY;
   const databaseId = process.env.NOTION_FUNDING_LEADS_DB_ID;
   if (!token || !databaseId) {
     throw Object.assign(new Error('Funding Leads persistence is not configured'), {
-      status: 503,
+      publicStatus: 503,
       retryable: false
     });
   }
@@ -68,7 +81,7 @@ async function notionRequest(path: string, init: RequestInit = {}) {
   const body = await response.json().catch(() => ({}));
   if (!response.ok) {
     throw Object.assign(new Error(body?.message || `Notion Funding Leads request failed with ${response.status}`), {
-      status: response.status,
+      publicStatus: response.status === 409 ? 409 : 503,
       retryable: response.status === 429 || response.status >= 500
     });
   }
@@ -95,6 +108,10 @@ function propText(prop: any): string {
   if (prop.type === 'rich_text') return (prop.rich_text || []).map((item: any) => item.plain_text || item.text?.content || '').join('');
   if (prop.type === 'email') return prop.email || '';
   return '';
+}
+
+function propNumber(prop: any): number | undefined {
+  return prop?.type === 'number' && Number.isFinite(prop.number) ? prop.number : undefined;
 }
 
 function parseMagnitude(value: string): number | undefined {
@@ -170,6 +187,10 @@ export function externalLeadIdForSubmission(submission: ParsedTallySubmission): 
     : `tally:${submission.formId}:${submission.submissionId}`;
 }
 
+export function shouldIgnoreFundingStage(existingStage: FundingStage | undefined, incomingStage: FundingStage): boolean {
+  return existingStage === 'funding_application' && incomingStage === 'funding_intake';
+}
+
 function cleanEmail(value: unknown): string {
   return asString(value).trim().toLowerCase();
 }
@@ -187,8 +208,8 @@ function normalizeFundingLead(submission: ParsedTallySubmission): FundingLeadInp
   const emailValue = cleanEmail(submission.fields.email);
   const phoneValue = asString(submission.fields.phoneNumber);
 
-  if (!emailValue) throw Object.assign(new Error('Funding lead email is required'), { status: 400, retryable: false });
-  if (!contactName) throw Object.assign(new Error('Funding lead contact name is required'), { status: 400, retryable: false });
+  if (!emailValue) throw Object.assign(new Error('Funding lead email is required'), { publicStatus: 400, retryable: false });
+  if (!contactName) throw Object.assign(new Error('Funding lead contact name is required'), { publicStatus: 400, retryable: false });
 
   const requestedRaw = submission.kind === 'funding_application'
     ? submission.fields.requestedAmountRangeRaw
@@ -198,13 +219,17 @@ function normalizeFundingLead(submission: ParsedTallySubmission): FundingLeadInp
   const averageMonthlyRevenue = parseMoneyValue(submission.fields.averageMonthlyRevenue);
   const bank = bankAccountClassification(submission.fields.bankAccountOwnership);
   const originalRequestedRange = submission.kind === 'funding_application' ? asString(requestedRaw) : '';
+  const referralCode = asString(submission.hidden.referral_code);
+  const referralPartner = asString(submission.hidden.referral_partner);
 
   const notes = [
     submission.kind === 'funding_intake' ? 'Canonical Step 1 funding intake.' : 'Canonical Step 2/full funding application.',
     originalRequestedRange ? `Applicant-selected funding range: ${originalRequestedRange}.` : '',
     submission.kind === 'funding_application'
       ? 'DOB and residential address fields are intentionally excluded from the Funding Leads projection.'
-      : ''
+      : '',
+    referralCode ? `Referral code: ${referralCode}.` : '',
+    referralPartner ? `Referral partner: ${referralPartner}.` : ''
   ].filter(Boolean).join(' ');
 
   return {
@@ -212,7 +237,7 @@ function normalizeFundingLead(submission: ParsedTallySubmission): FundingLeadInp
     eventId: submission.eventId,
     formId: submission.formId,
     submissionId: submission.submissionId,
-    stage: submission.kind as 'funding_intake' | 'funding_application',
+    stage: submission.kind as FundingStage,
     businessName,
     contactName,
     email: emailValue,
@@ -226,6 +251,8 @@ function normalizeFundingLead(submission: ParsedTallySubmission): FundingLeadInp
     businessBankAccount: submission.kind === 'funding_intake' ? bank.businessBankAccount : undefined,
     accountType: submission.kind === 'funding_intake' ? bank.accountType : undefined,
     partnerId: asString(submission.hidden.partner_id),
+    referralCode,
+    referralPartner,
     campaignId: asString(submission.hidden.campaign || submission.hidden.utm_campaign),
     sourceUrl: safeUrl(submission.hidden.originPage),
     utmSource: asString(submission.hidden.utm_source),
@@ -240,6 +267,7 @@ function normalizeFundingLead(submission: ParsedTallySubmission): FundingLeadInp
 
 function intakeChannel(input: FundingLeadInput): string {
   if (input.partnerId) return 'Partner';
+  if (input.referralCode || input.referralPartner) return 'Referral';
   return 'Website';
 }
 
@@ -260,33 +288,50 @@ function safeAuditEnvelope(input: FundingLeadInput) {
   });
 }
 
-function buildProperties(input: FundingLeadInput, existing = false) {
+function readAuditEnvelope(existing: any): FundingAuditEnvelope {
+  const raw = propText(existing?.properties?.['API Payload']);
+  if (!raw) return {};
+  try {
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === 'object' ? parsed as FundingAuditEnvelope : {};
+  } catch {
+    return {};
+  }
+}
+
+function buildProperties(input: FundingLeadInput, existing?: any) {
+  const isExisting = Boolean(existing);
   const displayName = input.businessName || input.contactName || input.email;
+  const existingExactRequestedAmount = propNumber(existing?.properties?.['Requested Amount']);
+  const shouldWriteRequestedAmount = input.stage === 'funding_intake' || existingExactRequestedAmount === undefined;
+
   return compactProperties({
-    Name: existing ? undefined : title(`${displayName} — Tally Funding Lead`),
-    'External Lead ID': existing ? undefined : text(input.externalLeadId),
+    Name: isExisting ? undefined : title(`${displayName} — Tally Funding Lead`),
+    'External Lead ID': isExisting ? undefined : text(input.externalLeadId),
     'Webhook Event ID': text(input.eventId),
     Company: text(input.businessName),
     'Contact Name': text(input.contactName),
     Email: email(input.email),
     Phone: phone(input.phone),
-    'Requested Amount': number(input.requestedAmount),
+    'Requested Amount': shouldWriteRequestedAmount ? number(input.requestedAmount) : undefined,
     'Requested Amount Range': select(input.requestedAmountRange),
     'Monthly Revenue': number(input.averageMonthlyRevenue),
     'Average Monthly Revenue': number(input.averageMonthlyRevenue),
     'Time in Business': select(input.timeInBusiness),
     'Business Bank Account': select(input.businessBankAccount),
     'Account Type': select(input.accountType),
-    'Lead Status': status('New'),
-    'Review Status': status('Received'),
-    'Lead Priority': select('Warm'),
-    'Funding Readiness Tier': select('Manual Review'),
-    'Manual Review Recommended': checkbox(true),
-    'Lead Type': select('Business Funding'),
-    Source: select('Tally'),
-    'Lead Source Asset': select('Tally'),
-    'Intake Channel': select(intakeChannel(input)),
-    'Submission Method': select('Form'),
+    // Operator-owned lifecycle/readiness fields are only initialized on creation.
+    // A webhook retry or Step 2 enrichment must never move an active lead backwards.
+    'Lead Status': isExisting ? undefined : status('New'),
+    'Review Status': isExisting ? undefined : status('Received'),
+    'Lead Priority': isExisting ? undefined : select('Warm'),
+    'Funding Readiness Tier': isExisting ? undefined : select('Manual Review'),
+    'Manual Review Recommended': isExisting ? undefined : checkbox(true),
+    'Lead Type': isExisting ? undefined : select('Business Funding'),
+    Source: isExisting ? undefined : select('Tally'),
+    'Lead Source Asset': isExisting ? undefined : select('Tally'),
+    'Intake Channel': isExisting ? undefined : select(intakeChannel(input)),
+    'Submission Method': isExisting ? undefined : select('Form'),
     'Sync Status': select('Synced'),
     'Partner ID': text(input.partnerId),
     'Campaign ID': text(input.campaignId),
@@ -296,7 +341,7 @@ function buildProperties(input: FundingLeadInput, existing = false) {
     'UTM Campaign': text(input.utmCampaign),
     'UTM Content': text(input.utmContent),
     'UTM Term': text(input.utmTerm),
-    'Next Action': text(nextAction(input)),
+    'Next Action': isExisting ? undefined : text(nextAction(input)),
     Notes: text(input.notes),
     'API Payload': text(safeAuditEnvelope(input))
   });
@@ -322,15 +367,16 @@ function assertIdentityCompatible(existing: any, input: FundingLeadInput) {
   const existingEmail = propText(existing.properties.Email).toLowerCase();
   const existingCompany = propText(existing.properties.Company).toLowerCase();
   if (existingEmail && existingEmail !== input.email.toLowerCase()) {
-    throw Object.assign(new Error('External lead ID is associated with a different email identity'), { status: 409, retryable: false });
+    throw Object.assign(new Error('External lead ID is associated with a different email identity'), { publicStatus: 409, retryable: false });
   }
   if (existingCompany && input.businessName && existingCompany !== input.businessName.toLowerCase()) {
-    throw Object.assign(new Error('External lead ID is associated with a different business identity'), { status: 409, retryable: false });
+    throw Object.assign(new Error('External lead ID is associated with a different business identity'), { publicStatus: 409, retryable: false });
   }
 }
 
 function isReplay(existing: any, input: FundingLeadInput) {
-  return propText(existing?.properties?.['Webhook Event ID']) === input.eventId;
+  const audit = readAuditEnvelope(existing);
+  return propText(existing?.properties?.['Webhook Event ID']) === input.eventId || audit.submission_id === input.submissionId;
 }
 
 export async function upsertFundingLead(submission: ParsedTallySubmission): Promise<FundingLeadResult> {
@@ -351,9 +397,20 @@ export async function upsertFundingLead(submission: ParsedTallySubmission): Prom
     }
 
     if (existing) {
+      const audit = readAuditEnvelope(existing);
+      if (shouldIgnoreFundingStage(audit.stage, input.stage)) {
+        return {
+          success: true,
+          status: 200,
+          result: 'stale_stage_ignored',
+          notionId: existing.id,
+          externalLeadId: input.externalLeadId
+        };
+      }
+
       const page = await notionRequest(`/pages/${existing.id}`, {
         method: 'PATCH',
-        body: JSON.stringify({ properties: buildProperties(input, true) })
+        body: JSON.stringify({ properties: buildProperties(input, existing) })
       });
       return {
         success: true,
@@ -381,7 +438,7 @@ export async function upsertFundingLead(submission: ParsedTallySubmission): Prom
   } catch (error: any) {
     return {
       success: false,
-      status: Number(error?.status) || 500,
+      status: Number(error?.publicStatus) || 500,
       error: error?.message || 'Funding Leads persistence failed',
       retryable: Boolean(error?.retryable)
     };
