@@ -37,7 +37,7 @@
         "kind": { "enum": ["tool", "resource"] },
         "category": { "type": "string", "minLength": 1 },
         "resourceType": { "type": "string", "minLength": 1 },
-        "renderType": { "enum": ["iframe", "internal", "external"] },
+        "renderType": { "enum": ["iframe", "internal", "external", "guide"] },
         "accessLevel": { "enum": ["public", "portal", "admin"] },
         "status": { "type": "string", "minLength": 1 },
         "url": { "type": "string", "minLength": 1 },
