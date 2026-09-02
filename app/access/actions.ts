@@ -1,13 +1,22 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { createSession, timingSafeEqual, getSession, destroySession } from '@/lib/auth';
+import {
+  createSession,
+  destroySession,
+  timingSafeEqual,
+  type Role,
+} from '@/lib/auth';
+import { resolveAuthorizedReturnTo } from '@/lib/permissions';
 
-export async function authenticate(prevState: { error: string | null }, formData: FormData): Promise<{ error: string | null }> {
-  const code = formData.get('code') as string;
-  const returnTo = formData.get('returnTo') as string;
+export async function authenticate(
+  prevState: { error: string | null },
+  formData: FormData
+): Promise<{ error: string | null }> {
+  const code = formData.get('code');
+  const returnTo = formData.get('returnTo');
 
-  if (!code) {
+  if (typeof code !== 'string' || !code) {
     return { error: 'Access code required' };
   }
 
@@ -15,31 +24,34 @@ export async function authenticate(prevState: { error: string | null }, formData
   const portalPassword = process.env.PORTAL_ACCESS_PASSWORD;
 
   if (!process.env.AUTH_SESSION_SECRET || !adminPassword) {
-    return { error: 'System configuration missing' }; // Fail closed
+    return { error: 'System configuration missing' };
   }
 
-  // Timing safe comparisons
   const isAdmin = timingSafeEqual(code, adminPassword);
+  const isPortal = portalPassword
+    ? timingSafeEqual(code, portalPassword)
+    : false;
 
-  // Portal password is optional
-  const isPortal = portalPassword ? timingSafeEqual(code, portalPassword) : false;
-
+  let role: Role | null = null;
   if (isAdmin) {
-    await createSession('admin');
+    role = 'admin';
   } else if (isPortal) {
-    await createSession('portal');
-  } else {
-    // Artificial delay to mitigate timing attacks slightly
-    await new Promise(resolve => setTimeout(resolve, Math.random() * 500));
+    role = 'portal';
+  }
+
+  if (!role) {
+    await new Promise((resolve) => setTimeout(resolve, Math.random() * 500));
     return { error: 'Invalid access code' };
   }
 
-  // Handle redirect securely
-  if (returnTo && (returnTo.startsWith('/admin') || returnTo.startsWith('/portal'))) {
-    redirect(returnTo);
-  } else {
-    redirect(isAdmin ? '/admin' : '/portal');
-  }
+  await createSession(role);
+
+  redirect(
+    resolveAuthorizedReturnTo(
+      role,
+      typeof returnTo === 'string' ? returnTo : undefined
+    )
+  );
 }
 
 export async function signOut() {
