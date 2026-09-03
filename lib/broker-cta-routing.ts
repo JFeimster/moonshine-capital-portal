@@ -12,6 +12,7 @@ export function buildBrokerCtaHref(
   broker: BrokerProfile,
   type: BrokerCtaType,
   source: string,
+  fallbackHref?: string,
 ) {
   const cta = getCtaNode(broker, type);
   const registrySlug = cta?.registrySlug?.trim();
@@ -19,6 +20,8 @@ export function buildBrokerCtaHref(
   if (registrySlug) {
     return `/go/${encodeURIComponent(registrySlug)}`;
   }
+
+  if (fallbackHref) return fallbackHref;
 
   const params = new URLSearchParams({
     broker: broker.slug,
