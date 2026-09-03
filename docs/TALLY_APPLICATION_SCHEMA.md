@@ -1,60 +1,78 @@
 # Tally Funding Agent Application Schema
 
-The canonical live Join form is `rjM6do`.
+The canonical live Funding Agent Join form is `rjM6do`; the canonical Profile enrichment form is `9qjWEE`.
 
-Raw Tally `FORM_RESPONSE` events enter through `POST /api/webhooks/tally`, where the live Tally question UUIDs are normalized and dispatched to the shared Funding Agent Join service. `POST /api/intake/tally/application` remains a trusted compatibility endpoint for callers that already supply normalized JSON. Both paths execute the same lifecycle logic.
+Raw Tally `FORM_RESPONSE` events enter through `POST /api/webhooks/tally`, where live Tally question UUIDs are normalized and dispatched to the shared Funding Agent services. `POST /api/intake/tally/application` and `/api/intake/tally/profile` remain trusted compatibility endpoints for callers that already supply normalized JSON. Both raw and compatibility paths execute the same domain lifecycle services.
 
-## Applicant fields consumed when available
+## Minimal Join contract — `rjM6do`
 
-| Intake field | Canonical mapping | Requirement |
-| --- | --- | --- |
-| `fullName` | `fullName` / default `displayName` | required for a usable identity record |
-| `email` | normalized `email` | required as the deterministic merge key |
-| `agencyName` | `agencyName`; defaults to `fullName` at Join when omitted | optional at minimal Join; enrich through Profile Builder |
-| `phoneNumber` | `phoneNumber` | optional |
-| `city` | `city` | optional |
-| `state` | normalized `state` | optional |
-| `websiteUrl` | normalized `websiteUrl` | optional |
-| `shortBio` | `shortBio` | optional |
-| `profileImage` / `photoUrl` | `profileImage` | optional |
-| `logoUrl` | `logoUrl` | optional |
-| `bookingUrl` | `bookingUrl` | optional |
-
-## Minimal Join contract
-
-The onboarding flow separates identity creation from profile enrichment and approval. The canonical Join form therefore only needs a safe merge identity to create the Funding Agent record:
+The public Join step creates identity only. Required merge/identity inputs are:
 
 ```text
 fullName
 email
 ```
 
-Phone, referral metadata, consent, and source attribution may also be collected by the form, but they are not required for deterministic identity creation.
+Phone, referral metadata, consent, and attribution may also be collected. `agencyName` is optional at Join and falls back to `fullName` until Profile enrichment.
 
-When `agencyName` is omitted at Join, the service uses `fullName` as a neutral display-safe fallback. The follow-on Profile Builder is expected to replace/enrich that value when the agent supplies an agency or brand name. This keeps Join short without creating a second identity or weakening merge safety.
-
-## Source metadata
-
-When available, persist:
-
-- `tallyFormId` or `formId` → `tallyFormId`
-- `tallySubmissionId` or `submissionId` → `latestTallySubmissionId`
-- source route → `sourceForm = funding_agent_application`
-- initial/latest submission timestamps
-
-## Server-assigned partner type
-
-The applicant does not select a partner type. The Join service always assigns:
+Server-owned Join values:
 
 ```text
 partnerType = funding_agent
+sourceForm = funding_agent_join
+approvalStatus = needs_review
+profileStatus = draft
 ```
 
-The canonical form ID/source mapping is server-owned. Applicant-supplied partner type is not lifecycle authority.
+The applicant cannot select `partnerType` or lifecycle state.
+
+## Profile contract — `9qjWEE`
+
+Profile enrichment may populate:
+
+- `displayName`
+- `agencyName`
+- `city`
+- `state`
+- `shortBio`
+- `whyChooseYou`
+- `profileImage`
+- `websiteUrl`
+- `bookingUrl`
+- `fundingTypes`
+- `industries`
+- `markets`
+- `primaryCtaLabel`
+- `primaryCtaLink`
+
+The raw Profile webhook persists:
+
+```text
+sourceForm = funding_agent_profile
+```
+
+A public Profile submission resolves by normalized email and can enrich only an existing `needs_review + draft` record. Hidden `partner_id` is attribution/context, not proof of profile ownership. The Profile form cannot create an orphan record, approve a partner, or publish a profile.
+
+## Canonical Tally UUID mapping
+
+`lib/tally-webhook.ts` is the executable source for live form IDs, question UUIDs, choice IDs, and hidden-field aliases. Labels are compatibility aliases; UUIDs are the stable mapping keys.
+
+## Source metadata
+
+Persist when available:
+
+- `tallyFormId` / `formId` → `Tally Form ID`
+- `tallySubmissionId` / `submissionId` → `Latest Tally Submission ID`
+- Join → `sourceForm = funding_agent_join`
+- Profile → `sourceForm = funding_agent_profile`
+- `initialSubmissionAt` for first canonical creation
+- `latestSubmissionAt` / `updatedAt` for subsequent intake activity
 
 ## Approval and publication gate
 
-A public Join submission is never allowed to self-approve or self-publish. New Funding Agent identities begin as:
+Public Tally forms never self-approve or self-publish.
+
+New identity:
 
 ```text
 approvalStatus = needs_review
@@ -62,7 +80,7 @@ profileStatus = draft
 reviewReason = Awaiting profile completion and explicit approval
 ```
 
-The Profile Builder may enrich the existing canonical record, but it does not independently change lifecycle state. Public directory eligibility continues to require:
+Public directory eligibility requires:
 
 ```text
 approvalStatus = approved
@@ -70,16 +88,16 @@ AND
 profileStatus = published
 ```
 
-The Notion adapter preserves an already-approved/published lifecycle state when an existing Funding Agent re-submits the Join form, so a repeated identity submission does not demote a previously approved agent.
-
-Identity conflicts and persistence errors are never silently converted into public profiles.
+Existing non-default lifecycle state is preserved during ordinary blank-safe enrichment. Approved/published/hidden/suspended/rejected/archived records require a trusted update path rather than the public Profile form.
 
 ## Canonical identity
 
-The service preserves supplied canonical IDs when present and otherwise provisions deterministic fallback identity from the normalized email for first-time intake:
+For first-time Join, the service provisions deterministic values from normalized email when not supplied by a trusted caller:
 
 - `partnerId`
 - `referralCode`
 - `slug`
 
-Durable upsert resolves by partner ID, known submission ID, normalized email, or creation in that order.
+Persistence resolves by canonical partner ID, known submission ID, normalized email, or creation when allowed. Once persisted, `partnerId`, `referralCode`, `slug`, and the initial submission timestamp are preserved across retries/enrichment.
+
+See `docs/FIELD_MAPPING_CONTRACT.md` and `lib/partner-contract.ts` for the full cross-system contract.
