@@ -1,19 +1,34 @@
 # Canonical Broker / Partner Schema & Field Mapping Contract
 
-This file is the master cross-system contract for partner identity and profile data moving between Tally, Notion CRM, and public rendering.
+This is the master cross-system contract for Funding Agent identity and profile data moving from Tally through the Next.js application layer into Notion. Optional downstream adapters consume this contract; they do not redefine it.
+
+## Architecture
+
+```text
+Tally FORM_RESPONSE
+  → POST /api/webhooks/tally
+  → UUID-based normalization
+  → Funding Agent application services
+  → Notion Partners CRM
+```
+
+- Next.js/Vercel owns canonical normalization and lifecycle rules.
+- Notion is the operational source of truth.
+- n8n is optional downstream orchestration only.
+- Wix is optional downstream compatibility/publishing only.
 
 ## Identity contract
 
-`partnerId` / `partner_id` is the immutable cross-system identity.
+`partnerId` is the immutable cross-system identity.
 
 Matching/upsert order:
 
-1. `partnerId`, when supplied
-2. known intake/submission ID
+1. `partnerId`, when supplied by a trusted caller
+2. known Tally submission ID
 3. normalized `email`
-4. otherwise create a new canonical partner
+4. otherwise create a new canonical identity when creation is allowed
 
-Email is a matching field, not the permanent primary identity. Name, company, email, public slug display inputs, Notion page ID, and later system-specific IDs may change without changing the canonical partner ID.
+Public raw Tally Profile submissions do not get to assert `partnerId`; they resolve by normalized email and may enrich only a `needs_review + draft` record.
 
 Once assigned during normal operations, preserve:
 
@@ -21,95 +36,159 @@ Once assigned during normal operations, preserve:
 - `referralCode`
 - `slug`
 
-## Intake-source contract
+Email is a merge/contact field, not the permanent primary identity.
 
-The canonical Funding Agent application route is source-specific and assigns:
+## Lifecycle contract
 
-```text
-partnerType = funding_agent
-```
-
-server-side. It does not depend on an applicant-selected partner type.
-
-## Lifecycle fields
-
-Approval and publication remain separate:
+Canonical approval states:
 
 ```text
-approvalStatus = approved | needs_review | suspended | rejected
-profileStatus = draft | published | hidden | archived
+approved | needs_review | suspended | rejected
 ```
 
-Normal clean Funding Agent application:
+Canonical profile states:
 
 ```text
-approved + published
+draft | published | hidden | archived
 ```
 
-Exception application:
+A new public Funding Agent Join submission begins as:
 
 ```text
-needs_review + draft
+approvalStatus = needs_review
+profileStatus = draft
 ```
 
-Public eligibility requires both `approved` and `published`.
+The public Profile Builder enriches that existing record but cannot approve or publish it. Approval/publication is an explicit operator-controlled transition.
 
-## Canonical data model
+Public directory eligibility requires both:
 
-| Field | Type | Purpose |
-| --- | --- | --- |
-| `partnerId` | string | Immutable partner identity |
-| `referralCode` | string | Persistent attribution identity |
-| `slug` | string | Persistent public route identity |
-| `partnerType` | string | Intake-source assigned partner class |
-| `approvalStatus` | enum | Approval lifecycle |
-| `profileStatus` | enum | Publication lifecycle |
-| `reviewReason` | string | Exception reason when review is required |
-| `fullName` | string | Full name |
-| `displayName` | string | Preferred public display name |
-| `email` | string | Normalized fallback match/contact field |
-| `agencyName` | string | Company/agency |
-| `city` | string | City |
-| `state` | string | State/region |
-| `websiteUrl` | URL | Website |
-| `phoneNumber` | string | Phone |
-| `shortBio` | string | Public biography |
-| `industries` | string[] | Industries served |
-| `fundingTypes` | string[] | Funding products |
-| `specialties` | string[] | Specialties |
-| `markets` | string[] | Markets |
-| `profileImage` | URL | Profile/headshot image |
-| `logoUrl` | URL | Company logo |
-| `bookingUrl` | URL | Booking destination |
-| `primaryCtaLabel` | string | CTA label |
-| `primaryCtaLink` | URL | CTA destination |
-| `disclosures` | string[] | Disclosures |
+```text
+approvalStatus = approved
+AND
+profileStatus = published
+```
 
-## Traceability attributes
+Downstream Wix or other adapters may normalize legacy values such as `pending → needs_review`, but they may not introduce a competing lifecycle vocabulary.
 
-System/source identifiers are attributes, not canonical identity:
+## Form/source contract
 
-- `notionPageId`
+| Tally form | Role | `sourceForm` | Lifecycle authority |
+| --- | --- | --- | --- |
+| `rjM6do` | Funding Agent Join / identity creation | `funding_agent_join` | creates `needs_review + draft`; cannot self-approve/publish |
+| `9qjWEE` | Funding Agent Profile enrichment | `funding_agent_profile` | enrichment only; cannot create orphan records or change lifecycle |
+| `A7edqy` | Agency launch/operating plan | separate operating-plan workflow | none |
+
+The raw Tally mapping is keyed by live question UUIDs in `lib/tally-webhook.ts`.
+
+## Canonical field groups
+
+The executable field classification lives in `lib/partner-contract.ts`.
+
+### Immutable/persistent identity
+- `partnerId`
+- `referralCode`
+- `slug`
+
+### Merge keys
+- normalized `email`
+- `latestTallySubmissionId`
+
+### Lifecycle/internal
+- `approvalStatus`
+- `profileStatus`
+- `reviewReason`
+
+### Public profile
+- `fullName`
+- `displayName`
+- `agencyName`
+- `title`
+- `city`
+- `state`
+- `websiteUrl`
+- `phoneNumber`
+- `shortBio`
+- `whyChooseYou`
+- `industries`
+- `fundingTypes`
+- `specialties`
+- `markets`
+- `profileImage`
+- `logoUrl`
+- `bookingUrl`
+- `primaryCtaLabel`
+- `primaryCtaLink`
+- `disclosures`
+
+### Server-assigned
+- `partnerType` (`funding_agent` for the Funding Agent Join flow)
+
+### Traceability
+- `sourceForm`
 - `tallyFormId`
 - `latestTallySubmissionId`
-- future `supabaseUserId`
-- future `hubspotContactId`
+- `initialSubmissionAt`
+- `latestSubmissionAt`
+- `updatedAt`
+- `notionPageId`
 
-Source timestamps include `initialSubmissionAt`, `latestSubmissionAt`, and `updatedAt`.
+## Live Notion Partners CRM projection
+
+The live `Moonshine Capital Partners CRM` data source was reconciled against the application contract on 2026-09-02. The app writes the following canonical properties:
+
+| App field | Notion property |
+| --- | --- |
+| `fullName` | `Name` |
+| `email` | `Email` |
+| `agencyName` | `Company` |
+| `phoneNumber` | `Phone` |
+| `partnerId` | `Partner ID` |
+| `referralCode` | `Referral Code` |
+| `slug` | `Slug` |
+| `partnerType` | `Partner Type` |
+| `approvalStatus` | `Approval Status` |
+| `profileStatus` | `Profile Status` |
+| `reviewReason` | `Review Reason` |
+| `sourceForm` | `Source Form` |
+| `tallyFormId` | `Tally Form ID` |
+| `latestTallySubmissionId` | `Latest Tally Submission ID` |
+| `initialSubmissionAt` | `Initial Submission At` |
+| `latestSubmissionAt` | `Latest Submission At` |
+| `updatedAt` | `Updated At` |
+| `displayName` | `Display Name` |
+| `city` | `City` |
+| `state` | `State` |
+| `websiteUrl` | `Website URL` |
+| `shortBio` | `Bio` |
+| `whyChooseYou` | `Why Choose You` |
+| `urgencyCategory` | `Urgency Category` |
+| `profileImage` | `Photo URL` |
+| `logoUrl` | `Logo URL` |
+| `specialties` | `Specialties` |
+| `industries` | `Industries` |
+| `fundingTypes` | `Funding Types` |
+| `markets` | `Markets` |
+| `bookingUrl` | `Booking URL` |
+| `primaryCtaLabel` | `Primary CTA Label` |
+| `primaryCtaLink` | `Primary CTA URL` |
+| `disclosures` | `Disclosures` |
+
+The Notion adapter converts array-like profile fields to comma-separated text at the persistence boundary and converts them back to arrays when reading.
 
 ## Transformation rules
 
 - Normalize email to trimmed lowercase before matching.
-- Normalize supported U.S. state values to two-letter codes.
+- Normalize supported U.S. states to two-letter codes.
 - Normalize URLs and add a protocol when absent.
-- Normalize comma-separated/multi-select values to arrays in the application domain.
-- The current Notion CRM stores array-like profile values as comma-separated text; the adapter converts them at the persistence boundary.
+- Normalize Tally choice/multi-choice values to canonical labels/arrays.
 - Partial profile enrichment is blank-safe: blank values do not erase existing trusted values.
-- Slug generation is deterministic for a new identity; persisted slugs take precedence on retry/enrichment.
+- Persisted `partnerId`, `referralCode`, `slug`, and initial submission time win over later retries/enrichment.
+- Existing non-default lifecycle state is preserved during ordinary enrichment.
 
-## Attribution
+## Attribution and CTA routing
 
-Preserve canonical identity through existing tracking:
+Preserve partner/source attribution using:
 
 ```text
 partner_id
@@ -121,4 +200,4 @@ utm_medium
 utm_campaign
 ```
 
-Continue using the existing `/out` tracking infrastructure rather than creating a parallel attribution system.
+Broker CTAs prefer `/go/[registry-slug]` only when a stable registry-backed destination is explicitly assigned. Otherwise the existing attributed `/out?...` route remains the compatibility path so partner attribution is not discarded.
