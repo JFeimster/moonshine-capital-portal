@@ -4,6 +4,8 @@ import { CTASection } from '@/components/CTASection';
 import { SectionHeading } from '@/components/SectionHeading';
 import { getFeaturedBrokers } from '@/lib/brokers';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const featuredBrokers = await getFeaturedBrokers();
 
