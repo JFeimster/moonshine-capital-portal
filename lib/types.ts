@@ -5,6 +5,7 @@ export interface CTANode {
   url: string;
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
   trackingId?: string;
+  registrySlug?: string;
 }
 
 export interface BrokerProfile {
