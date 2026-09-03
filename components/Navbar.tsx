@@ -12,7 +12,7 @@ const primaryLinks = [
 export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b-4 border-neo-black bg-neo-cream/95 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 md:px-8 lg:px-12">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 md:px-6 md:py-3 lg:px-8">
         <Link href="/" className="flex items-center gap-3 font-black uppercase tracking-tighter text-lg md:text-2xl text-neo-black">
           <span className="flex h-9 w-9 items-center justify-center border-2 border-neo-black bg-neo-yellow text-xs shadow-brutal">DF</span>
           <span>Distilled Funding</span>

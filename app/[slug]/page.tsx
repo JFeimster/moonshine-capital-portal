@@ -81,21 +81,21 @@ export default async function PublicFundingPage({
       <PartnerIdentityStrip broker={broker} />
       <PartnerSiteHeader broker={broker} active="Home" />
 
-      <section className="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-20">
-        <div className="grid lg:grid-cols-[1.35fr_.65fr] gap-10 items-start">
+      <section className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-9 md:py-12">
+        <div className="grid lg:grid-cols-[1.15fr_.85fr] gap-7 items-start">
           <div>
-            <div className="inline-block border-2 border-neo-black bg-neo-yellow px-3 py-1 font-black uppercase text-xs tracking-widest mb-6">Business Funding</div>
-            <h1 className="font-black uppercase tracking-tighter text-5xl md:text-7xl leading-[0.92] max-w-4xl">Capital for the business you are actually building.</h1>
-            {getPartnerSupportLine(broker) && <p className="mt-7 text-xl md:text-2xl font-bold max-w-3xl leading-snug">{getPartnerSupportLine(broker)}</p>}
-            <p className="mt-4 text-lg font-bold max-w-3xl leading-snug">Tell us what you need. We route the opportunity through the funding process and help you identify a practical next step without making you chase twenty different forms.</p>
-            <div className="mt-8 flex flex-wrap gap-4">
+            <div className="inline-block border-2 border-neo-black bg-neo-yellow px-3 py-1 font-black uppercase text-xs tracking-widest mb-4">Business Funding</div>
+            <h1 className="font-black uppercase tracking-tighter text-5xl md:text-6xl lg:text-[clamp(3.5rem,5vw,5.75rem)] leading-[0.9] max-w-4xl">Capital for the business you are actually building.</h1>
+            {getPartnerSupportLine(broker) && <p className="mt-5 text-lg md:text-xl font-bold max-w-3xl leading-snug">{getPartnerSupportLine(broker)}</p>}
+            <p className="mt-3 text-base font-bold max-w-3xl leading-snug">Tell us what you need. We route the opportunity through the funding process and help you identify a practical next step without making you chase twenty different forms.</p>
+            <div className="mt-6 flex flex-wrap gap-3">
               <a href={applyUrl} className="inline-flex items-center justify-center bg-neo-black text-neo-white border-4 border-neo-black px-7 py-4 font-black uppercase tracking-wide shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">Apply for Funding</a>
               {bookingUrl && <Link href={bookingUrl} className="inline-flex items-center justify-center bg-neo-white border-4 border-neo-black px-7 py-4 font-black uppercase tracking-wide shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">Book a Call</Link>}
             </div>
             <p className="mt-4 text-sm font-bold text-neo-black/65">No funding guarantee. No need to enter a referral code; attribution is already attached to this page.</p>
           </div>
 
-          <aside className="border-4 border-neo-black bg-neo-black text-neo-white shadow-brutal p-7 md:p-8">
+          <aside className="border-4 border-neo-black bg-neo-black text-neo-white shadow-brutal p-5 md:p-6">
             <div className="flex gap-5 items-center">
               {broker.profileImage ? <img src={broker.profileImage} alt={name} className="w-20 h-20 object-cover border-4 border-neo-green" /> : <div className="w-20 h-20 border-4 border-neo-green flex items-center justify-center font-black text-3xl text-neo-green">{name.charAt(0)}</div>}
               <div>
@@ -105,8 +105,8 @@ export default async function PublicFundingPage({
                 {location && <p className="text-sm text-neo-white/60 mt-1">{location}</p>}
               </div>
             </div>
-            {(broker.shortBio || broker.whyChooseYou) && <p className="mt-6 font-medium leading-relaxed text-neo-white/85">{broker.shortBio || broker.whyChooseYou}</p>}
-            <div className="mt-6 space-y-2 text-sm font-bold">
+            {(broker.shortBio || broker.whyChooseYou) && <p className="mt-4 font-medium leading-relaxed text-neo-white/85">{broker.shortBio || broker.whyChooseYou}</p>}
+            <div className="mt-4 space-y-2 text-sm font-bold">
               {broker.publicEmail && <a className="block text-neo-green hover:underline" href={`mailto:${broker.publicEmail}`}>{broker.publicEmail}</a>}
               {broker.phoneNumber && <a className="block hover:underline" href={`tel:${broker.phoneNumber}`}>{broker.phoneNumber}</a>}
               {bookingUrl && <Link className="block text-neo-green hover:underline" href={bookingUrl}>Book with {name}</Link>}
@@ -119,10 +119,10 @@ export default async function PublicFundingPage({
       </section>
 
       <section className="border-y-4 border-neo-black bg-neo-black text-neo-white">
-        <div className="mx-auto grid max-w-7xl gap-2 px-6 py-5 sm:grid-cols-3 md:px-12 lg:grid-cols-6">
+        <div className="mx-auto grid max-w-7xl gap-2 px-4 py-4 sm:grid-cols-3 md:px-6 lg:grid-cols-6 lg:px-8">
           {[['Funding', `/${broker.slug}/funding`], ['Industries', `/${broker.slug}/industries`], ['Solutions', `/${broker.slug}/campaign`], ['Tools', `/${broker.slug}/tools`], ['Resources', `/${broker.slug}/resources`], ['About', `/${broker.slug}/about`]].map(([label, href]) => <Link key={href} href={href} className="border-2 border-neo-white/40 px-3 py-3 text-xs font-black uppercase tracking-[0.16em] hover:bg-neo-yellow hover:text-neo-black">{label}</Link>)}
         </div>
-        <div className="mx-auto flex max-w-7xl flex-wrap gap-5 px-6 pb-5 text-xs font-black uppercase tracking-[0.16em] text-neo-green md:px-12"><span>{fundingPages.length} Funding Paths</span><span>{industryPages.length} Industries</span><span>{resources.length} Resources</span></div>
+        <div className="mx-auto flex max-w-7xl flex-wrap gap-4 px-4 pb-4 text-xs font-black uppercase tracking-[0.16em] text-neo-green md:px-6 lg:px-8"><span>{fundingPages.length} Funding Paths</span><span>{industryPages.length} Industries</span><span>{resources.length} Resources</span></div>
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-14 md:px-12">

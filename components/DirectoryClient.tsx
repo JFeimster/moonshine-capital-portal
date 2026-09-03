@@ -61,7 +61,7 @@ export function DirectoryClient({ initialBrokers }: DirectoryClientProps) {
   };
 
   return (
-    <div className="py-12 px-6 md:px-12 max-w-7xl mx-auto">
+    <div className="py-8 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
       <DirectoryFilters
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -78,7 +78,7 @@ export function DirectoryClient({ initialBrokers }: DirectoryClientProps) {
         availableIndustries={availableIndustries}
       />
 
-      <div className="mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 bg-neo-cream p-4 border-2 border-neo-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+      <div className="mb-6 flex flex-col sm:flex-row justify-between items-center gap-3 bg-neo-cream p-3 border-2 border-neo-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
         <div aria-live="polite" className="font-bold uppercase tracking-wider">
           Showing {filteredBrokers.length} partner{filteredBrokers.length !== 1 ? 's' : ''}
         </div>
@@ -105,7 +105,7 @@ export function DirectoryClient({ initialBrokers }: DirectoryClientProps) {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredBrokers.map(broker => (
             <BrokerCard key={broker.id} broker={broker} />
           ))}

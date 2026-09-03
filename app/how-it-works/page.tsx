@@ -38,18 +38,18 @@ const steps = [
 export default function HowItWorksPage() {
   return (
     <main className="bg-neo-white text-neo-black">
-      <section className="border-b-4 border-neo-black bg-neo-yellow px-6 py-16 md:px-8 lg:px-12">
+      <section className="border-b-4 border-neo-black bg-neo-yellow px-4 py-12 md:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <span className="eyebrow mb-6">Capital flow</span>
-          <h1 className="max-w-4xl text-5xl font-black uppercase tracking-tighter md:text-6xl lg:text-7xl">How the capital network works.</h1>
-          <p className="mt-6 max-w-3xl text-xl font-bold leading-relaxed md:text-2xl">
+          <h1 className="max-w-4xl text-5xl font-black uppercase tracking-tighter md:text-6xl">How the capital network works.</h1>
+          <p className="mt-4 max-w-3xl text-lg font-bold leading-relaxed md:text-xl">
             We do not hand you a generic bank script. We align your business with the path, the advisor, and the documentation required to move with clarity.
           </p>
         </div>
       </section>
 
-      <section className="section-shell py-16 md:py-20">
-        <div className="grid gap-6 lg:grid-cols-5">
+      <section className="section-shell py-12 md:py-14">
+        <div className="grid gap-4 lg:grid-cols-5">
           {steps.map((step) => (
             <div key={step.number} className="process-step">
               <div className="mb-4 text-3xl font-black tracking-tighter text-neo-blue">{step.number}</div>
@@ -60,10 +60,10 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      <section className="bg-neo-black px-6 py-16 text-neo-white md:px-8 lg:px-12">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2">
+      <section className="bg-neo-black px-4 py-12 text-neo-white md:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-2">
           <div className="panel-block bg-neo-cream text-neo-black">
-            <h2 className="mb-6 text-3xl font-black uppercase tracking-tighter">What to expect</h2>
+            <h2 className="mb-4 text-3xl font-black uppercase tracking-tighter">What to expect</h2>
             <ul className="space-y-4 text-base font-bold leading-relaxed">
               <li>• Documents typically include recent financial statements, tax returns, business information, and a clear funding need.</li>
               <li>• The funding agent helps you understand which providers or structures make sense based on business profile and timing.</li>
@@ -73,7 +73,7 @@ export default function HowItWorksPage() {
           </div>
 
           <div className="panel-block bg-neo-black text-neo-white border-neo-white">
-            <h2 className="mb-6 text-3xl font-black uppercase tracking-tighter text-neo-yellow">After submission</h2>
+            <h2 className="mb-4 text-3xl font-black uppercase tracking-tighter text-neo-yellow">After submission</h2>
             <ol className="space-y-4 text-base font-bold leading-relaxed text-neo-white/85">
               <li>1. Intake and review to confirm the funding lane and request fit.</li>
               <li>2. An advisor or team member outlines the next practical step and any missing information.</li>
@@ -84,8 +84,8 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      <section className="section-shell py-16">
-        <div className="flex flex-col gap-6 rounded-none border-4 border-neo-black bg-neo-cream p-8 shadow-brutal md:flex-row md:items-center md:justify-between">
+      <section className="section-shell py-12">
+        <div className="flex flex-col gap-5 rounded-none border-4 border-neo-black bg-neo-cream p-6 shadow-brutal md:flex-row md:items-center md:justify-between">
           <div>
             <div className="text-sm font-black uppercase tracking-[0.2em] text-neo-blue">Ready to move</div>
             <h2 className="mt-3 text-3xl font-black uppercase tracking-tighter">Start with the deal, not the guesswork.</h2>

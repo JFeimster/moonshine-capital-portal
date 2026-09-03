@@ -13,16 +13,16 @@ export default async function Home() {
     <div>
       <HeroSection />
 
-      <section className="py-24 px-6 md:px-12 bg-neo-white text-neo-black">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-12 items-center">
+      <section className="py-14 px-4 md:px-6 lg:px-8 bg-neo-white text-neo-black">
+        <div className="max-w-7xl mx-auto grid gap-8 md:grid-cols-2 md:items-center">
           <div className="flex-1">
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-6">
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4">
               Why this directory exists
             </h2>
-            <p className="text-xl font-medium border-l-4 border-neo-orange pl-6 mb-8">
+            <p className="text-lg font-medium border-l-4 border-neo-orange pl-4 mb-5">
               Founders lose weeks pitching to banks that will never say yes. We created Distilled Funding to connect you directly with capital allocators who understand business and underwrite fast.
             </p>
-            <ul className="space-y-4 font-bold text-lg">
+            <ul className="space-y-3 font-bold text-base">
               <li className="flex items-center gap-3">
                 <span className="w-6 h-6 bg-neo-green border border-neo-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] inline-block"></span>
                 Vetted operators only
@@ -37,15 +37,15 @@ export default async function Home() {
               </li>
             </ul>
           </div>
-          <div className="flex-1 w-full bg-neo-black p-8 shadow-brutal border-4 border-neo-black transform md:rotate-2">
-            <div className="text-neo-yellow font-black text-3xl uppercase tracking-widest text-center">
+          <div className="w-full bg-neo-black p-6 shadow-brutal border-4 border-neo-black transform md:rotate-2">
+            <div className="text-neo-yellow font-black text-2xl uppercase tracking-widest text-center">
               Cut the Line
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-24 px-6 md:px-12">
+      <section className="py-14 px-4 md:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <SectionHeading title="Featured Partners" subtitle="Top Movers" color="pink" />
 

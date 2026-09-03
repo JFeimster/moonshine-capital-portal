@@ -38,9 +38,9 @@ const footerGroups = [
 export function Footer() {
   return (
     <footer className="border-t-4 border-neo-yellow bg-neo-black text-neo-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 md:px-8 lg:grid-cols-[1.25fr_1fr_1fr_1fr] lg:px-12">
+      <div className="mx-auto grid max-w-7xl gap-7 px-4 py-10 md:grid-cols-2 md:px-6 lg:grid-cols-[1.25fr_repeat(4,1fr)] lg:gap-6 lg:px-8">
         <div>
-          <div className="mb-4 flex items-center gap-3 font-black uppercase tracking-tighter text-2xl text-neo-yellow">
+          <div className="mb-3 flex items-center gap-3 font-black uppercase tracking-tighter text-2xl text-neo-yellow">
             <span className="flex h-9 w-9 items-center justify-center border-2 border-neo-yellow bg-neo-black text-xs">DF</span>
             Distilled Funding
           </div>
@@ -51,7 +51,7 @@ export function Footer() {
 
         {footerGroups.map((group) => (
           <div key={group.title}>
-            <h3 className="mb-4 text-xs font-black uppercase tracking-[0.2em] text-neo-green">{group.title}</h3>
+            <h3 className="mb-3 text-xs font-black uppercase tracking-[0.2em] text-neo-green">{group.title}</h3>
             <ul className="space-y-2 text-sm font-semibold text-neo-cream/85">
               {group.links.map((link) => (
                 <li key={link.href}>
@@ -66,7 +66,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-neo-white/15">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-5 text-xs font-bold uppercase tracking-[0.14em] text-neo-cream/60 md:px-8 lg:px-12">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 text-xs font-bold uppercase tracking-[0.14em] text-neo-cream/60 md:px-6 lg:px-8">
           <span>© {new Date().getFullYear()} Distilled Funding</span>
           <span>Capital Network</span>
         </div>
