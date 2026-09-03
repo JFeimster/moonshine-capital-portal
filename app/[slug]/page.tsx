@@ -4,6 +4,7 @@ import { getBrokerBySlug, getBrokers } from '@/lib/brokers';
 import { getFeaturedRegistryItems, getToolsForBroker } from '@/lib/embed-registry';
 import { BrokerUtilitySection } from '@/components/BrokerUtilitySection';
 import { buildPartnerLeadFormUrl, buildTrackedOutUrl, AttributionContext } from '@/lib/distribution';
+import { buildBrokerCtaHref } from '@/lib/broker-cta-routing';
 import { constructPartnerMetadata } from '@/lib/seo';
 import { generatePartnerSchema } from '@/lib/schema';
 
@@ -58,10 +59,13 @@ export default async function PublicFundingPage({
   const specialties = (broker.fundingTypes?.length ? broker.fundingTypes : broker.fundingSpecialties) || [];
   const industries = broker.industries || [];
   const markets = broker.markets || [];
-  const applyUrl = buildTrackedOutUrl(broker, 'apply', context);
+  const applyFallback = buildTrackedOutUrl(broker, 'apply', context);
+  const applyUrl = buildBrokerCtaHref(broker, 'apply', 'partner_funding_page', applyFallback);
   const leadFormUrl = buildPartnerLeadFormUrl(broker, context);
-  const bookingUrl = broker.bookingUrl ? buildTrackedOutUrl(broker, 'booking', context) : null;
-  const websiteUrl = broker.websiteUrl ? buildTrackedOutUrl(broker, 'website', context) : null;
+  const bookingFallback = broker.bookingUrl ? buildTrackedOutUrl(broker, 'booking', context) : null;
+  const bookingUrl = bookingFallback ? buildBrokerCtaHref(broker, 'booking', 'partner_funding_page', bookingFallback) : null;
+  const websiteFallback = broker.websiteUrl ? buildTrackedOutUrl(broker, 'website', context) : null;
+  const websiteUrl = websiteFallback ? buildBrokerCtaHref(broker, 'website', 'partner_funding_page', websiteFallback) : null;
   const brokerTools = await getToolsForBroker(broker.slug);
   const tools = brokerTools.length ? brokerTools : await getFeaturedRegistryItems(3);
   const disclosures = broker.disclosures?.length
@@ -92,16 +96,10 @@ export default async function PublicFundingPage({
         <div className="grid lg:grid-cols-[1.35fr_.65fr] gap-10 items-start">
           <div>
             <div className="inline-block border-2 border-neo-black bg-neo-yellow px-3 py-1 font-black uppercase text-xs tracking-widest mb-6">Business Funding</div>
-            <h1 className="font-black uppercase tracking-tighter text-5xl md:text-7xl leading-[0.92] max-w-4xl">
-              Capital for the business you are actually building.
-            </h1>
-            <p className="mt-7 text-xl md:text-2xl font-bold max-w-3xl leading-snug">
-              Tell us what you need. We route the opportunity through the funding process and help you identify a practical next step without making you chase twenty different forms.
-            </p>
+            <h1 className="font-black uppercase tracking-tighter text-5xl md:text-7xl leading-[0.92] max-w-4xl">Capital for the business you are actually building.</h1>
+            <p className="mt-7 text-xl md:text-2xl font-bold max-w-3xl leading-snug">Tell us what you need. We route the opportunity through the funding process and help you identify a practical next step without making you chase twenty different forms.</p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <a href={applyUrl} className="inline-flex items-center justify-center bg-neo-black text-neo-white border-4 border-neo-black px-7 py-4 font-black uppercase tracking-wide shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
-                {broker.ctaLabel || broker.primaryCta?.label || 'Request Funding Review'}
-              </a>
+              <a href={applyUrl} className="inline-flex items-center justify-center bg-neo-black text-neo-white border-4 border-neo-black px-7 py-4 font-black uppercase tracking-wide shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">{broker.ctaLabel || broker.primaryCta?.label || 'Request Funding Review'}</a>
               {bookingUrl && <a href={bookingUrl} className="inline-flex items-center justify-center bg-neo-white border-4 border-neo-black px-7 py-4 font-black uppercase tracking-wide shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">Book a Call</a>}
             </div>
             <p className="mt-4 text-sm font-bold text-neo-black/65">No funding guarantee. No need to enter a referral code; attribution is already attached to this page.</p>
@@ -109,11 +107,7 @@ export default async function PublicFundingPage({
 
           <aside className="border-4 border-neo-black bg-neo-black text-neo-white shadow-brutal p-7 md:p-8">
             <div className="flex gap-5 items-center">
-              {broker.profileImage ? (
-                <img src={broker.profileImage} alt={name} className="w-20 h-20 object-cover border-4 border-neo-green" />
-              ) : (
-                <div className="w-20 h-20 border-4 border-neo-green flex items-center justify-center font-black text-3xl text-neo-green">{name.charAt(0)}</div>
-              )}
+              {broker.profileImage ? <img src={broker.profileImage} alt={name} className="w-20 h-20 object-cover border-4 border-neo-green" /> : <div className="w-20 h-20 border-4 border-neo-green flex items-center justify-center font-black text-3xl text-neo-green">{name.charAt(0)}</div>}
               <div>
                 <div className="text-neo-green text-xs font-black uppercase tracking-[0.18em]">Your Funding Contact</div>
                 <h2 className="font-black text-2xl leading-tight mt-1">{name}</h2>
