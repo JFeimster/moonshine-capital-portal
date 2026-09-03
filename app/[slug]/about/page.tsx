@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     slug: broker.slug,
     partnerName: broker.displayName || broker.fullName,
     companyName: broker.companyName || broker.agencyName,
-    description: `About ${broker.fullName} and their funding advisory work.`,
+    description: `About ${broker.fullName} and their funding advisory work.`, path: '/about', pageTitle: 'About',
   });
 }
 

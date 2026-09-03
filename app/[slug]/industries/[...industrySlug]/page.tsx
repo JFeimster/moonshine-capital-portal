@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: { slug: string; ind
     slug: broker.slug,
     partnerName: broker.displayName || broker.fullName,
     companyName: broker.companyName || broker.agencyName,
-    description: `${page.title} funding guidance for ${broker.fullName}.`,
+    description: `${page.title} funding guidance for ${broker.fullName}.`, path: `/industries/${params.industrySlug?.join('/') || ''}`, pageTitle: page.title,
   });
 }
 

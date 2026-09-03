@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     slug: broker.slug,
     partnerName: broker.displayName || broker.fullName,
     companyName: broker.companyName || broker.agencyName,
-    description: `Explore funding options for ${broker.fullName} and the Distilled Funding network.`,
+    description: `Explore funding options for ${broker.fullName} and the Distilled Funding network.`, path: '/funding', pageTitle: 'Funding',
   });
 }
 

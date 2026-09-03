@@ -8,14 +8,7 @@ function slugify(value: string) {
   return value.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }
 
-const SITEMAP_CHUNK_SIZE = 45000;
-
-export async function generateSitemaps() {
-  const urls = await buildSitemapUrls();
-  return Array.from({ length: Math.max(1, Math.ceil(urls.length / SITEMAP_CHUNK_SIZE)) }, (_, id) => ({ id }));
-}
-
-async function buildSitemapUrls(): Promise<MetadataRoute.Sitemap> {
+export async function buildSitemapUrls(): Promise<MetadataRoute.Sitemap> {
   const brokers = await getBrokers();
   const staticPaths = [
     '/',
@@ -75,7 +68,6 @@ async function buildSitemapUrls(): Promise<MetadataRoute.Sitemap> {
   return urls;
 }
 
-export default async function sitemap({ id = 0 }: { id?: number } = {}): Promise<MetadataRoute.Sitemap> {
-  const urls = await buildSitemapUrls();
-  return urls.slice(id * SITEMAP_CHUNK_SIZE, (id + 1) * SITEMAP_CHUNK_SIZE);
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  return buildSitemapUrls();
 }

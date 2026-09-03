@@ -10,6 +10,6 @@ describe('partner sitemap coverage', () => {
     expect(urls.some((url) => url.includes('/industries/construction'))).toBe(true);
     expect(urls.some((url) => url.includes('/campaign/hvac'))).toBe(true);
     expect(urls.some((url) => url.includes('/resources/funding-readiness'))).toBe(true);
-    expect(urls.some((url) => url.includes('/admin') || url.includes('/portal') || url.includes('/access'))).toBe(false);
+    expect(urls.some((url) => url.includes('/admin') || url.includes('/portal') || url.includes('/access') || url.includes('/out') || url.includes('/go') || url.includes('/api'))).toBe(false);
   });
 });

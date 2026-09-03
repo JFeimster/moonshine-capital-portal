@@ -44,14 +44,21 @@ export function constructPartnerMetadata({
   partnerName,
   companyName,
   description,
+  path = '',
+  pageTitle,
 }: {
   slug: string;
   partnerName: string;
   companyName?: string | null;
   description?: string | null;
+  path?: string;
+  pageTitle?: string;
 }): Metadata {
-  const title = getPartnerTitle(partnerName, companyName);
-  const canonical = getCanonicalPartnerUrl(slug);
+  const title = pageTitle
+    ? `${pageTitle} | ${partnerName} | ${SITE_CONFIG.publicBrand}`
+    : getPartnerTitle(partnerName, companyName);
+  const relativePath = path ? `/${slug.replace(/^\/+|\/+$/g, '')}/${path.replace(/^\/+/, '')}` : `/${slug}`;
+  const canonical = getCanonicalUrl(relativePath);
   const resolvedDescription = description || `Explore business funding options with ${partnerName} and ${SITE_CONFIG.publicBrand}.`;
   return {
     title: { absolute: title },

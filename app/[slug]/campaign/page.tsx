@@ -11,7 +11,7 @@ export const revalidate = 3600;
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const broker = await getBrokerBySlug(params.slug);
   if (!broker) return { title: 'Solutions Not Found', robots: { index: false, follow: false } };
-  return constructPartnerMetadata({ slug: broker.slug, partnerName: broker.displayName || broker.fullName, companyName: broker.companyName || broker.agencyName, description: `Capital solutions for ${broker.fullName}.` });
+  return constructPartnerMetadata({ slug: broker.slug, partnerName: broker.displayName || broker.fullName, companyName: broker.companyName || broker.agencyName, description: `Capital solutions for ${broker.fullName}.`, path: '/campaign', pageTitle: 'Solutions' });
 }
 
 export default async function PartnerSolutionsPage({ params }: { params: { slug: string } }) {

@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     slug: broker.slug,
     partnerName: broker.displayName || broker.fullName,
     companyName: broker.companyName || broker.agencyName,
-    description: `Explore industries served by ${broker.fullName}.`,
+    description: `Explore industries served by ${broker.fullName}.`, path: '/industries', pageTitle: 'Industries',
   });
 }
 

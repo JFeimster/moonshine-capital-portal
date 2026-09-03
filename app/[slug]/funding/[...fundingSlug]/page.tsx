@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: { slug: string; fun
     slug: broker.slug,
     partnerName: broker.displayName || broker.fullName,
     companyName: broker.companyName || broker.agencyName,
-    description: `${page.title} funding details for ${broker.fullName}.`,
+    description: `${page.title} funding details for ${broker.fullName}.`, path: `/funding/${fundingSlug}`, pageTitle: page.title,
   });
 }
 

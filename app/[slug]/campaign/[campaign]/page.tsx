@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: { slug: string; cam
   const broker = await getBrokerBySlug(params.slug);
   const campaign = getPartnerCampaign(params.campaign);
   if (!broker || !campaign) return { title: 'Solution Not Found', robots: { index: false, follow: false } };
-  return constructPartnerMetadata({ slug: broker.slug, partnerName: broker.displayName || broker.fullName, companyName: broker.companyName || broker.agencyName, description: `${campaign.eyebrow} for ${broker.fullName}.` });
+  return constructPartnerMetadata({ slug: broker.slug, partnerName: broker.displayName || broker.fullName, companyName: broker.companyName || broker.agencyName, description: `${campaign.eyebrow} for ${broker.fullName}.`, path: `/campaign/${params.campaign}`, pageTitle: campaign.eyebrow });
 }
 
 export default async function PartnerSolutionDetailPage({ params }: { params: { slug: string; campaign: string } }) {

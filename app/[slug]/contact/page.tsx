@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     slug: broker.slug,
     partnerName: broker.displayName || broker.fullName,
     companyName: broker.companyName || broker.agencyName,
-    description: `Contact ${broker.fullName} for funding questions and next steps.`,
+    description: `Contact ${broker.fullName} for funding questions and next steps.`, path: '/contact', pageTitle: 'Contact',
   });
 }
 

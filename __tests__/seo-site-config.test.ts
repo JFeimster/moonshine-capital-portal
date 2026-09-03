@@ -37,6 +37,26 @@ describe('centralized site SEO configuration', () => {
     expect(schema.url).toBe('https://capital.distilledfunding.com/jane-smith');
   });
 
+  it('uses full canonical URLs for partner nested pages', () => {
+    const routes = [
+      '/funding/working-capital',
+      '/industries/hvac',
+      '/resources/funding-readiness',
+      '/campaign/hvac',
+    ];
+
+    for (const path of routes) {
+      const metadata = constructPartnerMetadata({
+        slug: 'darwin-hanneman',
+        partnerName: 'Darwin Hanneman',
+        path,
+        pageTitle: 'Funding Page',
+      });
+      expect(metadata.alternates?.canonical).toBe(`https://capital.distilledfunding.com/darwin-hanneman${path}`);
+      expect(metadata.openGraph?.url).toBe(`https://capital.distilledfunding.com/darwin-hanneman${path}`);
+    }
+  });
+
   it('uses canonical top-level URLs in directory ItemList schema', () => {
     const schema = generateItemListSchema([{ slug: 'jane-smith' }, { slug: 'alex-doe' }]);
     expect(schema.itemListElement.map((item) => item.url)).toEqual([
