@@ -65,10 +65,50 @@ export interface RegistryCoverageItem {
   coverageScore: number;
 }
 
+function normalizeRegistryItem(item: any, index: number): ToolRegistryItem {
+  const normalizedKind = item.kind || (String(item.asset_type || '').toUpperCase() === 'TOOL' ? 'tool' : 'resource');
+  const title = item.title || item.name || `Tool ${index + 1}`;
+  const slug = item.slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  const description = item.description || item.problem || item.output_artifact || 'Resource information.';
+
+  return {
+    id: item.id || slug,
+    slug,
+    title,
+    description,
+    kind: normalizedKind,
+    category: item.category || item.partner_channel || item.persona || 'general',
+    resourceType: item.resourceType || item.asset_type || 'guide',
+    renderType: item.renderType || (item.live_url || item.embedUrl ? 'external' : 'internal'),
+    accessLevel: item.accessLevel || 'public',
+    status: item.status || (item.build_state === 'live' ? 'active' : 'draft'),
+    url: item.url || item.live_url || item.ctaHref,
+    embedUrl: item.embedUrl || item.embed_url,
+    icon: item.icon,
+    ctaLabel: item.ctaLabel || item.cta?.label || item.ctaLabel || 'Learn more',
+    ctaHref: item.ctaHref || item.url || item.live_url,
+    tags: Array.isArray(item.tags) ? item.tags : [item.persona, item.partner_channel, item.category].filter(Boolean),
+    audience: Array.isArray(item.audience) ? item.audience : [item.persona].filter(Boolean),
+    verticals: Array.isArray(item.verticals) ? item.verticals : [item.partner_channel].filter(Boolean),
+    useCases: Array.isArray(item.useCases) ? item.useCases : [item.problem].filter(Boolean),
+    brokerAssignments: Array.isArray(item.brokerAssignments) ? item.brokerAssignments : [],
+    featured: Boolean(item.featured),
+    sortOrder: typeof item.sortOrder === 'number' ? item.sortOrder : index,
+    estimatedUseTime: item.estimatedUseTime,
+    roleFit: Array.isArray(item.roleFit) ? item.roleFit : [],
+    funnelStage: item.funnelStage || item.category,
+  };
+}
+
 async function readRegistryFile(): Promise<ToolRegistryFile> {
   const filePath = path.join(process.cwd(), 'data', 'embeds', 'tool-registry.json');
   const content = await fs.readFile(filePath, 'utf-8');
-  return JSON.parse(content) as ToolRegistryFile;
+  const parsed = JSON.parse(content) as any;
+  const entries = Array.isArray(parsed.entries) ? parsed.entries : Array.isArray(parsed.tools) ? parsed.tools : [];
+
+  return {
+    tools: entries.map((item: any, index: number) => normalizeRegistryItem(item, index)),
+  };
 }
 
 function bySortThenTitle(a: ToolRegistryItem, b: ToolRegistryItem) {
