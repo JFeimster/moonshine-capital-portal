@@ -1,7 +1,7 @@
 {
   "id": "partner-site-tool-placement",
-  "version": "1.0.0",
-  "purpose": "Non-destructive placement map for matching existing tool-registry items to partner-site contexts. Slugs are candidate concepts until an active registry destination exists.",
+  "version": "2.0.0",
+  "purpose": "Context mappings only. Existing tool registry remains authoritative; inactive/missing destinations must not render.",
   "placements": [
     {
       "context": "working-capital",
@@ -42,6 +42,31 @@
       "context": "offer-comparison",
       "candidateToolSlugs": [
         "the-merchant-cash-advance-mca-repayment-estimator"
+      ]
+    },
+    {
+      "context": "ecommerce",
+      "candidateToolSlugs": [
+        "the-credit-score-vs-cash-flow-analyzer"
+      ]
+    },
+    {
+      "context": "contractors",
+      "candidateToolSlugs": [
+        "the-neca-material-money-quoter",
+        "the-blue-collar-banker-lead-qualifier"
+      ]
+    },
+    {
+      "context": "business-acquisition",
+      "candidateToolSlugs": [
+        "the-credit-score-vs-cash-flow-analyzer"
+      ]
+    },
+    {
+      "context": "equipment-finance",
+      "candidateToolSlugs": [
+        "the-credit-score-vs-cash-flow-analyzer"
       ]
     }
   ]

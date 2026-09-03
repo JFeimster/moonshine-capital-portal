@@ -6,6 +6,7 @@ type FAQItem = { question: string; answer: string };
 
 type FundingFamily = {
   slug: string;
+  route?: string | null;
   name?: string;
   publicName?: string;
   summary?: string;
@@ -13,6 +14,9 @@ type FundingFamily = {
   bestFitBorrower?: string[];
   requiredDocuments?: string[];
   relatedToolIds?: string[];
+  visibility?: string;
+  status?: string;
+  deprecated?: boolean;
 };
 
 type FundingOverlay = {
@@ -26,6 +30,7 @@ type FundingOverlay = {
   relatedIndustrySlugs?: string[];
   relatedFundingSlugs?: string[];
   relatedResourceSlugs?: string[];
+  relatedToolSlugs?: string[];
   faq?: FAQItem[];
 };
 
@@ -102,25 +107,31 @@ function readRegistry<T>(...segments: string[]): RegistryFile<T> {
 
 export function listPartnerFundingPages(): PartnerFundingPage[] {
   const canonical = readRegistry<FundingFamily>('funding', 'funding-product-families.registry.json').entries ?? [];
-  const overlays = new Map((readRegistry<FundingOverlay>('partner-site', 'funding-pages.registry.json').entries ?? []).map((entry) => [entry.slug, entry]));
+  const overlayEntries = readRegistry<FundingOverlay>('partner-site', 'funding-pages.registry.json').entries ?? [];
+  const overlays = new Map(overlayEntries.filter((entry) => entry.slug).map((entry) => [entry.slug, entry]));
+  const publicCanonical = canonical.filter((entry) => {
+    if (!entry.slug || overlays.has(entry.slug)) return Boolean(entry.slug);
+    return entry.status !== 'deprecated' && !entry.deprecated && entry.visibility !== 'internal' && Boolean(entry.route);
+  });
 
-  return canonical.filter((entry) => entry.slug).map((entry) => {
+  return [...publicCanonical, ...overlayEntries.filter((entry) => entry.slug && !canonical.some((item) => item.slug === entry.slug))].map((entry) => {
     const overlay = overlays.get(entry.slug);
+    const canonicalEntry = canonical.find((item) => item.slug === entry.slug);
     return {
       slug: entry.slug,
-      title: overlay?.title || entry.publicName || entry.name || 'Funding Option',
-      description: overlay?.description || entry.summary || 'Funding option information.',
-      summary: overlay?.summary || entry.summary || 'Funding option information.',
-      useCases: overlay?.useCases || entry.commonUseCases || [],
-      whoItMayFit: overlay?.whoItMayFit || entry.bestFitBorrower || [],
-      whatToPrepare: overlay?.whatToPrepare || entry.requiredDocuments || [],
-      relatedIndustrySlugs: overlay?.relatedIndustrySlugs || [],
-      relatedFundingSlugs: overlay?.relatedFundingSlugs || [],
-      relatedResourceSlugs: overlay?.relatedResourceSlugs || [],
-      relatedToolSlugs: entry.relatedToolIds || [],
-      faq: overlay?.faq || [
-        { question: 'Who is this typically best for?', answer: entry.bestFitBorrower?.[0] || 'This capital lane is most useful when the business has a clear use case and repayment source.' },
-        { question: 'What should I prepare?', answer: entry.requiredDocuments?.[0] || 'Prepare recent business financials, use-case details, and an outline of the financing need.' },
+      title: overlay?.title ?? canonicalEntry?.publicName ?? canonicalEntry?.name ?? 'Funding Option',
+      description: overlay?.description ?? canonicalEntry?.summary ?? 'Funding option information.',
+      summary: overlay?.summary ?? canonicalEntry?.summary ?? 'Funding option information.',
+      useCases: overlay?.useCases ?? canonicalEntry?.commonUseCases ?? [],
+      whoItMayFit: overlay?.whoItMayFit ?? canonicalEntry?.bestFitBorrower ?? [],
+      whatToPrepare: overlay?.whatToPrepare ?? canonicalEntry?.requiredDocuments ?? [],
+      relatedIndustrySlugs: overlay?.relatedIndustrySlugs ?? [],
+      relatedFundingSlugs: overlay?.relatedFundingSlugs ?? [],
+      relatedResourceSlugs: overlay?.relatedResourceSlugs ?? [],
+      relatedToolSlugs: overlay?.relatedToolSlugs ?? canonicalEntry?.relatedToolIds ?? [],
+      faq: overlay?.faq ?? [
+        { question: 'Who is this typically best for?', answer: canonicalEntry?.bestFitBorrower?.[0] || 'This capital lane is most useful when the business has a clear use case and repayment source.' },
+        { question: 'What should I prepare?', answer: canonicalEntry?.requiredDocuments?.[0] || 'Prepare recent business financials, use-case details, and an outline of the financing need.' },
       ],
     };
   });

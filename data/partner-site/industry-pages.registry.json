@@ -1,15 +1,15 @@
 {
   "id": "partner-site-industry-pages",
-  "version": "1.0.0",
-  "purpose": "Partner-site industry content. Framed around capital needs and advisor guidance.",
+  "version": "2.0.0",
+  "purpose": "Capital-oriented industry pages for partner websites.",
   "entries": [
     {
       "slug": "construction",
       "title": "Construction & Trades",
-      "description": "Capital for contractors, builders, and trade businesses managing payroll, materials, equipment, and project timing.",
-      "summary": "Capital for contractors, builders, and trade businesses managing payroll, materials, equipment, and project timing.",
+      "description": "Capital strategies for construction & trades managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Construction & Trades businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
-        "Payroll before customer draws",
+        "Payroll before draws",
         "Materials and mobilization",
         "Equipment replacement",
         "Retainage and slow receivables"
@@ -22,29 +22,29 @@
       "relatedResourceSlugs": [
         "funding-readiness",
         "cash-flow-preparation",
-        "equipment-financing-guide"
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in construction & trades?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for construction & trades?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "contractors",
       "title": "Contractors",
-      "description": "Capital support for general and specialty contractors balancing job costs, payroll, materials, and customer payment cycles.",
-      "summary": "Capital support for general and specialty contractors balancing job costs, payroll, materials, and customer payment cycles.",
+      "description": "Capital strategies for contractors managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Contractors businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
-        "Mobilization costs",
+        "Mobilization",
         "Subcontractor payroll",
-        "Material purchases",
+        "Materials",
         "Project-gap cash flow"
       ],
       "relevantFundingSlugs": [
@@ -54,26 +54,26 @@
       ],
       "relatedResourceSlugs": [
         "funding-readiness",
-        "business-bank-statements",
-        "cash-flow-preparation"
+        "cash-flow-preparation",
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in contractors?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for contractors?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "hvac",
       "title": "HVAC",
-      "description": "Funding for HVAC companies managing seasonality, technician payroll, vehicles, equipment, and large job material costs.",
-      "summary": "Funding for HVAC companies managing seasonality, technician payroll, vehicles, equipment, and large job material costs.",
+      "description": "Capital strategies for hvac managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "HVAC businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Seasonal payroll",
         "Service vehicles",
@@ -87,26 +87,26 @@
       ],
       "relatedResourceSlugs": [
         "funding-readiness",
-        "equipment-financing-guide",
-        "cash-flow-preparation"
+        "cash-flow-preparation",
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in hvac?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for hvac?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "roofing",
       "title": "Roofing",
-      "description": "Capital for roofing contractors facing material deposits, labor costs, insurance-payment timing, and seasonal demand.",
-      "summary": "Capital for roofing contractors facing material deposits, labor costs, insurance-payment timing, and seasonal demand.",
+      "description": "Capital strategies for roofing managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Roofing businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Material deposits",
         "Crew payroll",
@@ -126,20 +126,20 @@
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in roofing?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for roofing?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "plumbing",
       "title": "Plumbing",
-      "description": "Funding for plumbing companies investing in vehicles, equipment, inventory, technicians, and job-site execution.",
-      "summary": "Funding for plumbing companies investing in vehicles, equipment, inventory, technicians, and job-site execution.",
+      "description": "Capital strategies for plumbing managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Plumbing businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Service vehicles",
         "Technician hiring",
@@ -152,27 +152,27 @@
         "business-line-access"
       ],
       "relatedResourceSlugs": [
-        "equipment-financing-guide",
         "funding-readiness",
-        "application-checklist"
+        "cash-flow-preparation",
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in plumbing?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for plumbing?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "electrical",
       "title": "Electrical",
-      "description": "Capital for electrical contractors managing labor, materials, fleet needs, and larger project schedules.",
-      "summary": "Capital for electrical contractors managing labor, materials, fleet needs, and larger project schedules.",
+      "description": "Capital strategies for electrical managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Electrical businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Wire and material purchases",
         "Payroll",
@@ -187,25 +187,25 @@
       "relatedResourceSlugs": [
         "funding-readiness",
         "cash-flow-preparation",
-        "equipment-financing-guide"
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in electrical?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for electrical?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "landscaping",
       "title": "Landscaping",
-      "description": "Funding for landscaping businesses balancing seasonality, crews, equipment, vehicles, and contract startup costs.",
-      "summary": "Funding for landscaping businesses balancing seasonality, crews, equipment, vehicles, and contract startup costs.",
+      "description": "Capital strategies for landscaping managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Landscaping businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Seasonal hiring",
         "Mowers and equipment",
@@ -219,26 +219,26 @@
       ],
       "relatedResourceSlugs": [
         "funding-readiness",
-        "equipment-financing-guide",
-        "cash-flow-preparation"
+        "cash-flow-preparation",
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in landscaping?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for landscaping?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "trucking",
       "title": "Trucking & Transportation",
-      "description": "Capital for trucking operators managing fuel, driver payroll, equipment, maintenance, and uneven payment cycles.",
-      "summary": "Capital for trucking operators managing fuel, driver payroll, equipment, maintenance, and uneven payment cycles.",
+      "description": "Capital strategies for trucking & transportation managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Trucking & Transportation businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Fuel and payroll",
         "Truck acquisition",
@@ -251,27 +251,27 @@
         "term-financing"
       ],
       "relatedResourceSlugs": [
-        "equipment-financing-guide",
+        "funding-readiness",
         "cash-flow-preparation",
-        "funding-readiness"
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in trucking & transportation?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for trucking & transportation?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "owner-operators",
       "title": "Owner-Operators",
-      "description": "Capital for owner-operators covering equipment, repairs, insurance, fuel, and operating gaps.",
-      "summary": "Capital for owner-operators covering equipment, repairs, insurance, fuel, and operating gaps.",
+      "description": "Capital strategies for owner-operators managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Owner-Operators businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Truck repairs",
         "Insurance premiums",
@@ -284,27 +284,27 @@
         "business-line-access"
       ],
       "relatedResourceSlugs": [
-        "equipment-financing-guide",
         "funding-readiness",
-        "cash-flow-preparation"
+        "cash-flow-preparation",
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in owner-operators?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for owner-operators?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "fleets",
       "title": "Trucking Fleets",
-      "description": "Capital for fleet operators adding trucks, drivers, routes, and maintenance capacity.",
-      "summary": "Capital for fleet operators adding trucks, drivers, routes, and maintenance capacity.",
+      "description": "Capital strategies for trucking fleets managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Trucking Fleets businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Fleet expansion",
         "Driver payroll",
@@ -317,60 +317,93 @@
         "working-capital"
       ],
       "relatedResourceSlugs": [
-        "equipment-financing-guide",
-        "offer-comparison",
-        "cash-flow-preparation"
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in trucking fleets?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for trucking fleets?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "logistics",
+      "title": "Logistics & Freight",
+      "description": "Capital strategies for logistics & freight managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Logistics & Freight businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Carrier payments",
+        "Payroll",
+        "Technology",
+        "Receivable timing"
+      ],
+      "relevantFundingSlugs": [
+        "invoice-financing",
+        "business-line-access",
+        "working-capital"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for logistics & freight?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "restaurants",
-      "title": "Restaurants & Hospitality",
-      "description": "Capital for restaurants and hospitality operators managing payroll, inventory, equipment, remodels, and seasonality.",
-      "summary": "Capital for restaurants and hospitality operators managing payroll, inventory, equipment, remodels, and seasonality.",
+      "title": "Restaurants",
+      "description": "Capital strategies for restaurants managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Restaurants businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Payroll",
-        "Food and beverage inventory",
+        "Food inventory",
         "Equipment",
-        "Remodeling and expansion"
+        "Renovation and expansion"
       ],
       "relevantFundingSlugs": [
         "working-capital",
-        "business-line-access",
+        "equipment-finance",
         "sba"
       ],
       "relatedResourceSlugs": [
         "funding-readiness",
-        "offer-comparison",
-        "equipment-financing-guide"
+        "cash-flow-preparation",
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in restaurants & hospitality?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for restaurants?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "food-trucks",
       "title": "Food Trucks",
-      "description": "Capital for mobile food businesses purchasing vehicles, equipment, inventory, permits, and operating cushion.",
-      "summary": "Capital for mobile food businesses purchasing vehicles, equipment, inventory, permits, and operating cushion.",
+      "description": "Capital strategies for food trucks managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Food Trucks businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Truck purchase or retrofit",
         "Kitchen equipment",
@@ -383,27 +416,93 @@
         "startup-credit-leverage"
       ],
       "relatedResourceSlugs": [
-        "equipment-financing-guide",
         "funding-readiness",
-        "credit-preparation"
+        "cash-flow-preparation",
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in food trucks?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for food trucks?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "hospitality",
+      "title": "Hospitality",
+      "description": "Capital strategies for hospitality managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Hospitality businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Property improvements",
+        "Payroll",
+        "Furniture and equipment",
+        "Seasonality"
+      ],
+      "relevantFundingSlugs": [
+        "commercial-real-estate",
+        "equipment-finance",
+        "working-capital"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for hospitality?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "hotels",
+      "title": "Hotels & Lodging",
+      "description": "Capital strategies for hotels & lodging managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Hotels & Lodging businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Property renovation",
+        "FF&E",
+        "Payroll",
+        "Seasonal occupancy"
+      ],
+      "relevantFundingSlugs": [
+        "commercial-real-estate",
+        "bridge-loans",
+        "equipment-finance"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for hotels & lodging?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "medical",
       "title": "Medical Practices",
-      "description": "Capital for medical practices supporting staffing, equipment, expansion, and reimbursement-cycle cash flow.",
-      "summary": "Capital for medical practices supporting staffing, equipment, expansion, and reimbursement-cycle cash flow.",
+      "description": "Capital strategies for medical practices managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Medical Practices businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Payroll and staffing",
         "Medical equipment",
@@ -416,27 +515,27 @@
         "business-line-access"
       ],
       "relatedResourceSlugs": [
-        "equipment-financing-guide",
         "funding-readiness",
-        "document-checklist"
+        "cash-flow-preparation",
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in medical practices?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for medical practices?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "dental",
       "title": "Dental Practices",
-      "description": "Capital for dental practices purchasing equipment, expanding operatories, hiring staff, and managing insurance receivables.",
-      "summary": "Capital for dental practices purchasing equipment, expanding operatories, hiring staff, and managing insurance receivables.",
+      "description": "Capital strategies for dental practices managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Dental Practices businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Dental equipment",
         "Buildout and expansion",
@@ -449,27 +548,27 @@
         "business-line-access"
       ],
       "relatedResourceSlugs": [
-        "equipment-financing-guide",
-        "document-checklist",
-        "funding-readiness"
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in dental practices?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for dental practices?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "veterinary",
       "title": "Veterinary Practices",
-      "description": "Capital for veterinary clinics investing in equipment, buildouts, staffing, inventory, and practice growth.",
-      "summary": "Capital for veterinary clinics investing in equipment, buildouts, staffing, inventory, and practice growth.",
+      "description": "Capital strategies for veterinary practices managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Veterinary Practices businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Diagnostic equipment",
         "Practice expansion",
@@ -482,27 +581,27 @@
         "working-capital"
       ],
       "relatedResourceSlugs": [
-        "equipment-financing-guide",
         "funding-readiness",
+        "cash-flow-preparation",
         "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in veterinary practices?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for veterinary practices?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "professional-services",
       "title": "Professional Services",
-      "description": "Capital for service firms balancing payroll, receivables, staffing, and growth without heavy physical assets.",
-      "summary": "Capital for service firms balancing payroll, receivables, staffing, and growth without heavy physical assets.",
+      "description": "Capital strategies for professional services managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Professional Services businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Payroll",
         "Hiring",
@@ -515,32 +614,296 @@
         "working-capital"
       ],
       "relatedResourceSlugs": [
-        "cash-flow-preparation",
         "funding-readiness",
+        "cash-flow-preparation",
         "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in professional services?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for professional services?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "consulting",
+      "title": "Consulting Firms",
+      "description": "Capital strategies for consulting firms managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Consulting Firms businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Payroll",
+        "Contractor costs",
+        "Marketing",
+        "Receivable timing"
+      ],
+      "relevantFundingSlugs": [
+        "business-line-access",
+        "working-capital",
+        "term-financing"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for consulting firms?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "legal",
+      "title": "Law Firms",
+      "description": "Capital strategies for law firms managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Law Firms businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Payroll",
+        "Case expenses",
+        "Marketing",
+        "Receivable timing"
+      ],
+      "relevantFundingSlugs": [
+        "business-line-access",
+        "working-capital",
+        "term-financing"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for law firms?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "accounting",
+      "title": "Accounting Firms",
+      "description": "Capital strategies for accounting firms managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Accounting Firms businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Seasonal staffing",
+        "Technology",
+        "Marketing",
+        "Receivable gaps"
+      ],
+      "relevantFundingSlugs": [
+        "business-line-access",
+        "working-capital",
+        "term-financing"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for accounting firms?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "staffing",
+      "title": "Staffing Companies",
+      "description": "Capital strategies for staffing companies managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Staffing Companies businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Weekly payroll",
+        "Client receivables",
+        "Recruiting",
+        "Growth"
+      ],
+      "relevantFundingSlugs": [
+        "invoice-financing",
+        "accounts-receivable-financing",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for staffing companies?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "retail",
+      "title": "Retail",
+      "description": "Capital strategies for retail managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Retail businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Inventory",
+        "Seasonality",
+        "Store improvements",
+        "Payroll"
+      ],
+      "relevantFundingSlugs": [
+        "inventory-financing",
+        "working-capital",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for retail?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "wholesale",
+      "title": "Wholesale & Distribution",
+      "description": "Capital strategies for wholesale & distribution managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Wholesale & Distribution businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Inventory",
+        "Purchase orders",
+        "Supplier deposits",
+        "Receivables"
+      ],
+      "relevantFundingSlugs": [
+        "purchase-order-financing",
+        "inventory-financing",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for wholesale & distribution?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "ecommerce",
       "title": "Ecommerce",
-      "description": "Capital for online sellers funding inventory, advertising, fulfillment, and marketplace growth.",
-      "summary": "Capital for online sellers funding inventory, advertising, fulfillment, and marketplace growth.",
+      "description": "Capital strategies for ecommerce managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Ecommerce businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Inventory",
         "Advertising",
-        "Seasonal stock builds",
+        "Seasonal stock",
         "Fulfillment"
+      ],
+      "relevantFundingSlugs": [
+        "marketplace-capital",
+        "inventory-financing",
+        "working-capital"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for ecommerce?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "amazon-sellers",
+      "title": "Amazon Sellers",
+      "description": "Capital strategies for amazon sellers managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Amazon Sellers businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Inventory",
+        "Advertising",
+        "Marketplace payout timing",
+        "Seasonal stock"
+      ],
+      "relevantFundingSlugs": [
+        "marketplace-capital",
+        "inventory-financing",
+        "working-capital"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for amazon sellers?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "shopify",
+      "title": "Shopify Stores",
+      "description": "Capital strategies for shopify stores managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Shopify Stores businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Inventory",
+        "Paid acquisition",
+        "Fulfillment",
+        "Growth"
       ],
       "relevantFundingSlugs": [
         "marketplace-capital",
@@ -548,27 +911,126 @@
         "business-line-access"
       ],
       "relatedResourceSlugs": [
-        "cash-flow-preparation",
         "funding-readiness",
+        "cash-flow-preparation",
         "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in ecommerce?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for shopify stores?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "walmart-marketplace",
+      "title": "Walmart Marketplace Sellers",
+      "description": "Capital strategies for walmart marketplace sellers managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Walmart Marketplace Sellers businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Inventory",
+        "Marketplace payouts",
+        "Advertising",
+        "Fulfillment"
+      ],
+      "relevantFundingSlugs": [
+        "marketplace-capital",
+        "inventory-financing",
+        "working-capital"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for walmart marketplace sellers?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "ebay",
+      "title": "eBay Sellers",
+      "description": "Capital strategies for ebay sellers managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "eBay Sellers businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Inventory",
+        "Marketplace payout timing",
+        "Shipping",
+        "Seasonality"
+      ],
+      "relevantFundingSlugs": [
+        "marketplace-capital",
+        "working-capital",
+        "inventory-financing"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for ebay sellers?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "etsy",
+      "title": "Etsy Sellers",
+      "description": "Capital strategies for etsy sellers managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Etsy Sellers businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Materials",
+        "Inventory",
+        "Advertising",
+        "Seasonality"
+      ],
+      "relevantFundingSlugs": [
+        "marketplace-capital",
+        "working-capital",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for etsy sellers?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "manufacturing",
       "title": "Manufacturing",
-      "description": "Capital for manufacturers investing in machinery, raw materials, production capacity, and working cash.",
-      "summary": "Capital for manufacturers investing in machinery, raw materials, production capacity, and working cash.",
+      "description": "Capital strategies for manufacturing managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Manufacturing businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Machinery",
         "Raw materials",
@@ -581,27 +1043,27 @@
         "business-line-access"
       ],
       "relatedResourceSlugs": [
-        "equipment-financing-guide",
+        "funding-readiness",
         "cash-flow-preparation",
-        "document-checklist"
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in manufacturing?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for manufacturing?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "automotive",
       "title": "Automotive",
-      "description": "Capital for repair shops, dealerships, and automotive businesses managing equipment, inventory, payroll, and facilities.",
-      "summary": "Capital for repair shops, dealerships, and automotive businesses managing equipment, inventory, payroll, and facilities.",
+      "description": "Capital strategies for automotive managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Automotive businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Shop equipment",
         "Inventory",
@@ -614,60 +1076,126 @@
         "business-line-access"
       ],
       "relatedResourceSlugs": [
-        "equipment-financing-guide",
         "funding-readiness",
+        "cash-flow-preparation",
         "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in automotive?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for automotive?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "auto-repair",
+      "title": "Auto Repair Shops",
+      "description": "Capital strategies for auto repair shops managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Auto Repair Shops businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Lifts and diagnostic equipment",
+        "Parts inventory",
+        "Payroll",
+        "Facility upgrades"
+      ],
+      "relevantFundingSlugs": [
+        "equipment-finance",
+        "working-capital",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for auto repair shops?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "auto-dealers",
+      "title": "Auto Dealers",
+      "description": "Capital strategies for auto dealers managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Auto Dealers businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Inventory",
+        "Floorplan gaps",
+        "Facility improvements",
+        "Payroll"
+      ],
+      "relevantFundingSlugs": [
+        "inventory-financing",
+        "business-line-access",
+        "working-capital"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for auto dealers?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "real-estate-investors",
       "title": "Real Estate Investors",
-      "description": "Capital for acquisitions, rehabilitation, bridge needs, rentals, and property repositioning.",
-      "summary": "Capital for acquisitions, rehabilitation, bridge needs, rentals, and property repositioning.",
+      "description": "Capital strategies for real estate investors managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Real Estate Investors businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Acquisitions",
         "Rehabilitation",
         "Bridge needs",
-        "Rental property financing"
+        "Rental financing"
       ],
       "relevantFundingSlugs": [
         "real-estate-capital",
-        "term-financing",
-        "business-acquisition"
+        "bridge-loans",
+        "dscr-loans"
       ],
       "relatedResourceSlugs": [
-        "dscr-guide",
-        "offer-comparison",
-        "funding-readiness"
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in real estate investors?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for real estate investors?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "technology",
       "title": "Technology",
-      "description": "Capital for technology companies funding product development, hiring, infrastructure, and operating runway.",
-      "summary": "Capital for technology companies funding product development, hiring, infrastructure, and operating runway.",
+      "description": "Capital strategies for technology managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Technology businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Hiring",
         "Product development",
@@ -680,27 +1208,27 @@
         "business-line-access"
       ],
       "relatedResourceSlugs": [
-        "credit-preparation",
         "funding-readiness",
-        "cash-flow-preparation"
+        "cash-flow-preparation",
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in technology?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for technology?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "saas",
       "title": "SaaS",
-      "description": "Capital for SaaS companies balancing recurring revenue, customer acquisition, hiring, and growth efficiency.",
-      "summary": "Capital for SaaS companies balancing recurring revenue, customer acquisition, hiring, and growth efficiency.",
+      "description": "Capital strategies for saas managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "SaaS businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Sales hiring",
         "Product investment",
@@ -713,27 +1241,27 @@
         "startup-credit-leverage"
       ],
       "relatedResourceSlugs": [
-        "cash-flow-preparation",
         "funding-readiness",
+        "cash-flow-preparation",
         "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in saas?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for saas?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     },
     {
       "slug": "franchises",
       "title": "Franchises",
-      "description": "Capital for franchise acquisition, launch, buildout, equipment, and multi-unit expansion.",
-      "summary": "Capital for franchise acquisition, launch, buildout, equipment, and multi-unit expansion.",
+      "description": "Capital strategies for franchises managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Franchises businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
       "capitalPressures": [
         "Franchise acquisition",
         "Buildout",
@@ -741,25 +1269,156 @@
         "Working capital"
       ],
       "relevantFundingSlugs": [
-        "business-acquisition",
+        "franchise-financing",
+        "sba",
+        "business-acquisition"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for franchises?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "fitness",
+      "title": "Fitness & Gyms",
+      "description": "Capital strategies for fitness & gyms managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Fitness & Gyms businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Equipment",
+        "Buildout",
+        "Membership growth",
+        "Payroll"
+      ],
+      "relevantFundingSlugs": [
+        "equipment-finance",
+        "sba",
+        "working-capital"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for fitness & gyms?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "salons-spas",
+      "title": "Salons & Spas",
+      "description": "Capital strategies for salons & spas managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Salons & Spas businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Buildout",
+        "Equipment",
+        "Staffing",
+        "Marketing"
+      ],
+      "relevantFundingSlugs": [
+        "equipment-finance",
+        "working-capital",
+        "startup-credit-leverage"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for salons & spas?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "childcare",
+      "title": "Childcare & Daycare",
+      "description": "Capital strategies for childcare & daycare managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Childcare & Daycare businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Facility buildout",
+        "Staffing",
+        "Equipment",
+        "Working capital"
+      ],
+      "relevantFundingSlugs": [
         "sba",
         "equipment-finance",
         "working-capital"
       ],
       "relatedResourceSlugs": [
-        "business-acquisition-financing",
         "funding-readiness",
-        "document-checklist"
+        "cash-flow-preparation",
+        "offer-comparison"
       ],
       "relatedToolSlugs": [],
       "faq": [
         {
-          "question": "What capital needs are common in franchises?",
-          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+          "question": "What funding needs are common for childcare & daycare?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
         },
         {
           "question": "What should I prepare before speaking with a funding agent?",
-          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
+        }
+      ]
+    },
+    {
+      "slug": "agriculture",
+      "title": "Agriculture",
+      "description": "Capital strategies for agriculture managing operating cash flow, equipment, growth, and timing pressure.",
+      "summary": "Agriculture businesses can use capital to solve timing gaps, fund productive assets, and support growth without treating every need as the same financing problem.",
+      "capitalPressures": [
+        "Equipment",
+        "Seasonal inputs",
+        "Inventory",
+        "Operating cash"
+      ],
+      "relevantFundingSlugs": [
+        "equipment-finance",
+        "working-capital",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What funding needs are common for agriculture?",
+          "answer": "Common needs include payroll, working capital, equipment or inventory, and financing tied to growth or customer-payment timing."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing obligations."
         }
       ]
     }

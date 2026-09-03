@@ -1,13 +1,13 @@
 {
   "id": "partner-site-funding-pages",
-  "version": "1.0.0",
-  "purpose": "Partner-site funding content overlays. Merge with canonical funding family data; do not replace canonical funding registries.",
+  "version": "2.0.0",
+  "purpose": "Partner-facing funding page contracts. Canonical funding families may enrich matching slugs; overlay-only entries are valid partner-site pages.",
   "entries": [
     {
       "slug": "working-capital",
       "title": "Working Capital",
-      "description": "Flexible business capital for payroll, inventory, materials, short-cycle opportunities, and cash-flow gaps.",
-      "summary": "Working capital is designed for operating needs that cannot always wait for receivables, customer payments, or the next revenue cycle.",
+      "description": "Flexible business capital for payroll, inventory, materials, marketing, and short-cycle cash-flow gaps.",
+      "summary": "Flexible business capital for payroll, inventory, materials, marketing, and short-cycle cash-flow gaps.",
       "useCases": [
         "Payroll coverage",
         "Inventory purchases",
@@ -17,7 +17,7 @@
       ],
       "whoItMayFit": [
         "Established businesses with active revenue",
-        "Operators managing uneven cash conversion cycles",
+        "Operators managing uneven cash-conversion cycles",
         "Businesses with a defined near-term use of funds"
       ],
       "whatToPrepare": [
@@ -36,7 +36,7 @@
       ],
       "relatedFundingSlugs": [
         "business-line-access",
-        "equipment-finance",
+        "revenue-based-financing",
         "term-financing"
       ],
       "relatedResourceSlugs": [
@@ -46,20 +46,20 @@
       ],
       "faq": [
         {
-          "question": "What is working capital typically used for?",
-          "answer": "Working capital is commonly used for recurring operating needs such as payroll, inventory, materials, marketing, and timing gaps between expenses and incoming revenue."
+          "question": "What should I know before pursuing working capital?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
         },
         {
-          "question": "How should I prepare before applying?",
-          "answer": "Have recent bank statements, basic business information, revenue history, and a clear explanation of how the capital will be used."
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
         }
       ]
     },
     {
       "slug": "business-line-access",
       "title": "Business Line of Credit",
-      "description": "Revolving access to business capital that can be drawn, repaid, and reused as operating needs change.",
-      "summary": "A business line of credit can be useful when the need is recurring or unpredictable and the business wants access to capital without taking a new lump-sum loan each time.",
+      "description": "Revolving access to business capital that can be drawn, repaid, and reused as needs change.",
+      "summary": "Revolving access to business capital that can be drawn, repaid, and reused as needs change.",
       "useCases": [
         "Seasonal working capital",
         "Inventory cycles",
@@ -68,14 +68,14 @@
         "Cash-flow smoothing"
       ],
       "whoItMayFit": [
-        "Established businesses with repeat capital needs",
-        "Businesses that value reusable access over a single advance",
-        "Operators with reasonably predictable cash flow"
+        "Established businesses with recurring capital needs",
+        "Businesses that value reusable access",
+        "Operators with predictable deposits"
       ],
       "whatToPrepare": [
         "Business bank statements",
         "Revenue history",
-        "Time-in-business information",
+        "Time in business",
         "Current debt obligations"
       ],
       "relatedIndustrySlugs": [
@@ -87,7 +87,8 @@
       ],
       "relatedFundingSlugs": [
         "working-capital",
-        "term-financing"
+        "term-financing",
+        "revenue-based-financing"
       ],
       "relatedResourceSlugs": [
         "funding-readiness",
@@ -96,8 +97,12 @@
       ],
       "faq": [
         {
-          "question": "How is a line of credit different from a term loan?",
-          "answer": "A line of credit is generally designed for repeated draws up to an approved limit, while a term loan typically provides one lump sum that is repaid over a defined schedule."
+          "question": "What should I know before pursuing business line of credit?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
         }
       ]
     },
@@ -105,7 +110,7 @@
       "slug": "equipment-finance",
       "title": "Equipment Financing",
       "description": "Financing structured around business equipment, machinery, or vehicles so the company can preserve working cash.",
-      "summary": "Equipment financing can align the cost of a productive asset with the period in which that asset is expected to support business operations.",
+      "summary": "Financing structured around business equipment, machinery, or vehicles so the company can preserve working cash.",
       "useCases": [
         "Commercial vehicles",
         "Construction equipment",
@@ -133,7 +138,8 @@
       ],
       "relatedFundingSlugs": [
         "working-capital",
-        "term-financing"
+        "term-financing",
+        "sba"
       ],
       "relatedResourceSlugs": [
         "equipment-financing-guide",
@@ -142,8 +148,12 @@
       ],
       "faq": [
         {
-          "question": "Why finance equipment instead of paying cash?",
-          "answer": "Financing can preserve cash for payroll, inventory, and other operating needs while spreading the equipment cost over time."
+          "question": "What should I know before pursuing equipment financing?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
         }
       ]
     },
@@ -151,7 +161,7 @@
       "slug": "real-estate-capital",
       "title": "Real Estate Capital",
       "description": "Capital for investment property acquisition, bridge needs, rehabilitation, construction, and income-producing real estate.",
-      "summary": "Real estate funding is often evaluated around both the borrower and the underlying property, including purchase structure, income, collateral, and exit strategy.",
+      "summary": "Capital for investment property acquisition, bridge needs, rehabilitation, construction, and income-producing real estate.",
       "useCases": [
         "Investment property acquisition",
         "Bridge financing",
@@ -167,7 +177,7 @@
       "whatToPrepare": [
         "Property details",
         "Purchase or project budget",
-        "Current rent or income information when applicable",
+        "Current rent or income information",
         "Exit or repayment plan"
       ],
       "relatedIndustrySlugs": [
@@ -177,18 +187,23 @@
         "medical"
       ],
       "relatedFundingSlugs": [
-        "term-financing",
-        "business-acquisition"
+        "commercial-real-estate",
+        "bridge-loans",
+        "dscr-loans"
       ],
       "relatedResourceSlugs": [
         "dscr-guide",
-        "offer-comparison",
-        "funding-readiness"
+        "real-estate-capital-guide",
+        "offer-comparison"
       ],
       "faq": [
         {
-          "question": "Is real estate financing underwritten differently from ordinary business funding?",
-          "answer": "Often yes. Property value, income, project structure, leverage, and the planned exit or repayment source can play a major role."
+          "question": "What should I know before pursuing real estate capital?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
         }
       ]
     },
@@ -196,7 +211,7 @@
       "slug": "marketplace-capital",
       "title": "Ecommerce & Marketplace Capital",
       "description": "Capital for inventory, advertising, fulfillment, and growth across ecommerce and marketplace businesses.",
-      "summary": "Ecommerce operators often need capital before revenue arrives because inventory, advertising, and fulfillment costs can occur well ahead of the final customer payment cycle.",
+      "summary": "Capital for inventory, advertising, fulfillment, and growth across ecommerce and marketplace businesses.",
       "useCases": [
         "Inventory purchases",
         "Advertising spend",
@@ -217,23 +232,30 @@
       ],
       "relatedIndustrySlugs": [
         "ecommerce",
-        "technology",
-        "saas",
-        "restaurants"
+        "amazon-sellers",
+        "shopify",
+        "walmart-marketplace",
+        "ebay",
+        "etsy"
       ],
       "relatedFundingSlugs": [
+        "inventory-financing",
         "working-capital",
         "business-line-access"
       ],
       "relatedResourceSlugs": [
+        "ecommerce-funding-guide",
         "cash-flow-preparation",
-        "funding-readiness",
         "offer-comparison"
       ],
       "faq": [
         {
-          "question": "Why do ecommerce businesses often need working capital?",
-          "answer": "Inventory and advertising expenses frequently occur before marketplace payouts or customer revenue is fully realized."
+          "question": "What should I know before pursuing ecommerce & marketplace capital?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
         }
       ]
     },
@@ -241,7 +263,7 @@
       "slug": "startup-credit-leverage",
       "title": "Startup Funding",
       "description": "Funding paths for newer businesses that may not yet have the operating history required for conventional business financing.",
-      "summary": "Startup funding frequently depends more heavily on owner credit, business setup, projected use of funds, and available collateral or outside income than established-business financing.",
+      "summary": "Funding paths for newer businesses that may not yet have the operating history required for conventional business financing.",
       "useCases": [
         "Launch expenses",
         "Initial inventory",
@@ -252,7 +274,7 @@
       "whoItMayFit": [
         "New businesses with limited operating history",
         "Owners with a defined launch plan",
-        "Entrepreneurs with strong personal-credit profiles or other support"
+        "Entrepreneurs with strong personal-credit or collateral support"
       ],
       "whatToPrepare": [
         "Business formation documents",
@@ -267,18 +289,23 @@
         "professional-services"
       ],
       "relatedFundingSlugs": [
-        "business-line-access",
-        "term-financing"
+        "business-credit",
+        "personal-credit-leverage",
+        "equipment-finance"
       ],
       "relatedResourceSlugs": [
+        "startup-funding-guide",
         "credit-preparation",
-        "funding-readiness",
         "application-checklist"
       ],
       "faq": [
         {
-          "question": "Can a startup qualify without business revenue?",
-          "answer": "Some startup-oriented funding paths may rely more heavily on owner credit, collateral, outside income, or a detailed business plan than on established business revenue."
+          "question": "What should I know before pursuing startup funding?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
         }
       ]
     },
@@ -286,7 +313,7 @@
       "slug": "business-acquisition",
       "title": "Business Acquisition Financing",
       "description": "Capital structures for buying an operating business, including acquisition debt, equity, and seller-supported structures.",
-      "summary": "Acquisition financing should be evaluated against the cash flow of the business being purchased, purchase price, buyer contribution, transition risk, and the amount of debt the company can reasonably support.",
+      "summary": "Capital structures for buying an operating business, including acquisition debt, equity, and seller-supported structures.",
       "useCases": [
         "Buying an existing business",
         "Partner buyouts",
@@ -297,13 +324,13 @@
       "whoItMayFit": [
         "Buyers evaluating cash-flowing businesses",
         "Operators pursuing strategic acquisitions",
-        "Entrepreneurs buying an existing company rather than starting from zero"
+        "Entrepreneurs buying an existing company"
       ],
       "whatToPrepare": [
         "Purchase price and deal structure",
         "Business financial statements",
         "Buyer background",
-        "Available down payment or equity",
+        "Available equity",
         "Seller financing terms if applicable"
       ],
       "relatedIndustrySlugs": [
@@ -324,25 +351,29 @@
       ],
       "faq": [
         {
-          "question": "What determines how much acquisition debt a business can support?",
-          "answer": "The answer depends heavily on recurring cash flow, purchase structure, existing obligations, buyer contribution, and the lender's required debt-service coverage."
+          "question": "What should I know before pursuing business acquisition financing?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
         }
       ]
     },
     {
       "slug": "sba",
       "title": "SBA Financing",
-      "description": "Government-guaranteed small-business financing that can support acquisitions, expansion, equipment, real estate, and other qualified business uses.",
-      "summary": "SBA-backed financing can offer attractive structures for eligible borrowers, but the process is typically more documentation-intensive than faster working-capital products.",
+      "description": "Government-guaranteed small-business financing that can support acquisitions, expansion, equipment, real estate, and qualified business uses.",
+      "summary": "Government-guaranteed small-business financing that can support acquisitions, expansion, equipment, real estate, and qualified business uses.",
       "useCases": [
         "Business acquisitions",
         "Owner-occupied real estate",
         "Equipment",
         "Expansion",
-        "Refinancing eligible business debt"
+        "Eligible debt refinancing"
       ],
       "whoItMayFit": [
-        "Established businesses with documented financial performance",
+        "Established businesses with documented performance",
         "Qualified acquisition buyers",
         "Borrowers prioritizing structure over speed"
       ],
@@ -363,17 +394,21 @@
       "relatedFundingSlugs": [
         "business-acquisition",
         "term-financing",
-        "real-estate-capital"
+        "commercial-real-estate"
       ],
       "relatedResourceSlugs": [
-        "business-acquisition-financing",
+        "sba-financing-guide",
         "document-checklist",
         "dscr-guide"
       ],
       "faq": [
         {
-          "question": "Why does SBA financing usually require more documentation?",
-          "answer": "SBA-backed loans generally require detailed verification of the borrower, business financials, ownership, use of funds, and repayment ability."
+          "question": "What should I know before pursuing sba financing?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
         }
       ]
     },
@@ -381,7 +416,7 @@
       "slug": "term-financing",
       "title": "Business Term Financing",
       "description": "Lump-sum business financing repaid over a defined schedule for planned investments, expansion, or larger capital needs.",
-      "summary": "Term financing is often a better fit when the business has a defined one-time use of funds and wants repayment aligned to a predictable schedule.",
+      "summary": "Lump-sum business financing repaid over a defined schedule for planned investments, expansion, or larger capital needs.",
       "useCases": [
         "Expansion",
         "Renovation",
@@ -414,22 +449,26 @@
         "sba"
       ],
       "relatedResourceSlugs": [
+        "term-financing-guide",
         "offer-comparison",
-        "cash-flow-preparation",
-        "document-checklist"
+        "cash-flow-preparation"
       ],
       "faq": [
         {
-          "question": "When is a term loan usually preferable to short-term working capital?",
-          "answer": "A term structure may be more appropriate when the capital supports a planned investment expected to generate value over a longer period."
+          "question": "What should I know before pursuing business term financing?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
         }
       ]
     },
     {
       "slug": "revenue-based-financing",
       "title": "Revenue-Based Financing",
-      "description": "Business financing sized primarily around revenue performance and the company's ability to support repayment from ongoing sales.",
-      "summary": "Revenue-based financing can provide faster access than documentation-heavy conventional structures, but businesses should evaluate payment frequency, total repayment, and cash-flow impact carefully.",
+      "description": "Business financing sized primarily around revenue performance and ongoing sales rather than only traditional collateral.",
+      "summary": "Business financing sized primarily around revenue performance and ongoing sales rather than only traditional collateral.",
       "useCases": [
         "Inventory",
         "Short-cycle opportunities",
@@ -456,17 +495,682 @@
       ],
       "relatedFundingSlugs": [
         "working-capital",
+        "merchant-cash-advance",
         "business-line-access"
       ],
       "relatedResourceSlugs": [
+        "revenue-based-financing-guide",
         "offer-comparison",
+        "cash-flow-preparation"
+      ],
+      "faq": [
+        {
+          "question": "What should I know before pursuing revenue-based financing?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
+        }
+      ]
+    },
+    {
+      "slug": "merchant-cash-advance",
+      "title": "Merchant Cash Advance",
+      "description": "A purchase of future business receivables that can provide fast capital but should be evaluated carefully for payment frequency and cash-flow impact.",
+      "summary": "A purchase of future business receivables that can provide fast capital but should be evaluated carefully for payment frequency and cash-flow impact.",
+      "useCases": [
+        "Urgent operating gaps",
+        "Inventory",
+        "Short-cycle opportunities",
+        "Emergency repairs"
+      ],
+      "whoItMayFit": [
+        "Businesses with strong card or bank deposits",
+        "Operators with time-sensitive short-cycle needs"
+      ],
+      "whatToPrepare": [
+        "Recent bank statements",
+        "Processing or deposit history",
+        "Existing advance obligations",
+        "Use of funds"
+      ],
+      "relatedIndustrySlugs": [
+        "restaurants",
+        "retail",
+        "automotive",
+        "ecommerce"
+      ],
+      "relatedFundingSlugs": [
+        "revenue-based-financing",
+        "working-capital"
+      ],
+      "relatedResourceSlugs": [
+        "mca-guide",
+        "offer-comparison",
+        "cash-flow-preparation"
+      ],
+      "faq": [
+        {
+          "question": "What should I know before pursuing merchant cash advance?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
+        }
+      ]
+    },
+    {
+      "slug": "invoice-financing",
+      "title": "Invoice Financing",
+      "description": "Capital advanced against eligible business invoices so companies can access cash before customers pay.",
+      "summary": "Capital advanced against eligible business invoices so companies can access cash before customers pay.",
+      "useCases": [
+        "Payroll while waiting on invoices",
+        "Supplier payments",
+        "Project mobilization",
+        "Growth tied to receivables"
+      ],
+      "whoItMayFit": [
+        "B2B companies with creditworthy customers",
+        "Businesses with meaningful outstanding invoices"
+      ],
+      "whatToPrepare": [
+        "Accounts receivable aging",
+        "Customer information",
+        "Invoices",
+        "Business bank statements"
+      ],
+      "relatedIndustrySlugs": [
+        "construction",
+        "staffing",
+        "manufacturing",
+        "professional-services",
+        "trucking"
+      ],
+      "relatedFundingSlugs": [
+        "accounts-receivable-financing",
+        "working-capital"
+      ],
+      "relatedResourceSlugs": [
+        "invoice-financing-guide",
         "cash-flow-preparation",
         "funding-readiness"
       ],
       "faq": [
         {
-          "question": "What should I compare before accepting revenue-based financing?",
-          "answer": "Compare total repayment, payment frequency, estimated cash-flow impact, prepayment terms, and how the financing affects existing obligations."
+          "question": "What should I know before pursuing invoice financing?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
+        }
+      ]
+    },
+    {
+      "slug": "accounts-receivable-financing",
+      "title": "Accounts Receivable Financing",
+      "description": "Financing tied to eligible receivables to improve liquidity when customers pay on extended terms.",
+      "summary": "Financing tied to eligible receivables to improve liquidity when customers pay on extended terms.",
+      "useCases": [
+        "Payroll",
+        "Supplier costs",
+        "Production",
+        "Growth while receivables age"
+      ],
+      "whoItMayFit": [
+        "B2B businesses with recurring receivables",
+        "Companies with long customer payment cycles"
+      ],
+      "whatToPrepare": [
+        "A/R aging report",
+        "Customer concentration",
+        "Invoices",
+        "Financial statements"
+      ],
+      "relatedIndustrySlugs": [
+        "manufacturing",
+        "professional-services",
+        "staffing",
+        "construction",
+        "trucking"
+      ],
+      "relatedFundingSlugs": [
+        "invoice-financing",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "invoice-financing-guide",
+        "cash-flow-preparation",
+        "document-checklist"
+      ],
+      "faq": [
+        {
+          "question": "What should I know before pursuing accounts receivable financing?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
+        }
+      ]
+    },
+    {
+      "slug": "purchase-order-financing",
+      "title": "Purchase Order Financing",
+      "description": "Supplier funding tied to qualifying customer purchase orders when a business needs cash to fulfill a confirmed order.",
+      "summary": "Supplier funding tied to qualifying customer purchase orders when a business needs cash to fulfill a confirmed order.",
+      "useCases": [
+        "Supplier payments",
+        "Large purchase orders",
+        "Seasonal orders",
+        "Wholesale fulfillment"
+      ],
+      "whoItMayFit": [
+        "Product businesses with confirmed customer orders",
+        "Companies constrained by supplier-payment timing"
+      ],
+      "whatToPrepare": [
+        "Customer purchase order",
+        "Supplier quote",
+        "Gross-margin information",
+        "Fulfillment timeline"
+      ],
+      "relatedIndustrySlugs": [
+        "manufacturing",
+        "wholesale",
+        "ecommerce",
+        "retail"
+      ],
+      "relatedFundingSlugs": [
+        "inventory-financing",
+        "working-capital"
+      ],
+      "relatedResourceSlugs": [
+        "purchase-order-financing-guide",
+        "cash-flow-preparation",
+        "funding-readiness"
+      ],
+      "faq": [
+        {
+          "question": "What should I know before pursuing purchase order financing?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
+        }
+      ]
+    },
+    {
+      "slug": "inventory-financing",
+      "title": "Inventory Financing",
+      "description": "Capital specifically intended to purchase inventory before that inventory converts back into revenue.",
+      "summary": "Capital specifically intended to purchase inventory before that inventory converts back into revenue.",
+      "useCases": [
+        "Seasonal inventory",
+        "Bulk purchasing",
+        "Marketplace stock",
+        "Retail expansion"
+      ],
+      "whoItMayFit": [
+        "Businesses with repeatable inventory turns",
+        "Sellers with measurable demand and margin"
+      ],
+      "whatToPrepare": [
+        "Inventory plan",
+        "Sales history",
+        "Supplier invoices",
+        "Margin and turnover information"
+      ],
+      "relatedIndustrySlugs": [
+        "ecommerce",
+        "retail",
+        "restaurants",
+        "wholesale"
+      ],
+      "relatedFundingSlugs": [
+        "marketplace-capital",
+        "purchase-order-financing",
+        "working-capital"
+      ],
+      "relatedResourceSlugs": [
+        "inventory-financing-guide",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "faq": [
+        {
+          "question": "What should I know before pursuing inventory financing?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
+        }
+      ]
+    },
+    {
+      "slug": "commercial-real-estate",
+      "title": "Commercial Real Estate Financing",
+      "description": "Financing for owner-occupied or investment commercial property acquisition, refinance, or improvement.",
+      "summary": "Financing for owner-occupied or investment commercial property acquisition, refinance, or improvement.",
+      "useCases": [
+        "Property acquisition",
+        "Refinancing",
+        "Owner-occupied facilities",
+        "Property improvements"
+      ],
+      "whoItMayFit": [
+        "Business owners buying operating real estate",
+        "Commercial property investors"
+      ],
+      "whatToPrepare": [
+        "Property information",
+        "Rent roll if applicable",
+        "Business financials",
+        "Purchase or refinance details"
+      ],
+      "relatedIndustrySlugs": [
+        "real-estate-investors",
+        "medical",
+        "manufacturing",
+        "hospitality"
+      ],
+      "relatedFundingSlugs": [
+        "real-estate-capital",
+        "bridge-loans",
+        "sba"
+      ],
+      "relatedResourceSlugs": [
+        "real-estate-capital-guide",
+        "dscr-guide",
+        "document-checklist"
+      ],
+      "faq": [
+        {
+          "question": "What should I know before pursuing commercial real estate financing?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
+        }
+      ]
+    },
+    {
+      "slug": "bridge-loans",
+      "title": "Bridge Financing",
+      "description": "Shorter-term real estate or business financing designed to bridge a timing gap until a refinance, sale, or longer-term capital event.",
+      "summary": "Shorter-term real estate or business financing designed to bridge a timing gap until a refinance, sale, or longer-term capital event.",
+      "useCases": [
+        "Property acquisition timing",
+        "Rehabilitation",
+        "Refinance bridge",
+        "Closing gaps"
+      ],
+      "whoItMayFit": [
+        "Borrowers with a clear exit strategy",
+        "Transactions where speed and timing matter"
+      ],
+      "whatToPrepare": [
+        "Asset details",
+        "Exit strategy",
+        "Project budget",
+        "Borrower financial profile"
+      ],
+      "relatedIndustrySlugs": [
+        "real-estate-investors",
+        "construction",
+        "hospitality"
+      ],
+      "relatedFundingSlugs": [
+        "real-estate-capital",
+        "hard-money",
+        "commercial-real-estate"
+      ],
+      "relatedResourceSlugs": [
+        "real-estate-capital-guide",
+        "offer-comparison",
+        "funding-readiness"
+      ],
+      "faq": [
+        {
+          "question": "What should I know before pursuing bridge financing?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
+        }
+      ]
+    },
+    {
+      "slug": "hard-money",
+      "title": "Hard Money Loans",
+      "description": "Asset-focused real estate financing typically used when property value, speed, and exit strategy matter more than conventional underwriting.",
+      "summary": "Asset-focused real estate financing typically used when property value, speed, and exit strategy matter more than conventional underwriting.",
+      "useCases": [
+        "Investment property acquisition",
+        "Rehabilitation",
+        "Time-sensitive closings",
+        "Transitional assets"
+      ],
+      "whoItMayFit": [
+        "Experienced or prepared real estate investors",
+        "Transactions with a clear property-based exit"
+      ],
+      "whatToPrepare": [
+        "Property details",
+        "Purchase contract",
+        "Rehab budget",
+        "Exit strategy"
+      ],
+      "relatedIndustrySlugs": [
+        "real-estate-investors",
+        "construction"
+      ],
+      "relatedFundingSlugs": [
+        "bridge-loans",
+        "fix-and-flip",
+        "real-estate-capital"
+      ],
+      "relatedResourceSlugs": [
+        "real-estate-capital-guide",
+        "offer-comparison",
+        "dscr-guide"
+      ],
+      "faq": [
+        {
+          "question": "What should I know before pursuing hard money loans?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
+        }
+      ]
+    },
+    {
+      "slug": "fix-and-flip",
+      "title": "Fix-and-Flip Financing",
+      "description": "Property acquisition and rehabilitation financing designed around an investor's purchase, renovation, and resale strategy.",
+      "summary": "Property acquisition and rehabilitation financing designed around an investor's purchase, renovation, and resale strategy.",
+      "useCases": [
+        "Property purchase",
+        "Rehabilitation",
+        "Holding costs",
+        "Project completion"
+      ],
+      "whoItMayFit": [
+        "Real estate investors with defined rehab plans",
+        "Borrowers with a clear resale or refinance exit"
+      ],
+      "whatToPrepare": [
+        "Purchase contract",
+        "Scope of work",
+        "Rehab budget",
+        "Experience and exit plan"
+      ],
+      "relatedIndustrySlugs": [
+        "real-estate-investors",
+        "construction"
+      ],
+      "relatedFundingSlugs": [
+        "hard-money",
+        "bridge-loans",
+        "real-estate-capital"
+      ],
+      "relatedResourceSlugs": [
+        "fix-and-flip-guide",
+        "real-estate-capital-guide",
+        "offer-comparison"
+      ],
+      "faq": [
+        {
+          "question": "What should I know before pursuing fix-and-flip financing?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
+        }
+      ]
+    },
+    {
+      "slug": "ground-up-construction",
+      "title": "Ground-Up Construction Financing",
+      "description": "Project financing for land, vertical construction, draws, and completion of new investment or commercial real estate.",
+      "summary": "Project financing for land, vertical construction, draws, and completion of new investment or commercial real estate.",
+      "useCases": [
+        "Land and site work",
+        "Vertical construction",
+        "Contractor draws",
+        "Completion costs"
+      ],
+      "whoItMayFit": [
+        "Developers and investors with defined budgets and plans",
+        "Projects with experienced teams and documented exits"
+      ],
+      "whatToPrepare": [
+        "Plans and budget",
+        "Construction schedule",
+        "Experience",
+        "Land and project details",
+        "Exit strategy"
+      ],
+      "relatedIndustrySlugs": [
+        "real-estate-investors",
+        "construction"
+      ],
+      "relatedFundingSlugs": [
+        "real-estate-capital",
+        "bridge-loans",
+        "commercial-real-estate"
+      ],
+      "relatedResourceSlugs": [
+        "construction-financing-guide",
+        "real-estate-capital-guide",
+        "document-checklist"
+      ],
+      "faq": [
+        {
+          "question": "What should I know before pursuing ground-up construction financing?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
+        }
+      ]
+    },
+    {
+      "slug": "dscr-loans",
+      "title": "DSCR Loans",
+      "description": "Rental-property financing evaluated primarily around the property's ability to cover proposed debt service.",
+      "summary": "Rental-property financing evaluated primarily around the property's ability to cover proposed debt service.",
+      "useCases": [
+        "Rental acquisition",
+        "Rate-and-term refinance",
+        "Cash-out refinance",
+        "Portfolio growth"
+      ],
+      "whoItMayFit": [
+        "Investors purchasing or refinancing income-producing residential property",
+        "Borrowers with rent-supported repayment"
+      ],
+      "whatToPrepare": [
+        "Property details",
+        "Lease or market-rent information",
+        "Insurance and tax estimates",
+        "Loan request"
+      ],
+      "relatedIndustrySlugs": [
+        "real-estate-investors"
+      ],
+      "relatedFundingSlugs": [
+        "real-estate-capital",
+        "bridge-loans"
+      ],
+      "relatedResourceSlugs": [
+        "dscr-guide",
+        "real-estate-capital-guide",
+        "offer-comparison"
+      ],
+      "faq": [
+        {
+          "question": "What should I know before pursuing dscr loans?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
+        }
+      ]
+    },
+    {
+      "slug": "business-credit",
+      "title": "Business Credit",
+      "description": "Credit-building and business-credit access strategies designed to strengthen a company's financing profile over time.",
+      "summary": "Credit-building and business-credit access strategies designed to strengthen a company's financing profile over time.",
+      "useCases": [
+        "Vendor credit",
+        "Business cards",
+        "Credit profile development",
+        "Future financing readiness"
+      ],
+      "whoItMayFit": [
+        "Businesses building separate commercial credit",
+        "Owners planning ahead rather than solving only an urgent cash need"
+      ],
+      "whatToPrepare": [
+        "Entity setup",
+        "EIN",
+        "Business bank account",
+        "Existing trade lines and credit profile"
+      ],
+      "relatedIndustrySlugs": [
+        "startup",
+        "professional-services",
+        "ecommerce"
+      ],
+      "relatedFundingSlugs": [
+        "startup-credit-leverage",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "business-credit-guide",
+        "credit-preparation",
+        "funding-readiness"
+      ],
+      "faq": [
+        {
+          "question": "What should I know before pursuing business credit?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
+        }
+      ]
+    },
+    {
+      "slug": "personal-credit-leverage",
+      "title": "Personal Credit Leverage",
+      "description": "Business funding strategies that rely significantly on an owner's personal credit profile when business history or collateral is limited.",
+      "summary": "Business funding strategies that rely significantly on an owner's personal credit profile when business history or collateral is limited.",
+      "useCases": [
+        "Startup costs",
+        "Business launch",
+        "Initial inventory",
+        "Marketing",
+        "Short-term business investment"
+      ],
+      "whoItMayFit": [
+        "Owners with strong personal credit",
+        "Newer businesses with limited commercial history"
+      ],
+      "whatToPrepare": [
+        "Personal credit profile",
+        "Income information where relevant",
+        "Business entity details",
+        "Use-of-funds plan"
+      ],
+      "relatedIndustrySlugs": [
+        "startup",
+        "technology",
+        "professional-services"
+      ],
+      "relatedFundingSlugs": [
+        "startup-credit-leverage",
+        "business-credit"
+      ],
+      "relatedResourceSlugs": [
+        "credit-preparation",
+        "startup-funding-guide",
+        "offer-comparison"
+      ],
+      "faq": [
+        {
+          "question": "What should I know before pursuing personal credit leverage?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
+        }
+      ]
+    },
+    {
+      "slug": "franchise-financing",
+      "title": "Franchise Financing",
+      "description": "Capital for franchise acquisition, startup fees, buildout, equipment, and working capital.",
+      "summary": "Capital for franchise acquisition, startup fees, buildout, equipment, and working capital.",
+      "useCases": [
+        "Franchise purchase",
+        "Franchise fee",
+        "Buildout",
+        "Equipment",
+        "Opening working capital"
+      ],
+      "whoItMayFit": [
+        "New franchisees",
+        "Existing operators adding units",
+        "Buyers acquiring an operating franchise"
+      ],
+      "whatToPrepare": [
+        "Franchise disclosure and agreement information",
+        "Project budget",
+        "Buyer background",
+        "Equity contribution",
+        "Financial projections or history"
+      ],
+      "relatedIndustrySlugs": [
+        "franchises",
+        "restaurants",
+        "fitness",
+        "hospitality"
+      ],
+      "relatedFundingSlugs": [
+        "sba",
+        "business-acquisition",
+        "equipment-finance"
+      ],
+      "relatedResourceSlugs": [
+        "franchise-financing-guide",
+        "business-acquisition-financing",
+        "document-checklist"
+      ],
+      "faq": [
+        {
+          "question": "What should I know before pursuing franchise financing?",
+          "answer": "Match the financing structure to the actual use of funds, expected repayment source, and the amount of time the business needs the capital. Compare total cost and cash-flow impact rather than focusing on approval amount alone."
+        },
+        {
+          "question": "What should I prepare before applying?",
+          "answer": "Prepare recent financial information, bank statements where relevant, a clear use of funds, and details about existing debt or major obligations."
         }
       ]
     }

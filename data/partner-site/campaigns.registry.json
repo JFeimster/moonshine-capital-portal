@@ -1,13 +1,13 @@
 {
   "id": "partner-site-campaigns",
-  "version": "1.0.0",
-  "purpose": "Reusable campaign content rendered under /[slug]/campaign/[campaign].",
+  "version": "2.0.0",
+  "purpose": "Reusable partner-site campaigns.",
   "entries": [
     {
       "slug": "hvac",
       "eyebrow": "HVAC Capital",
       "headline": "Keep the crews moving when seasonality, equipment, and big jobs collide.",
-      "summary": "A focused capital route for HVAC operators managing technician payroll, service vehicles, equipment, materials, and seasonal demand.",
+      "summary": "Capital for HVAC payroll, vehicles, equipment, materials, and seasonal demand.",
       "useCases": [
         "Payroll",
         "Vehicles and equipment",
@@ -76,7 +76,7 @@
       "slug": "restaurant-growth",
       "eyebrow": "Restaurant Growth Capital",
       "headline": "Capital for the next shift, remodel, location, or demand spike.",
-      "summary": "A funding route for restaurants balancing payroll, inventory, equipment, renovations, and seasonal cash flow.",
+      "summary": "Funding for payroll, inventory, equipment, renovations, and seasonal restaurant cash flow.",
       "useCases": [
         "Payroll",
         "Inventory",
@@ -130,12 +130,14 @@
         "Seasonal stock"
       ],
       "industrySlugs": [
-        "ecommerce"
+        "ecommerce",
+        "amazon-sellers",
+        "shopify"
       ],
       "fundingSlugs": [
         "marketplace-capital",
-        "working-capital",
-        "business-line-access"
+        "inventory-financing",
+        "working-capital"
       ],
       "primaryCtaLabel": "Apply for Funding",
       "secondaryCtaMode": "booking"
@@ -225,7 +227,9 @@
         "real-estate-investors"
       ],
       "fundingSlugs": [
-        "real-estate-capital"
+        "real-estate-capital",
+        "bridge-loans",
+        "dscr-loans"
       ],
       "primaryCtaLabel": "Apply for Funding",
       "secondaryCtaMode": "booking"
@@ -247,7 +251,8 @@
         "franchises"
       ],
       "fundingSlugs": [
-        "startup-credit-leverage"
+        "startup-credit-leverage",
+        "business-credit"
       ],
       "primaryCtaLabel": "Apply for Funding",
       "secondaryCtaMode": "booking"
@@ -270,6 +275,266 @@
       ],
       "fundingSlugs": [
         "business-line-access"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "roofing",
+      "eyebrow": "Roofing Capital",
+      "headline": "Buy the materials. Pay the crew. Finish the job.",
+      "summary": "Capital for roofing contractors navigating deposits, crews, materials, and insurance-payment timing.",
+      "useCases": [
+        "Materials",
+        "Payroll",
+        "Storm work",
+        "Receivable timing"
+      ],
+      "industrySlugs": [
+        "roofing"
+      ],
+      "fundingSlugs": [
+        "working-capital",
+        "business-line-access"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "plumbing",
+      "eyebrow": "Plumbing Business Capital",
+      "headline": "Keep trucks stocked and technicians working.",
+      "summary": "Funding for vehicles, equipment, parts, payroll, and larger plumbing jobs.",
+      "useCases": [
+        "Vehicles",
+        "Parts",
+        "Payroll",
+        "Commercial projects"
+      ],
+      "industrySlugs": [
+        "plumbing"
+      ],
+      "fundingSlugs": [
+        "equipment-finance",
+        "working-capital"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "electrical",
+      "eyebrow": "Electrical Contractor Capital",
+      "headline": "Wire the project without tying up every dollar in the business.",
+      "summary": "Capital for materials, payroll, vehicles, equipment, and project timing.",
+      "useCases": [
+        "Materials",
+        "Payroll",
+        "Fleet",
+        "Project gaps"
+      ],
+      "industrySlugs": [
+        "electrical"
+      ],
+      "fundingSlugs": [
+        "working-capital",
+        "equipment-finance"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "landscaping",
+      "eyebrow": "Landscaping Capital",
+      "headline": "Build capacity before the busy season hits.",
+      "summary": "Capital for crews, equipment, vehicles, and seasonal operating needs.",
+      "useCases": [
+        "Hiring",
+        "Equipment",
+        "Vehicles",
+        "Seasonal cash"
+      ],
+      "industrySlugs": [
+        "landscaping"
+      ],
+      "fundingSlugs": [
+        "working-capital",
+        "equipment-finance"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "manufacturing",
+      "eyebrow": "Manufacturing Capital",
+      "headline": "Fund the machine, materials, and capacity behind the next order.",
+      "summary": "Capital for machinery, raw materials, production, and expansion.",
+      "useCases": [
+        "Machinery",
+        "Raw materials",
+        "Production",
+        "Expansion"
+      ],
+      "industrySlugs": [
+        "manufacturing"
+      ],
+      "fundingSlugs": [
+        "equipment-finance",
+        "term-financing",
+        "purchase-order-financing"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "auto-repair",
+      "eyebrow": "Auto Repair Capital",
+      "headline": "Keep the bays full and the equipment working.",
+      "summary": "Capital for diagnostic equipment, lifts, parts, payroll, and facility improvements.",
+      "useCases": [
+        "Equipment",
+        "Parts",
+        "Payroll",
+        "Facility upgrades"
+      ],
+      "industrySlugs": [
+        "auto-repair"
+      ],
+      "fundingSlugs": [
+        "equipment-finance",
+        "working-capital"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "dental",
+      "eyebrow": "Dental Practice Capital",
+      "headline": "Finance the operatory, equipment, and growth—not the chaos.",
+      "summary": "Capital for dental equipment, buildouts, staffing, and expansion.",
+      "useCases": [
+        "Equipment",
+        "Buildout",
+        "Staffing",
+        "Expansion"
+      ],
+      "industrySlugs": [
+        "dental"
+      ],
+      "fundingSlugs": [
+        "equipment-finance",
+        "term-financing"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "saas-growth",
+      "eyebrow": "SaaS Growth Capital",
+      "headline": "Fund growth without confusing recurring revenue with unlimited runway.",
+      "summary": "Capital paths for product investment, hiring, sales capacity, and operating runway.",
+      "useCases": [
+        "Product",
+        "Hiring",
+        "Sales",
+        "Runway"
+      ],
+      "industrySlugs": [
+        "saas"
+      ],
+      "fundingSlugs": [
+        "term-financing",
+        "business-line-access"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "franchise",
+      "eyebrow": "Franchise Capital",
+      "headline": "Fund the unit, the buildout, and the runway to opening day.",
+      "summary": "Capital for franchise acquisition, fees, buildout, equipment, and opening cash.",
+      "useCases": [
+        "Acquisition",
+        "Franchise fee",
+        "Buildout",
+        "Equipment"
+      ],
+      "industrySlugs": [
+        "franchises"
+      ],
+      "fundingSlugs": [
+        "franchise-financing",
+        "sba",
+        "equipment-finance"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "inventory",
+      "eyebrow": "Inventory Capital",
+      "headline": "Turn demand into stock before the opportunity disappears.",
+      "summary": "Capital for inventory buys, supplier deposits, seasonal stock, and wholesale orders.",
+      "useCases": [
+        "Inventory",
+        "Supplier deposits",
+        "Seasonal stock",
+        "Wholesale"
+      ],
+      "industrySlugs": [
+        "retail",
+        "ecommerce",
+        "wholesale"
+      ],
+      "fundingSlugs": [
+        "inventory-financing",
+        "purchase-order-financing"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "invoice-gap",
+      "eyebrow": "Receivables Capital",
+      "headline": "Stop letting slow-paying customers dictate payroll.",
+      "summary": "Capital tied to invoices or receivables for B2B businesses waiting to get paid.",
+      "useCases": [
+        "Payroll",
+        "Supplier payments",
+        "Project mobilization",
+        "Receivable gaps"
+      ],
+      "industrySlugs": [
+        "staffing",
+        "construction",
+        "professional-services"
+      ],
+      "fundingSlugs": [
+        "invoice-financing",
+        "accounts-receivable-financing"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "commercial-real-estate",
+      "eyebrow": "Commercial Real Estate Capital",
+      "headline": "Finance the property without losing sight of the business inside it.",
+      "summary": "Capital for commercial property acquisition, refinance, improvements, and owner-occupied facilities.",
+      "useCases": [
+        "Acquisition",
+        "Refinance",
+        "Improvements",
+        "Owner-occupied real estate"
+      ],
+      "industrySlugs": [
+        "real-estate-investors",
+        "medical",
+        "manufacturing"
+      ],
+      "fundingSlugs": [
+        "commercial-real-estate",
+        "sba"
       ],
       "primaryCtaLabel": "Apply for Funding",
       "secondaryCtaMode": "booking"

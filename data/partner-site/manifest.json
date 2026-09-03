@@ -1,29 +1,13 @@
 {
   "id": "partner-site-content-pack",
-  "version": "1.0.0",
-  "generatedFor": "JFeimster/moonshine-capital-portal",
+  "version": "2.0.0",
   "target": "capital.distilledfunding.com/[slug]",
-  "files": [
-    {
-      "path": "data/partner-site/funding-pages.registry.json",
-      "entries": 10
-    },
-    {
-      "path": "data/partner-site/industry-pages.registry.json",
-      "entries": 23
-    },
-    {
-      "path": "data/partner-site/resource-pages.registry.json",
-      "entries": 12
-    },
-    {
-      "path": "data/partner-site/campaigns.registry.json",
-      "entries": 12
-    },
-    {
-      "path": "data/partner-site/tool-placement.registry.json",
-      "entries": 6
-    }
-  ],
-  "integrationRule": "Supplement existing canonical registries. Do not replace data/funding/funding-product-families.registry.json or data/embeds/tool-registry.json."
+  "counts": {
+    "funding": 24,
+    "industries": 43,
+    "resources": 34,
+    "campaigns": 24,
+    "toolPlacements": 10
+  },
+  "integrationRule": "Partner-site registries are the public content inventory. Matching canonical funding-family records enrich overlay entries; overlay-only funding entries must remain valid partner-site pages. Existing tool registry remains authoritative for tool activation/destination."
 }
