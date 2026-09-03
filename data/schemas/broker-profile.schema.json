@@ -55,7 +55,8 @@
         "label": { "type": "string", "minLength": 1 },
         "url": { "type": "string", "minLength": 1 },
         "variant": { "enum": ["primary", "secondary", "outline", "ghost"] },
-        "trackingId": { "type": "string" }
+        "trackingId": { "type": "string" },
+        "registrySlug": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" }
       }
     }
   }

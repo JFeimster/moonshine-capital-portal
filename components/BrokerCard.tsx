@@ -1,4 +1,5 @@
 import { BrokerProfile } from '@/lib/types';
+import { buildBrokerCtaHref } from '@/lib/broker-cta-routing';
 import Link from 'next/link';
 import { Avatar } from './Avatar';
 
@@ -24,6 +25,7 @@ export function BrokerCard({ broker }: BrokerCardProps) {
   const topSpecialties = specialties.slice(0, 3);
   const ctaLabel = broker.primaryCta?.label || broker.ctaLabel || 'Connect';
   const speedLabel = getSpeedLabel(broker.urgencyCategory);
+  const ctaHref = buildBrokerCtaHref(broker, 'apply', 'directory');
 
   return (
     <div className="card-brutal flex flex-col h-full bg-neo-white transition-all duration-200 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1">
@@ -52,15 +54,11 @@ export function BrokerCard({ broker }: BrokerCardProps) {
         )}
       </div>
 
-      <p className="font-bold text-sm mb-5 flex-grow leading-relaxed line-clamp-4">
-        {broker.shortBio}
-      </p>
+      <p className="font-bold text-sm mb-5 flex-grow leading-relaxed line-clamp-4">{broker.shortBio}</p>
 
       <div className="flex flex-wrap gap-2 mb-8">
         {topSpecialties.map((spec) => (
-          <span key={spec} className="text-xs font-black uppercase tracking-wider bg-neo-green text-neo-black border border-neo-black px-2 py-1">
-            {spec}
-          </span>
+          <span key={spec} className="text-xs font-black uppercase tracking-wider bg-neo-green text-neo-black border border-neo-black px-2 py-1">{spec}</span>
         ))}
       </div>
 
@@ -69,7 +67,7 @@ export function BrokerCard({ broker }: BrokerCardProps) {
           View Profile
         </Link>
         <a
-          href={`/out?broker=${broker.slug}&type=apply&source=directory`}
+          href={ctaHref}
           target="_blank"
           rel="noopener noreferrer"
           data-tracking-id={broker.primaryCta?.trackingId}
