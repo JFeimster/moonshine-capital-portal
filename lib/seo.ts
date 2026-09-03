@@ -46,6 +46,7 @@ export function constructPartnerMetadata({
   description,
   path = '',
   pageTitle,
+  image,
 }: {
   slug: string;
   partnerName: string;
@@ -53,9 +54,10 @@ export function constructPartnerMetadata({
   description?: string | null;
   path?: string;
   pageTitle?: string;
+  image?: string | null;
 }): Metadata {
   const title = pageTitle
-    ? `${pageTitle} | ${partnerName} | ${SITE_CONFIG.publicBrand}`
+    ? `${pageTitle} | ${partnerName}`
     : getPartnerTitle(partnerName, companyName);
   const relativePath = path ? `/${slug.replace(/^\/+|\/+$/g, '')}/${path.replace(/^\/+/, '')}` : `/${slug}`;
   const canonical = getCanonicalUrl(relativePath);
@@ -70,6 +72,7 @@ export function constructPartnerMetadata({
       type: 'profile',
       url: canonical,
       siteName: SITE_CONFIG.publicBrand,
+      ...(image ? { images: [{ url: image, alt: partnerName }] } : {}),
     },
   };
 }

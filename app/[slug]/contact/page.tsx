@@ -5,6 +5,7 @@ import { buildTrackedOutUrl } from '@/lib/distribution';
 import { getPartnerContactActions } from '@/lib/partner-site';
 import { PartnerBreadcrumbs, PartnerCTACluster, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 import { constructPartnerMetadata } from '@/lib/seo';
+import { createBreadcrumbSchema, serializeJsonLd } from '@/lib/partner-schema';
 
 export const revalidate = 3600;
 
@@ -15,7 +16,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     slug: broker.slug,
     partnerName: broker.displayName || broker.fullName,
     companyName: broker.companyName || broker.agencyName,
-    description: `Contact ${broker.fullName} for funding questions and next steps.`, path: '/contact', pageTitle: 'Contact',
+    description: `Contact ${broker.displayName || broker.fullName} for funding questions and next steps.`, path: '/contact', pageTitle: 'Contact', image: broker.profileImage,
   });
 }
 
@@ -25,9 +26,11 @@ export default async function PartnerContactPage({ params }: { params: { slug: s
 
   const name = broker.displayName || broker.fullName;
   const contactActions = getPartnerContactActions(broker);
+  const breadcrumb = createBreadcrumbSchema(broker.slug, name, [{ label: 'Contact', path: 'contact' }]);
 
   return (
     <main className="min-h-screen bg-neo-white text-neo-black">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumb) }} />
       <PartnerIdentityStrip broker={broker} />
       <PartnerSiteHeader broker={broker} active="About" />
 

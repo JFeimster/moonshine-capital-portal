@@ -6,6 +6,7 @@ import { getPartnerTool } from '@/lib/partner-site';
 import { PartnerBreadcrumbs, PartnerCTACluster, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 import { buildPartnerLeadFormUrl } from '@/lib/distribution';
 import { constructPartnerMetadata } from '@/lib/seo';
+import { createBreadcrumbSchema, serializeJsonLd } from '@/lib/partner-schema';
 
 export const revalidate = 3600;
 
@@ -19,7 +20,7 @@ export async function generateMetadata({ params }: { params: { slug: string; too
     slug: broker.slug,
     partnerName: broker.displayName || broker.fullName,
     companyName: broker.companyName || broker.agencyName,
-    description: `${tool.title} for ${broker.fullName}.`, path: `/tools/${params.toolSlug}`, pageTitle: tool.title,
+    description: `${tool.title} for businesses working with ${broker.displayName || broker.fullName}.`, path: `/tools/${params.toolSlug}`, pageTitle: tool.title, image: broker.profileImage,
   });
 }
 
@@ -31,9 +32,11 @@ export default async function PartnerToolDetailPage({ params }: { params: { slug
   if (!tool) notFound();
 
   const applyUrl = buildPartnerLeadFormUrl(broker, { source: `partner_tool_${tool.slug}` });
+  const breadcrumb = createBreadcrumbSchema(broker.slug, broker.displayName || broker.fullName, [{ label: 'Tools', path: 'tools' }, { label: tool.title, path: `tools/${tool.slug}` }]);
 
   return (
     <main className="min-h-screen bg-neo-white text-neo-black">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumb) }} />
       <PartnerIdentityStrip broker={broker} />
       <PartnerSiteHeader broker={broker} active="Tools" />
 

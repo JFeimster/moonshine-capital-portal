@@ -6,6 +6,7 @@ import { getPartnerFundingPage } from '@/lib/partner-site';
 import { PartnerBreadcrumbs, PartnerCTACluster, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 import { buildPartnerLeadFormUrl } from '@/lib/distribution';
 import { constructPartnerMetadata } from '@/lib/seo';
+import { createBreadcrumbSchema, createFaqSchema, serializeJsonLd } from '@/lib/partner-schema';
 
 export const revalidate = 3600;
 
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: { params: { slug: string; fun
     slug: broker.slug,
     partnerName: broker.displayName || broker.fullName,
     companyName: broker.companyName || broker.agencyName,
-    description: `${page.title} funding details for ${broker.fullName}.`, path: `/funding/${fundingSlug}`, pageTitle: page.title,
+    description: `${page.title} funding details with ${broker.displayName || broker.fullName}.`, path: `/funding/${fundingSlug}`, pageTitle: page.title, image: broker.profileImage,
   });
 }
 
@@ -33,9 +34,14 @@ export default async function PartnerFundingDetailPage({ params }: { params: { s
   if (!page) notFound();
 
   const applyUrl = buildPartnerLeadFormUrl(broker, { source: `partner_funding_${page.slug}` });
+  const name = broker.displayName || broker.fullName;
+  const breadcrumb = createBreadcrumbSchema(broker.slug, name, [{ label: 'Funding', path: 'funding' }, { label: page.title, path: `funding/${fundingSlug}` }]);
+  const faqSchema = createFaqSchema(page.faq);
 
   return (
     <main className="min-h-screen bg-neo-white text-neo-black">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumb) }} />
+      {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqSchema) }} />}
       <PartnerIdentityStrip broker={broker} />
       <PartnerSiteHeader broker={broker} active="Funding" />
 
@@ -79,7 +85,7 @@ export default async function PartnerFundingDetailPage({ params }: { params: { s
               <div className="mt-4 space-y-5">
                 {page.faq.map((item) => (
                   <div key={item.question}>
-                    <div className="font-black uppercase tracking-[0.14em] text-neo-blue text-xs">{item.question}</div>
+                    <h3 className="font-black uppercase tracking-[0.14em] text-neo-blue text-xs">{item.question}</h3>
                     <p className="mt-2 text-base font-medium leading-relaxed">{item.answer}</p>
                   </div>
                 ))}

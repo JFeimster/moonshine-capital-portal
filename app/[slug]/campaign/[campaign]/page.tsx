@@ -5,6 +5,7 @@ import { getBrokerBySlug } from '@/lib/brokers';
 import { getPartnerCampaign, listPartnerCampaigns } from '@/lib/partner-site';
 import { PartnerBreadcrumbs, PartnerCTACluster, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 import { constructPartnerMetadata } from '@/lib/seo';
+import { createBreadcrumbSchema, serializeJsonLd } from '@/lib/partner-schema';
 
 export const revalidate = 3600;
 
@@ -16,16 +17,19 @@ export async function generateMetadata({ params }: { params: { slug: string; cam
   const broker = await getBrokerBySlug(params.slug);
   const campaign = getPartnerCampaign(params.campaign);
   if (!broker || !campaign) return { title: 'Solution Not Found', robots: { index: false, follow: false } };
-  return constructPartnerMetadata({ slug: broker.slug, partnerName: broker.displayName || broker.fullName, companyName: broker.companyName || broker.agencyName, description: `${campaign.eyebrow} for ${broker.fullName}.`, path: `/campaign/${params.campaign}`, pageTitle: campaign.eyebrow });
+  return constructPartnerMetadata({ slug: broker.slug, partnerName: broker.displayName || broker.fullName, companyName: broker.companyName || broker.agencyName, description: `${campaign.headline} with ${broker.displayName || broker.fullName}.`, path: `/campaign/${params.campaign}`, pageTitle: campaign.headline, image: broker.profileImage });
 }
 
 export default async function PartnerSolutionDetailPage({ params }: { params: { slug: string; campaign: string } }) {
   const broker = await getBrokerBySlug(params.slug);
   const campaign = getPartnerCampaign(params.campaign);
   if (!broker || !campaign) notFound();
+  const name = broker.displayName || broker.fullName;
+  const breadcrumb = createBreadcrumbSchema(broker.slug, name, [{ label: 'Solutions', path: 'campaign' }, { label: campaign.eyebrow, path: `campaign/${campaign.slug}` }]);
 
   return (
     <main className="min-h-screen bg-neo-white text-neo-black">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumb) }} />
       <PartnerIdentityStrip broker={broker} />
       <PartnerSiteHeader broker={broker} active="Solutions" />
       <section className="mx-auto max-w-7xl px-6 py-12 md:px-12 md:py-16">

@@ -7,7 +7,7 @@ import { BrokerUtilitySection } from '@/components/BrokerUtilitySection';
 import { AttributionContext, buildTrackedOutUrl } from '@/lib/distribution';
 import { buildBrokerCtaHref } from '@/lib/broker-cta-routing';
 import { constructPartnerMetadata } from '@/lib/seo';
-import { generatePartnerSchema } from '@/lib/schema';
+import { createPartnerIdentitySchema, serializeJsonLd } from '@/lib/partner-schema';
 import { getPartnerDisplaySpecialties, getPartnerSupportLine, getPrioritizedPartnerFunding, getPrioritizedPartnerIndustries, listPartnerCampaigns, listPartnerFundingPages, listPartnerIndustryPages, listPartnerResourcePages } from '@/lib/partner-site';
 import { PartnerCTACluster, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 
@@ -36,6 +36,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     partnerName: name,
     companyName: broker.companyName || broker.agencyName,
     description: broker.shortBio,
+    image: broker.profileImage,
   });
 }
 
@@ -76,18 +77,11 @@ export default async function PublicFundingPage({
     ? broker.disclosures
     : ['Funding approval, terms, and availability depend on provider underwriting and applicant qualifications.'];
 
-  const jsonLd = generatePartnerSchema({
-    slug: broker.slug,
-    name,
-    companyName: company,
-    jobTitle: role,
-    areaServed: markets.length ? markets : location || 'United States',
-    type: 'FinancialService',
-  });
+  const jsonLd = createPartnerIdentitySchema(broker, broker.shortBio || broker.whyChooseYou);
 
   return (
     <main className="min-h-screen bg-neo-white text-neo-black">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
       <PartnerIdentityStrip broker={broker} />
       <PartnerSiteHeader broker={broker} active="Home" />
 

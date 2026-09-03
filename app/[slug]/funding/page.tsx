@@ -5,6 +5,7 @@ import { getBrokerBySlug } from '@/lib/brokers';
 import { listPartnerFundingPages } from '@/lib/partner-site';
 import { PartnerBreadcrumbs, PartnerCTACluster, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 import { constructPartnerMetadata } from '@/lib/seo';
+import { createBreadcrumbSchema, createItemListSchema, getPartnerCanonicalUrl, serializeJsonLd } from '@/lib/partner-schema';
 
 export const revalidate = 3600;
 
@@ -15,7 +16,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     slug: broker.slug,
     partnerName: broker.displayName || broker.fullName,
     companyName: broker.companyName || broker.agencyName,
-    description: `Explore funding options for ${broker.fullName} and the Distilled Funding network.`, path: '/funding', pageTitle: 'Funding',
+    description: `Explore funding options with ${broker.displayName || broker.fullName}.`, path: '/funding', pageTitle: 'Funding', image: broker.profileImage,
   });
 }
 
@@ -25,9 +26,15 @@ export default async function PartnerFundingHubPage({ params }: { params: { slug
 
   const fundingPages = listPartnerFundingPages();
   const featuredFunding = fundingPages.slice(0, 8);
+  const name = broker.displayName || broker.fullName;
+  const jsonLd = [
+    createBreadcrumbSchema(broker.slug, name, [{ label: 'Funding', path: 'funding' }]),
+    createItemListSchema(fundingPages.map((page) => ({ name: page.title, url: getPartnerCanonicalUrl(broker.slug, `funding/${page.slug}`) }))),
+  ];
 
   return (
     <main className="min-h-screen bg-neo-white text-neo-black">
+      {jsonLd.map((schema, index) => <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }} />)}
       <PartnerIdentityStrip broker={broker} />
       <PartnerSiteHeader broker={broker} active="Funding" />
 

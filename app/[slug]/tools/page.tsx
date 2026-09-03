@@ -5,6 +5,7 @@ import { getBrokerBySlug } from '@/lib/brokers';
 import { listPartnerToolPages } from '@/lib/partner-site';
 import { PartnerBreadcrumbs, PartnerCTACluster, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 import { constructPartnerMetadata } from '@/lib/seo';
+import { createBreadcrumbSchema, serializeJsonLd } from '@/lib/partner-schema';
 
 export const revalidate = 3600;
 
@@ -15,7 +16,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     slug: broker.slug,
     partnerName: broker.displayName || broker.fullName,
     companyName: broker.companyName || broker.agencyName,
-    description: `Tools and resources for ${broker.fullName}.`, path: '/tools', pageTitle: 'Tools',
+    description: `Tools and resources for ${broker.displayName || broker.fullName}.`, path: '/tools', pageTitle: 'Tools', image: broker.profileImage,
   });
 }
 
@@ -24,9 +25,11 @@ export default async function PartnerToolsPage({ params }: { params: { slug: str
   if (!broker) notFound();
 
   const tools = await listPartnerToolPages();
+  const breadcrumb = createBreadcrumbSchema(broker.slug, broker.displayName || broker.fullName, [{ label: 'Tools', path: 'tools' }]);
 
   return (
     <main className="min-h-screen bg-neo-white text-neo-black">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumb) }} />
       <PartnerIdentityStrip broker={broker} />
       <PartnerSiteHeader broker={broker} active="Tools" />
 

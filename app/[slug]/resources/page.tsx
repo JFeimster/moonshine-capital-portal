@@ -5,6 +5,7 @@ import { getBrokerBySlug } from '@/lib/brokers';
 import { listPartnerResourcePages } from '@/lib/partner-site';
 import { PartnerBreadcrumbs, PartnerCTACluster, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 import { constructPartnerMetadata } from '@/lib/seo';
+import { createBreadcrumbSchema, createItemListSchema, getPartnerCanonicalUrl, serializeJsonLd } from '@/lib/partner-schema';
 
 export const revalidate = 3600;
 
@@ -15,7 +16,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     slug: broker.slug,
     partnerName: broker.displayName || broker.fullName,
     companyName: broker.companyName || broker.agencyName,
-    description: `Funding resources and educational support from ${broker.fullName}.`, path: '/resources', pageTitle: 'Funding Resources',
+    description: `Funding resources and educational support with ${broker.displayName || broker.fullName}.`, path: '/resources', pageTitle: 'Resources', image: broker.profileImage,
   });
 }
 
@@ -24,9 +25,15 @@ export default async function PartnerResourcesPage({ params }: { params: { slug:
   if (!broker) notFound();
 
   const resources = await listPartnerResourcePages();
+  const name = broker.displayName || broker.fullName;
+  const jsonLd = [
+    createBreadcrumbSchema(broker.slug, name, [{ label: 'Resources', path: 'resources' }]),
+    createItemListSchema(resources.map((resource) => ({ name: resource.title, url: getPartnerCanonicalUrl(broker.slug, `resources/${resource.slug}`) }))),
+  ];
 
   return (
     <main className="min-h-screen bg-neo-white text-neo-black">
+      {jsonLd.map((schema, index) => <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }} />)}
       <PartnerIdentityStrip broker={broker} />
       <PartnerSiteHeader broker={broker} active="Resources" />
 

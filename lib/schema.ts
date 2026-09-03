@@ -1,15 +1,14 @@
+import { createItemListSchema, createPartnerIdentitySchema } from './partner-schema';
+import type { BrokerProfile } from './types';
 import { getCanonicalPartnerUrl } from './site-config';
 
-export function generateItemListSchema(items: Array<{ slug: string }>) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'ItemList',
-    itemListElement: items.map((item, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      url: getCanonicalPartnerUrl(item.slug),
-    })),
-  };
+export function generateItemListSchema(items: Array<{ slug: string }>): {
+  '@context': string;
+  '@type': string;
+  numberOfItems: number;
+  itemListElement: Array<{ '@type': string; position: number; name: string; url: string }>;
+} {
+  return createItemListSchema(items.map((item) => ({ name: item.slug, url: getCanonicalPartnerUrl(item.slug) }))) as ReturnType<typeof generateItemListSchema>;
 }
 
 export function generatePartnerSchema({
@@ -29,6 +28,14 @@ export function generatePartnerSchema({
   areaServed?: string | string[];
   type?: 'Person' | 'FinancialService';
 }) {
+  const broker: BrokerProfile = {
+    id: slug, fullName: name, displayName: name, agencyName: companyName || '', companyName: companyName || undefined,
+    title: jobTitle, slug, shortBio: description || '', city: '', state: '', publicEmail: '', whyChooseYou: '',
+    industries: [], fundingTypes: [], urgencyCategory: 'standard', approvalStatus: 'approved', profileStatus: 'published', isActive: true,
+  };
+
+  if (type === 'Person') return createPartnerIdentitySchema(broker, description);
+
   const canonical = getCanonicalPartnerUrl(slug);
 
   if (type === 'FinancialService') {

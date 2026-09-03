@@ -6,6 +6,7 @@ import { getPartnerResource } from '@/lib/partner-site';
 import { PartnerBreadcrumbs, PartnerCTACluster, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 import { buildPartnerLeadFormUrl } from '@/lib/distribution';
 import { constructPartnerMetadata } from '@/lib/seo';
+import { createArticleSchema, createBreadcrumbSchema, getPartnerCanonicalUrl, serializeJsonLd } from '@/lib/partner-schema';
 
 export const revalidate = 3600;
 
@@ -19,7 +20,7 @@ export async function generateMetadata({ params }: { params: { slug: string; res
     slug: broker.slug,
     partnerName: broker.displayName || broker.fullName,
     companyName: broker.companyName || broker.agencyName,
-    description: `${resource.title} for ${broker.fullName}.`, path: `/resources/${params.resourceSlug}`, pageTitle: resource.title,
+    description: `${resource.title} for businesses working with ${broker.displayName || broker.fullName}.`, path: `/resources/${params.resourceSlug}`, pageTitle: resource.title, image: broker.profileImage,
   });
 }
 
@@ -31,9 +32,16 @@ export default async function PartnerResourceDetailPage({ params }: { params: { 
   if (!resource) notFound();
 
   const applyUrl = buildPartnerLeadFormUrl(broker, { source: `partner_resource_${resource.slug}` });
+  const name = broker.displayName || broker.fullName;
+  const breadcrumb = createBreadcrumbSchema(broker.slug, name, [{ label: 'Resources', path: 'resources' }, { label: resource.title, path: `resources/${resource.slug}` }]);
+  const article = 'sections' in resource
+    ? createArticleSchema({ title: resource.title, description: resource.description, url: getPartnerCanonicalUrl(broker.slug, `resources/${resource.slug}`) })
+    : null;
 
   return (
     <main className="min-h-screen bg-neo-white text-neo-black">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumb) }} />
+      {article && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(article) }} />}
       <PartnerIdentityStrip broker={broker} />
       <PartnerSiteHeader broker={broker} active="Resources" />
 
