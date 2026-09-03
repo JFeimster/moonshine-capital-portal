@@ -1,230 +1,74 @@
 # Route Map
 
-## Purpose
-This document maps the current and recommended routes for `moonshine-capital-portal`.
+## Canonical public route strategy
 
-It is meant to help with:
-- page planning
-- navigation planning
-- SEO expansion
-- CTA routing
-- future portal/admin growth
+The public partner profile URL is:
 
-This route map is specific to the portal repo and its current architecture.
+`/<partner-slug>`
 
----
+Example:
 
-## Current Confirmed Routes
+`https://capital.distilledfunding.com/darwin-hanneman`
 
-### Public routes
-- `/` — Homepage / positioning layer
-- `/directory` — Broker directory index
-- `/directory/[slug]` — Individual broker profile pages
-- `/onboarding` — Tally-powered partner onboarding flow
-- `/terms` — Terms of Service
-- `/privacy` — Privacy Policy
+`/directory/[slug]` is a legacy compatibility route and permanently redirects to the top-level canonical partner URL.
 
-### Internal / infrastructure routes
-- `/out` — Tracked redirect route for broker CTA clicks
+## Current public routes
 
----
+- `/` — homepage / positioning
+- `/about` — network/platform explanation
+- `/contact` — routing page for funding, advisor discovery, and support paths
+- `/faq` — common funding/advisor questions
+- `/directory` — primary advisor discovery index
+- `/brokers` — advisor network index
+- `/<slug>` — canonical public partner/funding page
+- `/directory/[slug]` — legacy compatibility redirect to `/<slug>`
+- `/apply` — application path selector
+- `/apply/fast` — full/direct funding application path
+- `/apply/quote` — personalized funding intake path
+- `/onboarding` — Funding Agent Join
+- `/onboarding/profile` — Funding Agent profile enrichment
+- `/onboarding/launch` — Funding Agent launch-plan step
+- `/industries` and `/industries/[slug]` — current industry discovery layer
+- `/funding-types` and `/funding-types/[slug]` — current funding-type discovery layer
+- `/terms` — terms/disclosures
+- `/privacy` — privacy disclosures
 
-## Current Route Roles
+## Internal / operator routes
 
-### `/`
-**Purpose:**
-- position the brand
-- explain why the directory exists
-- feature selected partners
-- move users into the broker directory
+- `/portal/*` — partner operating layer
+- `/admin/*` — internal control layer
+- `/access` — interim protected-route access boundary
 
-**Primary user:**
-- founder / operator discovering the ecosystem
+## Tracking / intake infrastructure
 
-**Primary CTA direction:**
-- broker discovery
-- directory exploration
+- `/go/[slug]` — canonical registry tracked redirect path
+- `/out` — older broker CTA compatibility route; remaining migration is tracked in issue #85
+- `POST /api/webhooks/tally` — canonical raw Tally webhook receiver
+- `/api/intake/tally/application` — trusted normalized Funding Agent compatibility endpoint
+- `/api/intake/tally/profile` — trusted normalized profile compatibility endpoint
 
-### `/directory`
-**Purpose:**
-- act as the main searchable/filterable broker directory
-- help users discover the right funding partner
-- support future SEO and faceted browsing
+## Architecture
 
-**Primary user:**
-- business owner looking for the right broker / capital source
+Canonical operational path:
 
-**Primary CTA direction:**
-- click into `/directory/[slug]`
+Tally → Next.js/Vercel application logic → Notion
 
-### `/directory/[slug]`
-**Purpose:**
-- serve as the main profile landing page for each broker
-- provide specialties, industries, contact info, and trust signals
-- route outbound clicks through tracked CTAs
+- n8n is optional downstream orchestration, not canonical normalization.
+- Wix is optional downstream compatibility/publishing only.
 
-**Primary user:**
-- high-intent user evaluating a specific broker
+## Deferred public expansion
 
-**Primary CTA direction:**
-- tracked external click via `/out`
+The following should be added only when there is enough differentiated utility/content to justify them:
 
-### `/onboarding`
-**Purpose:**
-- recruit brokers / partners into the directory
-- collect profile and funding specialty details
-
-**Primary user:**
-- prospective funding partner / broker
-
-### `/terms`
-**Purpose:**
-- legal coverage
-- affiliate and third-party disclaimers
-
-### `/privacy`
-**Purpose:**
-- privacy disclosures
-- data handling explanation
-
-### `/out`
-**Purpose:**
-- central click-tracking redirect layer
-- route users to broker website / CTA destination
-- preserve attribution and measurement opportunities
-
----
-
-## Recommended New Routes
-
-### High-priority public pages
-- `/about`
-- `/contact`
-- `/faq`
-- `/apply`
-
-### Taxonomy / SEO pages
-- `/industries`
-- `/industries/[slug]`
-- `/funding-types`
-- `/funding-types/[slug]`
 - `/states`
 - `/states/[slug]`
 - `/compare/[slug]`
 
-### Future product pages
-- `/portal`
-- `/admin`
+Do not create thin routes simply to increase route count.
 
-### Recommended API routes
-- `/api/broker-click`
-- `/api/lead-intake`
-- `/api/onboarding-submit`
-- `/api/wix-sync` (optional downstream sync)
-- `/api/webhooks/n8n`
-- `/api/webhooks/hubspot`
+## Current execution dependencies
 
----
-
-## Recommended Route Hierarchy
-
-```text
-/
-/directory
-/directory/[slug]
-/onboarding
-/terms
-/privacy
-/out
-/about
-/contact
-/faq
-/apply
-/industries
-/industries/[slug]
-/funding-types
-/funding-types/[slug]
-/states
-/states/[slug]
-/compare/[slug]
-/portal
-/admin
-/api/broker-click
-/api/lead-intake
-/api/onboarding-submit
-/api/wix-sync (optional downstream sync)
-/api/webhooks/n8n
-/api/webhooks/hubspot
-```
-
----
-
-## Route Strategy Notes
-
-### Directory routes
-The directory should remain the core public discovery system.
-
-That means future taxonomy pages should generally feed into one of these patterns:
-- category landing page → filtered directory
-- SEO landing page → filtered directory
-- broker profile → tracked CTA
-
-### Taxonomy routes
-The strongest expansion routes are:
-- industries
-- funding types
-- states
-
-These support:
-- SEO growth
-- easier user navigation
-- better broker matching by context
-
-### Tracking routes
-`/out` is already the central redirect pattern.
-
-Future API routes should support:
-- richer analytics
-- lead capture
-- webhook handoff
-- application tracking
-
-### Portal routes
-`/portal` and `/admin` should be treated as later-phase surfaces, not first-priority public routes.
-
----
-
-## Build Priority
-
-### Phase 1
-- `/about`
-- `/contact`
-- `/faq`
-- `/apply`
-
-### Phase 2
-- `/industries`
-- `/industries/[slug]`
-- `/funding-types`
-- `/funding-types/[slug]`
-- `/states`
-- `/states/[slug]`
-
-### Phase 3
-- `/compare/[slug]`
-- `/api/broker-click`
-- `/api/lead-intake`
-- `/api/onboarding-submit`
-
-### Phase 4
-- `/portal`
-- `/admin`
-- webhook routes
-
----
-
-## Recommended Next Steps
-- keep `docs/full-scaffold.md` as the structural source of truth
-- use this file to guide future page creation prompts
-- tie every new SEO or taxonomy page back to directory discovery and tracked CTA flow
-- avoid expanding public routes in ways that bypass `/directory/[slug]` and `/out`
+- issue #85 — complete remaining `/out` → `/go/[slug]` migration
+- issue #34 — remaining Tally/app/Notion partner schema reconciliation
+- issue #40 — continue broker profile resource-hub utility work
+- issue #53 — remaining public application conversion hardening
