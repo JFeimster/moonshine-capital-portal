@@ -23,7 +23,8 @@ export default async function PartnerIndustryHubPage({ params }: { params: { slu
   const broker = await getBrokerBySlug(params.slug);
   if (!broker) notFound();
 
-  const industries = listPartnerIndustryPages().slice(0, 12);
+  const industries = listPartnerIndustryPages();
+  const featuredIndustries = industries.slice(0, 10);
 
   return (
     <main className="min-h-screen bg-neo-white text-neo-black">
@@ -40,8 +41,9 @@ export default async function PartnerIndustryHubPage({ params }: { params: { slu
           <PartnerCTACluster broker={broker} primaryLabel="Apply for Funding" secondaryLabel={`Book with ${broker.displayName || broker.fullName}`} />
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {industries.map((industry) => (
+        <h2 className="mb-4 text-xs font-black uppercase tracking-[0.2em] text-neo-blue">Featured industries</h2>
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-5">
+          {featuredIndustries.map((industry) => (
             <Link key={industry.slug} href={`/${broker.slug}/industries/${industry.slug}`} className="group border-4 border-neo-black bg-neo-cream p-6 shadow-brutal transition-transform hover:-translate-y-1">
               <div className="mb-3 text-xs font-black uppercase tracking-[0.18em] text-neo-blue">Industry</div>
               <h2 className="text-2xl font-black uppercase tracking-tighter">{industry.title}</h2>
@@ -49,6 +51,16 @@ export default async function PartnerIndustryHubPage({ params }: { params: { slu
               <div className="mt-5 inline-flex border-b-2 border-neo-black pb-1 text-xs font-black uppercase tracking-[0.18em] group-hover:text-neo-blue">View capital options</div>
             </Link>
           ))}
+        </div>
+        <div className="mt-12 border-t-4 border-neo-black pt-6">
+          <h2 className="mb-4 text-xs font-black uppercase tracking-[0.2em] text-neo-blue">All industries <span className="text-neo-black/60">[{industries.length}]</span></h2>
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+            {industries.map((industry, index) => (
+              <Link key={industry.slug} href={`/${broker.slug}/industries/${industry.slug}`} className="flex items-center gap-3 border-2 border-neo-black bg-neo-white px-3 py-3 text-sm font-black uppercase hover:bg-neo-pink">
+                <span className="text-neo-blue">{String(index + 1).padStart(2, '0')}</span>{industry.title}
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 

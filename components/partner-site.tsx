@@ -28,6 +28,7 @@ export function PartnerSiteHeader({ broker, active }: { broker: BrokerProfile; a
     { label: 'Home', href: `/${broker.slug}` },
     { label: 'Funding', href: `/${broker.slug}/funding` },
     { label: 'Industries', href: `/${broker.slug}/industries` },
+    { label: 'Solutions', href: `/${broker.slug}/campaign` },
     { label: 'Tools', href: `/${broker.slug}/tools` },
     { label: 'Resources', href: `/${broker.slug}/resources` },
     { label: 'About', href: `/${broker.slug}/about` },
@@ -59,6 +60,13 @@ export function PartnerSiteHeader({ broker, active }: { broker: BrokerProfile; a
             )}
           </div>
         </div>
+        <nav aria-label="Partner site navigation" className="flex gap-1 overflow-x-auto border-t-2 border-neo-black/15 py-2 lg:hidden">
+          {navItems.map((item) => (
+            <Link key={item.href} href={item.href} className={`shrink-0 whitespace-nowrap px-2 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] ${active === item.label ? 'border-2 border-neo-black bg-neo-yellow' : 'border-2 border-transparent hover:border-neo-black'}`}>
+              {item.label}
+            </Link>
+          ))}
+        </nav>
       </div>
     </header>
   );
@@ -77,6 +85,7 @@ export function PartnerSiteFooter({ broker }: { broker: BrokerProfile }) {
           <div className="mt-3 space-y-2 text-sm font-bold">
             <Link href={`/${broker.slug}/funding`} className="block hover:text-neo-yellow">Funding</Link>
             <Link href={`/${broker.slug}/industries`} className="block hover:text-neo-yellow">Industries</Link>
+            <Link href={`/${broker.slug}/campaign`} className="block hover:text-neo-yellow">Solutions</Link>
             <Link href={`/${broker.slug}/resources`} className="block hover:text-neo-yellow">Resources</Link>
           </div>
         </div>

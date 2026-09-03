@@ -150,7 +150,7 @@ export function getPartnerIndustryPage(slug: string): PartnerIndustryPage | null
 }
 
 export async function listPartnerToolPages(): Promise<ToolRegistryItem[]> {
-  return (await getToolsByKind('tool')).slice(0, 12);
+  return (await getToolsByKind('tool')).filter((tool) => tool.accessLevel === 'public' && getRegistryDestination(tool) !== '#').slice(0, 12);
 }
 
 export async function getPartnerTool(slug: string): Promise<ToolRegistryItem | null> {
@@ -174,9 +174,13 @@ export function getPartnerCampaign(slug: string): PartnerCampaign | null {
   return (readRegistry<PartnerCampaign>('partner-site', 'campaigns.registry.json').entries ?? []).find((entry) => entry.slug === slug) ?? null;
 }
 
+export function listPartnerCampaigns(): PartnerCampaign[] {
+  return (readRegistry<PartnerCampaign>('partner-site', 'campaigns.registry.json').entries ?? []).filter((entry) => entry.slug);
+}
+
 export async function getPartnerToolsForContext(context: string): Promise<ToolRegistryItem[]> {
   const placement = (JSON.parse(readFileSync(dataPath('partner-site', 'tool-placement.registry.json'), 'utf-8')) as PlacementRegistryFile).placements?.find((entry) => entry.context === context);
   if (!placement) return [];
   const tools = await Promise.all(placement.candidateToolSlugs.map((slug) => getToolBySlug(slug)));
-  return tools.filter((tool): tool is ToolRegistryItem => Boolean(tool && tool.kind === 'tool' && tool.status === 'active' && getRegistryDestination(tool) !== '#'));
+  return tools.filter((tool): tool is ToolRegistryItem => Boolean(tool && tool.kind === 'tool' && tool.status === 'active' && tool.accessLevel === 'public' && getRegistryDestination(tool) !== '#'));
 }

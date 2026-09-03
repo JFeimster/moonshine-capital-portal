@@ -11,6 +11,7 @@ import {
   listPartnerResourcePages,
   listPartnerFundingPages,
   listPartnerIndustryPages,
+  listPartnerCampaigns,
 } from '../lib/partner-site';
 
 describe('partner site content adapter', () => {
@@ -55,6 +56,7 @@ describe('partner site content adapter', () => {
   it('keeps campaign inventory at the v2 threshold', async () => {
     const campaigns = (await import('../data/partner-site/campaigns.registry.json')).entries;
     expect(campaigns.length).toBeGreaterThanOrEqual(manifest.counts.campaigns);
+    expect(listPartnerCampaigns().length).toBeGreaterThanOrEqual(manifest.counts.campaigns);
   });
 
   it('reads tools and resources from the shared registry', async () => {
