@@ -1,5 +1,6 @@
-export type ApprovalStatus = 'approved' | 'needs_review' | 'suspended' | 'rejected';
-export type ProfileStatus = 'draft' | 'published' | 'hidden' | 'archived';
+import type { ApprovalStatus, ProfileStatus } from './partner-contract';
+
+export type { ApprovalStatus, ProfileStatus } from './partner-contract';
 
 export interface CTANode {
   label: string;
