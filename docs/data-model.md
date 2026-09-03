@@ -69,6 +69,26 @@ These values are defined once in `lib/partner-contract.ts` and imported by app t
 
 A new public Funding Agent Join starts `needs_review + draft`. Public rendering from the durable Notion source requires `approved + published`.
 
+## Public projection rules and lifecycle invariants
+
+The public `BrokerProfile` is a deliberate projection of the canonical operational record:
+
+- Public pages must consume `BrokerProfile` from `lib/brokers.ts`, never raw Tally, Notion, or Wix records.
+- `specialties` in the canonical record projects to `fundingSpecialties` in `BrokerProfile`.
+- `agencyName` may also populate the compatibility-only `companyName` field; it is not an independent source value.
+- `primaryCtaLabel` may populate `ctaLabel` and `primaryCta.label`, while the tracked route remains responsible for attribution.
+- Optional fields are omitted or represented by their documented empty collection default; they must not be fabricated as trusted source data.
+- Public projection must preserve normalized arrays, labels, URLs, and stable slugs.
+
+The following lifecycle invariants apply at every public boundary:
+
+```text
+approved + published + available  → eligible for public display
+anything else                     → not eligible for public display
+```
+
+Wix compatibility data may normalize legacy values such as `pending` to `needs_review`, but it cannot promote a record to `approved` or `published`. Enrichment may add profile data but cannot approve, publish, or create an orphan profile without an eligible canonical identity.
+
 ## BrokerProfile example
 
 ```ts

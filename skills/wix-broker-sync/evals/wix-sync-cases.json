@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "description": "Synthetic evaluation cases for Wix broker synchronization. All identifiers and contact values are fictional.",
+  "cases": [
+    {
+      "id": "eligible-approved-published",
+      "mode": "dry-run",
+      "input": {
+        "canonical": {
+          "partnerId": "partner-101",
+          "slug": "alex-rivera",
+          "email": " Alex@Example.test ",
+          "fullName": "Alex Rivera",
+          "agencyName": "Rivera Capital",
+          "shortBio": "Equipment finance advisor",
+          "whyChooseYou": "Fast guidance for growing operators.",
+          "city": "Austin",
+          "state": "tx",
+          "approvalStatus": "approved",
+          "profileStatus": "published",
+          "industries": ["Manufacturing"],
+          "fundingTypes": ["Equipment Finance"]
+        },
+        "wix": null,
+        "wixAvailability": "live"
+      },
+      "expect": {
+        "decision": "create proposed",
+        "eligible": true,
+        "normalized": { "publicEmail": "alex@example.test", "state": "TX" },
+        "writesAttempted": 0,
+        "public": true
+      }
+    },
+    {
+      "id": "approved-but-draft-blocked",
+      "mode": "dry-run",
+      "input": {
+        "canonical": { "partnerId": "partner-102", "slug": "casey-stone", "approvalStatus": "approved", "profileStatus": "draft" },
+        "wix": null,
+        "wixAvailability": "live"
+      },
+      "expect": { "decision": "blocked", "eligible": false, "blockReason": "profileStatus", "writesAttempted": 0 }
+    },
+    {
+      "id": "approved-but-hidden-blocked",
+      "mode": "dry-run",
+      "input": {
+        "canonical": { "partnerId": "partner-103", "slug": "riley-park", "approvalStatus": "approved", "profileStatus": "hidden" },
+        "wix": null,
+        "wixAvailability": "live"
+      },
+      "expect": { "decision": "blocked", "eligible": false, "blockReason": "profileStatus", "writesAttempted": 0 }
+    },
+    {
+      "id": "immutable-slug-conflict",
+      "mode": "dry-run",
+      "input": {
+        "canonical": { "partnerId": "partner-104", "slug": "jamie-lee", "approvalStatus": "approved", "profileStatus": "published" },
+        "wix": { "id": "wix-104", "partnerId": "partner-104", "slug": "jamie-li" },
+        "wixAvailability": "live"
+      },
+      "expect": { "decision": "conflict", "conflictCategory": "immutable-field", "field": "slug", "writesAttempted": 0 }
+    },
+    {
+      "id": "duplicate-email-different-partner",
+      "mode": "dry-run",
+      "input": {
+        "canonical": { "partnerId": "partner-105", "slug": "morgan-west", "email": "morgan@example.test", "approvalStatus": "approved", "profileStatus": "published" },
+        "wix": { "id": "wix-999", "partnerId": "partner-999", "slug": "other-profile", "publicEmail": "MORGAN@example.test" },
+        "wixAvailability": "live"
+      },
+      "expect": { "decision": "conflict", "conflictCategory": "identity", "writesAttempted": 0 }
+    },
+    {
+      "id": "blank-safe-update",
+      "mode": "dry-run",
+      "input": {
+        "canonical": {
+          "partnerId": "partner-106",
+          "slug": "taylor-north",
+          "approvalStatus": "approved",
+          "profileStatus": "published",
+          "shortBio": "",
+          "websiteUrl": ""
+        },
+        "wix": { "id": "wix-106", "partnerId": "partner-106", "slug": "taylor-north", "shortBio": "Existing trusted bio", "websiteUrl": "https://example.test" },
+        "wixAvailability": "live"
+      },
+      "expect": { "decision": "unchanged", "fieldsKept": ["shortBio", "websiteUrl"], "writesAttempted": 0 }
+    },
+    {
+      "id": "unsafe-url-and-private-image",
+      "mode": "dry-run",
+      "input": {
+        "canonical": {
+          "partnerId": "partner-107",
+          "slug": "sam-vale",
+          "approvalStatus": "approved",
+          "profileStatus": "published",
+          "websiteUrl": "javascript:alert(1)",
+          "profileImage": "wix:image://v1/private-image"
+        },
+        "wix": null,
+        "wixAvailability": "live"
+      },
+      "expect": { "decision": "blocked", "eligible": false, "blockReasons": ["unsafe-url", "unsupported-image"], "writesAttempted": 0 }
+    },
+    {
+      "id": "wix-unavailable-fallback",
+      "mode": "review",
+      "input": {
+        "canonical": { "partnerId": "partner-108", "slug": "devon-hall", "approvalStatus": "approved", "profileStatus": "published" },
+        "wix": { "status": "fallback", "records": [] },
+        "wixAvailability": "fallback"
+      },
+      "expect": { "decision": "unavailable", "conflictCategory": "availability", "source": "wix", "writesAttempted": 0, "verification": "incomplete" }
+    },
+    {
+      "id": "unmapped-canonical-fields-reported",
+      "mode": "dry-run",
+      "input": {
+        "canonical": {
+          "partnerId": "partner-109",
+          "slug": "jordan-cole",
+          "approvalStatus": "approved",
+          "profileStatus": "published",
+          "referralCode": "ref-109",
+          "bookingUrl": "https://example.test/book",
+          "disclosures": ["Example disclosure"]
+        },
+        "wix": null,
+        "wixAvailability": "live"
+      },
+      "expect": { "decision": "blocked", "blockReason": "required-public-fields", "unmappedFields": ["partnerId", "referralCode", "bookingUrl", "disclosures"], "writesAttempted": 0 }
+    },
+    {
+      "id": "authorized-apply-still-verifies",
+      "mode": "apply",
+      "authorization": "explicit for partner-110",
+      "input": {
+        "canonical": { "partnerId": "partner-110", "slug": "avery-south", "approvalStatus": "approved", "profileStatus": "published", "fullName": "Avery South", "agencyName": "South Advisory", "shortBio": "Working capital advisor", "whyChooseYou": "Clear funding options.", "city": "Denver", "state": "CO", "email": "avery@example.test" },
+        "wix": null,
+        "wixAvailability": "live",
+        "writeAdapter": "authorized-test-adapter",
+        "verificationFetch": { "id": "wix-110", "slug": "avery-south", "approvalStatus": "approved", "isActive": true }
+      },
+      "expect": { "decision": "applied", "writesAttempted": 1, "verification": "live-pass", "public": true }
+    }
+  ]
+}

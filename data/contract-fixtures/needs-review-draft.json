@@ -1,0 +1,22 @@
+{
+  "scenario": "needs-review-draft",
+  "source": "tally",
+  "input": {
+    "partnerId": "partner-redacted-002",
+    "email": "agent-002@example.invalid",
+    "fullName": "Redacted Applicant",
+    "agencyName": "Redacted Agency",
+    "approvalStatus": "needs_review",
+    "profileStatus": "draft",
+    "industries": ["Healthcare"],
+    "fundingTypes": ["Working Capital"],
+    "city": "Denver",
+    "state": "CO"
+  },
+  "expected": {
+    "publicEligible": false,
+    "normalizedApprovalStatus": "needs_review",
+    "normalizedProfileStatus": "draft",
+    "lifecycleMutationAllowed": false
+  }
+}

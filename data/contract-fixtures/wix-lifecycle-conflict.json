@@ -1,0 +1,21 @@
+{
+  "scenario": "wix-lifecycle-conflict",
+  "source": "wix",
+  "input": {
+    "_id": "wix-redacted-006",
+    "slug": "redacted-wix-agent",
+    "approvalStatus": "pending",
+    "profileStatus": "published",
+    "isActive": true,
+    "fullName": "Redacted Wix Agent",
+    "agencyName": "Redacted Agency",
+    "publicEmail": "agent-006@example.invalid",
+    "industries": ["Retail"],
+    "fundingTypes": ["Revenue Based"]
+  },
+  "expected": {
+    "normalizedApprovalStatus": "needs_review",
+    "publicEligible": false,
+    "wixMayNotPromoteLifecycle": true
+  }
+}

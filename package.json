@@ -11,8 +11,9 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "validate:data": "node scripts/validate-data.mjs",
+    "check:contract": "node scripts/check-contract-drift.mjs",
     "check:links": "node scripts/check-internal-links.mjs",
-    "check": "pnpm typecheck && pnpm lint && pnpm validate:data && pnpm check:links && pnpm test"
+    "check": "pnpm typecheck && pnpm lint && pnpm validate:data && pnpm check:contract && pnpm check:links && pnpm test"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

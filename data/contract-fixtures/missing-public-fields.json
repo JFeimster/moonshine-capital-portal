@@ -1,0 +1,22 @@
+{
+  "scenario": "missing-public-fields",
+  "source": "notion",
+  "input": {
+    "partnerId": "partner-redacted-007",
+    "email": "agent-007@example.invalid",
+    "fullName": "Redacted Incomplete Agent",
+    "agencyName": "Redacted Agency",
+    "slug": "redacted-incomplete-agent",
+    "approvalStatus": "approved",
+    "profileStatus": "published",
+    "isActive": true,
+    "industries": [],
+    "fundingTypes": [],
+    "urgencyCategory": "standard"
+  },
+  "expected": {
+    "publicEligible": false,
+    "missingFields": ["shortBio", "city", "state", "whyChooseYou"],
+    "requiredAction": "hold-from-public-projection"
+  }
+}

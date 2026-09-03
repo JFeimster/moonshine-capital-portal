@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tally Intake Normalizer"
+  short_description: "Map Tally submissions into canonical broker intake data without inventing values"
+  default_prompt: "Use $tally-intake-normalizer to map this Tally submission into the canonical BrokerProfile or onboarding schema, preserving missing values and lifecycle safeguards."

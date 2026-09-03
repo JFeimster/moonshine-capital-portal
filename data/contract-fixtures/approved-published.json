@@ -1,0 +1,26 @@
+{
+  "scenario": "approved-published",
+  "source": "notion",
+  "input": {
+    "partnerId": "partner-redacted-001",
+    "email": "agent-001@example.invalid",
+    "fullName": "Redacted Agent",
+    "agencyName": "Redacted Agency",
+    "slug": "redacted-agent",
+    "approvalStatus": "approved",
+    "profileStatus": "published",
+    "brokerStatus": "active",
+    "isActive": true,
+    "specialties": ["SBA", "Equipment"],
+    "industries": ["Construction"],
+    "fundingTypes": ["Term Loan"],
+    "city": "Austin",
+    "state": "TX"
+  },
+  "expected": {
+    "publicEligible": true,
+    "normalizedApprovalStatus": "approved",
+    "normalizedProfileStatus": "published",
+    "projectedFundingSpecialties": ["SBA", "Equipment"]
+  }
+}

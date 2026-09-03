@@ -17,6 +17,20 @@ Tally FORM_RESPONSE
 - n8n is optional downstream orchestration only.
 - Wix is optional downstream compatibility/publishing only.
 
+## Source precedence
+
+When two representations disagree, resolve the disagreement according to this order:
+
+| Concern | Authoritative representation | Downstream representation |
+| --- | --- | --- |
+| Intake values | Tally submission fields | normalized Next.js input |
+| Identity and merge decisions | Next.js services backed by Notion | Tally retry metadata, Wix IDs |
+| Lifecycle and publication | `lib/partner-contract.ts` and Notion | Wix compatibility values |
+| Public rendering shape | `BrokerProfile` in `lib/types.ts` | raw Notion/Wix/Tally payloads |
+| Allowed structure and required fields | `data/schemas/broker-profile.schema.json` plus TypeScript types | provider-specific payload shapes |
+
+Provider adapters may preserve additional fields, but they must not override the canonical identity, lifecycle, or public eligibility rules.
+
 ## Identity contract
 
 `partnerId` is the immutable cross-system identity.
@@ -132,6 +146,26 @@ The executable field classification lives in `lib/partner-contract.ts`.
 - `latestSubmissionAt`
 - `updatedAt`
 - `notionPageId`
+
+## Aliases and field semantics
+
+The following names are intentionally different at system boundaries:
+
+| Canonical meaning | Intake/persistence name | Public projection name | Rule |
+| --- | --- | --- | --- |
+| funding specialties | `specialties` | `fundingSpecialties` | Notion and `CanonicalBrokerProfile` use `specialties`; the public `BrokerProfile` uses `fundingSpecialties`. The projection must copy values without changing order or labels. |
+| agency name | `agencyName` | `agencyName` and compatibility `companyName` | `companyName` is a public compatibility alias populated from `agencyName`; it is not a separate merge key. |
+| primary CTA label | `primaryCtaLabel` | `ctaLabel` or `primaryCta.label` | The label may be projected into both public locations; the URL remains the source of the CTA destination. |
+| profile image | `profileImage` | `profileImage` | Provider image URI schemes must be normalized to browser-safe URLs or omitted. |
+
+### Requiredness, nullability, and normalization
+
+- Required canonical intake fields are `fullName`, `email`, `agencyName`, `city`, `state`, `industries`, `fundingTypes`, and `urgencyCategory`.
+- Optional canonical fields are omitted when unavailable; blank enrichment values must not erase trusted persisted values.
+- Public projection fields required by the JSON schema must be present and non-empty after normalization. Arrays must be arrays of strings, even when a provider stores them as comma-separated text.
+- Normalize email to trimmed lowercase, state to a supported two-letter code, URLs to absolute or approved root-relative URLs, and slugs to lowercase kebab case.
+- Preserve immutable identity and initial submission values across retries. Preserve an existing non-default lifecycle during ordinary enrichment.
+- `null`, `undefined`, whitespace-only strings, and provider-specific empty values are treated as absent unless a field explicitly permits an empty value.
 
 ## Live Notion Partners CRM projection
 

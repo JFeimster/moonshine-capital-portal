@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "description": "Synthetic evaluation cases for broker record reconciliation. All identifiers and contact values are fictional.",
+  "cases": [
+    {
+      "id": "all-sources-agree",
+      "mode": "dry-run",
+      "input": {
+        "notion": { "pageId": "page-001", "partnerId": "partner-001", "email": "alex@example.test", "approvalStatus": "approved", "profileStatus": "published", "shortBio": "Equipment finance specialist" },
+        "tally": { "submissionId": "submission-001", "email": " Alex@Example.test ", "shortBio": "Equipment finance specialist" },
+        "wix": { "id": "wix-001", "partnerId": "partner-001", "email": "alex@example.test", "approvalStatus": "approved", "profileStatus": "published", "shortBio": "Equipment finance specialist" },
+        "local": { "id": "fixture-001", "partnerId": "partner-001", "email": "alex@example.test" }
+      },
+      "expect": { "decision": "unchanged", "conflicts": [], "writesAttempted": 0, "public": true }
+    },
+    {
+      "id": "secondary-key-points-away",
+      "mode": "dry-run",
+      "input": {
+        "notion": { "pageId": "page-002", "partnerId": "partner-002", "email": "casey@example.test" },
+        "tally": { "submissionId": "submission-002", "partnerId": "partner-002", "email": "other@example.test" },
+        "wix": { "id": "wix-002", "partnerId": "partner-009", "email": "casey@example.test" },
+        "local": null
+      },
+      "expect": { "decision": "conflict", "conflictCategory": "identity", "writesAttempted": 0 }
+    },
+    {
+      "id": "blank-enrichment-does-not-erase",
+      "mode": "dry-run",
+      "input": {
+        "notion": { "pageId": "page-003", "partnerId": "partner-003", "email": "riley@example.test", "shortBio": "Working capital advisor", "approvalStatus": "needs_review", "profileStatus": "draft" },
+        "tally": { "submissionId": "submission-003", "email": "riley@example.test", "shortBio": "", "websiteUrl": "" },
+        "wix": null,
+        "local": null
+      },
+      "expect": { "decision": "unchanged", "fieldsKept": ["shortBio"], "writesAttempted": 0 }
+    },
+    {
+      "id": "operator-lifecycle-protected",
+      "mode": "dry-run",
+      "input": {
+        "notion": { "pageId": "page-004", "partnerId": "partner-004", "email": "jamie@example.test", "approvalStatus": "suspended", "profileStatus": "hidden" },
+        "tally": { "submissionId": "submission-004", "email": "jamie@example.test", "approvalStatus": "approved", "profileStatus": "published" },
+        "wix": { "id": "wix-004", "partnerId": "partner-004", "approvalStatus": "approved", "profileStatus": "published" },
+        "local": null
+      },
+      "expect": { "decision": "conflict", "conflictCategory": "lifecycle", "protectedFields": ["approvalStatus", "profileStatus"], "writesAttempted": 0, "public": false }
+    },
+    {
+      "id": "duplicate-notion-pages",
+      "mode": "review",
+      "input": {
+        "notion": [
+          { "pageId": "page-005-old", "partnerId": "partner-005", "email": "taylor@example.test", "createdAt": "2026-08-01T09:00:00Z" },
+          { "pageId": "page-005-new", "partnerId": "partner-005", "email": "taylor@example.test", "createdAt": "2026-08-02T09:00:00Z" }
+        ],
+        "tally": null,
+        "wix": null,
+        "local": null
+      },
+      "expect": { "decision": "conflict", "conflictCategory": "duplicate", "retainPageId": "page-005-old", "writesAttempted": 0, "automaticDeletion": false }
+    },
+    {
+      "id": "unavailable-wix-fallback",
+      "mode": "review",
+      "input": {
+        "notion": { "pageId": "page-006", "partnerId": "partner-006", "email": "morgan@example.test" },
+        "tally": null,
+        "wix": { "status": "fallback", "records": [] },
+        "local": { "id": "fixture-006", "partnerId": "partner-006", "email": "morgan@example.test" }
+      },
+      "expect": { "decision": "unchanged", "conflicts": [{ "category": "availability", "source": "wix" }], "writesAttempted": 0 }
+    }
+  ]
+}

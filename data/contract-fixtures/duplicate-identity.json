@@ -1,0 +1,23 @@
+{
+  "scenario": "duplicate-identity",
+  "source": "tally",
+  "input": {
+    "records": [
+      {
+        "partnerId": "partner-redacted-003",
+        "email": " AGENT-003@EXAMPLE.INVALID ",
+        "slug": "redacted-agent-three"
+      },
+      {
+        "partnerId": "partner-redacted-004",
+        "email": "agent-003@example.invalid",
+        "slug": "redacted-agent-four"
+      }
+    ]
+  },
+  "expected": {
+    "identityConflict": true,
+    "normalizedMergeKey": "agent-003@example.invalid",
+    "requiredAction": "review-conflict-before-upsert"
+  }
+}

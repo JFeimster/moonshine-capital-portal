@@ -1,0 +1,18 @@
+{
+  "scenario": "malformed-tally-submission",
+  "source": "tally",
+  "input": {
+    "eventId": "event-redacted-005",
+    "formId": "rjM6do",
+    "fields": [
+      { "key": "email", "value": "not-an-email" },
+      { "key": "state", "value": "Texas" },
+      { "key": "industries", "value": null }
+    ]
+  },
+  "expected": {
+    "accepted": false,
+    "requiredAction": "return-validation-error",
+    "mustNotPersist": true
+  }
+}
