@@ -1,3 +1,11 @@
 node_modules
 .next/
+.vercel/
 package-lock.json
+*.tsbuildinfo
+
+# Local environment/secrets
+.env
+.env.local
+.env.*.local
+!.env.example
