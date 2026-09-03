@@ -31,10 +31,11 @@ export default function RootLayout({
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-[100] btn-brutal-primary px-6 py-3 font-bold uppercase border-2 border-neo-black bg-neo-yellow text-neo-black shadow-brutal outline-none">
           Skip to main content
         </a>
-        <RouteChrome />
-        <div id="main-content" className="flex-grow outline-none" tabIndex={-1}>
-          {children}
-        </div>
+        <RouteChrome>
+          <div id="main-content" className="flex-grow outline-none" tabIndex={-1}>
+            {children}
+          </div>
+        </RouteChrome>
         <Analytics />
       </body>
     </html>

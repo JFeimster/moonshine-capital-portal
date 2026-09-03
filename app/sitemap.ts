@@ -4,6 +4,8 @@ import { getRegistryDestination, getToolsByKind } from '@/lib/embed-registry';
 import { listPartnerCampaigns, listPartnerFundingPages, listPartnerIndustryPages, listPartnerResourcePages } from '@/lib/partner-site';
 import { getCanonicalPartnerUrl, getCanonicalUrl } from '@/lib/site-config';
 
+export const dynamic = 'force-dynamic';
+
 function slugify(value: string) {
   return value.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }

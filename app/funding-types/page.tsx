@@ -4,6 +4,8 @@ import { SectionHeading } from '@/components/SectionHeading';
 import { getBrokers } from '@/lib/brokers';
 import { constructMetadata } from '@/lib/seo';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = constructMetadata({
   title: 'Funding Types',
   description: 'Explore funding partners by funding specialty and capital need.',

@@ -4,7 +4,7 @@ import { CTASection } from '@/components/CTASection';
 import { constructMetadata } from '@/lib/seo';
 import { generateItemListSchema } from '@/lib/schema';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export const metadata = constructMetadata({
   title: 'Partner Directory',

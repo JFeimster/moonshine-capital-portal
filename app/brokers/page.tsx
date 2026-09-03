@@ -3,6 +3,8 @@ import { CTASection } from '@/components/CTASection';
 import { getBrokers } from '@/lib/brokers';
 import { constructMetadata } from '@/lib/seo';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = constructMetadata({
   title: 'Funding Agents',
   description: 'Browse the Distilled Funding network of operating-focused funding agents and capital advisors.',
