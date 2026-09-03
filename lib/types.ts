@@ -1,4 +1,5 @@
-export type ApprovalStatus = 'approved' | 'pending' | 'rejected';
+export type ApprovalStatus = 'approved' | 'needs_review' | 'suspended' | 'rejected';
+export type ProfileStatus = 'draft' | 'published' | 'hidden' | 'archived';
 
 export interface CTANode {
   label: string;
@@ -44,7 +45,7 @@ export interface BrokerProfile {
 
   profileImage?: string;
   approvalStatus: ApprovalStatus;
-  profileStatus?: 'draft' | 'published' | 'archived' | string;
+  profileStatus?: ProfileStatus;
   brokerStatus?: 'active' | 'hidden' | 'recruiting';
   isActive: boolean;
   phoneNumber?: string;
