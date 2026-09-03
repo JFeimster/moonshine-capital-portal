@@ -1,4 +1,4 @@
-import { FullyNormalizedBroker } from './field-mapping';
+import type { CanonicalBrokerProfile } from './field-mapping';
 
 export interface WixPublishResponse {
   success: boolean;
@@ -7,27 +7,21 @@ export interface WixPublishResponse {
 }
 
 /**
- * Stub adapter for publishing/updating a BrokerProfile in Wix CMS.
- * Expected to be used by n8n or direct API integration.
- *
- * TODO: Implement direct Wix API integration using @wix/sdk.
- * Currently returns a mock success response to unblock the ingestion pipeline.
+ * Optional downstream compatibility stub for publishing an already-canonical
+ * partner profile to Wix. Wix is not the intake, normalization, or lifecycle
+ * authority and may not redefine canonical approval/profile state.
  */
 export async function publishBrokerToWix(
-  brokerData: Partial<FullyNormalizedBroker>
+  brokerData: Partial<CanonicalBrokerProfile>
 ): Promise<WixPublishResponse> {
-  console.log(`[STUB] Publishing BrokerProfile to Wix for: ${brokerData.email || 'unknown'}`);
+  console.log(`[STUB] Publishing canonical BrokerProfile to Wix for: ${brokerData.email || 'unknown'}`);
 
-  // Return early if missing merge key
   if (!brokerData.email) {
     return {
       success: false,
       error: 'Missing email (merge key) for Wix CMS publish'
     };
   }
-
-  // TODO: Add live Wix API call here using @wix/sdk
-  // Requires: WIX_API_KEY, WIX_SITE_ID
 
   return {
     success: true,
