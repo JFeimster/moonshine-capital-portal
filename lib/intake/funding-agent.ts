@@ -1,4 +1,5 @@
 import { CanonicalBrokerProfile } from '@/lib/field-mapping';
+import { FUNDING_AGENT_SOURCE_FORMS } from '@/lib/partner-contract';
 import {
   generatePartnerId,
   generatePartnerSlug,
@@ -11,7 +12,6 @@ import {
 import { getPartnerByNormalizedEmail, upsertPartner } from '@/lib/notion';
 import { validateApplicationPayload, validateProfilePayload } from '@/lib/validation';
 
-const CANONICAL_SOURCE_FORM = 'funding_agent_application';
 const DEFAULT_FUNDING_AGENT_BIO = 'Moonshine Capital Funding Agent.';
 const AWAITING_REVIEW_REASON = 'Awaiting profile completion and explicit approval';
 
@@ -126,7 +126,7 @@ export async function processFundingAgentJoin(
     approvalStatus: 'needs_review',
     profileStatus: 'draft',
     reviewReason,
-    sourceForm: CANONICAL_SOURCE_FORM,
+    sourceForm: FUNDING_AGENT_SOURCE_FORMS.join,
     tallyFormId: rawPayload?.tallyFormId || rawPayload?.formId,
     latestTallySubmissionId: rawPayload?.tallySubmissionId || rawPayload?.submissionId,
     initialSubmissionAt: rawPayload?.initialSubmissionAt || rawPayload?.createdAt || now,
@@ -188,11 +188,6 @@ export async function processFundingAgentProfile(
   const normalizedEmail = rawPayload?.email ? normalizeEmail(rawPayload.email) : '';
 
   if (options.publicDraftOnly) {
-    // A Tally webhook signature proves Tally delivered the submission; it does not
-    // authenticate the respondent. Public profile enrichment therefore resolves by
-    // email only and is allowed solely before an operator has moved the record out
-    // of needs_review + draft. Approved/published/hidden/suspended/rejected/archived
-    // records require a trusted authenticated update path.
     if (!normalizedEmail) {
       return { status: 400, body: { success: false, error: 'Profile email is required' } };
     }
@@ -218,8 +213,6 @@ export async function processFundingAgentProfile(
 
   const now = new Date().toISOString();
   const canonicalData = compact<Partial<CanonicalBrokerProfile>>({
-    // Public raw Tally callers intentionally omit partnerId. Trusted normalized
-    // callers may still supply it after authenticating at the compatibility route.
     partnerId: options.publicDraftOnly ? undefined : rawPayload?.partnerId,
     email: normalizedEmail || undefined,
     displayName: rawPayload?.displayName,
@@ -243,6 +236,8 @@ export async function processFundingAgentProfile(
     primaryCtaLabel: rawPayload?.primaryCtaLabel,
     primaryCtaLink: normalizeUrl(rawPayload?.primaryCtaLink),
     disclosures: normalizeArray(rawPayload?.disclosures),
+    sourceForm: FUNDING_AGENT_SOURCE_FORMS.profile,
+    tallyFormId: rawPayload?.tallyFormId || rawPayload?.formId,
     latestTallySubmissionId: rawPayload?.tallySubmissionId || rawPayload?.submissionId,
     latestSubmissionAt: now,
     updatedAt: now
