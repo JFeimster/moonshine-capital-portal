@@ -1,6 +1,8 @@
 import { readFileSync } from 'fs';
 import path from 'path';
 import { getRegistryDestination, getToolBySlug, getToolsByKind, type ToolRegistryItem } from './embed-registry';
+import { getPartnerContactActions, getPartnerDisplaySpecialties, getPartnerSupportLine, getPrioritizedPartnerFunding, getPrioritizedPartnerIndustries } from './partner-personalization';
+export { getPartnerContactActions, getPartnerDisplaySpecialties, getPartnerSupportLine, getPrioritizedPartnerFunding, getPrioritizedPartnerIndustries } from './partner-personalization';
 
 type FAQItem = { question: string; answer: string };
 

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getBrokerBySlug } from '@/lib/brokers';
-import { listPartnerIndustryPages } from '@/lib/partner-site';
+import { getPartnerDisplaySpecialties, getPartnerSupportLine, listPartnerIndustryPages } from '@/lib/partner-site';
 import { PartnerBreadcrumbs, PartnerCTACluster, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 import { constructPartnerMetadata } from '@/lib/seo';
 
@@ -23,7 +23,12 @@ export default async function PartnerAboutPage({ params }: { params: { slug: str
   const broker = await getBrokerBySlug(params.slug);
   if (!broker) notFound();
 
-  const industries = listPartnerIndustryPages().slice(0, 6);
+  const name = broker.displayName || broker.fullName;
+  const specialties = getPartnerDisplaySpecialties(broker);
+  const industries = broker.industries || [];
+  const location = [broker.city, broker.state].filter(Boolean).join(', ');
+  const biography = broker.shortBio || broker.whyChooseYou || `${name} helps business owners navigate funding options through the Distilled Funding capital network.`;
+  const howIHelp = getPartnerSupportLine(broker) || `${name} helps business owners navigate funding options through the Distilled Funding capital network.`;
 
   return (
     <main className="min-h-screen bg-neo-white text-neo-black">
@@ -35,24 +40,26 @@ export default async function PartnerAboutPage({ params }: { params: { slug: str
         <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="space-y-8">
             <div className="border-4 border-neo-black bg-neo-yellow p-6 shadow-brutal">
-              <div className="text-xs font-black uppercase tracking-[0.2em] text-neo-black/70">Advisor hero</div>
-              <h1 className="mt-3 text-4xl font-black uppercase tracking-tighter md:text-6xl">About {broker.displayName || broker.fullName}</h1>
-              <p className="mt-4 max-w-3xl text-lg font-bold leading-relaxed">{broker.shortBio || 'This advisor helps businesses identify realistic capital options and follow a disciplined path toward funding.'}</p>
+              <div className="text-xs font-black uppercase tracking-[0.2em] text-neo-black/70">Funding advisor</div>
+              <h1 className="mt-3 text-4xl font-black uppercase tracking-tighter md:text-6xl">{name}</h1>
+              <p className="mt-4 max-w-3xl text-lg font-bold leading-relaxed">{biography}</p>
             </div>
 
             <div className="border-4 border-neo-black bg-neo-cream p-6 shadow-brutal">
-              <h2 className="text-2xl font-black uppercase tracking-tighter">Background & positioning</h2>
-              <p className="mt-4 text-base font-medium leading-relaxed">{broker.whyChooseYou || 'The funding advisor focuses on practical capital guidance, structured intake, and a clear path to the most relevant funding solution.'}</p>
+              <h2 className="text-2xl font-black uppercase tracking-tighter">How I help</h2>
+              <p className="mt-4 text-base font-medium leading-relaxed">{howIHelp}</p>
             </div>
 
-            <div className="border-4 border-neo-black bg-neo-white p-6 shadow-brutal">
-              <h2 className="text-2xl font-black uppercase tracking-tighter">Who I help</h2>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {(broker.industries || []).slice(0, 8).map((industry) => (
+            {(specialties.length > 0 || industries.length > 0) && <div className="border-4 border-neo-black bg-neo-white p-6 shadow-brutal">
+              {specialties.length > 0 && <><h2 className="text-2xl font-black uppercase tracking-tighter">Focus areas</h2><div className="mt-4 flex flex-wrap gap-2">
+                {specialties.map((specialty) => <span key={specialty} className="border-2 border-neo-black bg-neo-green px-3 py-2 text-xs font-black uppercase tracking-[0.16em]">{specialty}</span>)}
+              </div></>}
+              {industries.length > 0 && <><h2 className="mt-6 text-2xl font-black uppercase tracking-tighter">Industries</h2><div className="mt-4 flex flex-wrap gap-2">
+                {industries.map((industry) => (
                   <span key={industry} className="border-2 border-neo-black bg-neo-green px-3 py-2 text-xs font-black uppercase tracking-[0.16em]">{industry}</span>
                 ))}
-              </div>
-            </div>
+              </div></>}
+            </div>}
           </div>
 
           <aside className="space-y-6">
@@ -62,13 +69,15 @@ export default async function PartnerAboutPage({ params }: { params: { slug: str
                 {broker.publicEmail && <a href={`mailto:${broker.publicEmail}`} className="block hover:text-neo-yellow">{broker.publicEmail}</a>}
                 {broker.phoneNumber && <a href={`tel:${broker.phoneNumber}`} className="block hover:text-neo-yellow">{broker.phoneNumber}</a>}
                 {broker.websiteUrl && <a href={broker.websiteUrl} className="block hover:text-neo-yellow">Website</a>}
+                {broker.bookingUrl && <a href={broker.bookingUrl} className="block hover:text-neo-yellow">Book a call</a>}
+                {location && <p className="pt-2 text-neo-white/70">{location}</p>}
               </div>
             </div>
 
             <div className="border-4 border-neo-black bg-neo-cream p-6 shadow-brutal">
               <h2 className="text-xl font-black uppercase tracking-tighter">Industries</h2>
               <div className="mt-4 space-y-3">
-                {industries.map((industry) => (
+                {listPartnerIndustryPages().slice(0, 6).map((industry) => (
                   <Link key={industry.slug} href={`/${broker.slug}/industries/${industry.slug}`} className="block border-b-2 border-neo-black pb-2 text-sm font-bold uppercase tracking-[0.14em] hover:text-neo-blue">{industry.title}</Link>
                 ))}
               </div>

@@ -8,7 +8,7 @@ import { buildPartnerLeadFormUrl, buildTrackedOutUrl, AttributionContext } from 
 import { buildBrokerCtaHref } from '@/lib/broker-cta-routing';
 import { constructPartnerMetadata } from '@/lib/seo';
 import { generatePartnerSchema } from '@/lib/schema';
-import { listPartnerCampaigns, listPartnerFundingPages, listPartnerIndustryPages, listPartnerResourcePages } from '@/lib/partner-site';
+import { getPartnerDisplaySpecialties, getPartnerSupportLine, getPrioritizedPartnerFunding, getPrioritizedPartnerIndustries, listPartnerCampaigns, listPartnerFundingPages, listPartnerIndustryPages, listPartnerResourcePages } from '@/lib/partner-site';
 import { PartnerCTACluster, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 
 export const revalidate = 3600;
@@ -59,7 +59,7 @@ export default async function PublicFundingPage({
   const company = broker.companyName || broker.agencyName;
   const role = broker.title || 'Funding Advisor';
   const location = [broker.city, broker.state].filter(Boolean).join(', ');
-  const specialties = (broker.fundingTypes?.length ? broker.fundingTypes : broker.fundingSpecialties) || [];
+  const specialties = getPartnerDisplaySpecialties(broker);
   const industries = broker.industries || [];
   const markets = broker.markets || [];
   const applyFallback = buildTrackedOutUrl(broker, 'apply', context);
@@ -71,8 +71,8 @@ export default async function PublicFundingPage({
   const websiteUrl = websiteFallback ? buildBrokerCtaHref(broker, 'website', 'partner_funding_page', websiteFallback) : null;
   const brokerTools = await getToolsForBroker(broker.slug);
   const tools = (brokerTools.length ? brokerTools : await getFeaturedRegistryItems(3)).filter((tool) => tool.accessLevel === 'public' && getRegistryDestination(tool) !== '#');
-  const fundingPages = listPartnerFundingPages();
-  const industryPages = listPartnerIndustryPages();
+  const fundingPages = getPrioritizedPartnerFunding(listPartnerFundingPages(), broker);
+  const industryPages = getPrioritizedPartnerIndustries(listPartnerIndustryPages(), broker);
   const campaigns = listPartnerCampaigns();
   const resources = (await listPartnerResourcePages()).filter((resource) => 'sections' in resource);
   const disclosures = broker.disclosures?.length
@@ -99,7 +99,8 @@ export default async function PublicFundingPage({
           <div>
             <div className="inline-block border-2 border-neo-black bg-neo-yellow px-3 py-1 font-black uppercase text-xs tracking-widest mb-6">Business Funding</div>
             <h1 className="font-black uppercase tracking-tighter text-5xl md:text-7xl leading-[0.92] max-w-4xl">Capital for the business you are actually building.</h1>
-            <p className="mt-7 text-xl md:text-2xl font-bold max-w-3xl leading-snug">Tell us what you need. We route the opportunity through the funding process and help you identify a practical next step without making you chase twenty different forms.</p>
+            {getPartnerSupportLine(broker) && <p className="mt-7 text-xl md:text-2xl font-bold max-w-3xl leading-snug">{getPartnerSupportLine(broker)}</p>}
+            <p className="mt-4 text-lg font-bold max-w-3xl leading-snug">Tell us what you need. We route the opportunity through the funding process and help you identify a practical next step without making you chase twenty different forms.</p>
             <div className="mt-8 flex flex-wrap gap-4">
               <a href={applyUrl} className="inline-flex items-center justify-center bg-neo-black text-neo-white border-4 border-neo-black px-7 py-4 font-black uppercase tracking-wide shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">Apply for Funding</a>
               {bookingUrl && <a href={bookingUrl} className="inline-flex items-center justify-center bg-neo-white border-4 border-neo-black px-7 py-4 font-black uppercase tracking-wide shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">Book a Call</a>}
@@ -121,6 +122,9 @@ export default async function PublicFundingPage({
             <div className="mt-6 space-y-2 text-sm font-bold">
               {broker.publicEmail && <a className="block text-neo-green hover:underline" href={`mailto:${broker.publicEmail}`}>{broker.publicEmail}</a>}
               {broker.phoneNumber && <a className="block hover:underline" href={`tel:${broker.phoneNumber}`}>{broker.phoneNumber}</a>}
+              {bookingUrl && <a className="block text-neo-green hover:underline" href={bookingUrl}>Book with {name}</a>}
+              <Link className="block hover:underline" href={`/${broker.slug}/about`}>About {name}</Link>
+              <Link className="block hover:underline" href={`/${broker.slug}/contact`}>Contact {name}</Link>
               {websiteUrl && <a className="block hover:underline" href={websiteUrl}>Partner website ↗</a>}
             </div>
           </aside>

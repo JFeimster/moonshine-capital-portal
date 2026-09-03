@@ -12,9 +12,36 @@ import {
   listPartnerFundingPages,
   listPartnerIndustryPages,
   listPartnerCampaigns,
+  getPartnerContactActions,
+  getPrioritizedPartnerFunding,
+  getPrioritizedPartnerIndustries,
 } from '../lib/partner-site';
 
 describe('partner site content adapter', () => {
+  const sparseBroker = { fundingTypes: [], fundingSpecialties: [], industries: [] };
+
+  it('prioritizes matched broker content, removes duplicates, and fills sparse profiles with defaults', () => {
+    const fundingPages = listPartnerFundingPages();
+    const industries = listPartnerIndustryPages();
+    const prioritizedFunding = getPrioritizedPartnerFunding(fundingPages, { fundingTypes: ['Equipment Financing', 'Equipment Financing'], fundingSpecialties: ['Business Acquisition'] });
+    const prioritizedIndustries = getPrioritizedPartnerIndustries(industries, { industries: ['HVAC', 'HVAC'] });
+
+    expect(prioritizedFunding[0].slug).toBe('equipment-finance');
+    expect(prioritizedFunding[1].slug).toBe('business-acquisition');
+    expect(new Set(prioritizedFunding.map((page) => page.slug)).size).toBe(prioritizedFunding.length);
+    expect(prioritizedIndustries[0].slug).toBe('hvac');
+    expect(getPrioritizedPartnerFunding(fundingPages, sparseBroker).length).toBe(6);
+    expect(getPrioritizedPartnerIndustries(industries, sparseBroker).length).toBe(8);
+  });
+
+  it('only creates contact actions for available public contact fields', () => {
+    expect(getPartnerContactActions({ ...sparseBroker, publicEmail: '' })).toEqual([]);
+    expect(getPartnerContactActions({ ...sparseBroker, publicEmail: 'agent@example.com', websiteUrl: 'https://example.com' })).toEqual([
+      { kind: 'email', href: 'mailto:agent@example.com' },
+      { kind: 'website', href: 'https://example.com' },
+    ]);
+  });
+
   it('exposes funding pages from the existing registry', () => {
     const fundingPages = listPartnerFundingPages();
     expect(fundingPages.length).toBeGreaterThanOrEqual(manifest.counts.funding);
