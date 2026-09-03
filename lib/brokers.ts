@@ -41,34 +41,23 @@ function persistedToBroker(partner: any): BrokerProfile {
   };
 }
 
-function mergePublicSources(wixBrokers: BrokerProfile[], durableBrokers: BrokerProfile[]) {
-  const merged = new Map<string, BrokerProfile>();
-
-  for (const broker of wixBrokers.filter(isEligibleForPublicDisplay)) {
-    const key = broker.slug || broker.id;
-    if (key) merged.set(key, broker);
-  }
-
-  for (const broker of durableBrokers) {
-    const key = broker.slug || broker.id;
-    if (key) merged.set(key, broker);
-  }
-
-  return Array.from(merged.values());
+async function getWixCompatibilityBrokers(): Promise<BrokerProfile[]> {
+  const wixBrokers = await fetchWixBrokers();
+  return wixBrokers.filter(isEligibleForPublicDisplay);
 }
 
 export async function getBrokers(): Promise<BrokerProfile[]> {
-  const wixBrokers = await fetchWixBrokers();
-
   try {
     const durable = (await listPublishedPartners())
       .filter(partner => Boolean(partner.slug))
       .map(persistedToBroker);
-    return mergePublicSources(wixBrokers, durable);
+
+    if (durable.length > 0) return durable;
   } catch (error) {
     console.warn('Durable partner directory lookup unavailable; using Wix compatibility source.', error);
-    return wixBrokers.filter(isEligibleForPublicDisplay);
   }
+
+  return getWixCompatibilityBrokers();
 }
 
 export async function getBrokerBySlug(slug: string): Promise<BrokerProfile | null> {

@@ -1,5 +1,9 @@
-import { readFileSync } from 'fs';
-import path from 'path';
+import fundingFamiliesRegistry from '@/data/funding/funding-product-families.registry.json';
+import fundingPagesRegistry from '@/data/partner-site/funding-pages.registry.json';
+import industryPagesRegistry from '@/data/partner-site/industry-pages.registry.json';
+import resourcePagesRegistry from '@/data/partner-site/resource-pages.registry.json';
+import campaignsRegistry from '@/data/partner-site/campaigns.registry.json';
+import toolPlacementRegistry from '@/data/partner-site/tool-placement.registry.json';
 import { getRegistryDestination, getToolBySlug, getToolsByKind, type ToolRegistryItem } from './embed-registry';
 import { getPartnerContactActions, getPartnerDisplaySpecialties, getPartnerSupportLine, getPrioritizedPartnerFunding, getPrioritizedPartnerIndustries } from './partner-personalization';
 export { getPartnerContactActions, getPartnerDisplaySpecialties, getPartnerSupportLine, getPrioritizedPartnerFunding, getPrioritizedPartnerIndustries } from './partner-personalization';
@@ -101,15 +105,16 @@ export interface PartnerToolPlacement {
   candidateToolSlugs: string[];
 }
 
-const dataPath = (...segments: string[]) => path.join(process.cwd(), 'data', ...segments);
-
-function readRegistry<T>(...segments: string[]): RegistryFile<T> {
-  return JSON.parse(readFileSync(dataPath(...segments), 'utf-8')) as RegistryFile<T>;
-}
+const fundingFamilyEntries = (fundingFamiliesRegistry as unknown as RegistryFile<FundingFamily>).entries ?? [];
+const fundingOverlayEntries = (fundingPagesRegistry as unknown as RegistryFile<FundingOverlay>).entries ?? [];
+const industryEntries = (industryPagesRegistry as unknown as RegistryFile<PartnerIndustryPage>).entries ?? [];
+const resourceEntries = (resourcePagesRegistry as unknown as RegistryFile<PartnerResourcePage>).entries ?? [];
+const campaignEntries = (campaignsRegistry as unknown as RegistryFile<PartnerCampaign>).entries ?? [];
+const placementEntries = (toolPlacementRegistry as unknown as PlacementRegistryFile).placements ?? [];
 
 export function listPartnerFundingPages(): PartnerFundingPage[] {
-  const canonical = readRegistry<FundingFamily>('funding', 'funding-product-families.registry.json').entries ?? [];
-  const overlayEntries = readRegistry<FundingOverlay>('partner-site', 'funding-pages.registry.json').entries ?? [];
+  const canonical = fundingFamilyEntries;
+  const overlayEntries = fundingOverlayEntries;
   const overlays = new Map(overlayEntries.filter((entry) => entry.slug).map((entry) => [entry.slug, entry]));
   const publicCanonical = canonical.filter((entry) => {
     if (!entry.slug || overlays.has(entry.slug)) return Boolean(entry.slug);
@@ -144,7 +149,7 @@ export function getPartnerFundingPage(slug: string): PartnerFundingPage | null {
 }
 
 export function listPartnerIndustryPages(): PartnerIndustryPage[] {
-  return (readRegistry<PartnerIndustryPage>('partner-site', 'industry-pages.registry.json').entries ?? []).filter((entry) => entry.slug);
+  return industryEntries.filter((entry) => entry.slug);
 }
 
 export function getPartnerIndustryPage(slug: string): PartnerIndustryPage | null {
@@ -160,12 +165,12 @@ export async function getPartnerTool(slug: string): Promise<ToolRegistryItem | n
 }
 
 export async function listPartnerResourcePages(): Promise<Array<PartnerResourcePage | ToolRegistryItem>> {
-  const structured = (readRegistry<PartnerResourcePage>('partner-site', 'resource-pages.registry.json').entries ?? []).filter((entry) => entry.slug);
+  const structured = resourceEntries.filter((entry) => entry.slug);
   return [...structured, ...(await getToolsByKind('resource')).slice(0, 10)];
 }
 
 export async function getPartnerResource(slug: string): Promise<PartnerResourcePage | ToolRegistryItem | null> {
-  const structured = (readRegistry<PartnerResourcePage>('partner-site', 'resource-pages.registry.json').entries ?? []).find((entry) => entry.slug === slug);
+  const structured = resourceEntries.find((entry) => entry.slug === slug);
   if (structured) return structured;
   const item = await getToolBySlug(slug);
   if (!item || item.kind !== 'resource') return null;
@@ -173,15 +178,15 @@ export async function getPartnerResource(slug: string): Promise<PartnerResourceP
 }
 
 export function getPartnerCampaign(slug: string): PartnerCampaign | null {
-  return (readRegistry<PartnerCampaign>('partner-site', 'campaigns.registry.json').entries ?? []).find((entry) => entry.slug === slug) ?? null;
+  return campaignEntries.find((entry) => entry.slug === slug) ?? null;
 }
 
 export function listPartnerCampaigns(): PartnerCampaign[] {
-  return (readRegistry<PartnerCampaign>('partner-site', 'campaigns.registry.json').entries ?? []).filter((entry) => entry.slug);
+  return campaignEntries.filter((entry) => entry.slug);
 }
 
 export async function getPartnerToolsForContext(context: string): Promise<ToolRegistryItem[]> {
-  const placement = (JSON.parse(readFileSync(dataPath('partner-site', 'tool-placement.registry.json'), 'utf-8')) as PlacementRegistryFile).placements?.find((entry) => entry.context === context);
+  const placement = placementEntries.find((entry) => entry.context === context);
   if (!placement) return [];
   const tools = await Promise.all(placement.candidateToolSlugs.map((slug) => getToolBySlug(slug)));
   return tools.filter((tool): tool is ToolRegistryItem => Boolean(tool && tool.kind === 'tool' && tool.status === 'active' && tool.accessLevel === 'public' && getRegistryDestination(tool) !== '#'));
