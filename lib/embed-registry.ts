@@ -1,5 +1,4 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+import toolRegistryJson from '@/data/embeds/tool-registry.json';
 
 export type ToolAccessLevel = 'public' | 'portal' | 'admin';
 export type ToolStatus = 'draft' | 'active' | 'archived';
@@ -101,9 +100,7 @@ function normalizeRegistryItem(item: any, index: number): ToolRegistryItem {
 }
 
 async function readRegistryFile(): Promise<ToolRegistryFile> {
-  const filePath = path.join(process.cwd(), 'data', 'embeds', 'tool-registry.json');
-  const content = await fs.readFile(filePath, 'utf-8');
-  const parsed = JSON.parse(content) as any;
+  const parsed = toolRegistryJson as any;
   const entries = Array.isArray(parsed.entries) ? parsed.entries : Array.isArray(parsed.tools) ? parsed.tools : [];
 
   return {
