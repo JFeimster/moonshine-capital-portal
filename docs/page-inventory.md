@@ -1,184 +1,77 @@
 # Page Inventory
 
-## Purpose
-This document inventories the current and recommended pages for `moonshine-capital-portal`.
+## Public pages
 
-It is meant to provide a quick page-level view of:
-- what exists now
-- what each page does
-- what is recommended next
-- how each page supports the overall portal strategy
-
-This file is complementary to:
-- `docs/route-map.md`
-- `docs/full-scaffold.md`
-
----
-
-## Current Pages
-
-| Route | Status | Role | Notes |
-|---|---|---|---|
-| `/` | existing | Homepage / positioning | Explains the directory and features selected partners |
-| `/directory` | existing | Directory index | Main searchable/filterable broker directory |
-| `/directory/[slug]` | existing | Broker profile page | Individual broker landing page with CTA routing |
-| `/onboarding` | existing | Partner onboarding | Tally-powered onboarding flow |
-| `/terms` | existing | Legal | Terms of Service |
-| `/privacy` | existing | Legal | Privacy Policy |
-| `/out` | existing | Infrastructure | Tracked redirect route |
-
----
-
-## Current Page Roles
-
-### Homepage (`/`)
-**Job:**
-- establish positioning
-- explain why the directory exists
-- feature brokers
-- route users into the directory
-
-### Directory (`/directory`)
-**Job:**
-- help users browse partners
-- expose filters and faceted discovery
-- serve as the primary discovery surface
-
-### Broker Profile (`/directory/[slug]`)
-**Job:**
-- sell the credibility and fit of a broker
-- present industries, specialties, contact info, and CTA options
-- support tracked outbound routing
-
-### Onboarding (`/onboarding`)
-**Job:**
-- recruit brokers / partners
-- capture intake information
-- move applicants into review workflow
-
-### Terms (`/terms`)
-**Job:**
-- legal coverage
-- disclaimers
-
-### Privacy (`/privacy`)
-**Job:**
-- privacy disclosure
-- data-handling explanation
-
-### Out (`/out`)
-**Job:**
-- centralize tracked CTA redirects
-- preserve click-routing control
-
----
-
-## Recommended Next Pages
-
-### High-priority public pages
-| Route | Priority | Purpose |
+| Route | Status | Role |
 |---|---|---|
-| `/about` | high | Explain Moonshine Capital Portal and the directory mission |
-| `/contact` | high | Give users and partners a direct contact page |
-| `/faq` | high | Answer common founder / broker questions |
-| `/apply` | high | Introduce an application or lead-intake route for funding seekers |
+| `/` | active | Homepage / positioning / primary conversion entry |
+| `/about` | active | Explain the network and operating philosophy |
+| `/contact` | active | Route users to funding intake, advisor discovery, or FAQ |
+| `/faq` | active | Answer common funding/advisor questions |
+| `/directory` | active | Primary advisor discovery index |
+| `/brokers` | active | Advisor network index |
+| `/<partner-slug>` | **canonical** | Public partner/funding page with attribution and utility |
+| `/directory/[slug]` | legacy redirect | Permanently redirects to canonical `/<partner-slug>` |
+| `/apply` | active | Funding intake path selector |
+| `/apply/fast` | active | Broader/full funding application path |
+| `/apply/quote` | active | Personalized funding intake path |
+| `/onboarding` | active | Funding Agent Join |
+| `/onboarding/profile` | active | Funding Agent profile enrichment |
+| `/onboarding/launch` | active | Funding Agent launch-plan step |
+| `/industries` | active | Industry discovery hub |
+| `/industries/[slug]` | active | Industry-specific discovery |
+| `/funding-types` | active | Funding-type discovery hub |
+| `/funding-types/[slug]` | active | Funding-type-specific discovery |
+| `/terms` | active | Terms/disclosures |
+| `/privacy` | active | Privacy disclosures |
 
-### SEO / taxonomy pages
-| Route | Priority | Purpose |
+## Partner / operator pages
+
+| Route | Status | Role |
 |---|---|---|
-| `/industries` | medium | Industry landing hub |
-| `/industries/[slug]` | medium | Industry-specific discovery page |
-| `/funding-types` | medium | Funding-type hub |
-| `/funding-types/[slug]` | medium | Funding-type-specific directory view |
-| `/states` | medium | State hub |
-| `/states/[slug]` | medium | State-specific landing page |
-| `/compare/[slug]` | medium | Comparison landing pages for SEO / conversion |
+| `/portal` | active scaffold | Broker/operator home |
+| `/portal/tools` | active | Registry-backed broker tools |
+| `/portal/resources` | active | Registry-backed broker resources |
+| `/portal/profile` | active | Broker profile utility/recommendation surface |
+| `/portal/tracking` | active scaffold | Partner tracking surface |
+| `/admin` | active scaffold | Operator control home |
+| `/admin/applications` | active | Application intake map |
+| `/admin/brokers` | active | Broker utility/profile coverage |
+| `/admin/tools` | active | Tool coverage |
+| `/admin/resources` | active | Resource coverage |
+| `/admin/tracking` | active | Tracking system status |
+| `/access` | active interim | Protected-route access boundary |
 
-### Future product pages
-| Route | Priority | Purpose |
-|---|---|---|
-| `/portal` | lower | Future authenticated broker / partner experience |
-| `/admin` | lower | Future internal review / ops surface |
+## Infrastructure routes
 
----
+- `/go/[slug]` — canonical registry redirect/tracking path
+- `/out` — compatibility broker CTA redirect pending issue #85 migration
+- `POST /api/webhooks/tally` — canonical raw Tally ingestion
+- `/api/intake/tally/application` — trusted normalized compatibility intake
+- `/api/intake/tally/profile` — trusted normalized profile compatibility intake
 
-## Suggested Page Hierarchy
+## Canonical partner route decision
 
-```text
-/
-/directory
-/directory/[slug]
-/onboarding
-/terms
-/privacy
-/out
-/about
-/contact
-/faq
-/apply
-/industries
-/industries/[slug]
-/funding-types
-/funding-types/[slug]
-/states
-/states/[slug]
-/compare/[slug]
-/portal
-/admin
-```
+Exactly one public partner URL should be promoted, indexed, linked, and emitted in structured metadata:
 
----
+`/<partner-slug>`
 
-## Page Strategy by Audience
+The older `/directory/[slug]` route remains only as a permanent redirect so existing shared links do not break.
 
-### Founders / operators
-Best pages:
-- `/`
-- `/directory`
-- `/directory/[slug]`
-- `/faq`
-- `/apply`
-- future industry and funding-type pages
+## Deferred routes
 
-### Prospective brokers / partners
-Best pages:
-- `/onboarding`
-- `/about`
-- `/contact`
-- future `/portal`
+Add only when they can carry meaningful differentiated utility/content:
 
-### Internal / ops team
-Best pages:
-- `/out`
-- future `/admin`
-- future `/portal`
-
----
-
-## Recommended Build Sequence
-
-### Phase 1
-- `/about`
-- `/contact`
-- `/faq`
-- `/apply`
-
-### Phase 2
-- `/industries`
-- `/industries/[slug]`
-- `/funding-types`
-- `/funding-types/[slug]`
 - `/states`
 - `/states/[slug]`
-
-### Phase 3
 - `/compare/[slug]`
-- `/portal`
-- `/admin`
 
----
+## Current build sequence
 
-## Notes
-- `docs/route-map.md` should remain the more route-strategy-oriented file
-- this file should remain more inventory-oriented and easy to scan
-- new page proposals should support directory discovery, onboarding, tracking, or future Funding Agent OS evolution
+1. #85 — finish tracked CTA migration
+2. #34 — remaining canonical partner schema reconciliation
+3. #29 — verify/finish broker gating
+4. #4 — expand broker data model
+5. #40 — continue public profile resource-hub utility
+6. #53 — remaining application conversion UX
+7. #118 — health/observability after public-route completion
