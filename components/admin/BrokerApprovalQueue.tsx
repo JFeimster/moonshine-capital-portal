@@ -1,8 +1,10 @@
+import type { ApprovalStatus } from '@/lib/partner-contract';
+
 type QueueItem = {
   id: string;
   brokerName: string;
   email: string;
-  status: 'pending' | 'in_review' | 'approved';
+  status: ApprovalStatus;
   source: string;
 };
 
@@ -15,14 +17,14 @@ const defaultItems: QueueItem[] = [
     id: '1',
     brokerName: 'Darwin Hanneman',
     email: 'darwin@example.com',
-    status: 'pending',
+    status: 'needs_review',
     source: 'Tally broker intake',
   },
   {
     id: '2',
     brokerName: 'Sample Broker',
     email: 'broker@example.com',
-    status: 'in_review',
+    status: 'needs_review',
     source: 'Profile builder',
   },
 ];
