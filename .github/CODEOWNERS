@@ -1,0 +1,12 @@
+# Default owner
+* @JFeimster
+
+# Security / deployment / automation boundaries
+/.github/ @JFeimster
+/middleware.ts @JFeimster
+/lib/auth.ts @JFeimster
+/lib/permissions.ts @JFeimster
+/app/api/ @JFeimster
+/data/schemas/ @JFeimster
+/scripts/ @JFeimster
+/vercel.json @JFeimster
