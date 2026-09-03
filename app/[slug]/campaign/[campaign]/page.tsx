@@ -2,16 +2,13 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getBrokerBySlug } from '@/lib/brokers';
-import { getPartnerCampaign, listPartnerCampaigns } from '@/lib/partner-site';
+import { getPartnerCampaign } from '@/lib/partner-site';
 import { PartnerBreadcrumbs, PartnerCTACluster, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 import { constructPartnerMetadata } from '@/lib/seo';
 import { createBreadcrumbSchema, serializeJsonLd } from '@/lib/partner-schema';
 
-export const revalidate = 3600;
-
-export async function generateStaticParams() {
-  return listPartnerCampaigns().map((campaign) => ({ campaign: campaign.slug }));
-}
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function generateMetadata({ params }: { params: { slug: string; campaign: string } }): Promise<Metadata> {
   const broker = await getBrokerBySlug(params.slug);
