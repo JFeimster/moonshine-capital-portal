@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { getBrokerBySlug, getBrokers } from '@/lib/brokers';
+import { getBrokerBySlug } from '@/lib/brokers';
 import { getFeaturedRegistryItems, getRegistryDestination, getToolsForBroker } from '@/lib/embed-registry';
 import { BrokerUtilitySection } from '@/components/BrokerUtilitySection';
 import { AttributionContext, buildTrackedOutUrl } from '@/lib/distribution';
@@ -11,7 +11,8 @@ import { createPartnerIdentitySchema, serializeJsonLd } from '@/lib/partner-sche
 import { getPartnerDisplaySpecialties, getPartnerSupportLine, getPrioritizedPartnerFunding, getPrioritizedPartnerIndustries, listPartnerCampaigns, listPartnerFundingPages, listPartnerIndustryPages, listPartnerResourcePages } from '@/lib/partner-site';
 import { PartnerCTACluster, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 function contextFromSearch(searchParams: Record<string, string | string[] | undefined>): AttributionContext {
   const value = (key: string) => {
@@ -38,11 +39,6 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     description: broker.shortBio,
     image: broker.profileImage,
   });
-}
-
-export async function generateStaticParams() {
-  const brokers = await getBrokers();
-  return brokers.map((broker) => ({ slug: broker.slug }));
 }
 
 export default async function PublicFundingPage({
