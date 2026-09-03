@@ -65,7 +65,7 @@ export function BrokerCard({ broker }: BrokerCardProps) {
       </div>
 
       <div className="mt-auto grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <Link href={`/directory/${broker.slug}`} className="btn-brutal w-full bg-neo-black text-neo-white hover:bg-neo-black hover:text-neo-white border-2 border-neo-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all text-center">
+        <Link href={`/${broker.slug}`} className="btn-brutal w-full bg-neo-black text-neo-white hover:bg-neo-black hover:text-neo-white border-2 border-neo-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all text-center">
           View Profile
         </Link>
         <a
