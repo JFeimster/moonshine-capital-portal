@@ -46,7 +46,7 @@ export default async function BrokersPage() {
               </div>
 
               <div className="mt-6 flex gap-3">
-                <Link href={`/directory/${broker.slug}`} className="btn-brutal flex-1">View Profile</Link>
+                <Link href={`/${broker.slug}`} className="btn-brutal flex-1">View Profile</Link>
                 <Link href={`/${broker.slug}`} className="btn-brutal-primary flex-1">Start Funding</Link>
               </div>
             </div>

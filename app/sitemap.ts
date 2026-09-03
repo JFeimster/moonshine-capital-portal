@@ -10,7 +10,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const brokers = await getBrokers();
   const staticPaths = [
     '/',
+    '/about',
+    '/contact',
+    '/faq',
     '/directory',
+    '/brokers',
     '/apply',
     '/apply/fast',
     '/apply/quote',
