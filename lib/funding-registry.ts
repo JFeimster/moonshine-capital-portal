@@ -28,7 +28,7 @@ export interface FundingProductFamily {
   avoidWhen: string[];
   commonUseCases: string[];
   qualificationSignals: QualificationSignals;
-  speedProfile: string;
+  speedProfile?: string;
   requiredDocuments: string[];
   fastDisqualifiers: string[];
   relatedProductIds: string[];
@@ -37,7 +37,7 @@ export interface FundingProductFamily {
   primaryCta?: FundingCta;
   status: string;
   visibility: string;
-  needsReview?: boolean;
+  needsReview?: boolean | string[];
 }
 
 export interface FundingPageSection {
@@ -163,6 +163,26 @@ export interface ToolItem {
 
 const DEPRECATED_OR_INTERNAL_SLUGS = new Set(['structured-growth-loans']);
 
+function formatSpeedProfile(value: unknown): string | undefined {
+  if (!value) return undefined;
+  if (typeof value === 'string') return value;
+  if (typeof value === 'object') {
+    const record = value as { label?: unknown; typicalTimeToFunding?: unknown };
+    const parts = [record.label, record.typicalTimeToFunding].filter(
+      (part): part is string => typeof part === 'string' && part.length > 0,
+    );
+    return parts.length > 0 ? parts.join(' · ') : undefined;
+  }
+  return undefined;
+}
+
+function normalizeProductFamily(family: FundingProductFamily): FundingProductFamily {
+  return {
+    ...family,
+    speedProfile: formatSpeedProfile((family as unknown as { speedProfile?: unknown }).speedProfile),
+  };
+}
+
 function isPublicProductFamily(family: FundingProductFamily): boolean {
   if (!family || !family.slug) return false;
   if (DEPRECATED_OR_INTERNAL_SLUGS.has(family.slug)) return false;
@@ -179,7 +199,7 @@ async function readJsonFile<T>(relativePath: string): Promise<T> {
 
 export async function getAllProductFamilies(): Promise<FundingProductFamily[]> {
   const data = await readJsonFile<{ entries: FundingProductFamily[] }>('data/funding/funding-product-families.registry.json');
-  return data.entries || [];
+  return (data.entries || []).map(normalizeProductFamily);
 }
 
 export async function getPublicProductFamilies(): Promise<FundingProductFamily[]> {
@@ -207,11 +227,17 @@ export async function getFundingPageForFamily(familySlug: string): Promise<Fundi
   if (!familySlug || DEPRECATED_OR_INTERNAL_SLUGS.has(familySlug)) return null;
   const pages = await getAllFundingPages();
   return (
+    pages.find((page) => page.slug === familySlug || page.route === `/funding/${familySlug}`) ??
     pages.find(
-      (p) =>
-        p.dataRefs?.productFamilyIds?.includes(familySlug) ||
-        p.slug === familySlug
-    ) ?? null
+      (page) =>
+        page.slug !== 'funding' &&
+        page.visibility === 'public' &&
+        page.status !== 'deprecated' &&
+        page.status !== 'internal' &&
+        page.status !== 'archived' &&
+        page.dataRefs?.productFamilyIds?.includes(familySlug),
+    ) ??
+    null
   );
 }
 
@@ -245,8 +271,6 @@ export async function getRelatedFamilies(currentSlug: string): Promise<FundingPr
 export async function getFundingTools(toolIds?: string[]): Promise<ToolItem[]> {
   const data = await readJsonFile<{ entries: ToolItem[] }>('data/embeds/tool-registry.json');
   const entries = data.entries || [];
-  if (!toolIds || toolIds.length === 0) {
-    return entries.slice(0, 6);
-  }
+  if (!toolIds || toolIds.length === 0) return entries.slice(0, 6);
   return entries.filter((t) => (t.id && toolIds.includes(t.id)) || toolIds.includes(t.slug));
 }
