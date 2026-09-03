@@ -7,18 +7,10 @@ import { SectionHeading } from '@/components/SectionHeading';
 import { getBrokers } from '@/lib/brokers';
 import { constructMetadata } from '@/lib/seo';
 
+export const dynamic = 'force-dynamic';
+
 function slugify(value: string) {
   return value.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-}
-
-export async function generateStaticParams() {
-  const brokers = await getBrokers();
-  const slugs = new Set<string>();
-  brokers.forEach((broker) => {
-    const types = broker.fundingTypes?.length ? broker.fundingTypes : broker.fundingSpecialties || [];
-    types.forEach((fundingType) => slugs.add(slugify(fundingType)));
-  });
-  return Array.from(slugs).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
