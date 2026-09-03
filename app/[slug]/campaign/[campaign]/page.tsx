@@ -3,31 +3,11 @@ import { notFound } from 'next/navigation';
 import { getBrokerBySlug } from '@/lib/brokers';
 import { buildTrackedOutUrl } from '@/lib/distribution';
 import { constructMetadata } from '@/lib/seo';
-
-const campaignCopy: Record<string, { eyebrow: string; headline: string; summary: string; useCases: string[] }> = {
-  hvac: {
-    eyebrow: 'HVAC financing',
-    headline: 'Capital for the service business that keeps jobs moving.',
-    summary: 'Support working capital and growth financing for HVAC operations, equipment, staffing, and job-site execution.',
-    useCases: ['Working capital', 'Fleet and equipment', 'Seasonal cash flow']
-  },
-  'business-acquisition': {
-    eyebrow: 'Business acquisition',
-    headline: 'Use capital to buy the right operating asset.',
-    summary: 'Match acquisition financing with a disciplined process for evaluating purchase price, leverage, and ongoing operational fit.',
-    useCases: ['Acquisition financing', 'Buy-and-build', 'Operational transition']
-  },
-  'working-capital': {
-    eyebrow: 'Working capital',
-    headline: 'Keep the business moving without the financing drag.',
-    summary: 'Address payroll, inventory, cash cycles, and operational pressure without forcing a weak or misaligned capital structure.',
-    useCases: ['Payroll support', 'Inventory', 'Cash flow coverage']
-  },
-};
+import { getPartnerCampaign } from '@/lib/partner-site';
 
 export async function generateMetadata({ params }: { params: { slug: string; campaign: string } }) {
   const broker = await getBrokerBySlug(params.slug);
-  const campaign = campaignCopy[params.campaign] || { eyebrow: 'Funding campaign', headline: 'Capital route', summary: 'A focused path to funding support.', useCases: ['Funding review', 'Advisor guidance'] };
+  const campaign = getPartnerCampaign(params.campaign) || { eyebrow: 'Funding campaign', headline: 'Capital route', summary: 'A focused path to funding support.', useCases: ['Funding review', 'Advisor guidance'] };
   if (!broker) {
     return constructMetadata({
       title: campaign.headline,
@@ -48,7 +28,7 @@ export default async function CampaignPage({ params }: { params: { slug: string;
   const broker = await getBrokerBySlug(params.slug);
   if (!broker) notFound();
 
-  const campaign = campaignCopy[params.campaign] || {
+  const campaign = getPartnerCampaign(params.campaign) || {
     eyebrow: 'Funding campaign',
     headline: 'A focused path to the right capital conversation.',
     summary: 'Use this route to start a capital conversation with a funding advisor and identify the most practical next step.',

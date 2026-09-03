@@ -1,0 +1,278 @@
+{
+  "id": "partner-site-campaigns",
+  "version": "1.0.0",
+  "purpose": "Reusable campaign content rendered under /[slug]/campaign/[campaign].",
+  "entries": [
+    {
+      "slug": "hvac",
+      "eyebrow": "HVAC Capital",
+      "headline": "Keep the crews moving when seasonality, equipment, and big jobs collide.",
+      "summary": "A focused capital route for HVAC operators managing technician payroll, service vehicles, equipment, materials, and seasonal demand.",
+      "useCases": [
+        "Payroll",
+        "Vehicles and equipment",
+        "Large job materials",
+        "Seasonal working capital"
+      ],
+      "industrySlugs": [
+        "hvac"
+      ],
+      "fundingSlugs": [
+        "working-capital",
+        "equipment-finance",
+        "business-line-access"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "contractors",
+      "eyebrow": "Contractor Capital",
+      "headline": "Fund the job before the job funds you.",
+      "summary": "Capital support for contractors managing mobilization, payroll, materials, equipment, and customer payment timing.",
+      "useCases": [
+        "Mobilization",
+        "Payroll",
+        "Materials",
+        "Equipment"
+      ],
+      "industrySlugs": [
+        "contractors",
+        "construction"
+      ],
+      "fundingSlugs": [
+        "working-capital",
+        "business-line-access",
+        "equipment-finance"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "trucking",
+      "eyebrow": "Trucking Capital",
+      "headline": "Keep the trucks moving and the cash cycle under control.",
+      "summary": "Funding paths for trucking operators dealing with fuel, payroll, repairs, truck purchases, and receivable timing.",
+      "useCases": [
+        "Fuel",
+        "Driver payroll",
+        "Repairs",
+        "Truck acquisition"
+      ],
+      "industrySlugs": [
+        "trucking",
+        "owner-operators",
+        "fleets"
+      ],
+      "fundingSlugs": [
+        "working-capital",
+        "equipment-finance",
+        "term-financing"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "restaurant-growth",
+      "eyebrow": "Restaurant Growth Capital",
+      "headline": "Capital for the next shift, remodel, location, or demand spike.",
+      "summary": "A funding route for restaurants balancing payroll, inventory, equipment, renovations, and seasonal cash flow.",
+      "useCases": [
+        "Payroll",
+        "Inventory",
+        "Equipment",
+        "Expansion"
+      ],
+      "industrySlugs": [
+        "restaurants"
+      ],
+      "fundingSlugs": [
+        "working-capital",
+        "equipment-finance",
+        "sba"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "medical-practice",
+      "eyebrow": "Medical Practice Capital",
+      "headline": "Fund the practice without interrupting the practice.",
+      "summary": "Capital for staffing, equipment, expansion, buildouts, and reimbursement-cycle pressure.",
+      "useCases": [
+        "Staffing",
+        "Equipment",
+        "Expansion",
+        "Receivable timing"
+      ],
+      "industrySlugs": [
+        "medical",
+        "dental",
+        "veterinary"
+      ],
+      "fundingSlugs": [
+        "working-capital",
+        "equipment-finance",
+        "term-financing"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "ecommerce-inventory",
+      "eyebrow": "Ecommerce Inventory Capital",
+      "headline": "Buy inventory before demand outruns your cash.",
+      "summary": "Capital for inventory, advertising, fulfillment, and seasonal marketplace growth.",
+      "useCases": [
+        "Inventory",
+        "Ad spend",
+        "Fulfillment",
+        "Seasonal stock"
+      ],
+      "industrySlugs": [
+        "ecommerce"
+      ],
+      "fundingSlugs": [
+        "marketplace-capital",
+        "working-capital",
+        "business-line-access"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "equipment",
+      "eyebrow": "Equipment Financing",
+      "headline": "Put productive equipment to work without draining operating cash.",
+      "summary": "Funding paths for vehicles, machinery, technology, and business equipment.",
+      "useCases": [
+        "Vehicles",
+        "Machinery",
+        "Medical equipment",
+        "Production equipment"
+      ],
+      "industrySlugs": [
+        "construction",
+        "trucking",
+        "manufacturing",
+        "medical"
+      ],
+      "fundingSlugs": [
+        "equipment-finance"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "working-capital",
+      "eyebrow": "Working Capital",
+      "headline": "Keep the business moving without waiting on the next deposit.",
+      "summary": "Short-cycle capital for payroll, inventory, materials, marketing, and operating gaps.",
+      "useCases": [
+        "Payroll",
+        "Inventory",
+        "Materials",
+        "Operating cash"
+      ],
+      "industrySlugs": [
+        "construction",
+        "restaurants",
+        "ecommerce"
+      ],
+      "fundingSlugs": [
+        "working-capital",
+        "business-line-access"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "business-acquisition",
+      "eyebrow": "Business Acquisition",
+      "headline": "Buy the business without ignoring what happens after closing.",
+      "summary": "A disciplined capital route for buyers evaluating acquisition debt, equity, cash flow, and transition working capital.",
+      "useCases": [
+        "Acquisition debt",
+        "Buyer equity",
+        "Seller financing",
+        "Transition working capital"
+      ],
+      "industrySlugs": [
+        "franchises",
+        "professional-services",
+        "manufacturing"
+      ],
+      "fundingSlugs": [
+        "business-acquisition",
+        "sba",
+        "term-financing"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "real-estate-investor",
+      "eyebrow": "Real Estate Investor Capital",
+      "headline": "Match the capital structure to the property and the exit.",
+      "summary": "Financing for acquisitions, bridge needs, rehabilitation, rentals, and property repositioning.",
+      "useCases": [
+        "Acquisition",
+        "Bridge",
+        "Rehabilitation",
+        "Rental financing"
+      ],
+      "industrySlugs": [
+        "real-estate-investors"
+      ],
+      "fundingSlugs": [
+        "real-estate-capital"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "startup",
+      "eyebrow": "Startup Capital",
+      "headline": "Get the launch funded without pretending the business already has years of history.",
+      "summary": "Funding paths for newer businesses where owner credit, setup, use of funds, and early traction matter.",
+      "useCases": [
+        "Launch costs",
+        "Inventory",
+        "Marketing",
+        "Operating runway"
+      ],
+      "industrySlugs": [
+        "technology",
+        "saas",
+        "franchises"
+      ],
+      "fundingSlugs": [
+        "startup-credit-leverage"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    },
+    {
+      "slug": "line-of-credit",
+      "eyebrow": "Business Line of Credit",
+      "headline": "Build reusable capital access before the next cash-flow gap.",
+      "summary": "A revolving funding route for businesses with recurring operating needs and unpredictable timing.",
+      "useCases": [
+        "Seasonality",
+        "Inventory",
+        "Short-term expenses",
+        "Opportunity purchases"
+      ],
+      "industrySlugs": [
+        "construction",
+        "restaurants",
+        "professional-services"
+      ],
+      "fundingSlugs": [
+        "business-line-access"
+      ],
+      "primaryCtaLabel": "Apply for Funding",
+      "secondaryCtaMode": "booking"
+    }
+  ]
+}

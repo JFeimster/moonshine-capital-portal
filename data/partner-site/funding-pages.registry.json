@@ -1,0 +1,474 @@
+{
+  "id": "partner-site-funding-pages",
+  "version": "1.0.0",
+  "purpose": "Partner-site funding content overlays. Merge with canonical funding family data; do not replace canonical funding registries.",
+  "entries": [
+    {
+      "slug": "working-capital",
+      "title": "Working Capital",
+      "description": "Flexible business capital for payroll, inventory, materials, short-cycle opportunities, and cash-flow gaps.",
+      "summary": "Working capital is designed for operating needs that cannot always wait for receivables, customer payments, or the next revenue cycle.",
+      "useCases": [
+        "Payroll coverage",
+        "Inventory purchases",
+        "Materials for active jobs",
+        "Marketing and customer acquisition",
+        "Short-term operating gaps"
+      ],
+      "whoItMayFit": [
+        "Established businesses with active revenue",
+        "Operators managing uneven cash conversion cycles",
+        "Businesses with a defined near-term use of funds"
+      ],
+      "whatToPrepare": [
+        "Recent business bank statements",
+        "Basic business information",
+        "Revenue history",
+        "Clear use of funds"
+      ],
+      "relatedIndustrySlugs": [
+        "construction",
+        "trucking",
+        "restaurants",
+        "ecommerce",
+        "medical",
+        "franchises"
+      ],
+      "relatedFundingSlugs": [
+        "business-line-access",
+        "equipment-finance",
+        "term-financing"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "business-bank-statements",
+        "offer-comparison"
+      ],
+      "faq": [
+        {
+          "question": "What is working capital typically used for?",
+          "answer": "Working capital is commonly used for recurring operating needs such as payroll, inventory, materials, marketing, and timing gaps between expenses and incoming revenue."
+        },
+        {
+          "question": "How should I prepare before applying?",
+          "answer": "Have recent bank statements, basic business information, revenue history, and a clear explanation of how the capital will be used."
+        }
+      ]
+    },
+    {
+      "slug": "business-line-access",
+      "title": "Business Line of Credit",
+      "description": "Revolving access to business capital that can be drawn, repaid, and reused as operating needs change.",
+      "summary": "A business line of credit can be useful when the need is recurring or unpredictable and the business wants access to capital without taking a new lump-sum loan each time.",
+      "useCases": [
+        "Seasonal working capital",
+        "Inventory cycles",
+        "Short-term operating expenses",
+        "Opportunity purchases",
+        "Cash-flow smoothing"
+      ],
+      "whoItMayFit": [
+        "Established businesses with repeat capital needs",
+        "Businesses that value reusable access over a single advance",
+        "Operators with reasonably predictable cash flow"
+      ],
+      "whatToPrepare": [
+        "Business bank statements",
+        "Revenue history",
+        "Time-in-business information",
+        "Current debt obligations"
+      ],
+      "relatedIndustrySlugs": [
+        "construction",
+        "restaurants",
+        "manufacturing",
+        "automotive",
+        "professional-services"
+      ],
+      "relatedFundingSlugs": [
+        "working-capital",
+        "term-financing"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "faq": [
+        {
+          "question": "How is a line of credit different from a term loan?",
+          "answer": "A line of credit is generally designed for repeated draws up to an approved limit, while a term loan typically provides one lump sum that is repaid over a defined schedule."
+        }
+      ]
+    },
+    {
+      "slug": "equipment-finance",
+      "title": "Equipment Financing",
+      "description": "Financing structured around business equipment, machinery, or vehicles so the company can preserve working cash.",
+      "summary": "Equipment financing can align the cost of a productive asset with the period in which that asset is expected to support business operations.",
+      "useCases": [
+        "Commercial vehicles",
+        "Construction equipment",
+        "Manufacturing machinery",
+        "Medical equipment",
+        "Restaurant equipment"
+      ],
+      "whoItMayFit": [
+        "Businesses purchasing identifiable productive assets",
+        "Operators replacing aging equipment",
+        "Companies expanding capacity"
+      ],
+      "whatToPrepare": [
+        "Equipment quote or invoice",
+        "Business financial information",
+        "Recent bank statements",
+        "Equipment description and intended use"
+      ],
+      "relatedIndustrySlugs": [
+        "construction",
+        "trucking",
+        "manufacturing",
+        "automotive",
+        "medical"
+      ],
+      "relatedFundingSlugs": [
+        "working-capital",
+        "term-financing"
+      ],
+      "relatedResourceSlugs": [
+        "equipment-financing-guide",
+        "funding-readiness",
+        "offer-comparison"
+      ],
+      "faq": [
+        {
+          "question": "Why finance equipment instead of paying cash?",
+          "answer": "Financing can preserve cash for payroll, inventory, and other operating needs while spreading the equipment cost over time."
+        }
+      ]
+    },
+    {
+      "slug": "real-estate-capital",
+      "title": "Real Estate Capital",
+      "description": "Capital for investment property acquisition, bridge needs, rehabilitation, construction, and income-producing real estate.",
+      "summary": "Real estate funding is often evaluated around both the borrower and the underlying property, including purchase structure, income, collateral, and exit strategy.",
+      "useCases": [
+        "Investment property acquisition",
+        "Bridge financing",
+        "Fix-and-flip projects",
+        "Ground-up construction",
+        "Rental property financing"
+      ],
+      "whoItMayFit": [
+        "Real estate investors",
+        "Property operators",
+        "Businesses acquiring owner-occupied or investment real estate"
+      ],
+      "whatToPrepare": [
+        "Property details",
+        "Purchase or project budget",
+        "Current rent or income information when applicable",
+        "Exit or repayment plan"
+      ],
+      "relatedIndustrySlugs": [
+        "real-estate-investors",
+        "construction",
+        "franchises",
+        "medical"
+      ],
+      "relatedFundingSlugs": [
+        "term-financing",
+        "business-acquisition"
+      ],
+      "relatedResourceSlugs": [
+        "dscr-guide",
+        "offer-comparison",
+        "funding-readiness"
+      ],
+      "faq": [
+        {
+          "question": "Is real estate financing underwritten differently from ordinary business funding?",
+          "answer": "Often yes. Property value, income, project structure, leverage, and the planned exit or repayment source can play a major role."
+        }
+      ]
+    },
+    {
+      "slug": "marketplace-capital",
+      "title": "Ecommerce & Marketplace Capital",
+      "description": "Capital for inventory, advertising, fulfillment, and growth across ecommerce and marketplace businesses.",
+      "summary": "Ecommerce operators often need capital before revenue arrives because inventory, advertising, and fulfillment costs can occur well ahead of the final customer payment cycle.",
+      "useCases": [
+        "Inventory purchases",
+        "Advertising spend",
+        "Seasonal stock builds",
+        "Fulfillment costs",
+        "Marketplace expansion"
+      ],
+      "whoItMayFit": [
+        "Online sellers with measurable sales history",
+        "Marketplace operators with recurring inventory cycles",
+        "Brands scaling paid acquisition"
+      ],
+      "whatToPrepare": [
+        "Marketplace or processor sales history",
+        "Recent bank statements",
+        "Inventory plan",
+        "Advertising and growth assumptions"
+      ],
+      "relatedIndustrySlugs": [
+        "ecommerce",
+        "technology",
+        "saas",
+        "restaurants"
+      ],
+      "relatedFundingSlugs": [
+        "working-capital",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "cash-flow-preparation",
+        "funding-readiness",
+        "offer-comparison"
+      ],
+      "faq": [
+        {
+          "question": "Why do ecommerce businesses often need working capital?",
+          "answer": "Inventory and advertising expenses frequently occur before marketplace payouts or customer revenue is fully realized."
+        }
+      ]
+    },
+    {
+      "slug": "startup-credit-leverage",
+      "title": "Startup Funding",
+      "description": "Funding paths for newer businesses that may not yet have the operating history required for conventional business financing.",
+      "summary": "Startup funding frequently depends more heavily on owner credit, business setup, projected use of funds, and available collateral or outside income than established-business financing.",
+      "useCases": [
+        "Launch expenses",
+        "Initial inventory",
+        "Equipment and setup",
+        "Marketing",
+        "Operating runway"
+      ],
+      "whoItMayFit": [
+        "New businesses with limited operating history",
+        "Owners with a defined launch plan",
+        "Entrepreneurs with strong personal-credit profiles or other support"
+      ],
+      "whatToPrepare": [
+        "Business formation documents",
+        "Personal credit profile",
+        "Use-of-funds plan",
+        "Projected or early revenue information"
+      ],
+      "relatedIndustrySlugs": [
+        "technology",
+        "saas",
+        "franchises",
+        "professional-services"
+      ],
+      "relatedFundingSlugs": [
+        "business-line-access",
+        "term-financing"
+      ],
+      "relatedResourceSlugs": [
+        "credit-preparation",
+        "funding-readiness",
+        "application-checklist"
+      ],
+      "faq": [
+        {
+          "question": "Can a startup qualify without business revenue?",
+          "answer": "Some startup-oriented funding paths may rely more heavily on owner credit, collateral, outside income, or a detailed business plan than on established business revenue."
+        }
+      ]
+    },
+    {
+      "slug": "business-acquisition",
+      "title": "Business Acquisition Financing",
+      "description": "Capital structures for buying an operating business, including acquisition debt, equity, and seller-supported structures.",
+      "summary": "Acquisition financing should be evaluated against the cash flow of the business being purchased, purchase price, buyer contribution, transition risk, and the amount of debt the company can reasonably support.",
+      "useCases": [
+        "Buying an existing business",
+        "Partner buyouts",
+        "Franchise acquisitions",
+        "Add-on acquisitions",
+        "Management buyouts"
+      ],
+      "whoItMayFit": [
+        "Buyers evaluating cash-flowing businesses",
+        "Operators pursuing strategic acquisitions",
+        "Entrepreneurs buying an existing company rather than starting from zero"
+      ],
+      "whatToPrepare": [
+        "Purchase price and deal structure",
+        "Business financial statements",
+        "Buyer background",
+        "Available down payment or equity",
+        "Seller financing terms if applicable"
+      ],
+      "relatedIndustrySlugs": [
+        "franchises",
+        "professional-services",
+        "manufacturing",
+        "restaurants"
+      ],
+      "relatedFundingSlugs": [
+        "sba",
+        "term-financing",
+        "working-capital"
+      ],
+      "relatedResourceSlugs": [
+        "business-acquisition-financing",
+        "dscr-guide",
+        "offer-comparison"
+      ],
+      "faq": [
+        {
+          "question": "What determines how much acquisition debt a business can support?",
+          "answer": "The answer depends heavily on recurring cash flow, purchase structure, existing obligations, buyer contribution, and the lender's required debt-service coverage."
+        }
+      ]
+    },
+    {
+      "slug": "sba",
+      "title": "SBA Financing",
+      "description": "Government-guaranteed small-business financing that can support acquisitions, expansion, equipment, real estate, and other qualified business uses.",
+      "summary": "SBA-backed financing can offer attractive structures for eligible borrowers, but the process is typically more documentation-intensive than faster working-capital products.",
+      "useCases": [
+        "Business acquisitions",
+        "Owner-occupied real estate",
+        "Equipment",
+        "Expansion",
+        "Refinancing eligible business debt"
+      ],
+      "whoItMayFit": [
+        "Established businesses with documented financial performance",
+        "Qualified acquisition buyers",
+        "Borrowers prioritizing structure over speed"
+      ],
+      "whatToPrepare": [
+        "Business and personal tax returns",
+        "Financial statements",
+        "Debt schedule",
+        "Ownership information",
+        "Use-of-funds documentation"
+      ],
+      "relatedIndustrySlugs": [
+        "franchises",
+        "construction",
+        "manufacturing",
+        "restaurants",
+        "medical"
+      ],
+      "relatedFundingSlugs": [
+        "business-acquisition",
+        "term-financing",
+        "real-estate-capital"
+      ],
+      "relatedResourceSlugs": [
+        "business-acquisition-financing",
+        "document-checklist",
+        "dscr-guide"
+      ],
+      "faq": [
+        {
+          "question": "Why does SBA financing usually require more documentation?",
+          "answer": "SBA-backed loans generally require detailed verification of the borrower, business financials, ownership, use of funds, and repayment ability."
+        }
+      ]
+    },
+    {
+      "slug": "term-financing",
+      "title": "Business Term Financing",
+      "description": "Lump-sum business financing repaid over a defined schedule for planned investments, expansion, or larger capital needs.",
+      "summary": "Term financing is often a better fit when the business has a defined one-time use of funds and wants repayment aligned to a predictable schedule.",
+      "useCases": [
+        "Expansion",
+        "Renovation",
+        "Large purchases",
+        "Refinancing",
+        "Hiring and capacity growth"
+      ],
+      "whoItMayFit": [
+        "Established businesses with predictable cash flow",
+        "Operators financing planned investments",
+        "Businesses seeking a defined repayment structure"
+      ],
+      "whatToPrepare": [
+        "Business financial statements",
+        "Tax returns when required",
+        "Bank statements",
+        "Debt schedule",
+        "Use-of-funds plan"
+      ],
+      "relatedIndustrySlugs": [
+        "technology",
+        "manufacturing",
+        "professional-services",
+        "ecommerce",
+        "trucking"
+      ],
+      "relatedFundingSlugs": [
+        "business-line-access",
+        "equipment-finance",
+        "sba"
+      ],
+      "relatedResourceSlugs": [
+        "offer-comparison",
+        "cash-flow-preparation",
+        "document-checklist"
+      ],
+      "faq": [
+        {
+          "question": "When is a term loan usually preferable to short-term working capital?",
+          "answer": "A term structure may be more appropriate when the capital supports a planned investment expected to generate value over a longer period."
+        }
+      ]
+    },
+    {
+      "slug": "revenue-based-financing",
+      "title": "Revenue-Based Financing",
+      "description": "Business financing sized primarily around revenue performance and the company's ability to support repayment from ongoing sales.",
+      "summary": "Revenue-based financing can provide faster access than documentation-heavy conventional structures, but businesses should evaluate payment frequency, total repayment, and cash-flow impact carefully.",
+      "useCases": [
+        "Inventory",
+        "Short-cycle opportunities",
+        "Marketing",
+        "Payroll support",
+        "Operating bridges"
+      ],
+      "whoItMayFit": [
+        "Businesses with consistent deposits",
+        "Operators prioritizing speed and flexibility",
+        "Companies with a clear short-cycle use of funds"
+      ],
+      "whatToPrepare": [
+        "Recent bank statements",
+        "Revenue history",
+        "Current debt or advance information",
+        "Use of funds"
+      ],
+      "relatedIndustrySlugs": [
+        "restaurants",
+        "ecommerce",
+        "construction",
+        "automotive"
+      ],
+      "relatedFundingSlugs": [
+        "working-capital",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "offer-comparison",
+        "cash-flow-preparation",
+        "funding-readiness"
+      ],
+      "faq": [
+        {
+          "question": "What should I compare before accepting revenue-based financing?",
+          "answer": "Compare total repayment, payment frequency, estimated cash-flow impact, prepayment terms, and how the financing affects existing obligations."
+        }
+      ]
+    }
+  ]
+}

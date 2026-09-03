@@ -1,0 +1,332 @@
+{
+  "id": "partner-site-resource-pages",
+  "version": "1.0.0",
+  "purpose": "Educational resources displayed inside partner websites.",
+  "entries": [
+    {
+      "slug": "funding-readiness",
+      "title": "Funding Readiness Guide",
+      "description": "A practical pre-application guide to the information, documents, and decisions that make a funding conversation more productive.",
+      "kind": "resource",
+      "resourceType": "guide",
+      "summary": "A practical pre-application guide to the information, documents, and decisions that make a funding conversation more productive.",
+      "sections": [
+        {
+          "heading": "What to focus on",
+          "items": [
+            "Clarify the exact use of funds",
+            "Review recent revenue and bank activity",
+            "List current debt obligations",
+            "Prepare ownership and entity information",
+            "Know the desired timing"
+          ]
+        },
+        {
+          "heading": "How your funding agent helps",
+          "body": "Your funding agent can help organize the request, identify the information that matters most, and route the opportunity toward funding paths that fit the business and use of funds."
+        }
+      ],
+      "ctaLabel": "Start Funding",
+      "relatedFundingSlugs": [],
+      "relatedIndustrySlugs": []
+    },
+    {
+      "slug": "application-checklist",
+      "title": "Funding Application Checklist",
+      "description": "A concise checklist for preparing a complete funding request before submission.",
+      "kind": "resource",
+      "resourceType": "checklist",
+      "summary": "A concise checklist for preparing a complete funding request before submission.",
+      "sections": [
+        {
+          "heading": "What to focus on",
+          "items": [
+            "Business legal name and entity type",
+            "Ownership information",
+            "Use and amount of funds",
+            "Recent revenue information",
+            "Bank statements and supporting documents"
+          ]
+        },
+        {
+          "heading": "How your funding agent helps",
+          "body": "Your funding agent can help organize the request, identify the information that matters most, and route the opportunity toward funding paths that fit the business and use of funds."
+        }
+      ],
+      "ctaLabel": "Start Funding",
+      "relatedFundingSlugs": [],
+      "relatedIndustrySlugs": []
+    },
+    {
+      "slug": "business-bank-statements",
+      "title": "How to Prepare Business Bank Statements",
+      "description": "What funding providers typically look for when reviewing recent business bank activity.",
+      "kind": "resource",
+      "resourceType": "guide",
+      "summary": "What funding providers typically look for when reviewing recent business bank activity.",
+      "sections": [
+        {
+          "heading": "What to focus on",
+          "items": [
+            "Use complete statement PDFs",
+            "Avoid cropped screenshots",
+            "Include all requested months",
+            "Explain unusual deposits or withdrawals",
+            "Identify recent NSFs or overdrafts"
+          ]
+        },
+        {
+          "heading": "How your funding agent helps",
+          "body": "Your funding agent can help organize the request, identify the information that matters most, and route the opportunity toward funding paths that fit the business and use of funds."
+        }
+      ],
+      "ctaLabel": "Start Funding",
+      "relatedFundingSlugs": [],
+      "relatedIndustrySlugs": []
+    },
+    {
+      "slug": "document-checklist",
+      "title": "Funding Document Checklist",
+      "description": "A broader document checklist for working capital, term financing, SBA, acquisition, and equipment requests.",
+      "kind": "resource",
+      "resourceType": "checklist",
+      "summary": "A broader document checklist for working capital, term financing, SBA, acquisition, and equipment requests.",
+      "sections": [
+        {
+          "heading": "What to focus on",
+          "items": [
+            "Bank statements",
+            "Tax returns when required",
+            "Profit and loss statement",
+            "Balance sheet",
+            "Debt schedule",
+            "Purchase or equipment documents when applicable"
+          ]
+        },
+        {
+          "heading": "How your funding agent helps",
+          "body": "Your funding agent can help organize the request, identify the information that matters most, and route the opportunity toward funding paths that fit the business and use of funds."
+        }
+      ],
+      "ctaLabel": "Start Funding",
+      "relatedFundingSlugs": [],
+      "relatedIndustrySlugs": []
+    },
+    {
+      "slug": "dscr-guide",
+      "title": "DSCR: What It Means for Financing",
+      "description": "A practical explanation of debt-service coverage and why lenders use it when evaluating repayment capacity.",
+      "kind": "resource",
+      "resourceType": "guide",
+      "summary": "A practical explanation of debt-service coverage and why lenders use it when evaluating repayment capacity.",
+      "sections": [
+        {
+          "heading": "What to focus on",
+          "items": [
+            "Understand annual debt service",
+            "Use normalized operating cash flow",
+            "Test the proposed new payment",
+            "Leave room for volatility",
+            "Compare lender-specific requirements"
+          ]
+        },
+        {
+          "heading": "How your funding agent helps",
+          "body": "Your funding agent can help organize the request, identify the information that matters most, and route the opportunity toward funding paths that fit the business and use of funds."
+        }
+      ],
+      "ctaLabel": "Start Funding",
+      "relatedFundingSlugs": [],
+      "relatedIndustrySlugs": []
+    },
+    {
+      "slug": "offer-comparison",
+      "title": "How to Compare Funding Offers",
+      "description": "A decision framework for comparing total cost, payment structure, term, collateral, speed, and flexibility.",
+      "kind": "resource",
+      "resourceType": "worksheet",
+      "summary": "A decision framework for comparing total cost, payment structure, term, collateral, speed, and flexibility.",
+      "sections": [
+        {
+          "heading": "What to focus on",
+          "items": [
+            "Total repayment or interest cost",
+            "Payment frequency",
+            "Term length",
+            "Prepayment rules",
+            "Collateral or guarantees",
+            "Impact on operating cash flow"
+          ]
+        },
+        {
+          "heading": "How your funding agent helps",
+          "body": "Your funding agent can help organize the request, identify the information that matters most, and route the opportunity toward funding paths that fit the business and use of funds."
+        }
+      ],
+      "ctaLabel": "Start Funding",
+      "relatedFundingSlugs": [],
+      "relatedIndustrySlugs": []
+    },
+    {
+      "slug": "working-capital-guide",
+      "title": "Working Capital Guide",
+      "description": "How to think about short-cycle capital, operating gaps, and whether a working-capital structure matches the need.",
+      "kind": "resource",
+      "resourceType": "guide",
+      "summary": "How to think about short-cycle capital, operating gaps, and whether a working-capital structure matches the need.",
+      "sections": [
+        {
+          "heading": "What to focus on",
+          "items": [
+            "Match term to use of funds",
+            "Estimate cash-flow impact",
+            "Avoid using short-term capital for long-lived assets",
+            "Know the repayment source"
+          ]
+        },
+        {
+          "heading": "How your funding agent helps",
+          "body": "Your funding agent can help organize the request, identify the information that matters most, and route the opportunity toward funding paths that fit the business and use of funds."
+        }
+      ],
+      "ctaLabel": "Start Funding",
+      "relatedFundingSlugs": [],
+      "relatedIndustrySlugs": []
+    },
+    {
+      "slug": "equipment-financing-guide",
+      "title": "Equipment Financing Guide",
+      "description": "A practical guide to financing vehicles, machinery, and productive equipment.",
+      "kind": "resource",
+      "resourceType": "guide",
+      "summary": "A practical guide to financing vehicles, machinery, and productive equipment.",
+      "sections": [
+        {
+          "heading": "What to focus on",
+          "items": [
+            "Identify the exact equipment",
+            "Get a quote or invoice",
+            "Estimate useful life",
+            "Compare financed cost with cash purchase",
+            "Consider down payment and collateral"
+          ]
+        },
+        {
+          "heading": "How your funding agent helps",
+          "body": "Your funding agent can help organize the request, identify the information that matters most, and route the opportunity toward funding paths that fit the business and use of funds."
+        }
+      ],
+      "ctaLabel": "Start Funding",
+      "relatedFundingSlugs": [],
+      "relatedIndustrySlugs": []
+    },
+    {
+      "slug": "business-acquisition-financing",
+      "title": "Business Acquisition Financing Guide",
+      "description": "A buyer-focused guide to financing an operating business without ignoring cash flow, transition risk, or working capital.",
+      "kind": "resource",
+      "resourceType": "guide",
+      "summary": "A buyer-focused guide to financing an operating business without ignoring cash flow, transition risk, or working capital.",
+      "sections": [
+        {
+          "heading": "What to focus on",
+          "items": [
+            "Confirm purchase price and deal structure",
+            "Review historical financials",
+            "Estimate post-close debt service",
+            "Identify buyer equity",
+            "Plan transition working capital"
+          ]
+        },
+        {
+          "heading": "How your funding agent helps",
+          "body": "Your funding agent can help organize the request, identify the information that matters most, and route the opportunity toward funding paths that fit the business and use of funds."
+        }
+      ],
+      "ctaLabel": "Start Funding",
+      "relatedFundingSlugs": [],
+      "relatedIndustrySlugs": []
+    },
+    {
+      "slug": "credit-preparation",
+      "title": "Credit Preparation Guide",
+      "description": "Steps business owners can take to understand and prepare their personal and business credit profile before seeking financing.",
+      "kind": "resource",
+      "resourceType": "guide",
+      "summary": "Steps business owners can take to understand and prepare their personal and business credit profile before seeking financing.",
+      "sections": [
+        {
+          "heading": "What to focus on",
+          "items": [
+            "Review credit reports",
+            "Resolve inaccurate information",
+            "Understand utilization",
+            "Avoid unnecessary new inquiries",
+            "Separate business and personal obligations where practical"
+          ]
+        },
+        {
+          "heading": "How your funding agent helps",
+          "body": "Your funding agent can help organize the request, identify the information that matters most, and route the opportunity toward funding paths that fit the business and use of funds."
+        }
+      ],
+      "ctaLabel": "Start Funding",
+      "relatedFundingSlugs": [],
+      "relatedIndustrySlugs": []
+    },
+    {
+      "slug": "cash-flow-preparation",
+      "title": "Cash-Flow Preparation Guide",
+      "description": "A simple framework for showing how money moves through the business and how a new payment would fit.",
+      "kind": "resource",
+      "resourceType": "worksheet",
+      "summary": "A simple framework for showing how money moves through the business and how a new payment would fit.",
+      "sections": [
+        {
+          "heading": "What to focus on",
+          "items": [
+            "Review monthly inflows and outflows",
+            "Identify seasonality",
+            "List fixed obligations",
+            "Estimate proposed debt payment",
+            "Stress-test weaker months"
+          ]
+        },
+        {
+          "heading": "How your funding agent helps",
+          "body": "Your funding agent can help organize the request, identify the information that matters most, and route the opportunity toward funding paths that fit the business and use of funds."
+        }
+      ],
+      "ctaLabel": "Start Funding",
+      "relatedFundingSlugs": [],
+      "relatedIndustrySlugs": []
+    },
+    {
+      "slug": "funding-faq",
+      "title": "Funding FAQ",
+      "description": "Straight answers to common questions borrowers ask before applying for business funding.",
+      "kind": "resource",
+      "resourceType": "faq",
+      "summary": "Straight answers to common questions borrowers ask before applying for business funding.",
+      "sections": [
+        {
+          "heading": "What to focus on",
+          "items": [
+            "What information is needed?",
+            "Will applying affect credit?",
+            "How long does the process take?",
+            "What if I am not a fit for the first option?",
+            "How should I compare offers?"
+          ]
+        },
+        {
+          "heading": "How your funding agent helps",
+          "body": "Your funding agent can help organize the request, identify the information that matters most, and route the opportunity toward funding paths that fit the business and use of funds."
+        }
+      ],
+      "ctaLabel": "Start Funding",
+      "relatedFundingSlugs": [],
+      "relatedIndustrySlugs": []
+    }
+  ]
+}

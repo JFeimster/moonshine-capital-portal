@@ -64,15 +64,13 @@ export default async function PartnerFundingDetailPage({ params }: { params: { s
 
             <div className="border-4 border-neo-black bg-neo-white p-6 shadow-brutal">
               <h2 className="text-2xl font-black uppercase tracking-tighter">Who it may fit</h2>
-              <p className="mt-4 text-base font-medium leading-relaxed">This lane is typically best when the business has a clear repayment source, a realistic purpose for the capital, and a workable financial profile for the product being considered.</p>
+              <ul className="mt-4 space-y-3 text-base font-medium leading-relaxed">{page.whoItMayFit.map((item) => <li key={item} className="flex gap-3"><span className="mt-2 h-2.5 w-2.5 shrink-0 bg-neo-blue" />{item}</li>)}</ul>
             </div>
 
             <div className="border-4 border-neo-black bg-neo-cream p-6 shadow-brutal">
               <h2 className="text-2xl font-black uppercase tracking-tighter">What to prepare</h2>
               <ul className="mt-4 space-y-2 text-base font-medium leading-relaxed">
-                <li>• Recent business bank statements or revenue proof</li>
-                <li>• A clear explanation of the funding need and use case</li>
-                <li>• Basic business information and timeline requirements</li>
+                {page.whatToPrepare.map((item) => <li key={item}>• {item}</li>)}
               </ul>
             </div>
 
@@ -97,8 +95,8 @@ export default async function PartnerFundingDetailPage({ params }: { params: { s
             <div className="border-4 border-neo-black bg-neo-pink p-6 shadow-brutal">
               <h2 className="text-xl font-black uppercase tracking-tighter">Related funding</h2>
               <div className="mt-4 space-y-3">
-                {page.relatedIndustrySlugs.slice(0, 3).map((slug) => (
-                  <Link key={slug} href={`/${broker.slug}/industries/${slug}`} className="block border-b-2 border-neo-black pb-2 text-sm font-bold uppercase tracking-[0.14em] hover:text-neo-blue">{slug.replace(/-/g, ' ')}</Link>
+                {page.relatedFundingSlugs.slice(0, 3).map((slug) => (
+                  <Link key={slug} href={`/${broker.slug}/funding/${slug}`} className="block border-b-2 border-neo-black pb-2 text-sm font-bold uppercase tracking-[0.14em] hover:text-neo-blue">{slug.replace(/-/g, ' ')}</Link>
                 ))}
               </div>
             </div>

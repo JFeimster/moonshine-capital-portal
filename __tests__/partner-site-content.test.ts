@@ -4,6 +4,8 @@ import {
   getPartnerIndustryPage,
   getPartnerTool,
   getPartnerResource,
+  getPartnerCampaign,
+  getPartnerToolsForContext,
   listPartnerFundingPages,
   listPartnerIndustryPages,
 } from '../lib/partner-site';
@@ -16,6 +18,8 @@ describe('partner site content adapter', () => {
 
     const page = getPartnerFundingPage('working-capital');
     expect(page?.title).toContain('Working Capital');
+    expect(page?.description).toContain('Flexible business capital');
+    expect(page?.whatToPrepare).toContain('Recent business bank statements');
     expect(page?.relatedIndustrySlugs.length).toBeGreaterThan(0);
   });
 
@@ -23,9 +27,16 @@ describe('partner site content adapter', () => {
     const industries = listPartnerIndustryPages();
     expect(industries.some((item) => item.slug === 'construction')).toBe(true);
 
-    const page = getPartnerIndustryPage('construction');
-    expect(page?.title).toContain('Construction');
+    const page = getPartnerIndustryPage('hvac');
+    expect(page?.title).toBe('HVAC');
     expect(page?.relevantFundingSlugs.length).toBeGreaterThan(0);
+  });
+
+  it('resolves structured resources and campaigns', async () => {
+    const resource = await getPartnerResource('funding-readiness');
+    expect(resource && 'sections' in resource && resource.sections.length).toBeGreaterThan(0);
+    expect(getPartnerCampaign('hvac')?.headline).toContain('crews moving');
+    expect(await getPartnerResource('does-not-exist')).toBeNull();
   });
 
   it('reads tools and resources from the shared registry', async () => {
@@ -34,5 +45,6 @@ describe('partner site content adapter', () => {
 
     const resource = await getPartnerResource('the-premium-finance-gap-calculator');
     expect(resource).toBeNull();
+    expect(await getPartnerToolsForContext('construction')).toEqual([]);
   });
 });

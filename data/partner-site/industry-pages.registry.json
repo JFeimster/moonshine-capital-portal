@@ -1,0 +1,767 @@
+{
+  "id": "partner-site-industry-pages",
+  "version": "1.0.0",
+  "purpose": "Partner-site industry content. Framed around capital needs and advisor guidance.",
+  "entries": [
+    {
+      "slug": "construction",
+      "title": "Construction & Trades",
+      "description": "Capital for contractors, builders, and trade businesses managing payroll, materials, equipment, and project timing.",
+      "summary": "Capital for contractors, builders, and trade businesses managing payroll, materials, equipment, and project timing.",
+      "capitalPressures": [
+        "Payroll before customer draws",
+        "Materials and mobilization",
+        "Equipment replacement",
+        "Retainage and slow receivables"
+      ],
+      "relevantFundingSlugs": [
+        "working-capital",
+        "equipment-finance",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "equipment-financing-guide"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in construction & trades?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "contractors",
+      "title": "Contractors",
+      "description": "Capital support for general and specialty contractors balancing job costs, payroll, materials, and customer payment cycles.",
+      "summary": "Capital support for general and specialty contractors balancing job costs, payroll, materials, and customer payment cycles.",
+      "capitalPressures": [
+        "Mobilization costs",
+        "Subcontractor payroll",
+        "Material purchases",
+        "Project-gap cash flow"
+      ],
+      "relevantFundingSlugs": [
+        "working-capital",
+        "business-line-access",
+        "equipment-finance"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "business-bank-statements",
+        "cash-flow-preparation"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in contractors?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "hvac",
+      "title": "HVAC",
+      "description": "Funding for HVAC companies managing seasonality, technician payroll, vehicles, equipment, and large job material costs.",
+      "summary": "Funding for HVAC companies managing seasonality, technician payroll, vehicles, equipment, and large job material costs.",
+      "capitalPressures": [
+        "Seasonal payroll",
+        "Service vehicles",
+        "Replacement equipment",
+        "Large commercial jobs"
+      ],
+      "relevantFundingSlugs": [
+        "working-capital",
+        "equipment-finance",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "equipment-financing-guide",
+        "cash-flow-preparation"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in hvac?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "roofing",
+      "title": "Roofing",
+      "description": "Capital for roofing contractors facing material deposits, labor costs, insurance-payment timing, and seasonal demand.",
+      "summary": "Capital for roofing contractors facing material deposits, labor costs, insurance-payment timing, and seasonal demand.",
+      "capitalPressures": [
+        "Material deposits",
+        "Crew payroll",
+        "Storm-response capacity",
+        "Insurance receivable timing"
+      ],
+      "relevantFundingSlugs": [
+        "working-capital",
+        "business-line-access",
+        "equipment-finance"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in roofing?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "plumbing",
+      "title": "Plumbing",
+      "description": "Funding for plumbing companies investing in vehicles, equipment, inventory, technicians, and job-site execution.",
+      "summary": "Funding for plumbing companies investing in vehicles, equipment, inventory, technicians, and job-site execution.",
+      "capitalPressures": [
+        "Service vehicles",
+        "Technician hiring",
+        "Inventory and parts",
+        "Commercial project mobilization"
+      ],
+      "relevantFundingSlugs": [
+        "working-capital",
+        "equipment-finance",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "equipment-financing-guide",
+        "funding-readiness",
+        "application-checklist"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in plumbing?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "electrical",
+      "title": "Electrical",
+      "description": "Capital for electrical contractors managing labor, materials, fleet needs, and larger project schedules.",
+      "summary": "Capital for electrical contractors managing labor, materials, fleet needs, and larger project schedules.",
+      "capitalPressures": [
+        "Wire and material purchases",
+        "Payroll",
+        "Fleet and equipment",
+        "Commercial project gaps"
+      ],
+      "relevantFundingSlugs": [
+        "working-capital",
+        "equipment-finance",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "cash-flow-preparation",
+        "equipment-financing-guide"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in electrical?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "landscaping",
+      "title": "Landscaping",
+      "description": "Funding for landscaping businesses balancing seasonality, crews, equipment, vehicles, and contract startup costs.",
+      "summary": "Funding for landscaping businesses balancing seasonality, crews, equipment, vehicles, and contract startup costs.",
+      "capitalPressures": [
+        "Seasonal hiring",
+        "Mowers and equipment",
+        "Vehicles and trailers",
+        "Commercial contract startup"
+      ],
+      "relevantFundingSlugs": [
+        "working-capital",
+        "equipment-finance",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "equipment-financing-guide",
+        "cash-flow-preparation"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in landscaping?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "trucking",
+      "title": "Trucking & Transportation",
+      "description": "Capital for trucking operators managing fuel, driver payroll, equipment, maintenance, and uneven payment cycles.",
+      "summary": "Capital for trucking operators managing fuel, driver payroll, equipment, maintenance, and uneven payment cycles.",
+      "capitalPressures": [
+        "Fuel and payroll",
+        "Truck acquisition",
+        "Maintenance and repairs",
+        "Receivable timing"
+      ],
+      "relevantFundingSlugs": [
+        "working-capital",
+        "equipment-finance",
+        "term-financing"
+      ],
+      "relatedResourceSlugs": [
+        "equipment-financing-guide",
+        "cash-flow-preparation",
+        "funding-readiness"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in trucking & transportation?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "owner-operators",
+      "title": "Owner-Operators",
+      "description": "Capital for owner-operators covering equipment, repairs, insurance, fuel, and operating gaps.",
+      "summary": "Capital for owner-operators covering equipment, repairs, insurance, fuel, and operating gaps.",
+      "capitalPressures": [
+        "Truck repairs",
+        "Insurance premiums",
+        "Fuel",
+        "Replacement equipment"
+      ],
+      "relevantFundingSlugs": [
+        "working-capital",
+        "equipment-finance",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "equipment-financing-guide",
+        "funding-readiness",
+        "cash-flow-preparation"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in owner-operators?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "fleets",
+      "title": "Trucking Fleets",
+      "description": "Capital for fleet operators adding trucks, drivers, routes, and maintenance capacity.",
+      "summary": "Capital for fleet operators adding trucks, drivers, routes, and maintenance capacity.",
+      "capitalPressures": [
+        "Fleet expansion",
+        "Driver payroll",
+        "Maintenance reserve",
+        "Route growth"
+      ],
+      "relevantFundingSlugs": [
+        "equipment-finance",
+        "term-financing",
+        "working-capital"
+      ],
+      "relatedResourceSlugs": [
+        "equipment-financing-guide",
+        "offer-comparison",
+        "cash-flow-preparation"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in trucking fleets?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "restaurants",
+      "title": "Restaurants & Hospitality",
+      "description": "Capital for restaurants and hospitality operators managing payroll, inventory, equipment, remodels, and seasonality.",
+      "summary": "Capital for restaurants and hospitality operators managing payroll, inventory, equipment, remodels, and seasonality.",
+      "capitalPressures": [
+        "Payroll",
+        "Food and beverage inventory",
+        "Equipment",
+        "Remodeling and expansion"
+      ],
+      "relevantFundingSlugs": [
+        "working-capital",
+        "business-line-access",
+        "sba"
+      ],
+      "relatedResourceSlugs": [
+        "funding-readiness",
+        "offer-comparison",
+        "equipment-financing-guide"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in restaurants & hospitality?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "food-trucks",
+      "title": "Food Trucks",
+      "description": "Capital for mobile food businesses purchasing vehicles, equipment, inventory, permits, and operating cushion.",
+      "summary": "Capital for mobile food businesses purchasing vehicles, equipment, inventory, permits, and operating cushion.",
+      "capitalPressures": [
+        "Truck purchase or retrofit",
+        "Kitchen equipment",
+        "Inventory",
+        "Working cash"
+      ],
+      "relevantFundingSlugs": [
+        "equipment-finance",
+        "working-capital",
+        "startup-credit-leverage"
+      ],
+      "relatedResourceSlugs": [
+        "equipment-financing-guide",
+        "funding-readiness",
+        "credit-preparation"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in food trucks?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "medical",
+      "title": "Medical Practices",
+      "description": "Capital for medical practices supporting staffing, equipment, expansion, and reimbursement-cycle cash flow.",
+      "summary": "Capital for medical practices supporting staffing, equipment, expansion, and reimbursement-cycle cash flow.",
+      "capitalPressures": [
+        "Payroll and staffing",
+        "Medical equipment",
+        "Practice expansion",
+        "Receivable timing"
+      ],
+      "relevantFundingSlugs": [
+        "working-capital",
+        "equipment-finance",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "equipment-financing-guide",
+        "funding-readiness",
+        "document-checklist"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in medical practices?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "dental",
+      "title": "Dental Practices",
+      "description": "Capital for dental practices purchasing equipment, expanding operatories, hiring staff, and managing insurance receivables.",
+      "summary": "Capital for dental practices purchasing equipment, expanding operatories, hiring staff, and managing insurance receivables.",
+      "capitalPressures": [
+        "Dental equipment",
+        "Buildout and expansion",
+        "Staffing",
+        "Insurance receivables"
+      ],
+      "relevantFundingSlugs": [
+        "equipment-finance",
+        "term-financing",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "equipment-financing-guide",
+        "document-checklist",
+        "funding-readiness"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in dental practices?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "veterinary",
+      "title": "Veterinary Practices",
+      "description": "Capital for veterinary clinics investing in equipment, buildouts, staffing, inventory, and practice growth.",
+      "summary": "Capital for veterinary clinics investing in equipment, buildouts, staffing, inventory, and practice growth.",
+      "capitalPressures": [
+        "Diagnostic equipment",
+        "Practice expansion",
+        "Staffing",
+        "Medical inventory"
+      ],
+      "relevantFundingSlugs": [
+        "equipment-finance",
+        "term-financing",
+        "working-capital"
+      ],
+      "relatedResourceSlugs": [
+        "equipment-financing-guide",
+        "funding-readiness",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in veterinary practices?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "professional-services",
+      "title": "Professional Services",
+      "description": "Capital for service firms balancing payroll, receivables, staffing, and growth without heavy physical assets.",
+      "summary": "Capital for service firms balancing payroll, receivables, staffing, and growth without heavy physical assets.",
+      "capitalPressures": [
+        "Payroll",
+        "Hiring",
+        "Marketing",
+        "Receivable gaps"
+      ],
+      "relevantFundingSlugs": [
+        "business-line-access",
+        "term-financing",
+        "working-capital"
+      ],
+      "relatedResourceSlugs": [
+        "cash-flow-preparation",
+        "funding-readiness",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in professional services?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "ecommerce",
+      "title": "Ecommerce",
+      "description": "Capital for online sellers funding inventory, advertising, fulfillment, and marketplace growth.",
+      "summary": "Capital for online sellers funding inventory, advertising, fulfillment, and marketplace growth.",
+      "capitalPressures": [
+        "Inventory",
+        "Advertising",
+        "Seasonal stock builds",
+        "Fulfillment"
+      ],
+      "relevantFundingSlugs": [
+        "marketplace-capital",
+        "working-capital",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "cash-flow-preparation",
+        "funding-readiness",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in ecommerce?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "manufacturing",
+      "title": "Manufacturing",
+      "description": "Capital for manufacturers investing in machinery, raw materials, production capacity, and working cash.",
+      "summary": "Capital for manufacturers investing in machinery, raw materials, production capacity, and working cash.",
+      "capitalPressures": [
+        "Machinery",
+        "Raw materials",
+        "Production expansion",
+        "Payroll"
+      ],
+      "relevantFundingSlugs": [
+        "equipment-finance",
+        "term-financing",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "equipment-financing-guide",
+        "cash-flow-preparation",
+        "document-checklist"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in manufacturing?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "automotive",
+      "title": "Automotive",
+      "description": "Capital for repair shops, dealerships, and automotive businesses managing equipment, inventory, payroll, and facilities.",
+      "summary": "Capital for repair shops, dealerships, and automotive businesses managing equipment, inventory, payroll, and facilities.",
+      "capitalPressures": [
+        "Shop equipment",
+        "Inventory",
+        "Payroll",
+        "Facility upgrades"
+      ],
+      "relevantFundingSlugs": [
+        "equipment-finance",
+        "working-capital",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "equipment-financing-guide",
+        "funding-readiness",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in automotive?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "real-estate-investors",
+      "title": "Real Estate Investors",
+      "description": "Capital for acquisitions, rehabilitation, bridge needs, rentals, and property repositioning.",
+      "summary": "Capital for acquisitions, rehabilitation, bridge needs, rentals, and property repositioning.",
+      "capitalPressures": [
+        "Acquisitions",
+        "Rehabilitation",
+        "Bridge needs",
+        "Rental property financing"
+      ],
+      "relevantFundingSlugs": [
+        "real-estate-capital",
+        "term-financing",
+        "business-acquisition"
+      ],
+      "relatedResourceSlugs": [
+        "dscr-guide",
+        "offer-comparison",
+        "funding-readiness"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in real estate investors?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "technology",
+      "title": "Technology",
+      "description": "Capital for technology companies funding product development, hiring, infrastructure, and operating runway.",
+      "summary": "Capital for technology companies funding product development, hiring, infrastructure, and operating runway.",
+      "capitalPressures": [
+        "Hiring",
+        "Product development",
+        "Infrastructure",
+        "Customer acquisition"
+      ],
+      "relevantFundingSlugs": [
+        "startup-credit-leverage",
+        "term-financing",
+        "business-line-access"
+      ],
+      "relatedResourceSlugs": [
+        "credit-preparation",
+        "funding-readiness",
+        "cash-flow-preparation"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in technology?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "saas",
+      "title": "SaaS",
+      "description": "Capital for SaaS companies balancing recurring revenue, customer acquisition, hiring, and growth efficiency.",
+      "summary": "Capital for SaaS companies balancing recurring revenue, customer acquisition, hiring, and growth efficiency.",
+      "capitalPressures": [
+        "Sales hiring",
+        "Product investment",
+        "Operating runway",
+        "Customer acquisition"
+      ],
+      "relevantFundingSlugs": [
+        "term-financing",
+        "business-line-access",
+        "startup-credit-leverage"
+      ],
+      "relatedResourceSlugs": [
+        "cash-flow-preparation",
+        "funding-readiness",
+        "offer-comparison"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in saas?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    },
+    {
+      "slug": "franchises",
+      "title": "Franchises",
+      "description": "Capital for franchise acquisition, launch, buildout, equipment, and multi-unit expansion.",
+      "summary": "Capital for franchise acquisition, launch, buildout, equipment, and multi-unit expansion.",
+      "capitalPressures": [
+        "Franchise acquisition",
+        "Buildout",
+        "Equipment",
+        "Working capital"
+      ],
+      "relevantFundingSlugs": [
+        "business-acquisition",
+        "sba",
+        "equipment-finance",
+        "working-capital"
+      ],
+      "relatedResourceSlugs": [
+        "business-acquisition-financing",
+        "funding-readiness",
+        "document-checklist"
+      ],
+      "relatedToolSlugs": [],
+      "faq": [
+        {
+          "question": "What capital needs are common in franchises?",
+          "answer": "The most common needs usually involve operating cash flow, payroll, equipment, inventory or materials, and growth-related spending. The right structure depends on timing and repayment capacity."
+        },
+        {
+          "question": "What should I prepare before speaking with a funding agent?",
+          "answer": "Prepare recent business financial information, bank statements, a clear use of funds, and details about any existing debt or major upcoming obligations."
+        }
+      ]
+    }
+  ]
+}

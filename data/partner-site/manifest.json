@@ -1,0 +1,29 @@
+{
+  "id": "partner-site-content-pack",
+  "version": "1.0.0",
+  "generatedFor": "JFeimster/moonshine-capital-portal",
+  "target": "capital.distilledfunding.com/[slug]",
+  "files": [
+    {
+      "path": "data/partner-site/funding-pages.registry.json",
+      "entries": 10
+    },
+    {
+      "path": "data/partner-site/industry-pages.registry.json",
+      "entries": 23
+    },
+    {
+      "path": "data/partner-site/resource-pages.registry.json",
+      "entries": 12
+    },
+    {
+      "path": "data/partner-site/campaigns.registry.json",
+      "entries": 12
+    },
+    {
+      "path": "data/partner-site/tool-placement.registry.json",
+      "entries": 6
+    }
+  ],
+  "integrationRule": "Supplement existing canonical registries. Do not replace data/funding/funding-product-families.registry.json or data/embeds/tool-registry.json."
+}

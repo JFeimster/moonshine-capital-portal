@@ -1,0 +1,48 @@
+{
+  "id": "partner-site-tool-placement",
+  "version": "1.0.0",
+  "purpose": "Non-destructive placement map for matching existing tool-registry items to partner-site contexts. Slugs are candidate concepts until an active registry destination exists.",
+  "placements": [
+    {
+      "context": "working-capital",
+      "candidateToolSlugs": [
+        "the-merchant-cash-advance-mca-repayment-estimator",
+        "the-credit-score-vs-cash-flow-analyzer"
+      ]
+    },
+    {
+      "context": "construction",
+      "candidateToolSlugs": [
+        "the-neca-material-money-quoter",
+        "the-blue-collar-banker-lead-qualifier"
+      ]
+    },
+    {
+      "context": "trucking",
+      "candidateToolSlugs": [
+        "the-auto-repair-emergency-advance-tool",
+        "the-credit-score-vs-cash-flow-analyzer"
+      ]
+    },
+    {
+      "context": "restaurants",
+      "candidateToolSlugs": [
+        "the-merchant-cash-advance-mca-repayment-estimator",
+        "the-credit-score-vs-cash-flow-analyzer"
+      ]
+    },
+    {
+      "context": "funding-readiness",
+      "candidateToolSlugs": [
+        "the-blue-collar-banker-lead-qualifier",
+        "the-credit-score-vs-cash-flow-analyzer"
+      ]
+    },
+    {
+      "context": "offer-comparison",
+      "candidateToolSlugs": [
+        "the-merchant-cash-advance-mca-repayment-estimator"
+      ]
+    }
+  ]
+}
