@@ -1,43 +1,108 @@
-# System Runbook: Ingestion Pipeline
+# System Runbook: Canonical Tally Ingestion
 
-This document details the operational procedures, failure cases, and manual recovery paths for the Distilled Funding Broker Ingestion Pipeline.
+This runbook covers the current Funding Agent ingestion path.
 
-## General Flow
-1. Broker submits Tally form (Application or Profile Builder).
-2. Tally triggers a webhook to n8n (or directly to our endpoints).
-3. `POST /api/intake/tally/*` normalizes data and validates required fields.
-4. Next.js backend attempts to upsert into Notion CRM. Notion is the primary operational source of truth.
-5. (Optional downstream) Publishing to Wix CMS or other public directory storage occurs separately after approval.
+## Canonical flow
 
-## Common Failures
+1. A broker submits a canonical Tally form.
+2. Tally sends a signed raw `FORM_RESPONSE` directly to `POST /api/webhooks/tally`.
+3. The Next.js receiver verifies the HMAC signature and selects the mapping by Tally `formId`.
+4. `lib/tally-webhook.ts` normalizes live question UUIDs into the canonical application shape.
+5. Funding Agent services enforce identity and lifecycle rules.
+6. `lib/notion.ts` creates or enriches the canonical record in the Moonshine Capital Partners CRM.
+7. n8n may consume downstream events for orchestration, but it is not required for normalization or canonical persistence.
+8. Wix, if used, is downstream compatibility/publishing only.
 
-### 1. Missing Merge Key (`email`)
-- **Symptom:** The webhook returns a `400 Bad Request` with `"Missing or invalid required merge key: email"`.
-- **Cause:** Tally form was modified or the payload structure changed, dropping the email field.
-- **Resolution:**
-  1. Inspect the raw Tally submission in Tally's dashboard.
-  2. Verify the email field mapping in n8n or Tally webhook configuration.
-  3. Manually insert the record into Notion CRM using the provided data if necessary.
+## Funding Agent lifecycle
 
-### 2. Validation Errors
-- **Symptom:** The webhook returns `400 Bad Request` citing a missing `fullName` or `agencyName`.
-- **Cause:** A required field was bypassed or mapping is incorrect.
-- **Resolution:** Similar to missing email, inspect the raw payload, update the Tally form to strictly require the field, and manually rescue the data into Notion CRM.
+### Join — `rjM6do`
 
-### 3. Downstream API Failures (Notion)
-- **Symptom:** Webhook returns `500 Internal Server Error` with `Failed to ingest into CRM` or `Failed to process downstream updates`.
-- **Cause:** Notion API is down, rate-limited, or credentials (API keys) are invalid/expired.
-- **Resolution:**
-  1. Check Vercel logs for explicit error messages from the Notion adapter.
-  2. Check the status page for the Notion API.
-  3. Verify `NOTION_API_KEY` in Vercel environment variables.
-  4. (Recovery) The payload is lost by the frontend. Rely on n8n execution history to replay the webhook once resolved.
+New public Join records start:
 
-## Manual Recovery Path
+```text
+approvalStatus = needs_review
+profileStatus = draft
+sourceForm = funding_agent_join
+```
 
-If an automatic ingestion fails and cannot be replayed from n8n:
-1. Locate the submission in the Tally dashboard.
-2. Open Notion CRM.
-3. Manually create a new row using the `email` as the Merge Key.
-4. Fill in the data (Full Name, Agency Name, etc.).
-5. If the profile is fully approved and ready for public display, optionally follow the manual process to publish to the downstream Wix CMS `brokerProfiles` collection, ensuring `approvalStatus` and `isActive` flags correctly reflect the operational state.
+Public Join is create-only and cannot mutate an existing canonical identity.
+
+### Profile — `9qjWEE`
+
+Profile submissions enrich an existing canonical record and persist:
+
+```text
+sourceForm = funding_agent_profile
+```
+
+Public Profile enrichment resolves by normalized email and is allowed only while the record is `needs_review + draft`. It cannot create an orphan record, approve a partner, or publish a profile.
+
+### Public eligibility
+
+```text
+approvalStatus = approved
+AND
+profileStatus = published
+```
+
+## Common failures
+
+### 1. Signature rejected
+
+**Symptom:** `401 Invalid Tally webhook signature`.
+
+**Check:**
+- Vercel production `TALLY_SIGNING_SECRET` / compatibility `TALLY_WEBHOOK_SECRET`
+- the signing secret configured on the Tally webhook
+- that the raw request body is being sent unchanged
+
+Do not bypass signature verification in production.
+
+### 2. Unsupported form or mapping drift
+
+**Symptom:** `400 Unsupported or missing Tally form` or a required canonical field is empty.
+
+**Resolution:**
+1. Inspect the submission in Tally.
+2. Compare the live form/question UUIDs with `TALLY_FORM_MAPPINGS` in `lib/tally-webhook.ts`.
+3. Update the checked-in mapping and tests in a focused PR.
+4. Do not move normalization into n8n as a workaround.
+
+### 3. Missing merge key
+
+For Funding Agent identity creation/enrichment, normalized email is the public merge key. Trusted internal calls may also resolve by canonical `partnerId` or known submission ID.
+
+If email is missing or invalid, repair the form/mapping first. Do not create a second partner record manually unless canonical identity reconciliation has been performed.
+
+### 4. Notion persistence failure
+
+**Check:**
+- Vercel runtime logs
+- `NOTION_API_KEY`
+- `NOTION_BROKER_DATABASE_ID`
+- Notion API/service health
+- whether the live CRM still contains the canonical properties documented in `docs/FIELD_MAPPING_CONTRACT.md`
+
+The original Tally submission remains available in Tally for controlled replay/recovery. n8n execution history is not the canonical replay source.
+
+### 5. Identity conflict
+
+If multiple records resolve to different canonical `partnerId` values, the adapter fails with a conflict rather than silently choosing one. Resolve the duplicate records in Notion before replaying the submission.
+
+## Manual recovery
+
+1. Locate the original Tally submission.
+2. Identify the canonical partner by `Partner ID`, known submission ID, or normalized email.
+3. Inspect the existing Notion lifecycle state before changing anything.
+4. Preserve immutable `Partner ID`, `Referral Code`, `Slug`, and initial submission timestamp.
+5. Re-enter only missing/corrected values or replay through the trusted intake path.
+6. Do not manually mark a partner public unless the operator has explicitly approved the partner and set the profile to `published`.
+
+## Canonical references
+
+- `lib/partner-contract.ts`
+- `lib/tally-webhook.ts`
+- `lib/intake/funding-agent.ts`
+- `lib/notion.ts`
+- `docs/FIELD_MAPPING_CONTRACT.md`
+- `docs/TALLY_APPLICATION_SCHEMA.md`

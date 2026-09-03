@@ -1,20 +1,4 @@
-export type InternalStatus = 'pending' | 'in_review' | 'approved' | 'rejected';
-export type CanonicalProfileStatus = 'draft' | 'published' | 'hidden' | 'archived';
-export type CanonicalApprovalStatus = 'approved' | 'needs_review' | 'suspended' | 'rejected';
-
-export interface InternalCRMFields {
-  status: InternalStatus;
-  internalNotes?: string;
-  applicationDate: string;
-  tallySubmissionId: string;
-}
-
-export interface PublicWixFields {
-  featuredFlag: boolean;
-  brokerStatus: 'active' | 'hidden' | 'recruiting';
-  approvalStatus: 'pending' | 'approved' | 'rejected';
-  isActive: boolean;
-}
+import type { ApprovalStatus, ProfileStatus } from './partner-contract';
 
 export interface CanonicalBrokerProfile {
   fullName: string;
@@ -38,8 +22,8 @@ export interface CanonicalBrokerProfile {
   slug?: string;
   displayName?: string;
   title?: string;
-  profileStatus?: CanonicalProfileStatus;
-  approvalStatus?: CanonicalApprovalStatus;
+  profileStatus?: ProfileStatus;
+  approvalStatus?: ApprovalStatus;
   partnerType?: string;
   reviewReason?: string;
   specialties?: string[];
@@ -56,10 +40,4 @@ export interface CanonicalBrokerProfile {
   updatedAt?: string;
   publishedAt?: string;
   notionPageId?: string;
-}
-
-export interface FullyNormalizedBroker extends CanonicalBrokerProfile {
-  slug: string;
-  internal: InternalCRMFields;
-  publicWix: PublicWixFields;
 }

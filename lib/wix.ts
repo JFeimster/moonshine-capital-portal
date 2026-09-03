@@ -1,8 +1,8 @@
-import { BrokerProfile } from './types';
+import { BrokerProfile, type ApprovalStatus, type ProfileStatus } from './types';
 import { mockBrokers } from './mock-brokers';
 import { darwinProfileImage } from './profile-images';
 
-// Define expected Wix response structure
+// Optional downstream compatibility shape. Wix never defines canonical lifecycle state.
 interface WixBrokerResponse {
   _id: string;
   fullName: string;
@@ -23,11 +23,11 @@ interface WixBrokerResponse {
   featuredBroker?: boolean;
   featuredFlag?: boolean;
   profileImage?: unknown;
-  approvalStatus: 'approved' | 'pending' | 'rejected';
+  approvalStatus: ApprovalStatus | 'pending';
+  profileStatus?: ProfileStatus;
   brokerStatus?: 'active' | 'hidden' | 'recruiting';
   isActive: boolean;
   phoneNumber?: string;
-  // Raw Wix CTA fields if any, we'll map them
 }
 
 const WIX_API_URL = process.env.WIX_API_URL || '';
@@ -42,18 +42,15 @@ function isBrowserSafeImageUrl(value: unknown): value is string {
 }
 
 function normalizeProfileImage(profileImage: unknown, slug: string) {
-  if (slug === 'darwin-hanneman') {
-    return darwinProfileImage;
-  }
-
-  if (isBrowserSafeImageUrl(profileImage)) {
-    return profileImage;
-  }
-
+  if (slug === 'darwin-hanneman') return darwinProfileImage;
+  if (isBrowserSafeImageUrl(profileImage)) return profileImage;
   return undefined;
 }
 
-// Normalization function to ensure Wix data matches our frontend types
+function normalizeApprovalStatus(value: WixBrokerResponse['approvalStatus']): ApprovalStatus {
+  return value === 'pending' ? 'needs_review' : value;
+}
+
 function normalizeBroker(wixBroker: WixBrokerResponse): BrokerProfile {
   return {
     id: wixBroker._id,
@@ -66,26 +63,23 @@ function normalizeBroker(wixBroker: WixBrokerResponse): BrokerProfile {
     websiteUrl: wixBroker.websiteUrl,
     publicEmail: wixBroker.publicEmail,
     whyChooseYou: wixBroker.whyChooseYou,
-
     industries: wixBroker.industries || [],
     fundingTypes: wixBroker.fundingTypes || wixBroker.fundingSpecialties || [],
     urgencyCategory: wixBroker.urgencyCategory || 'standard',
-
     fundingSpecialties: wixBroker.fundingSpecialties || [],
     primaryCtaLink: wixBroker.primaryCtaLink,
     ctaLabel: wixBroker.ctaLabel,
     featuredBroker: wixBroker.featuredBroker,
     featuredFlag: wixBroker.featuredFlag || wixBroker.featuredBroker,
-
     primaryCta: {
       label: wixBroker.ctaLabel || 'Apply Now',
       url: wixBroker.primaryCtaLink || '#',
       variant: 'primary',
       trackingId: `broker_cta_${wixBroker._id}`
     },
-
     profileImage: normalizeProfileImage(wixBroker.profileImage, wixBroker.slug),
-    approvalStatus: wixBroker.approvalStatus,
+    approvalStatus: normalizeApprovalStatus(wixBroker.approvalStatus),
+    profileStatus: wixBroker.profileStatus,
     brokerStatus: wixBroker.brokerStatus || 'active',
     isActive: wixBroker.isActive !== undefined ? wixBroker.isActive : true,
     phoneNumber: wixBroker.phoneNumber,
@@ -93,7 +87,6 @@ function normalizeBroker(wixBroker: WixBrokerResponse): BrokerProfile {
 }
 
 export async function fetchWixBrokers(): Promise<BrokerProfile[]> {
-  // If no API credentials, fallback to mock data
   if (!WIX_API_URL || !WIX_API_KEY) {
     console.warn('WIX_API_URL or WIX_API_KEY not found. Falling back to mock data.');
     await new Promise(resolve => setTimeout(resolve, 500));
@@ -106,29 +99,22 @@ export async function fetchWixBrokers(): Promise<BrokerProfile[]> {
         'Authorization': `Bearer ${WIX_API_KEY}`,
         'Content-Type': 'application/json'
       },
-      next: { revalidate: 3600 } // ISR for 1 hour
+      next: { revalidate: 3600 }
     });
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch from Wix: ${res.statusText}`);
-    }
-
+    if (!res.ok) throw new Error(`Failed to fetch from Wix: ${res.statusText}`);
     const data: WixBrokerResponse[] = await res.json();
     return data.map(normalizeBroker);
   } catch (error) {
     console.error('Error fetching Wix brokers:', error);
-    // Fallback to mock data if fetch fails
     return mockBrokers.filter(b => b.approvalStatus === 'approved' && b.isActive);
   }
 }
 
 export async function fetchWixBrokerBySlug(slug: string): Promise<BrokerProfile | null> {
-  // If no API credentials, fallback to mock data
   if (!WIX_API_URL || !WIX_API_KEY) {
     console.warn('WIX_API_URL or WIX_API_KEY not found. Falling back to mock data.');
     await new Promise(resolve => setTimeout(resolve, 500));
-    const broker = mockBrokers.find(b => b.slug === slug && b.approvalStatus === 'approved' && b.isActive);
-    return broker || null;
+    return mockBrokers.find(b => b.slug === slug && b.approvalStatus === 'approved' && b.isActive) || null;
   }
 
   try {
@@ -140,19 +126,11 @@ export async function fetchWixBrokerBySlug(slug: string): Promise<BrokerProfile 
       },
       next: { revalidate: 3600 }
     });
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch from Wix: ${res.statusText}`);
-    }
-
+    if (!res.ok) throw new Error(`Failed to fetch from Wix: ${res.statusText}`);
     const data: WixBrokerResponse[] = await res.json();
-    if (data.length > 0) {
-      return normalizeBroker(data[0]);
-    }
-    return null;
+    return data.length > 0 ? normalizeBroker(data[0]) : null;
   } catch (error) {
     console.error(`Error fetching Wix broker with slug ${slug}:`, error);
-    const broker = mockBrokers.find(b => b.slug === slug && b.approvalStatus === 'approved' && b.isActive);
-    return broker || null;
+    return mockBrokers.find(b => b.slug === slug && b.approvalStatus === 'approved' && b.isActive) || null;
   }
 }
