@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import type { BrokerProfile } from '@/lib/types';
-import { buildPartnerLeadFormUrl, buildTrackedOutUrl } from '@/lib/distribution';
 
 export function PartnerIdentityStrip({ broker }: { broker: BrokerProfile }) {
   const name = broker.displayName || broker.fullName || 'Funding Advisor';
@@ -54,9 +53,9 @@ export function PartnerSiteHeader({ broker, active }: { broker: BrokerProfile; a
             ))}
           </nav>
           <div className="flex items-center gap-2">
-            <a href={buildPartnerLeadFormUrl(broker, { source: 'partner_site_header' })} className="btn-brutal-primary hidden sm:inline-flex text-xs px-4 py-2">Apply</a>
+            <Link href={`/${broker.slug}/apply`} className="btn-brutal-primary hidden sm:inline-flex text-xs px-4 py-2">Apply</Link>
             {broker.bookingUrl && (
-              <a href={buildTrackedOutUrl(broker, 'booking', { source: 'partner_site_header' })} className="btn-brutal hidden sm:inline-flex text-xs px-4 py-2">Book</a>
+              <Link href={`/${broker.slug}/book`} className="btn-brutal hidden sm:inline-flex text-xs px-4 py-2">Book</Link>
             )}
           </div>
         </div>
@@ -117,13 +116,10 @@ export function PartnerBreadcrumbs({ broker, items }: { broker: BrokerProfile; i
 }
 
 export function PartnerCTACluster({ broker, primaryLabel = 'Apply for Funding', secondaryLabel = 'Book with Me' }: { broker: BrokerProfile; primaryLabel?: string; secondaryLabel?: string }) {
-  const applyUrl = buildPartnerLeadFormUrl(broker, { source: 'partner_site_cta' });
-  const bookingUrl = broker.bookingUrl ? buildTrackedOutUrl(broker, 'booking', { source: 'partner_site_cta' }) : null;
-
   return (
     <div className="flex flex-wrap gap-3">
-      <a href={applyUrl} className="btn-brutal-primary">{primaryLabel}</a>
-      {bookingUrl && <a href={bookingUrl} className="btn-brutal">{secondaryLabel}</a>}
+      <Link href={`/${broker.slug}/apply`} className="btn-brutal-primary">{primaryLabel}</Link>
+      {broker.bookingUrl && <Link href={`/${broker.slug}/book`} className="btn-brutal">{secondaryLabel}</Link>}
     </div>
   );
 }

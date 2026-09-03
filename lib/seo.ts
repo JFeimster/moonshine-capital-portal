@@ -26,7 +26,7 @@ export function constructMetadata({
       url: canonical,
       siteName: SITE_CONFIG.publicBrand,
     },
-    ...(noindex ? { robots: { index: false, follow: false } } : {}),
+    ...(noindex ? { robots: { index: false, follow: true } } : {}),
   };
 }
 

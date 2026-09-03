@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getBrokerBySlug } from '@/lib/brokers';
-import { buildPartnerLeadFormUrl, buildTrackedOutUrl } from '@/lib/distribution';
+import { buildTrackedOutUrl } from '@/lib/distribution';
 import { getPartnerContactActions } from '@/lib/partner-site';
 import { PartnerBreadcrumbs, PartnerCTACluster, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 import { constructPartnerMetadata } from '@/lib/seo';
@@ -44,8 +44,8 @@ export default async function PartnerContactPage({ params }: { params: { slug: s
           <div className="border-4 border-neo-black bg-neo-black p-6 text-neo-white shadow-brutal">
               <h2 className="text-xl font-black uppercase tracking-tighter text-neo-yellow">Contact options</h2>
             <div className="mt-4 space-y-3 text-sm font-bold">
-                <a href={buildPartnerLeadFormUrl(broker, { source: 'partner_contact_page' })} className="block text-neo-green hover:text-neo-yellow">Apply for funding</a>
-                {contactActions.map((action) => <a key={action.kind} href={action.kind === 'booking' || action.kind === 'website' ? buildTrackedOutUrl(broker, action.kind, { source: 'partner_contact_page' }) : action.href} className="block text-neo-white hover:text-neo-yellow">{action.kind === 'booking' ? 'Book a call' : action.kind[0].toUpperCase() + action.kind.slice(1)}</a>)}
+                <a href={`/${broker.slug}/apply`} className="block text-neo-green hover:text-neo-yellow">Apply for funding</a>
+                {contactActions.filter((action) => action.kind !== 'booking').map((action) => <a key={action.kind} href={action.kind === 'website' ? buildTrackedOutUrl(broker, action.kind, { source: 'partner_contact_page' }) : action.href} className="block text-neo-white hover:text-neo-yellow">{action.kind[0].toUpperCase() + action.kind.slice(1)}</a>)}
             </div>
           </div>
         </div>

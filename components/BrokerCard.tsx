@@ -1,5 +1,4 @@
 import { BrokerProfile } from '@/lib/types';
-import { buildBrokerCtaHref } from '@/lib/broker-cta-routing';
 import { getPartnerDisplaySpecialties } from '@/lib/partner-personalization';
 import Link from 'next/link';
 import { Avatar } from './Avatar';
@@ -11,7 +10,6 @@ interface BrokerCardProps {
 export function BrokerCard({ broker }: BrokerCardProps) {
   const topSpecialties = getPartnerDisplaySpecialties(broker).slice(0, 2);
   const topIndustries = (broker.industries || []).slice(0, 2);
-  const ctaHref = buildBrokerCtaHref(broker, 'apply', 'directory');
   const location = [broker.city, broker.state].filter(Boolean).join(', ');
 
   return (
@@ -48,15 +46,9 @@ export function BrokerCard({ broker }: BrokerCardProps) {
         <Link href={`/${broker.slug}`} className="btn-brutal w-full bg-neo-black text-neo-white hover:bg-neo-black hover:text-neo-white border-2 border-neo-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all text-center">
           View Funding Site
         </Link>
-        <a
-          href={ctaHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-tracking-id={broker.primaryCta?.trackingId}
-          className="btn-brutal-primary w-full text-sm py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all text-center"
-        >
+        <Link href={`/${broker.slug}/apply`} className="btn-brutal-primary w-full text-sm py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all text-center">
           Apply
-        </a>
+        </Link>
       </div>
     </div>
   );

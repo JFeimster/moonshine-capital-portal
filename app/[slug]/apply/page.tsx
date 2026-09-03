@@ -1,8 +1,9 @@
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getBrokerBySlug } from '@/lib/brokers';
 import { buildPartnerLeadFormUrl, buildTrackedOutUrl } from '@/lib/distribution';
 import { constructMetadata } from '@/lib/seo';
+import { getPartnerDisplaySpecialties } from '@/lib/partner-site';
+import { PartnerBreadcrumbs, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const broker = await getBrokerBySlug(params.slug);
@@ -19,6 +20,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     title: `${broker.fullName} | Apply`,
     description: `Apply for funding through ${broker.fullName} and the Distilled Funding network.`,
     path: `/${broker.slug}/apply`,
+    noindex: true,
   });
 }
 
@@ -29,59 +31,54 @@ export default async function PartnerApplyPage({ params }: { params: { slug: str
   const applyUrl = buildTrackedOutUrl(broker, 'apply', { source: 'partner_apply_page' });
   const leadFormUrl = buildPartnerLeadFormUrl(broker, { source: 'partner_apply_page' });
 
+  const name = broker.displayName || broker.fullName;
+  const firstName = name.trim().split(/\s+/)[0];
+  const specialties = getPartnerDisplaySpecialties(broker);
+
   return (
-    <main className="bg-neo-white text-neo-black">
-      <section className="border-b-4 border-neo-black bg-neo-blue px-6 py-16 md:px-8 lg:px-12">
+    <main className="min-h-screen bg-neo-white text-neo-black">
+      <PartnerIdentityStrip broker={broker} />
+      <PartnerSiteHeader broker={broker} active="Apply" />
+      <section className="border-b-4 border-neo-black bg-neo-blue px-6 py-12 md:px-12 md:py-16">
         <div className="mx-auto max-w-7xl">
-          <Link href={`/${broker.slug}`} className="mb-6 inline-flex items-center gap-2 text-sm font-black uppercase tracking-[0.18em] text-neo-black hover:text-neo-blue">
-            ← Back to {broker.fullName}
-          </Link>
-          <span className="eyebrow mb-6 bg-neo-yellow">Partner application</span>
-          <h1 className="max-w-4xl text-5xl font-black uppercase tracking-tighter md:text-6xl">Apply for funding with {broker.fullName}.</h1>
-          <p className="mt-6 max-w-3xl text-xl font-bold leading-relaxed md:text-2xl">
-            Start with the business fundamentals, funding need, and timeline. The intake is built to keep attribution attached and move the conversation toward the right capital path.
-          </p>
+          <PartnerBreadcrumbs broker={broker} items={[{ label: 'Apply for Funding' }]} />
+          <span className="eyebrow mb-6 bg-neo-yellow">Start your funding request</span>
+          <h1 className="max-w-4xl text-5xl font-black uppercase tracking-tighter md:text-6xl">Apply for funding with {name}</h1>
+          <p className="mt-6 max-w-3xl text-xl font-bold leading-relaxed md:text-2xl">Start with the business fundamentals, funding amount, use of funds, and timing. Your request stays attributed to {name} while moving through the Distilled Funding capital network.</p>
         </div>
       </section>
-
       <section className="section-shell py-16 md:py-20">
         <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
           <div className="space-y-6">
             <div className="panel-block">
-              <h2 className="mb-5 text-3xl font-black uppercase tracking-tighter">What to expect</h2>
-              <ol className="space-y-4 text-lg font-bold leading-relaxed">
-                <li>1. Share your business details, funding need, and the deal you want to support.</li>
-                <li>2. The intake preserves the referral and partner attribution tied to this advisor.</li>
-                <li>3. A funding agent or review team will assess fit and the next step without creating needless friction.</li>
-              </ol>
-            </div>
-
-            <div className="panel-block">
-              <h2 className="mb-5 text-3xl font-black uppercase tracking-tighter">Typical info requested</h2>
-              <ul className="space-y-3 text-base font-medium leading-relaxed">
-                <li>• Business name, contact details, and ownership basics</li>
-                <li>• Funding amount and use case</li>
-                <li>• Revenue or operating metrics relevant to the request</li>
-                <li>• Time sensitivity and the reason the capital is needed</li>
+              <h2 className="mb-5 text-3xl font-black uppercase tracking-tighter">What you&apos;ll need</h2>
+              <ul className="space-y-3 text-lg font-bold leading-relaxed">
+                <li>Business information</li><li>Funding amount</li><li>Use of funds</li><li>Revenue / operating history</li><li>Timeline</li>
               </ul>
             </div>
-          </div>
-
-          <div className="panel-block bg-neo-black text-neo-white border-neo-white">
-            <h2 className="mb-5 text-3xl font-black uppercase tracking-tighter text-neo-yellow">Start the review</h2>
-            <div className="space-y-4">
-              <a href={leadFormUrl} className="btn-brutal-primary block w-full bg-neo-yellow text-neo-black">Open Funding Intake</a>
-              <a href={applyUrl} className="btn-brutal-dark block w-full">Continue to Application</a>
-              {broker.bookingUrl && (
-                <a href={buildTrackedOutUrl(broker, 'booking', { source: 'partner_apply_page' })} className="btn-brutal block w-full bg-neo-white text-neo-black">Book a Call</a>
-              )}
+            <div className="panel-block">
+              <h2 className="mb-5 text-3xl font-black uppercase tracking-tighter">What happens next</h2>
+              <ol className="space-y-4 text-lg font-bold leading-relaxed">
+                <li><span className="text-neo-blue">01</span> Submit business fundamentals</li>
+                <li><span className="text-neo-blue">02</span> Partner attribution remains attached</li>
+                <li><span className="text-neo-blue">03</span> Funding team reviews possible capital paths</li>
+                <li><span className="text-neo-blue">04</span> You receive the next practical step</li>
+              </ol>
             </div>
-            <p className="mt-5 text-sm font-medium leading-relaxed text-neo-white/75">
-              Approvals are case-by-case and not guaranteed. The goal is to qualify the path and keep the next move practical.
-            </p>
+          </div>
+          <div className="panel-block border-neo-white bg-neo-black text-neo-white">
+            <h2 className="mb-5 text-3xl font-black uppercase tracking-tighter text-neo-yellow">Choose your path</h2>
+            <div className="space-y-4">
+              <a href={leadFormUrl} className="btn-brutal-primary block w-full bg-neo-yellow text-neo-black">Start Funding Intake</a>
+              <a href={applyUrl} className="btn-brutal-dark block w-full">Continue to Application</a>
+              {broker.bookingUrl && <a href={`/${broker.slug}/book`} className="btn-brutal block w-full bg-neo-white text-neo-black">Talk to {firstName} First</a>}
+            </div>
+            {specialties.length > 0 && <p className="mt-5 text-sm font-medium leading-relaxed text-neo-white/75">Your request can include context about {specialties.slice(0, 2).join(' and ').toLowerCase()}.</p>}
+            <p className="mt-5 text-sm font-medium leading-relaxed text-neo-white/75">Approvals, terms, and availability are case-by-case and depend on provider underwriting and applicant qualifications.</p>
           </div>
         </div>
       </section>
+      <PartnerSiteFooter broker={broker} />
     </main>
   );
 }

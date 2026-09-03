@@ -69,7 +69,7 @@ export default async function PartnerAboutPage({ params }: { params: { slug: str
                 {broker.publicEmail && <a href={`mailto:${broker.publicEmail}`} className="block hover:text-neo-yellow">{broker.publicEmail}</a>}
                 {broker.phoneNumber && <a href={`tel:${broker.phoneNumber}`} className="block hover:text-neo-yellow">{broker.phoneNumber}</a>}
                 {broker.websiteUrl && <a href={broker.websiteUrl} className="block hover:text-neo-yellow">Website</a>}
-                {broker.bookingUrl && <a href={broker.bookingUrl} className="block hover:text-neo-yellow">Book a call</a>}
+                {broker.bookingUrl && <Link href={`/${broker.slug}/book`} className="block hover:text-neo-yellow">Book a call</Link>}
                 {location && <p className="pt-2 text-neo-white/70">{location}</p>}
               </div>
             </div>

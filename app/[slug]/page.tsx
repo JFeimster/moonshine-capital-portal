@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { getBrokerBySlug, getBrokers } from '@/lib/brokers';
 import { getFeaturedRegistryItems, getRegistryDestination, getToolsForBroker } from '@/lib/embed-registry';
 import { BrokerUtilitySection } from '@/components/BrokerUtilitySection';
-import { buildPartnerLeadFormUrl, buildTrackedOutUrl, AttributionContext } from '@/lib/distribution';
+import { AttributionContext, buildTrackedOutUrl } from '@/lib/distribution';
 import { buildBrokerCtaHref } from '@/lib/broker-cta-routing';
 import { constructPartnerMetadata } from '@/lib/seo';
 import { generatePartnerSchema } from '@/lib/schema';
@@ -62,11 +62,8 @@ export default async function PublicFundingPage({
   const specialties = getPartnerDisplaySpecialties(broker);
   const industries = broker.industries || [];
   const markets = broker.markets || [];
-  const applyFallback = buildTrackedOutUrl(broker, 'apply', context);
-  const applyUrl = buildBrokerCtaHref(broker, 'apply', 'partner_funding_page', applyFallback);
-  const leadFormUrl = buildPartnerLeadFormUrl(broker, context);
-  const bookingFallback = broker.bookingUrl ? buildTrackedOutUrl(broker, 'booking', context) : null;
-  const bookingUrl = bookingFallback ? buildBrokerCtaHref(broker, 'booking', 'partner_funding_page', bookingFallback) : null;
+  const applyUrl = `/${broker.slug}/apply`;
+  const bookingUrl = broker.bookingUrl ? `/${broker.slug}/book` : null;
   const websiteFallback = broker.websiteUrl ? buildTrackedOutUrl(broker, 'website', context) : null;
   const websiteUrl = websiteFallback ? buildBrokerCtaHref(broker, 'website', 'partner_funding_page', websiteFallback) : null;
   const brokerTools = await getToolsForBroker(broker.slug);
@@ -103,7 +100,7 @@ export default async function PublicFundingPage({
             <p className="mt-4 text-lg font-bold max-w-3xl leading-snug">Tell us what you need. We route the opportunity through the funding process and help you identify a practical next step without making you chase twenty different forms.</p>
             <div className="mt-8 flex flex-wrap gap-4">
               <a href={applyUrl} className="inline-flex items-center justify-center bg-neo-black text-neo-white border-4 border-neo-black px-7 py-4 font-black uppercase tracking-wide shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">Apply for Funding</a>
-              {bookingUrl && <a href={bookingUrl} className="inline-flex items-center justify-center bg-neo-white border-4 border-neo-black px-7 py-4 font-black uppercase tracking-wide shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">Book a Call</a>}
+              {bookingUrl && <Link href={bookingUrl} className="inline-flex items-center justify-center bg-neo-white border-4 border-neo-black px-7 py-4 font-black uppercase tracking-wide shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">Book a Call</Link>}
             </div>
             <p className="mt-4 text-sm font-bold text-neo-black/65">No funding guarantee. No need to enter a referral code; attribution is already attached to this page.</p>
           </div>
@@ -122,7 +119,7 @@ export default async function PublicFundingPage({
             <div className="mt-6 space-y-2 text-sm font-bold">
               {broker.publicEmail && <a className="block text-neo-green hover:underline" href={`mailto:${broker.publicEmail}`}>{broker.publicEmail}</a>}
               {broker.phoneNumber && <a className="block hover:underline" href={`tel:${broker.phoneNumber}`}>{broker.phoneNumber}</a>}
-              {bookingUrl && <a className="block text-neo-green hover:underline" href={bookingUrl}>Book with {name}</a>}
+              {bookingUrl && <Link className="block text-neo-green hover:underline" href={bookingUrl}>Book with {name}</Link>}
               <Link className="block hover:underline" href={`/${broker.slug}/about`}>About {name}</Link>
               <Link className="block hover:underline" href={`/${broker.slug}/contact`}>Contact {name}</Link>
               {websiteUrl && <a className="block hover:underline" href={websiteUrl}>Partner website ↗</a>}
@@ -165,7 +162,7 @@ export default async function PublicFundingPage({
             <div className="text-sm font-black uppercase tracking-[0.2em] text-neo-blue">One intake. Clear next step.</div>
             <h2 className="font-black uppercase tracking-tighter text-4xl md:text-5xl mt-3">Start the funding conversation.</h2>
             <p className="mt-5 text-lg font-bold max-w-xl">The intake captures the business fundamentals needed for an initial funding review and keeps this partner attached automatically.</p>
-            <a href={leadFormUrl} className="mt-7 inline-flex bg-neo-blue text-white border-4 border-neo-black px-6 py-4 font-black uppercase shadow-brutal">Open Secure Funding Intake ↗</a>
+            <Link href={applyUrl} className="mt-7 inline-flex bg-neo-blue text-white border-4 border-neo-black px-6 py-4 font-black uppercase shadow-brutal">Open Secure Funding Intake</Link>
           </div>
           <div className="border-4 border-neo-black bg-neo-cream p-7 shadow-brutal">
             <h3 className="font-black uppercase text-2xl">What happens next</h3>
