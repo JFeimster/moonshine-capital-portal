@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { sendPartnerApplication } from '@/lib/partner-crm-ingest';
 import { upsertFundingLead } from '@/lib/funding-leads';
 import { processFundingAgentJoin, processFundingAgentProfile } from '@/lib/intake/funding-agent';
 import {
@@ -100,6 +101,19 @@ export async function POST(request: Request) {
   try {
     if (submission.kind === 'funding_agent_join') {
       const result = await processFundingAgentJoin(agentJoinPayload(submission), { publicCreateOnly: true });
+      if (result.status >= 200 && result.status < 300) {
+        try {
+          await sendPartnerApplication({
+            source: 'tally', submission_id: submission.submissionId,
+            form_id: submission.formId,
+            email: asString(submission.fields.email),
+            name: asString(submission.fields.fullName),
+            applicant_type: 'funding_agent'
+          });
+        } catch (error) {
+          console.error('Partner CRM secondary ingest failed', { submissionId: submission.submissionId, message: error instanceof Error ? error.message : 'Unknown error' });
+        }
+      }
       return NextResponse.json({
         ...result.body,
         source: 'tally_webhook',
