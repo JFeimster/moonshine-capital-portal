@@ -1,71 +1,40 @@
 import Link from 'next/link';
 import type { BrokerProfile } from '@/lib/types';
 
-export function PartnerIdentityStrip({ broker }: { broker: BrokerProfile }) {
-  const name = broker.displayName || broker.fullName || 'Funding Advisor';
-  const company = broker.companyName || broker.agencyName || '';
-  const location = [broker.city, broker.state].filter(Boolean).join(', ');
-
-  return (
-    <div className="border-b-4 border-neo-black bg-neo-cream">
-      <div className="mx-auto max-w-7xl px-6 py-4 md:px-12">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-neo-blue">Funding Advisor</p>
-            <div className="mt-1 text-xl font-black uppercase tracking-tight">{name}</div>
-            {company && <div className="text-sm font-bold text-neo-black/70">{company}</div>}
-          </div>
-          {location && <div className="text-sm font-bold uppercase tracking-[0.14em]">{location}</div>}
-        </div>
-      </div>
-    </div>
-  );
+// Kept as a compatibility component for existing partner routes; no duplicate identity bar.
+export function PartnerIdentityStrip({ broker: _broker }: { broker: BrokerProfile }) {
+  return null;
 }
 
 export function PartnerSiteHeader({ broker, active }: { broker: BrokerProfile; active?: string }) {
   const navItems = [
-    { label: 'Home', href: `/${broker.slug}` },
-    { label: 'Funding', href: `/${broker.slug}/funding` },
-    { label: 'Industries', href: `/${broker.slug}/industries` },
-    { label: 'Solutions', href: `/${broker.slug}/campaign` },
-    { label: 'Tools', href: `/${broker.slug}/tools` },
-    { label: 'Resources', href: `/${broker.slug}/resources` },
-    { label: 'About', href: `/${broker.slug}/about` },
+    { label: 'Home', href: '/' + broker.slug },
+    { label: 'Funding', href: '/funding' },
+    { label: 'Tools', href: '/' + broker.slug + '/tools' },
+    { label: 'Resources', href: '/' + broker.slug + '/resources' },
+    { label: 'About', href: '/' + broker.slug + '/about' },
   ];
 
   return (
-    <header className="border-b-4 border-neo-black bg-neo-white/95 backdrop-blur-sm sticky top-0 z-40">
-      <div className="mx-auto max-w-7xl px-4 md:px-12">
-        <div className="flex items-center justify-between gap-3 py-3 md:py-4">
-          <Link href={`/${broker.slug}`} className="min-w-0">
-            <div className="text-base font-black uppercase tracking-tight md:text-xl">{broker.displayName || broker.fullName}</div>
-            {broker.companyName && <div className="text-[10px] font-black uppercase tracking-[0.18em] text-neo-black/65">{broker.companyName}</div>}
-          </Link>
-          <nav className="hidden flex-wrap items-center justify-center gap-2 lg:flex">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`px-2.5 py-2 text-[10px] font-black uppercase tracking-[0.18em] transition-colors ${active === item.label ? 'bg-neo-yellow border border-neo-black' : 'hover:text-neo-blue'}`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="flex items-center gap-2">
-            <Link href={`/${broker.slug}/apply`} className="btn-brutal-primary hidden sm:inline-flex text-xs px-4 py-2">Apply</Link>
-            {broker.bookingUrl && (
-              <Link href={`/${broker.slug}/book`} className="btn-brutal hidden sm:inline-flex text-xs px-4 py-2">Book</Link>
-            )}
-          </div>
-        </div>
-        <nav aria-label="Partner site navigation" className="flex gap-1 overflow-x-auto border-t-2 border-neo-black/15 py-2 lg:hidden">
-          {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className={`shrink-0 whitespace-nowrap px-2 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] ${active === item.label ? 'border-2 border-neo-black bg-neo-yellow' : 'border-2 border-transparent hover:border-neo-black'}`}>
-              {item.label}
-            </Link>
-          ))}
+    <header className="sticky top-0 z-40 border-b-[3px] border-neo-black bg-neo-white text-neo-black">
+      <div className="section-shell flex min-h-[70px] items-center justify-between gap-3 py-2">
+        <Link href={'/' + broker.slug} className="min-w-0 shrink-0 leading-tight">
+          <span className="block text-base font-black uppercase tracking-tight md:text-lg">{broker.displayName || broker.fullName}</span>
+          <span className="block truncate text-[11px] font-bold text-neo-black/60">{broker.companyName || broker.agencyName || 'Funding Advisor'}</span>
+        </Link>
+        <nav aria-label="Advisor site navigation" className="hidden items-center gap-4 lg:flex">
+          {navItems.map(item => <Link key={item.href} href={item.href} aria-current={active === item.label ? 'page' : undefined} className={'whitespace-nowrap text-[11px] font-black uppercase tracking-[0.07em] transition-colors hover:text-neo-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neo-blue ' + (active === item.label ? 'border-b-4 border-neo-yellow' : '')}>{item.label}</Link>)}
         </nav>
+        <div className="ml-auto flex shrink-0 items-center gap-2 lg:ml-0">
+          <Link href={'/' + broker.slug + '/apply'} className="btn-brutal-primary px-3 py-2 text-xs tracking-normal sm:px-4">Apply</Link>
+          <details className="relative lg:hidden">
+            <summary className="cursor-pointer list-none border-2 border-neo-black bg-neo-cream px-3 py-2 text-xs font-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neo-blue">Menu ☰</summary>
+            <nav aria-label="Advisor mobile navigation" className="absolute right-0 top-full z-50 mt-2 w-56 border-[3px] border-neo-black bg-neo-white p-2 shadow-brutal">
+              {navItems.map(item => <Link key={item.href} href={item.href} aria-current={active === item.label ? 'page' : undefined} className={'block border-b border-neo-black/15 px-3 py-3 text-xs font-black uppercase focus-visible:outline focus-visible:outline-2 focus-visible:outline-neo-blue ' + (active === item.label ? 'bg-neo-yellow' : '')}>{item.label}</Link>)}
+              <Link href={'/' + broker.slug + '/contact'} aria-current={active === 'Contact' ? 'page' : undefined} className={'block px-3 py-3 text-xs font-black uppercase focus-visible:outline focus-visible:outline-2 focus-visible:outline-neo-blue ' + (active === 'Contact' ? 'bg-neo-yellow' : '')}>Contact</Link>
+            </nav>
+          </details>
+        </div>
       </div>
     </header>
   );

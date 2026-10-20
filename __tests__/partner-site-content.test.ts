@@ -87,8 +87,12 @@ describe('partner site content adapter', () => {
   });
 
   it('reads tools and resources from the shared registry', async () => {
-    const tool = await getPartnerTool('the-premium-finance-gap-calculator');
+    const tool = await getPartnerTool('the-amazon-payout-bridge-predictor');
     expect(tool?.title).toBeTruthy();
+    expect(tool?.status).toBe('active');
+    expect(getRegistryDestination(tool!)).not.toBe('#');
+
+    expect(await getPartnerTool('the-premium-finance-gap-calculator')).toBeNull();
 
     const resource = await getPartnerResource('the-premium-finance-gap-calculator');
     expect(resource).toBeNull();

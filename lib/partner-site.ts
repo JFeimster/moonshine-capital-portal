@@ -156,24 +156,39 @@ export function getPartnerIndustryPage(slug: string): PartnerIndustryPage | null
   return listPartnerIndustryPages().find((page) => page.slug === slug) ?? null;
 }
 
+export function listStructuredPartnerResources(): PartnerResourcePage[] {
+  return resourceEntries.filter((entry) => entry.slug);
+}
+
+export function getPartnerResourceSummary(resource: PartnerResourcePage): string {
+  const focusItems = resource.sections.flatMap((section) => section.items ?? []).filter(Boolean).slice(0, 3);
+  if (focusItems.length) return focusItems.join(' · ');
+  return resource.sections.find((section) => section.body)?.body || resource.summary || resource.description;
+}
+
 export async function listPartnerToolPages(): Promise<ToolRegistryItem[]> {
   return (await getToolsByKind('tool')).filter((tool) => tool.accessLevel === 'public' && getRegistryDestination(tool) !== '#').slice(0, 12);
 }
 
 export async function getPartnerTool(slug: string): Promise<ToolRegistryItem | null> {
-  return getToolBySlug(slug);
+  const item = await getToolBySlug(slug);
+  if (!item || item.status !== 'active' || item.accessLevel !== 'public' || getRegistryDestination(item) === '#') return null;
+  return item;
 }
 
 export async function listPartnerResourcePages(): Promise<Array<PartnerResourcePage | ToolRegistryItem>> {
-  const structured = resourceEntries.filter((entry) => entry.slug);
-  return [...structured, ...(await getToolsByKind('resource')).slice(0, 10)];
+  const structured = listStructuredPartnerResources();
+  const registryResources = (await getToolsByKind('resource'))
+    .filter((item) => item.accessLevel === 'public' && getRegistryDestination(item) !== '#')
+    .slice(0, 10);
+  return [...structured, ...registryResources];
 }
 
 export async function getPartnerResource(slug: string): Promise<PartnerResourcePage | ToolRegistryItem | null> {
   const structured = resourceEntries.find((entry) => entry.slug === slug);
   if (structured) return structured;
   const item = await getToolBySlug(slug);
-  if (!item || item.kind !== 'resource') return null;
+  if (!item || item.kind !== 'resource' || item.status !== 'active' || item.accessLevel !== 'public' || getRegistryDestination(item) === '#') return null;
   return item;
 }
 

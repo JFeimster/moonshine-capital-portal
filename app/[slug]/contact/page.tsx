@@ -32,7 +32,7 @@ export default async function PartnerContactPage({ params }: { params: { slug: s
     <main className="min-h-screen bg-neo-white text-neo-black">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumb) }} />
       <PartnerIdentityStrip broker={broker} />
-      <PartnerSiteHeader broker={broker} active="About" />
+      <PartnerSiteHeader broker={broker} active="Contact" />
 
       <section className="mx-auto max-w-7xl px-6 py-12 md:px-12 md:py-16">
         <PartnerBreadcrumbs broker={broker} items={[{ label: 'Contact' }]} />

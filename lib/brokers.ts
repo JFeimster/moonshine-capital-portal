@@ -37,7 +37,8 @@ function persistedToBroker(partner: any): BrokerProfile {
     brokerStatus: 'active',
     isActive: true,
     phoneNumber: partner.phoneNumber,
-    featuredFlag: false
+    featuredFlag: Boolean(partner.featuredFlag ?? partner.featuredBroker ?? partner.featured),
+    featuredBroker: Boolean(partner.featuredFlag ?? partner.featuredBroker ?? partner.featured)
   };
 }
 

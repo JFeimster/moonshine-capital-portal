@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getBrokerBySlug } from '@/lib/brokers';
 import { getPartnerTool } from '@/lib/partner-site';
+import { getRegistryTrackedHref } from '@/lib/embed-registry';
 import { PartnerBreadcrumbs, PartnerCTACluster, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 import { buildPartnerLeadFormUrl } from '@/lib/distribution';
 import { constructPartnerMetadata } from '@/lib/seo';
@@ -51,7 +52,7 @@ export default async function PartnerToolDetailPage({ params }: { params: { slug
 
         <div className="mt-8 flex flex-wrap gap-3">
           <a href={applyUrl} className="btn-brutal-primary">Apply for Funding</a>
-          {tool.ctaHref ? <a href={tool.ctaHref} className="btn-brutal">Open Tool</a> : <Link href={`/${broker.slug}/tools`} className="btn-brutal">Back to Tools</Link>}
+          {getRegistryTrackedHref(tool) !== '#' ? <a href={getRegistryTrackedHref(tool)} className="btn-brutal">{tool.ctaLabel}</a> : <Link href={`/${broker.slug}/tools`} className="btn-brutal">Back to Tools</Link>}
         </div>
 
         <div className="mt-10 grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
