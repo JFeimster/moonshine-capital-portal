@@ -8,6 +8,7 @@ interface ToolGridProps {
   emptyCopy?: string;
   emptyMessage?: string;
   useTrackedPrimaryActions?: boolean;
+  showDetails?: boolean;
 }
 
 export function ToolGrid({
@@ -17,6 +18,7 @@ export function ToolGrid({
   emptyCopy,
   emptyMessage,
   useTrackedPrimaryActions = false,
+  showDetails = true,
 }: ToolGridProps) {
   const resolvedEmptyCopy =
     emptyMessage || emptyCopy || 'Add tools to the registry so this page becomes useful instead of decorative.';
@@ -35,12 +37,12 @@ export function ToolGrid({
       {title && (
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-black uppercase tracking-tight">{title}</h2>
-          <span className="text-sm font-black uppercase text-neo-black/60">{tools.length} loaded</span>
+          <span className="text-sm font-black uppercase text-neo-black/60">{tools.length} {tools.length === 1 ? 'item' : 'items'}</span>
         </div>
       )}
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
         {tools.map((tool) => (
-          <ToolCard key={tool.id} tool={tool} useTrackedPrimaryAction={useTrackedPrimaryActions} />
+          <ToolCard key={tool.id} tool={tool} useTrackedPrimaryAction={useTrackedPrimaryActions} showDetails={showDetails} />
         ))}
       </div>
     </section>

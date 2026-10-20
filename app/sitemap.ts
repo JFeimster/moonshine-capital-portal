@@ -2,16 +2,13 @@ import type { MetadataRoute } from 'next';
 import { getBrokers } from '@/lib/brokers';
 import { getRegistryDestination, getToolsByKind } from '@/lib/embed-registry';
 import { listPartnerCampaigns, listPartnerFundingPages, listPartnerIndustryPages, listPartnerResourcePages } from '@/lib/partner-site';
+import { getPublicProductFamilies } from '@/lib/funding-registry';
 import { getCanonicalPartnerUrl, getCanonicalUrl } from '@/lib/site-config';
 
 export const dynamic = 'force-dynamic';
 
-function slugify(value: string) {
-  return value.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-}
-
 export async function buildSitemapUrls(): Promise<MetadataRoute.Sitemap> {
-  const brokers = await getBrokers();
+  const [brokers, fundingFamilies] = await Promise.all([getBrokers(), getPublicProductFamilies()]);
   const staticPaths = [
     '/',
     '/about',
@@ -22,20 +19,15 @@ export async function buildSitemapUrls(): Promise<MetadataRoute.Sitemap> {
     '/apply',
     '/apply/fast',
     '/apply/quote',
+    '/funding',
+    '/tools',
+    '/resources',
+    '/how-it-works',
     '/onboarding',
     '/industries',
-    '/funding-types',
     '/terms',
     '/privacy',
   ];
-
-  const industries = new Set<string>();
-  const fundingTypes = new Set<string>();
-  brokers.forEach((broker) => {
-    broker.industries?.forEach((value) => industries.add(slugify(value)));
-    const types = broker.fundingTypes?.length ? broker.fundingTypes : broker.fundingSpecialties || [];
-    types.forEach((value) => fundingTypes.add(slugify(value)));
-  });
 
   const urls: MetadataRoute.Sitemap = [
     ...staticPaths.map((path) => ({ url: getCanonicalUrl(path) })),
@@ -56,8 +48,9 @@ export async function buildSitemapUrls(): Promise<MetadataRoute.Sitemap> {
       { url: getCanonicalUrl(`/${broker.slug}/campaign`) },
       ...campaigns.map((campaign) => ({ url: getCanonicalUrl(`/${broker.slug}/campaign/${campaign.slug}`) })),
     ]),
-    ...Array.from(industries).map((slug) => ({ url: getCanonicalUrl(`/industries/${slug}`) })),
-    ...Array.from(fundingTypes).map((slug) => ({ url: getCanonicalUrl(`/funding-types/${slug}`) })),
+    ...listPartnerIndustryPages().map((industry) => ({ url: getCanonicalUrl(`/industries/${industry.slug}`) })),
+    ...fundingFamilies.map((family) => ({ url: getCanonicalUrl(`/funding/${family.slug}`) })),
+    ...(await listPartnerResourcePages()).map((resource) => ({ url: getCanonicalUrl(`/resources/${resource.slug}`) })),
   ];
 
   const resources = (await listPartnerResourcePages()).filter((resource) => 'sections' in resource || (resource.status === 'active' && resource.accessLevel === 'public' && getRegistryDestination(resource) !== '#'));

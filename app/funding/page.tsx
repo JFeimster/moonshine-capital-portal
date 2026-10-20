@@ -1,206 +1,118 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import {
-  getFundingHubPage,
-  getPublicProductFamilies,
-  getFundingTools,
-} from '@/lib/funding-registry';
+import { FundingFamilyCard } from '@/components/FundingFamilyCard';
+import { PublicBreadcrumbs } from '@/components/PublicBreadcrumbs';
+import { ToolGrid } from '@/components/portal/ToolGrid';
+import { constructMetadata } from '@/lib/seo';
+import { SITE_CONFIG } from '@/lib/site-config';
+import { getFundingHubPage, getFundingTools, getPublicProductFamilies } from '@/lib/funding-registry';
 
 export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getFundingHubPage();
-  if (!page) {
-    return {
-      title: 'Business Funding Options | Moonshine Capital',
-      description: 'Compare funding lanes, qualification basics, tools, and next steps.',
-    };
-  }
-
-  return {
-    title: page.seo.title,
-    description: page.seo.description,
-    openGraph: {
-      title: page.seo.ogTitle || page.seo.title,
-      description: page.seo.ogDescription || page.seo.description,
-    },
-  };
+  return constructMetadata({
+    title: page?.seo.title || 'Business Funding Options | Distilled Funding',
+    description: page?.seo.description || 'Explore business funding categories, preparation guides, and next steps.',
+    path: page?.seo.canonical || '/funding',
+  });
 }
 
 export default async function FundingPage() {
-  const page = await getFundingHubPage();
-  const productFamilies = await getPublicProductFamilies();
+  const [page, productFamilies] = await Promise.all([getFundingHubPage(), getPublicProductFamilies()]);
   const tools = await getFundingTools(page?.dataRefs?.featuredToolIds);
-
-  const hero = page?.hero || {
-    eyebrow: 'Moonshine Capital Funding Paths',
-    headline: 'Find the capital lane that fits your needs.',
-    subheadline: 'Compare funding options by speed, credit profile, revenue, and documentation burden.',
-    primaryCta: {
-      label: 'Get a Funding Quote',
-      href: 'https://tally.so/r/mDEJB5',
-    },
-    secondaryCta: {
-      label: 'Funding for Any Reason',
-      href: 'https://tally.so/r/w4R2Ad',
+  const title = page?.hero.headline || 'Explore funding options by business need.';
+  const description = page?.hero.subheadline || 'Review common uses, preparation points, and qualification guides before choosing a next step.';
+  const disclaimer = page?.compliance?.disclaimer || 'Funding availability, terms, and eligibility vary by provider and applicant profile. Registry guide values are informational; no approval or funding outcome is guaranteed.';
+  const origin = SITE_CONFIG.canonicalOrigin;
+  const collectionSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: title,
+    description,
+    url: `${origin}/funding`,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: productFamilies.map((family, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: family.publicName || family.name,
+        url: `${origin}/funding/${family.slug}`,
+      })),
     },
   };
 
-  const disclaimer =
-    page?.compliance?.disclaimer ||
-    'Funding availability, terms, speed, and eligibility vary by provider, applicant profile, documentation, and underwriting review. No approval or funding outcome is guaranteed.';
-
   return (
-    <main className="min-h-screen bg-black text-white px-4 py-12 md:px-8 max-w-7xl mx-auto">
-      {/* Hero Section */}
-      <section className="border-4 border-white bg-neutral-900 p-8 md:p-12 mb-12 shadow-[8px_8px_0px_0px_rgba(255,255,255,1)]">
-        <div className="inline-block bg-yellow-400 text-black px-3 py-1 font-bold text-xs uppercase tracking-wider mb-4 border-2 border-black">
-          {hero.eyebrow}
-        </div>
-        <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-tight uppercase">
-          {hero.headline}
-        </h1>
-        <p className="text-xl text-neutral-300 max-w-3xl mb-8 leading-relaxed">
-          {hero.subheadline}
-        </p>
-
-        <div className="flex flex-wrap gap-4">
-          {hero.primaryCta?.href && (
-            <a
-              href={hero.primaryCta.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-yellow-400 text-black font-black px-8 py-4 uppercase tracking-wider border-2 border-black hover:bg-yellow-300 transition-colors shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
-            >
-              {hero.primaryCta.label}
-            </a>
-          )}
-          {hero.secondaryCta?.href && (
-            <a
-              href={hero.secondaryCta.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-neutral-800 text-white font-bold px-8 py-4 uppercase tracking-wider border-2 border-white hover:bg-neutral-700 transition-colors shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
-            >
-              {hero.secondaryCta.label}
-            </a>
-          )}
-        </div>
-      </section>
-
-      {/* Product Families Grid Section */}
-      <section className="mb-16">
-        <div className="flex items-center justify-between mb-8 border-b-4 border-white pb-4">
-          <h2 className="text-3xl font-black uppercase">Funding Lanes</h2>
-          <span className="text-yellow-400 font-bold">{productFamilies.length} Lanes Available</span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {productFamilies.map((family) => (
-            <div
-              key={family.id}
-              className="border-2 border-white bg-neutral-900 p-6 flex flex-col justify-between hover:border-yellow-400 transition-colors shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
-            >
-              <div>
-                <div className="flex justify-between items-start mb-3">
-                  <span className="text-xs font-bold uppercase bg-neutral-800 px-2 py-1 text-neutral-300 border border-neutral-700">
-                    {family.category}
-                  </span>
-                  {family.speedProfile && (
-                    <span className="text-xs font-bold text-yellow-400">
-                      ⚡ {family.speedProfile}
-                    </span>
-                  )}
-                </div>
-
-                <h3 className="text-2xl font-black mb-3">{family.publicName || family.name}</h3>
-                <p className="text-neutral-400 text-sm mb-6 line-clamp-3">{family.summary}</p>
-
-                {/* Qualification Signals */}
-                <div className="bg-black p-4 border border-neutral-800 mb-6 space-y-2 text-xs">
-                  <div className="text-neutral-400 font-bold uppercase text-[10px] tracking-wider mb-1">
-                    Qualification Signals
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-neutral-400">Min Credit:</span>
-                    <span className="font-bold">
-                      {family.qualificationSignals?.minCreditScoreGuide
-                        ? `${family.qualificationSignals.minCreditScoreGuide}+`
-                        : 'N/A'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-neutral-400">Min Monthly Rev:</span>
-                    <span className="font-bold">
-                      {family.qualificationSignals?.minMonthlyRevenueGuide
-                        ? `$${family.qualificationSignals.minMonthlyRevenueGuide.toLocaleString()}`
-                        : 'N/A'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-neutral-400">Time in Business:</span>
-                    <span className="font-bold">
-                      {family.qualificationSignals?.minTimeInBusinessMonthsGuide !== undefined
-                        ? `${family.qualificationSignals.minTimeInBusinessMonthsGuide} mos`
-                        : 'N/A'}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <Link
-                href={`/funding/${family.slug}`}
-                className="block text-center bg-white text-black font-black py-3 uppercase tracking-wider hover:bg-yellow-400 transition-colors border border-black"
-              >
-                Explore Lane →
-              </Link>
+    <main className="min-h-screen bg-neo-white text-neo-black">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }} />
+      <section className="border-b-4 border-neo-black bg-neo-black px-4 py-9 text-neo-white md:px-6 md:py-11 lg:px-8">
+        <div className="section-shell">
+          <PublicBreadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Funding' }]} />
+          <div className="grid items-end gap-6 lg:grid-cols-[minmax(0,1fr)_auto]">
+            <div>
+              <span className="eyebrow mb-3 bg-neo-yellow text-neo-black">Funding options</span>
+              <h1 className="max-w-4xl text-[clamp(2.4rem,5vw,4.25rem)] font-black uppercase leading-[.96] tracking-[-0.04em]">{title}</h1>
+              <p className="mt-4 max-w-3xl text-base font-medium leading-relaxed text-neo-cream md:text-lg">{description}</p>
             </div>
-          ))}
+            <div className="flex flex-wrap gap-3">
+              <Link href="/apply/quote" className="btn-brutal-primary">Start Funding Intake</Link>
+              <Link href="/directory" className="btn-brutal bg-neo-white text-neo-black">Browse Advisors</Link>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Featured Tools Section */}
+      <section className="section-shell py-9 md:py-12">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-3 border-b-4 border-neo-black pb-3">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-neo-blue">Choose by use case</p>
+            <h2 className="mt-1 text-2xl font-black uppercase tracking-tight md:text-3xl">Business funding categories</h2>
+          </div>
+          <span className="text-xs font-bold text-neo-black/65">Category information is educational.</span>
+        </div>
+        {productFamilies.length > 0 ? (
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {productFamilies.map((family) => <FundingFamilyCard key={family.id} family={family} />)}
+          </div>
+        ) : (
+          <div className="border-4 border-neo-black bg-neo-cream p-8 shadow-brutal">
+            <h2 className="text-2xl font-black uppercase">Funding categories are being updated</h2>
+            <p className="mt-2 font-medium">You can still start an intake or browse advisor profiles.</p>
+          </div>
+        )}
+      </section>
+
+      <section className="border-y-4 border-neo-black bg-neo-cream">
+        <div className="section-shell grid gap-8 py-9 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:py-11">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-neo-blue">Before you apply</p>
+            <h2 className="mt-2 text-2xl font-black uppercase tracking-tight md:text-3xl">Prepare the business context</h2>
+            <p className="mt-3 max-w-xl text-sm font-medium leading-relaxed">A clear use of funds, recent business financial information, existing obligations, and relevant purchase or project details can help make the first conversation more useful.</p>
+          </div>
+          <div className="flex flex-wrap content-start gap-3">
+            <Link href="/resources/funding-readiness" className="border-2 border-neo-black bg-neo-white px-4 py-3 text-sm font-black uppercase shadow-[2px_2px_0_0_#111] hover:bg-neo-yellow">Funding readiness guide</Link>
+            <Link href="/resources/document-checklist" className="border-2 border-neo-black bg-neo-white px-4 py-3 text-sm font-black uppercase shadow-[2px_2px_0_0_#111] hover:bg-neo-yellow">Document checklist</Link>
+            <Link href="/resources/offer-comparison" className="border-2 border-neo-black bg-neo-white px-4 py-3 text-sm font-black uppercase shadow-[2px_2px_0_0_#111] hover:bg-neo-yellow">Compare offers</Link>
+          </div>
+        </div>
+      </section>
+
       {tools.length > 0 && (
-        <section className="mb-16">
-          <div className="border-b-4 border-white pb-4 mb-8">
-            <h2 className="text-3xl font-black uppercase">Funding Tools & Resources</h2>
+        <section className="section-shell py-9 md:py-12">
+          <div className="mb-5">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-neo-blue">Registered tools</p>
+            <h2 className="mt-1 text-2xl font-black uppercase tracking-tight md:text-3xl">Public tools and resources</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {tools.map((tool, idx) => (
-              <div
-                key={tool.id || tool.slug || idx}
-                className="border-2 border-neutral-800 bg-neutral-950 p-6 flex flex-col justify-between"
-              >
-                <div>
-                  {tool.brand && (
-                    <span className="text-[10px] font-bold uppercase bg-yellow-400 text-black px-2 py-0.5 mb-2 inline-block">
-                      {tool.brand}
-                    </span>
-                  )}
-                  <h3 className="text-xl font-bold mb-2">{tool.name || tool.slug}</h3>
-                  <p className="text-neutral-400 text-xs mb-4">{tool.problem || tool.persona}</p>
-                </div>
-                {tool.ctaHref && (
-                  <a
-                    href={tool.ctaHref as string}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs font-bold text-yellow-400 hover:underline uppercase tracking-wider mt-auto"
-                  >
-                    {(tool.ctaLabel as string) || 'Access Tool'} →
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
+          <ToolGrid tools={tools} useTrackedPrimaryActions showDetails={false} />
+          <Link href="/tools" className="mt-5 inline-flex text-sm font-black uppercase underline decoration-neo-blue decoration-2 underline-offset-4">Browse all public tools →</Link>
         </section>
       )}
 
-      {/* Compliance Disclaimer */}
-      <footer className="border-t-2 border-neutral-800 pt-8 mt-16 text-neutral-500 text-xs leading-relaxed">
-        <p className="font-bold text-neutral-400 uppercase mb-2">Compliance Notice</p>
-        <p>{disclaimer}</p>
-      </footer>
+      <section className="section-shell pb-10">
+        <div className="border-t-2 border-neo-black/20 pt-5 text-xs leading-relaxed text-neo-black/65">
+          <strong className="font-black uppercase">Funding information:</strong> {disclaimer}
+        </div>
+      </section>
     </main>
   );
 }

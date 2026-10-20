@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getBrokerBySlug } from '@/lib/brokers';
-import { listPartnerToolPages } from '@/lib/partner-site';
+import { getAllRegistryItems, getRegistryDestination, getToolsForBroker } from '@/lib/embed-registry';
 import { PartnerBreadcrumbs, PartnerCTACluster, PartnerIdentityStrip, PartnerSiteFooter, PartnerSiteHeader } from '@/components/partner-site';
 import { constructPartnerMetadata } from '@/lib/seo';
 import { createBreadcrumbSchema, serializeJsonLd } from '@/lib/partner-schema';
@@ -24,7 +24,11 @@ export default async function PartnerToolsPage({ params }: { params: { slug: str
   const broker = await getBrokerBySlug(params.slug);
   if (!broker) notFound();
 
-  const tools = await listPartnerToolPages();
+  const assignedTools = await getToolsForBroker(broker.slug);
+  const sharedTools = assignedTools.length ? [] : (await getAllRegistryItems())
+    .filter((tool) => tool.kind === 'tool' && tool.status === 'active' && tool.accessLevel === 'public' && getRegistryDestination(tool) !== '#')
+    .slice(0, 4);
+  const tools = assignedTools.length ? assignedTools : sharedTools;
   const breadcrumb = createBreadcrumbSchema(broker.slug, broker.displayName || broker.fullName, [{ label: 'Tools', path: 'tools' }]);
 
   return (
@@ -37,13 +41,13 @@ export default async function PartnerToolsPage({ params }: { params: { slug: str
         <PartnerBreadcrumbs broker={broker} items={[{ label: 'Tools' }]} />
         <div className="mb-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <div className="mb-3 inline-block border-2 border-neo-black bg-neo-green px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em]">Partner tools</div>
+            <div className="mb-3 inline-block border-2 border-neo-black bg-neo-green px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em]">{assignedTools.length ? 'Advisor-assigned tools' : 'Shared public tools'}</div>
             <h1 className="text-4xl font-black uppercase tracking-tighter md:text-6xl">Tools</h1>
           </div>
           <PartnerCTACluster broker={broker} primaryLabel="Apply for Funding" secondaryLabel={`Book with ${broker.displayName || broker.fullName}`} />
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {tools.length > 0 ? <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {tools.map((tool) => (
             <Link key={tool.slug} href={`/${broker.slug}/tools/${tool.slug}`} className="group border-4 border-neo-black bg-neo-cream p-6 shadow-brutal transition-transform hover:-translate-y-1">
               <div className="mb-3 text-xs font-black uppercase tracking-[0.18em] text-neo-blue">{tool.category}</div>
@@ -52,7 +56,7 @@ export default async function PartnerToolsPage({ params }: { params: { slug: str
               <div className="mt-5 inline-flex border-b-2 border-neo-black pb-1 text-xs font-black uppercase tracking-[0.18em] group-hover:text-neo-blue">View tool</div>
             </Link>
           ))}
-        </div>
+        </div> : <div className="border-4 border-neo-black bg-neo-cream p-6 shadow-brutal"><h2 className="text-2xl font-black uppercase">No public tools are available yet</h2><p className="mt-2 max-w-2xl text-sm font-medium">Use the preparation library or browse funding categories while advisor-specific tools are being added.</p><div className="mt-4 flex flex-wrap gap-4 text-sm font-black uppercase underline"><Link href="/resources">Preparation resources</Link><Link href="/funding">Funding categories</Link></div></div>}
       </section>
 
       <PartnerSiteFooter broker={broker} />

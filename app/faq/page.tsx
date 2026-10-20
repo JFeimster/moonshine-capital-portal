@@ -42,11 +42,14 @@ export default function FAQPage() {
       <section className="section-shell py-16 md:py-20">
         <div className="space-y-6">
           {faqs.map((item, index) => (
-            <div key={item.question} className="panel-block">
-              <div className="mb-3 text-sm font-black uppercase tracking-[0.18em] text-neo-blue">{String(index + 1).padStart(2, '0')}</div>
-              <h2 className="mb-3 text-2xl font-black uppercase tracking-tighter">{item.question}</h2>
-              <p className="text-lg font-medium leading-relaxed text-neo-black/80">{item.answer}</p>
-            </div>
+            <details key={item.question} className="border-4 border-neo-black bg-neo-cream p-5 shadow-brutal open:bg-neo-yellow md:p-6">
+              <summary className="flex cursor-pointer list-none items-start gap-4 text-lg font-black uppercase tracking-tight focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neo-blue md:text-xl">
+                <span className="shrink-0 text-sm text-neo-blue">{String(index + 1).padStart(2, '0')}</span>
+                <span className="flex-1">{item.question}</span>
+                <span aria-hidden="true" className="text-2xl leading-none">+</span>
+              </summary>
+              <p className="ml-9 mt-4 max-w-4xl text-base font-medium leading-relaxed text-neo-black/80">{item.answer}</p>
+            </details>
           ))}
         </div>
       </section>

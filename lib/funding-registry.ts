@@ -1,5 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import { getAllRegistryItems, getRegistryDestination, type ToolRegistryItem } from './embed-registry';
 
 export interface FundingCta {
   label: string;
@@ -268,9 +269,13 @@ export async function getRelatedFamilies(currentSlug: string): Promise<FundingPr
   return publicFamilies.filter((f) => f.slug !== currentSlug);
 }
 
-export async function getFundingTools(toolIds?: string[]): Promise<ToolItem[]> {
-  const data = await readJsonFile<{ entries: ToolItem[] }>('data/embeds/tool-registry.json');
-  const entries = data.entries || [];
-  if (!toolIds || toolIds.length === 0) return entries.slice(0, 6);
-  return entries.filter((t) => (t.id && toolIds.includes(t.id)) || toolIds.includes(t.slug));
+export async function getFundingTools(toolIds?: string[]): Promise<ToolRegistryItem[]> {
+  const entries = await getAllRegistryItems();
+  const publicActionableItems = entries.filter(
+    (item) => item.status === 'active' && item.accessLevel === 'public' && getRegistryDestination(item) !== '#',
+  );
+  if (!toolIds || toolIds.length === 0) return publicActionableItems.slice(0, 6);
+
+  const requested = new Set(toolIds);
+  return publicActionableItems.filter((item) => requested.has(item.id) || requested.has(item.slug));
 }

@@ -4,7 +4,7 @@ const footerGroups = [
   {
     title: 'Capital',
     links: [
-      { href: '/directory', label: 'Find an Advisor' },
+      { href: '/directory', label: 'Directory' },
       { href: '/apply', label: 'Apply for Funding' },
       { href: '/how-it-works', label: 'How It Works' },
     ],
@@ -12,9 +12,10 @@ const footerGroups = [
   {
     title: 'Explore',
     links: [
-      { href: '/funding-types', label: 'Funding' },
+      { href: '/funding', label: 'Funding' },
       { href: '/industries', label: 'Industries' },
-      { href: '/directory', label: 'Advisors' },
+      { href: '/tools', label: 'Tools' },
+      { href: '/resources', label: 'Resources' },
       { href: '/faq', label: 'FAQ' },
     ],
   },
@@ -45,7 +46,7 @@ export function Footer() {
             Distilled Funding
           </div>
           <p className="max-w-sm text-sm font-medium leading-relaxed text-neo-cream/80">
-            Capital without the runaround. We connect founders with real funding paths and the people who know how to move them.
+            Explore funding categories, prepare with practical guides, and browse public advisor profiles.
           </p>
         </div>
 

@@ -13,12 +13,12 @@ export function BrokerCard({ broker }: BrokerCardProps) {
   const location = [broker.city, broker.state].filter(Boolean).join(', ');
 
   return (
-    <div className="card-brutal flex flex-col h-full bg-neo-white transition-all duration-200 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1">
+    <article className="card-brutal flex h-full flex-col bg-neo-white transition-all duration-200 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1">
       <div className="flex items-center gap-4 mb-5">
         <Avatar
           src={broker.profileImage}
           alt={broker.fullName}
-          className="w-24 h-24 bg-neo-black border-2 border-neo-black shadow-brutal flex-shrink-0 overflow-hidden"
+          className="h-28 w-28 shrink-0 overflow-hidden border-2 border-neo-black bg-neo-black shadow-brutal md:h-32 md:w-32"
           imageClassName="w-full h-full object-cover"
           fallbackClassName="w-full h-full flex items-center justify-center text-neo-white font-black text-2xl"
         />
@@ -33,7 +33,7 @@ export function BrokerCard({ broker }: BrokerCardProps) {
         {broker.title && <span className="inline-block bg-neo-orange text-neo-black text-xs font-bold uppercase px-2 py-1 border border-neo-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">{broker.title}</span>}
       </div>
 
-      {broker.shortBio && <p className="font-bold text-sm mb-5 flex-grow leading-relaxed line-clamp-4">{broker.shortBio}</p>}
+      {broker.shortBio && <p className="mb-5 flex-grow font-medium text-sm leading-relaxed line-clamp-4">{broker.shortBio}</p>}
 
       <div className="flex flex-wrap gap-2 mb-5">
         {topSpecialties.map((spec) => (
@@ -42,14 +42,14 @@ export function BrokerCard({ broker }: BrokerCardProps) {
         {topIndustries.map((industry) => <span key={industry} className="text-xs font-black uppercase tracking-wider bg-neo-pink text-neo-black border border-neo-black px-2 py-1">{industry}</span>)}
       </div>
 
-      <div className="mt-auto grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <Link href={`/${broker.slug}`} className="btn-brutal w-full bg-neo-black text-neo-white hover:bg-neo-black hover:text-neo-white border-2 border-neo-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all text-center">
+      <div className="mt-auto grid grid-cols-1 gap-3 border-t-2 border-neo-black pt-4 sm:grid-cols-2">
+        <Link href={`/${broker.slug}`} aria-label={`View ${broker.displayName || broker.fullName}'s profile`} className="btn-brutal w-full bg-neo-black text-center text-neo-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-1 hover:translate-y-1 hover:shadow-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neo-blue">
           View Profile
         </Link>
-        <Link href={`/${broker.slug}/apply`} className="btn-brutal-primary w-full text-sm py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all text-center">
-          Apply
+        <Link href={`/${broker.slug}/apply`} aria-label={`Start a funding intake with ${broker.displayName || broker.fullName}`} className="btn-brutal-primary w-full text-center text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-1 hover:translate-y-1 hover:shadow-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neo-blue">
+          Start Intake
         </Link>
       </div>
-    </div>
+    </article>
   );
 }

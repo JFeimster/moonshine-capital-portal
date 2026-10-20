@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getBrokerBySlug } from '@/lib/brokers';
-import { getFeaturedRegistryItems, getRegistryDestination, getToolsForBroker } from '@/lib/embed-registry';
+import { getAllRegistryItems, getRegistryDestination, getToolsForBroker } from '@/lib/embed-registry';
 import { BrokerUtilitySection } from '@/components/BrokerUtilitySection';
 import { PartnerSiteFooter, PartnerSiteHeader, PartnerCTACluster } from '@/components/partner-site';
 import { getPartnerDisplaySpecialties, getPrioritizedPartnerFunding, getPrioritizedPartnerIndustries, listPartnerFundingPages, listPartnerIndustryPages } from '@/lib/partner-site';
@@ -10,6 +10,7 @@ import { constructPartnerMetadata } from '@/lib/seo';
 import { createPartnerIdentitySchema, serializeJsonLd } from '@/lib/partner-schema';
 import { buildTrackedOutUrl } from '@/lib/distribution';
 import { buildBrokerCtaHref } from '@/lib/broker-cta-routing';
+import { getPublicProductFamilies } from '@/lib/funding-registry';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -32,15 +33,21 @@ export default async function PublicFundingPage({ params }: { params: { slug: st
   const name = broker.displayName || broker.fullName || 'Funding Advisor';
   const company = broker.companyName || broker.agencyName;
   const location = [broker.city, broker.state].filter(Boolean).join(', ');
+  const bookingUrl = broker.bookingUrl ? `/${broker.slug}/book` : null;
   const specialties = getPartnerDisplaySpecialties(broker);
   const industries = broker.industries || [];
+  const publicFamilies = await getPublicProductFamilies();
+  const publicFundingSlugs = new Set(publicFamilies.map((family) => family.slug));
   const funding = getPrioritizedPartnerFunding(listPartnerFundingPages(), broker, 3)
+    .filter(page => publicFundingSlugs.has(page.slug))
     .filter(page => specialties.length === 0 || specialties.some(item => page.title.toLowerCase().includes(item.toLowerCase()) || item.toLowerCase().includes(page.title.toLowerCase())));
   const matchedIndustries = getPrioritizedPartnerIndustries(listPartnerIndustryPages(), broker, 3)
     .filter(page => industries.some(item => page.title.toLowerCase().includes(item.toLowerCase()) || item.toLowerCase().includes(page.title.toLowerCase())));
   const assignedTools = await getToolsForBroker(broker.slug);
-  const allTools = assignedTools.length ? assignedTools : await getFeaturedRegistryItems(3);
-  const tools = allTools.filter(tool => tool.accessLevel === 'public' && getRegistryDestination(tool) !== '#').slice(0, 4);
+  const sharedTools = assignedTools.length ? [] : (await getAllRegistryItems())
+    .filter(tool => tool.kind === 'tool' && tool.status === 'active' && tool.accessLevel === 'public' && getRegistryDestination(tool) !== '#')
+    .slice(0, 3);
+  const tools = (assignedTools.length ? assignedTools : sharedTools).slice(0, 4);
   const context = { source: 'partner_profile' };
   const websiteFallback = broker.websiteUrl ? buildTrackedOutUrl(broker, 'website', context) : null;
   const websiteHref = websiteFallback ? buildBrokerCtaHref(broker, 'website', 'partner_profile', websiteFallback) : null;
@@ -66,7 +73,7 @@ export default async function PublicFundingPage({ params }: { params: { slug: st
             {company && <p className="mt-2 text-base font-bold text-neo-yellow md:text-xl">{company}</p>}
             <p className="mt-5 max-w-2xl text-base font-medium leading-relaxed text-neo-white/90 md:text-lg">{broker.shortBio || broker.whyChooseYou || 'Explore funding options, helpful tools, and direct contact with your funding advisor.'}</p>
             {specialties.length > 0 && <div className="mt-5 flex flex-wrap gap-2">{specialties.slice(0, 4).map(item => <span key={item} className="border border-neo-green/70 px-2.5 py-1 text-xs font-bold">{item}</span>)}</div>}
-            <div className="mt-6"><PartnerCTACluster broker={broker} primaryLabel="Apply for Funding" secondaryLabel="Book a Call" /></div>
+            <div className="mt-6"><PartnerCTACluster broker={broker} primaryLabel="Apply for Funding" secondaryLabel={bookingUrl ? 'Book a Call' : undefined} /></div>
             <div className="mt-5 flex flex-wrap gap-4 text-sm font-semibold">
               {broker.publicEmail && <a href={'mailto:' + broker.publicEmail} className="text-neo-green underline underline-offset-4">{broker.publicEmail}</a>}
               <Link href={'/' + broker.slug + '/contact'} className="underline underline-offset-4">Contact advisor</Link>
@@ -90,7 +97,7 @@ export default async function PublicFundingPage({ params }: { params: { slug: st
       {(funding.length > 0 || matchedIndustries.length > 0) && <section className="border-y-4 border-neo-black bg-neo-cream"><div className="section-shell py-10">
         <h2 className="text-2xl font-black uppercase tracking-tight md:text-3xl">Areas of focus</h2>
         <div className="mt-5 grid gap-5 md:grid-cols-2">
-          {funding.length > 0 && <div><h3 className="mb-3 text-sm font-black uppercase">Relevant funding options</h3><div className="flex flex-wrap gap-2">{funding.map(item => <Link key={item.slug} href={'/funding-types/' + item.slug} className="border-2 border-neo-black bg-neo-white px-3 py-2 text-sm font-bold hover:bg-neo-yellow">{item.title} ↗</Link>)}</div></div>}
+          {funding.length > 0 && <div><h3 className="mb-3 text-sm font-black uppercase">Relevant funding options</h3><div className="flex flex-wrap gap-2">{funding.map(item => <Link key={item.slug} href={'/funding/' + item.slug} className="border-2 border-neo-black bg-neo-white px-3 py-2 text-sm font-bold hover:bg-neo-yellow">{item.title} ↗</Link>)}</div></div>}
           {matchedIndustries.length > 0 && <div><h3 className="mb-3 text-sm font-black uppercase">Industries</h3><div className="flex flex-wrap gap-2">{matchedIndustries.map(item => <Link key={item.slug} href={'/industries/' + item.slug} className="border-2 border-neo-black bg-neo-white px-3 py-2 text-sm font-bold hover:bg-neo-yellow">{item.title} ↗</Link>)}</div></div>}
         </div>
       </div></section>}

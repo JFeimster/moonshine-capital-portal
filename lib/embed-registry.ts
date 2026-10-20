@@ -79,7 +79,7 @@ function normalizeRegistryItem(item: any, index: number): ToolRegistryItem {
     category: item.category || item.partner_channel || item.persona || 'general',
     resourceType: item.resourceType || item.asset_type || 'guide',
     renderType: item.renderType || (item.live_url || item.embedUrl ? 'external' : 'internal'),
-    accessLevel: item.accessLevel || 'public',
+    accessLevel: item.accessLevel || (String(item.asset_type || '').toUpperCase() === 'PORTAL' ? 'portal' : 'public'),
     status: item.status || (item.build_state === 'live' ? 'active' : 'draft'),
     url: item.url || item.live_url || item.ctaHref,
     embedUrl: item.embedUrl || item.embed_url,

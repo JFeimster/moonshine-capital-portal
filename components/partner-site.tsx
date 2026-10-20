@@ -9,7 +9,7 @@ export function PartnerIdentityStrip({ broker: _broker }: { broker: BrokerProfil
 export function PartnerSiteHeader({ broker, active }: { broker: BrokerProfile; active?: string }) {
   const navItems = [
     { label: 'Home', href: '/' + broker.slug },
-    { label: 'Funding', href: '/funding-types' },
+    { label: 'Funding', href: '/funding' },
     { label: 'Tools', href: '/' + broker.slug + '/tools' },
     { label: 'Resources', href: '/' + broker.slug + '/resources' },
     { label: 'About', href: '/' + broker.slug + '/about' },
@@ -23,15 +23,15 @@ export function PartnerSiteHeader({ broker, active }: { broker: BrokerProfile; a
           <span className="block truncate text-[11px] font-bold text-neo-black/60">{broker.companyName || broker.agencyName || 'Funding Advisor'}</span>
         </Link>
         <nav aria-label="Advisor site navigation" className="hidden items-center gap-4 lg:flex">
-          {navItems.map(item => <Link key={item.href} href={item.href} aria-current={active === item.label ? 'page' : undefined} className={'whitespace-nowrap text-[11px] font-black uppercase tracking-[0.07em] hover:text-neo-blue ' + (active === item.label ? 'border-b-4 border-neo-yellow' : '')}>{item.label}</Link>)}
+          {navItems.map(item => <Link key={item.href} href={item.href} aria-current={active === item.label ? 'page' : undefined} className={'whitespace-nowrap text-[11px] font-black uppercase tracking-[0.07em] transition-colors hover:text-neo-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neo-blue ' + (active === item.label ? 'border-b-4 border-neo-yellow' : '')}>{item.label}</Link>)}
         </nav>
         <div className="ml-auto flex shrink-0 items-center gap-2 lg:ml-0">
           <Link href={'/' + broker.slug + '/apply'} className="btn-brutal-primary px-3 py-2 text-xs tracking-normal sm:px-4">Apply</Link>
           <details className="relative lg:hidden">
-            <summary className="cursor-pointer list-none border-2 border-neo-black bg-neo-cream px-3 py-2 text-xs font-black">Menu ☰</summary>
+            <summary className="cursor-pointer list-none border-2 border-neo-black bg-neo-cream px-3 py-2 text-xs font-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neo-blue">Menu ☰</summary>
             <nav aria-label="Advisor mobile navigation" className="absolute right-0 top-full z-50 mt-2 w-56 border-[3px] border-neo-black bg-neo-white p-2 shadow-brutal">
-              {navItems.map(item => <Link key={item.href} href={item.href} className="block border-b border-neo-black/15 px-3 py-3 text-xs font-black uppercase">{item.label}</Link>)}
-              <Link href={'/' + broker.slug + '/contact'} className="block px-3 py-3 text-xs font-black uppercase">Contact</Link>
+              {navItems.map(item => <Link key={item.href} href={item.href} aria-current={active === item.label ? 'page' : undefined} className={'block border-b border-neo-black/15 px-3 py-3 text-xs font-black uppercase focus-visible:outline focus-visible:outline-2 focus-visible:outline-neo-blue ' + (active === item.label ? 'bg-neo-yellow' : '')}>{item.label}</Link>)}
+              <Link href={'/' + broker.slug + '/contact'} aria-current={active === 'Contact' ? 'page' : undefined} className={'block px-3 py-3 text-xs font-black uppercase focus-visible:outline focus-visible:outline-2 focus-visible:outline-neo-blue ' + (active === 'Contact' ? 'bg-neo-yellow' : '')}>Contact</Link>
             </nav>
           </details>
         </div>
