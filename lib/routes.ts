@@ -9,6 +9,7 @@ const RESERVED_ROOT_SEGMENTS = new Set([
   'directory',
   'disclosures',
   'faq',
+  'funding',
   'funding-types',
   'go',
   'how-it-works',
