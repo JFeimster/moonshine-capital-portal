@@ -9,7 +9,7 @@ import {
   normalizeState,
   normalizeUrl
 } from '@/lib/intake-normalizers';
-import { getPartnerByNormalizedEmail, upsertPartner } from '@/lib/notion';
+import { getPartnerByNormalizedEmail, getPartnerBySubmissionId, upsertPartner } from '@/lib/notion';
 import { validateApplicationPayload, validateProfilePayload } from '@/lib/validation';
 
 const DEFAULT_FUNDING_AGENT_BIO = 'Moonshine Capital Funding Agent.';
@@ -73,7 +73,10 @@ export async function processFundingAgentJoin(
   }
 
   if (options.publicCreateOnly) {
-    const existing = await getPartnerByNormalizedEmail(email);
+    const existing = await getPartnerByNormalizedEmail(email) ||
+      (rawPayload?.tallySubmissionId || rawPayload?.submissionId
+        ? await getPartnerBySubmissionId(rawPayload.tallySubmissionId || rawPayload.submissionId)
+        : null);
     if (existing) {
       return {
         status: 202,
@@ -127,10 +130,11 @@ export async function processFundingAgentJoin(
     profileStatus: 'draft',
     reviewReason,
     sourceForm: FUNDING_AGENT_SOURCE_FORMS.join,
+    consentToContact: rawPayload?.consentToContact === true,
     tallyFormId: rawPayload?.tallyFormId || rawPayload?.formId,
     latestTallySubmissionId: rawPayload?.tallySubmissionId || rawPayload?.submissionId,
     initialSubmissionAt: rawPayload?.initialSubmissionAt || rawPayload?.createdAt || now,
-    latestSubmissionAt: now,
+    latestSubmissionAt: rawPayload?.createdAt || now,
     createdAt: rawPayload?.createdAt || now,
     updatedAt: now
   };

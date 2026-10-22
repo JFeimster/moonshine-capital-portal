@@ -32,6 +32,7 @@ export const PARTNER_FIELD_GROUPS = {
   ] as const,
   traceability: [
     'sourceForm',
+    'consentToContact',
     'tallyFormId',
     'latestTallySubmissionId',
     'initialSubmissionAt',
@@ -55,6 +56,7 @@ export const NOTION_PARTNER_PROPERTIES = {
   profileStatus: 'Profile Status',
   reviewReason: 'Review Reason',
   sourceForm: 'Source Form',
+  consentToContact: 'Consent to Contact',
   tallyFormId: 'Tally Form ID',
   latestTallySubmissionId: 'Latest Tally Submission ID',
   initialSubmissionAt: 'Initial Submission At',

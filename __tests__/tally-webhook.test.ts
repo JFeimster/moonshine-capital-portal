@@ -37,6 +37,44 @@ describe('Tally webhook signature verification', () => {
 });
 
 describe('parseTallySubmission', () => {
+  const agreementPayload = (fields: Array<Record<string, unknown>>) => parseTallySubmission({
+    eventId: 'b0e2166d-2d06-4afb-921a-a217e98fb926',
+    eventType: 'FORM_RESPONSE',
+    data: { formId: 'rjM6do', submissionId: 'q5QaMW5', createdAt: '2026-10-22T15:17:56.000Z', fields }
+  });
+
+  it('recognizes Agreement selected through the checkbox UUID array', () => {
+    expect(agreementPayload([
+      { key: 'question_j7QeO1', value: ['811dbf16-3837-4427-bb3f-0c5e7ec377a0'] }
+    ]).consentToContact).toBe(true);
+  });
+
+  it('recognizes Agreement selected through the exact option boolean field', () => {
+    expect(agreementPayload([
+      { key: 'question_j7QeO1_811dbf16-3837-4427-bb3f-0c5e7ec377a0', value: true }
+    ]).consentToContact).toBe(true);
+  });
+
+  it.each([
+    ['not selected', [{ key: 'question_j7QeO1', value: [] }]],
+    ['missing', []],
+    ['malformed', [{ key: 'question_j7QeO1', value: 'true' }]],
+    ['incorrect option UUID', [{ key: 'question_j7QeO1', value: ['other-option'] }]],
+    ['string truthy option value', [{ key: 'question_j7QeO1_811dbf16-3837-4427-bb3f-0c5e7ec377a0', value: 'true' }]]
+  ])('fails closed when Agreement is %s', (_case, fields) => {
+    expect(agreementPayload(fields as Array<Record<string, unknown>>).consentToContact).toBe(false);
+  });
+
+  it('does not infer consent from hidden fields or a different form', () => {
+    const submission = parseTallySubmission({
+      data: { formId: '9qjWEE', submissionId: 'profile-1', fields: [
+        { key: 'question_j7QeO1_811dbf16-3837-4427-bb3f-0c5e7ec377a0', value: true },
+        { key: 'consentToContact', value: true }
+      ] }
+    });
+    expect(submission.consentToContact).toBeUndefined();
+  });
+
   it('maps the canonical Funding Agent Join fields and attribution', () => {
     const submission = parseTallySubmission({
       eventId: 'evt_join',

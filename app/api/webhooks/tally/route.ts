@@ -27,7 +27,8 @@ function agentJoinPayload(submission: ReturnType<typeof parseTallySubmission>) {
     submissionId: submission.submissionId,
     tallyFormId: submission.formId,
     tallySubmissionId: submission.submissionId,
-    createdAt: submission.createdAt
+    createdAt: submission.createdAt,
+    consentToContact: submission.consentToContact === true,
   };
 }
 
@@ -109,7 +110,17 @@ export async function POST(request: Request) {
         form_id: submission.formId,
         email: asString(submission.fields.email),
         name: asString(submission.fields.fullName),
-        applicant_type: 'funding_agent'
+        applicant_type: 'funding_agent',
+        answers: {
+          consent_source: 'tally',
+          consent_to_contact: submission.consentToContact === true,
+          consent_event_id: submission.eventId,
+          consent_submission_id: submission.submissionId,
+          consent_form_id: submission.formId,
+          consent_question_key: 'question_j7QeO1',
+          consent_option_id: '811dbf16-3837-4427-bb3f-0c5e7ec377a0',
+          consent_occurred_at: submission.createdAt
+        }
       });
       const result = await processFundingAgentJoin(agentJoinPayload(submission), { publicCreateOnly: true });
       return NextResponse.json({

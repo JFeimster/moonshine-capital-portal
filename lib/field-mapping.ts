@@ -32,6 +32,7 @@ export interface CanonicalBrokerProfile {
   bookingUrl?: string;
   disclosures?: string[];
   sourceForm?: string;
+  consentToContact?: boolean;
   tallyFormId?: string;
   latestTallySubmissionId?: string;
   initialSubmissionAt?: string;

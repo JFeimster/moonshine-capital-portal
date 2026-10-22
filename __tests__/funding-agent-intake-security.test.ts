@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const notionMocks = vi.hoisted(() => ({
   getPartnerByNormalizedEmail: vi.fn(),
+  getPartnerBySubmissionId: vi.fn(),
   upsertPartner: vi.fn()
 }));
 
@@ -15,6 +16,7 @@ import {
 describe('public Funding Agent intake security boundaries', () => {
   beforeEach(() => {
     notionMocks.getPartnerByNormalizedEmail.mockReset();
+    notionMocks.getPartnerBySubmissionId.mockReset();
     notionMocks.upsertPartner.mockReset();
   });
 
@@ -38,6 +40,46 @@ describe('public Funding Agent intake security boundaries', () => {
       accepted: false,
       existingIdentity: true
     });
+    expect(notionMocks.upsertPartner).not.toHaveBeenCalled();
+  });
+
+  it('keeps repeated public delivery of a submission create-only and maps affirmative consent', async () => {
+    notionMocks.getPartnerByNormalizedEmail.mockResolvedValue(null);
+    notionMocks.getPartnerBySubmissionId.mockResolvedValue(null);
+    notionMocks.upsertPartner.mockResolvedValue({
+      success: true,
+      notionId: 'notion-new',
+      created: true,
+      partner: { approvalStatus: 'needs_review', profileStatus: 'draft', consentToContact: true }
+    });
+    const submission = {
+      fullName: 'Jane Agent', email: 'jane@example.com', submissionId: 'sub-join',
+      consentToContact: true, createdAt: '2026-10-22T15:17:56.000Z'
+    };
+
+    await processFundingAgentJoin(submission, { publicCreateOnly: true });
+    notionMocks.getPartnerByNormalizedEmail.mockResolvedValueOnce({ email: 'jane@example.com' });
+    const duplicate = await processFundingAgentJoin(submission, { publicCreateOnly: true });
+
+    expect(notionMocks.upsertPartner).toHaveBeenCalledTimes(1);
+    expect(notionMocks.upsertPartner.mock.calls[0]?.[0]).toMatchObject({
+      consentToContact: true,
+      approvalStatus: 'needs_review',
+      profileStatus: 'draft',
+      latestSubmissionAt: '2026-10-22T15:17:56.000Z'
+    });
+    expect(duplicate.body).toMatchObject({ accepted: false, existingIdentity: true });
+  });
+
+  it('uses submission ID to reject a duplicate even if its supplied email differs', async () => {
+    notionMocks.getPartnerByNormalizedEmail.mockResolvedValue(null);
+    notionMocks.getPartnerBySubmissionId.mockResolvedValue({ email: 'existing@example.com' });
+
+    const result = await processFundingAgentJoin({
+      fullName: 'Different Email', email: 'different@example.com', submissionId: 'sub-seen'
+    }, { publicCreateOnly: true });
+
+    expect(result.body).toMatchObject({ accepted: false, existingIdentity: true });
     expect(notionMocks.upsertPartner).not.toHaveBeenCalled();
   });
 

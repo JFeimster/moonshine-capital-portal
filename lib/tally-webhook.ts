@@ -43,6 +43,11 @@ type FormMapping = {
   kind: TallyFormKind;
   fields: Record<string, FieldDefinition>;
   hidden: Record<string, string[]>;
+  consent?: {
+    questionKey: string;
+    questionId: string;
+    optionId: string;
+  };
 };
 
 export type ParsedTallySubmission = {
@@ -54,6 +59,7 @@ export type ParsedTallySubmission = {
   createdAt?: string;
   fields: Record<string, unknown>;
   hidden: Record<string, string>;
+  consentToContact?: boolean;
 };
 
 const choice = (entries: Array<[string, string]>) => Object.fromEntries(entries);
@@ -61,6 +67,11 @@ const choice = (entries: Array<[string, string]>) => Object.fromEntries(entries)
 export const TALLY_FORM_MAPPINGS: Record<string, FormMapping> = {
   rjM6do: {
     kind: 'funding_agent_join',
+    consent: {
+      questionKey: 'question_j7QeO1',
+      questionId: 'j7QeO1',
+      optionId: '811dbf16-3837-4427-bb3f-0c5e7ec377a0'
+    },
     hidden: {
       utm_source: ['b0bfb994-adce-42eb-96c3-244731882519', 'utm_source'],
       utm_medium: ['83402809-88f5-4776-bebb-02c3fa25d0a4', 'utm_medium'],
@@ -304,6 +315,26 @@ function hiddenValue(fields: TallyField[], aliases: string[]): string {
   return cleanString(match?.value !== undefined ? match.value : match?.answer);
 }
 
+function tallyConsent(fields: TallyField[], mapping: FormMapping): boolean | undefined {
+  if (!mapping.consent) return undefined;
+
+  const { questionKey, questionId, optionId } = mapping.consent;
+  const agreement = fields.find((field) =>
+    fieldIdentity(field).some((identity) => identity === questionKey || identity === questionId)
+  );
+  const agreementValue = agreement?.value !== undefined ? agreement.value : agreement?.answer;
+  const selectedFromQuestion = Array.isArray(agreementValue) && agreementValue.some((item) =>
+    typeof item === 'string' && item === optionId
+  );
+
+  const optionKey = `${questionKey}_${optionId}`;
+  const selectedOption = fields.find((field) => fieldIdentity(field).includes(optionKey));
+  const optionValue = selectedOption?.value !== undefined ? selectedOption.value : selectedOption?.answer;
+  const selectedFromOption = optionValue === true;
+
+  return selectedFromQuestion || selectedFromOption;
+}
+
 export function parseTallySubmission(payload: TallyWebhookPayload): ParsedTallySubmission {
   const formId = cleanString(payload.data?.formId);
   const mapping = TALLY_FORM_MAPPINGS[formId];
@@ -332,7 +363,8 @@ export function parseTallySubmission(payload: TallyWebhookPayload): ParsedTallyS
     submissionId,
     createdAt: cleanString(payload.data?.createdAt || payload.createdAt) || undefined,
     fields,
-    hidden
+    hidden,
+    consentToContact: tallyConsent(rawFields, mapping)
   };
 }
 
