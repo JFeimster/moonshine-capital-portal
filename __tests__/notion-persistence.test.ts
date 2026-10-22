@@ -15,6 +15,8 @@ const page = (overrides: Record<string, any> = {}) => ({
     'Approval Status': { type: 'select', select: { name: overrides.approvalStatus || 'approved' } },
     'Profile Status': { type: 'select', select: { name: overrides.profileStatus || 'published' } },
     'Latest Tally Submission ID': { type: 'rich_text', rich_text: [{ plain_text: overrides.submissionId || 'sub-1' }] },
+    'Consent to Contact': { type: 'checkbox', checkbox: overrides.consentToContact === true },
+    'Latest Submission At': { type: 'date', date: { start: overrides.latestSubmissionAt || '2026-08-25T10:00:00.000Z' } },
     'Display Name': { type: 'rich_text', rich_text: [{ plain_text: overrides.displayName || 'Test Agent' }] },
     'Why Choose You': { type: 'rich_text', rich_text: [{ plain_text: overrides.whyChooseYou || '' }] },
     'Urgency Category': { type: 'rich_text', rich_text: [{ plain_text: overrides.urgencyCategory || 'standard' }] }
@@ -53,6 +55,45 @@ describe('durable Notion partner persistence', () => {
     expect(result.partner?.referralCode).toBe('MCABC');
     expect(result.partner?.slug).toBe('test-agent-abc');
     expect(fetchMock).toHaveBeenCalledTimes(4);
+  });
+
+  it('persists the canonical consent value to the existing Notion checkbox', async () => {
+    const existing = page({ consentToContact: false });
+    const updated = page({ consentToContact: true });
+    const fetchMock = vi.spyOn(globalThis, 'fetch' as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [existing] }) as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [existing] }) as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [existing] }) as any)
+      .mockResolvedValueOnce(jsonResponse(updated) as any);
+
+    const result = await upsertPartner({
+      email: 'test@example.com', latestTallySubmissionId: 'sub-1',
+      latestSubmissionAt: '2026-08-26T10:00:00.000Z', consentToContact: true
+    });
+
+    expect(result.success).toBe(true);
+    const updateBody = JSON.parse(String((fetchMock.mock.calls[3][1] as RequestInit).body));
+    expect(updateBody.properties['Consent to Contact']).toEqual({ checkbox: true });
+    expect(result.partner?.consentToContact).toBe(true);
+  });
+
+  it('persists a negative value and ignores an older affirmative consent event', async () => {
+    const existing = page({ consentToContact: false, latestSubmissionAt: '2026-10-22T16:00:00.000Z' });
+    const fetchMock = vi.spyOn(globalThis, 'fetch' as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [existing] }) as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [existing] }) as any)
+      .mockResolvedValueOnce(jsonResponse({ results: [existing] }) as any)
+      .mockResolvedValueOnce(jsonResponse(existing) as any);
+
+    const result = await upsertPartner({
+      email: 'test@example.com', latestTallySubmissionId: 'sub-old',
+      latestSubmissionAt: '2026-08-26T10:00:00.000Z', consentToContact: true
+    });
+
+    expect(result.success).toBe(true);
+    const updateBody = JSON.parse(String((fetchMock.mock.calls[3][1] as RequestInit).body));
+    expect(updateBody.properties['Consent to Contact']).toEqual({ checkbox: false });
+    expect(result.partner?.consentToContact).toBe(false);
   });
 
   it('matches repeated submissions by partner_id and preserves canonical identity', async () => {

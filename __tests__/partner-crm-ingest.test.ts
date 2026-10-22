@@ -46,6 +46,30 @@ describe('canonical partner CRM forwarding', () => {
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
+  it('forwards consent provenance in the existing answers payload', async () => {
+    process.env.PARTNER_CRM_INGEST_URL = url;
+    process.env.PARTNER_CRM_INGEST_TOKEN = 'synthetic-unit-test-token';
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ ok: true, application_id: 'test-app', duplicate: false })
+    });
+    vi.stubGlobal('fetch', fetchMock);
+    const answers = {
+      consent_source: 'tally',
+      consent_to_contact: true,
+      consent_event_id: 'evt-1',
+      consent_submission_id: 'sub-1',
+      consent_form_id: 'rjM6do',
+      consent_question_key: 'question_j7QeO1',
+      consent_option_id: '811dbf16-3837-4427-bb3f-0c5e7ec377a0',
+      consent_occurred_at: '2026-10-22T15:17:56.000Z'
+    };
+
+    await sendPartnerApplication({ ...payload, answers });
+
+    expect(JSON.parse(String(fetchMock.mock.calls[0][1].body)).answers).toEqual(answers);
+  });
+
   it('rejects upstream errors and invalid receipts so Tally can retry', async () => {
     process.env.PARTNER_CRM_INGEST_URL = url;
     process.env.PARTNER_CRM_INGEST_TOKEN = 'synthetic-unit-test-token';

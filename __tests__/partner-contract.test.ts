@@ -39,5 +39,6 @@ describe('canonical partner contract', () => {
     expect(NOTION_PARTNER_PROPERTIES.profileStatus).toBe('Profile Status');
     expect(NOTION_PARTNER_PROPERTIES.sourceForm).toBe('Source Form');
     expect(NOTION_PARTNER_PROPERTIES.tallyFormId).toBe('Tally Form ID');
+    expect(NOTION_PARTNER_PROPERTIES.consentToContact).toBe('Consent to Contact');
   });
 });

@@ -89,6 +89,7 @@ const email = (value?: string) => value ? { email: value } : undefined;
 const phone = (value?: string) => value ? { phone_number: value } : undefined;
 const url = (value?: string) => value ? { url: value } : undefined;
 const select = (value?: string) => value ? { select: { name: value } } : undefined;
+const checkbox = (value?: boolean) => typeof value === 'boolean' ? { checkbox: value } : undefined;
 const date = (value?: string) => value ? { date: { start: value } } : undefined;
 const joined = (value?: string[]) => value?.length ? text(value.join(', ')) : undefined;
 
@@ -111,6 +112,7 @@ function toNotionProperties(partner: Partial<CanonicalBrokerProfile>, creating =
     'Profile Status': select(partner.profileStatus),
     'Review Reason': text(partner.reviewReason),
     'Source Form': text(partner.sourceForm),
+    'Consent to Contact': checkbox(partner.consentToContact),
     'Tally Form ID': text(partner.tallyFormId),
     'Latest Tally Submission ID': text(partner.latestTallySubmissionId),
     'Tally Submission ID': text(partner.latestTallySubmissionId),
@@ -175,6 +177,7 @@ function fromNotionPage(page: any): PersistedPartner {
     profileStatus: propText(p['Profile Status']) as any,
     reviewReason: propText(p['Review Reason']),
     sourceForm: propText(p['Source Form']),
+    consentToContact: p['Consent to Contact']?.type === 'checkbox' ? p['Consent to Contact'].checkbox === true : undefined,
     tallyFormId: propText(p['Tally Form ID']),
     latestTallySubmissionId: propText(p['Latest Tally Submission ID']) || propText(p['Tally Submission ID']),
     initialSubmissionAt: propText(p['Initial Submission At']) || propText(p['Application Date']),
@@ -306,6 +309,18 @@ function nonBlankMerge(existing: PersistedPartner, incoming: Partial<CanonicalBr
     if (value === undefined || value === null || value === '') continue;
     if (Array.isArray(value) && value.length === 0) continue;
     merged[key] = value;
+  }
+
+  // Public Join is create-only, but trusted retries and reconciliation callers
+  // may still reach this merge. Never let an older consent event roll back the
+  // value associated with a newer Tally submission already projected to Notion.
+  if (typeof incoming.consentToContact === 'boolean' && incoming.latestSubmissionAt && existing.latestSubmissionAt) {
+    const incomingTime = Date.parse(incoming.latestSubmissionAt);
+    const existingTime = Date.parse(existing.latestSubmissionAt);
+    if (Number.isFinite(incomingTime) && Number.isFinite(existingTime) && incomingTime < existingTime) {
+      merged.consentToContact = existing.consentToContact;
+      merged.latestSubmissionAt = existing.latestSubmissionAt;
+    }
   }
 
   merged.partnerId = existing.partnerId || incoming.partnerId;
