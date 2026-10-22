@@ -100,20 +100,18 @@ export async function POST(request: Request) {
 
   try {
     if (submission.kind === 'funding_agent_join') {
+      // Persist the canonical CRM receipt first. If configured delivery fails, reject
+      // the webhook so Tally retries. The Supabase RPC deduplicates by submission ID,
+      // making a retry safe if the downstream Notion projection subsequently fails.
+      await sendPartnerApplication({
+        source: 'tally',
+        submission_id: submission.submissionId,
+        form_id: submission.formId,
+        email: asString(submission.fields.email),
+        name: asString(submission.fields.fullName),
+        applicant_type: 'funding_agent'
+      });
       const result = await processFundingAgentJoin(agentJoinPayload(submission), { publicCreateOnly: true });
-      if (result.status >= 200 && result.status < 300) {
-        try {
-          await sendPartnerApplication({
-            source: 'tally', submission_id: submission.submissionId,
-            form_id: submission.formId,
-            email: asString(submission.fields.email),
-            name: asString(submission.fields.fullName),
-            applicant_type: 'funding_agent'
-          });
-        } catch (error) {
-          console.error('Partner CRM secondary ingest failed', { submissionId: submission.submissionId, message: error instanceof Error ? error.message : 'Unknown error' });
-        }
-      }
       return NextResponse.json({
         ...result.body,
         source: 'tally_webhook',
