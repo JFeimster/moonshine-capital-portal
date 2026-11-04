@@ -9,11 +9,11 @@ import {
   normalizeState,
   normalizeUrl
 } from '@/lib/intake-normalizers';
-import { getPartnerByNormalizedEmail, getPartnerBySubmissionId, upsertPartner } from '@/lib/notion';
+import { getPartnerByNormalizedEmail, upsertPartner } from '@/lib/notion';
 import { validateApplicationPayload, validateProfilePayload } from '@/lib/validation';
 
 const DEFAULT_FUNDING_AGENT_BIO = 'Moonshine Capital Funding Agent.';
-const AWAITING_REVIEW_REASON = 'Awaiting profile completion and explicit approval';
+const ENROLLMENT_REASON = 'Enrollment automatically approved after a trusted Join submission; public profile publication remains gated';
 
 export type IntakeServiceResult = {
   status: number;
@@ -21,11 +21,7 @@ export type IntakeServiceResult = {
 };
 
 export type FundingAgentJoinOptions = {
-  /**
-   * Raw public Join submissions may create a new canonical identity, but they may
-   * not mutate an identity that already exists. A Tally signature authenticates
-   * Tally delivery, not ownership of the submitted email address.
-   */
+  /** Kept for compatibility with existing callers; trusted intake is idempotent. */
   publicCreateOnly?: boolean;
 };
 
@@ -49,7 +45,7 @@ function compact<T extends Record<string, unknown>>(value: T): Partial<T> {
 }
 
 export function isPublicProfileEnrichmentAllowed(approvalStatus?: string, profileStatus?: string): boolean {
-  return approvalStatus === 'needs_review' && profileStatus === 'draft';
+  return (approvalStatus === 'needs_review' || approvalStatus === 'approved') && profileStatus === 'draft';
 }
 
 export async function processFundingAgentJoin(
@@ -59,6 +55,14 @@ export async function processFundingAgentJoin(
   const validation = validateApplicationPayload(rawPayload);
   const email = normalizeEmail(rawPayload?.email);
   const now = new Date().toISOString();
+
+  const submittedFormId = rawPayload?.formId || rawPayload?.tallyFormId;
+  if (submittedFormId === 'rjM6do' && rawPayload?.consentToContact !== true) {
+    return {
+      status: 400,
+      body: { success: false, error: 'Affirmative contact consent is required before enrollment' }
+    };
+  }
 
   if (!email) {
     return {
@@ -72,22 +76,16 @@ export async function processFundingAgentJoin(
     };
   }
 
-  if (options.publicCreateOnly) {
-    const existing = await getPartnerByNormalizedEmail(email) ||
-      (rawPayload?.tallySubmissionId || rawPayload?.submissionId
-        ? await getPartnerBySubmissionId(rawPayload.tallySubmissionId || rawPayload.submissionId)
-        : null);
-    if (existing) {
-      return {
-        status: 202,
-        body: {
-          success: true,
-          accepted: false,
-          existingIdentity: true,
-          message: 'Funding Agent identity already exists; public Join cannot modify an existing partner'
-        }
-      };
-    }
+  if (!validation.isValid) {
+    return {
+      status: 400,
+      body: {
+        success: false,
+        approvalStatus: 'needs_review',
+        profileStatus: 'draft',
+        errors: validation.errors
+      }
+    };
   }
 
   const fullName = typeof rawPayload?.fullName === 'string' ? rawPayload.fullName.trim() : '';
@@ -103,7 +101,7 @@ export async function processFundingAgentJoin(
 
   const reviewReason = [
     ...validation.errors,
-    AWAITING_REVIEW_REASON
+    ENROLLMENT_REASON
   ].filter(Boolean).join('; ');
 
   const canonicalData: Partial<CanonicalBrokerProfile> = {
@@ -126,7 +124,7 @@ export async function processFundingAgentJoin(
     referralCode,
     slug,
     partnerType: 'funding_agent',
-    approvalStatus: 'needs_review',
+    approvalStatus: 'approved',
     profileStatus: 'draft',
     reviewReason,
     sourceForm: FUNDING_AGENT_SOURCE_FORMS.join,
@@ -147,7 +145,7 @@ export async function processFundingAgentJoin(
       body: {
         success: false,
         error: isConflict ? 'Canonical identity conflict requires review' : 'Failed to persist partner',
-        approvalStatus: 'needs_review',
+      approvalStatus: 'approved',
         profileStatus: 'draft',
         reviewReason: notionResponse.error,
         retryable: notionResponse.errorDetails?.retryable || false
@@ -160,12 +158,12 @@ export async function processFundingAgentJoin(
   const publicationEligible = approvalStatus === 'approved' && profileStatus === 'published';
 
   return {
-    status: publicationEligible ? 200 : 202,
+    status: approvalStatus === 'approved' ? 200 : 202,
     body: {
       success: true,
       message: publicationEligible
         ? 'Existing Funding Agent identity reconciled without changing its lifecycle state'
-        : 'Funding Agent identity persisted for profile completion and explicit review',
+        : 'Funding Agent enrollment is active. Verify your email to open the partner dashboard.',
       partnerType: notionResponse.partner?.partnerType || 'funding_agent',
       approvalStatus,
       profileStatus,
