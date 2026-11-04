@@ -9,9 +9,9 @@
       "flowStage": "agent_join",
       "intakeEndpoint": "/api/intake/tally/application",
       "createsCanonicalRecord": true,
-      "initialApprovalStatus": "needs_review",
+      "initialApprovalStatus": "approved",
       "initialProfileStatus": "draft",
-      "mayChangeLifecycleState": false,
+      "mayChangeLifecycleState": true,
       "canonical": true,
       "status": "active"
     },
@@ -58,6 +58,6 @@
   "flow": {
     "primarySequence": ["rjM6do", "9qjWEE"],
     "postProfileSequence": ["A7edqy"],
-    "notes": "Keep Join and Profile as deliberate separate steps. Join creates/reconciles canonical identity and initializes new records as needs_review + draft. Profile only enriches an existing canonical record. Neither public form may approve or publish; explicit review remains authoritative."
+    "notes": "Keep Join and Profile as deliberate separate steps. Join creates/reconciles canonical identity and automatically enrolls eligible consented records as approved + draft. Profile only enriches an existing canonical record. Public enrollment approval is distinct from public profile publication; publication remains operator controlled."
   }
 }

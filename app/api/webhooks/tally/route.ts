@@ -36,7 +36,8 @@ function agentProfilePayload(submission: ReturnType<typeof parseTallySubmission>
   return {
     // A hidden partner_id is useful for attribution, but it is not proof that the
     // public respondent owns an existing profile. Raw public enrichment therefore
-    // resolves by email and is additionally constrained to needs_review + draft.
+    // resolves by email and is additionally constrained to an approved or
+    // needs_review draft record.
     email: asString(submission.fields.email),
     displayName: asString(submission.fields.displayName),
     agencyName: asString(submission.fields.agencyName),
@@ -101,6 +102,12 @@ export async function POST(request: Request) {
 
   try {
     if (submission.kind === 'funding_agent_join') {
+      if (submission.consentToContact !== true) {
+        return NextResponse.json({
+          success: false,
+          error: 'Affirmative contact consent is required before partner enrollment'
+        }, { status: 400 });
+      }
       // Persist the canonical CRM receipt first. If configured delivery fails, reject
       // the webhook so Tally retries. The Supabase RPC deduplicates by submission ID,
       // making a retry safe if the downstream Notion projection subsequently fails.
